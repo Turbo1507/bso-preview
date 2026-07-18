@@ -17,7 +17,6 @@
   --white: #ffffff;
   --gold: #c9a961;         /* акцент проекта BSO */
   --gold-soft: #e3cf9d;
-  --blue: #0433ff;         /* фирменный синий UNIT (та же серия, что unit-furniture/unit-wp) — акцент на логотипе */
 
   --r-lg: 20px;
   --r-md: 14px;
@@ -85,7 +84,6 @@ p{margin:0; line-height:1.1}
 .site-header.is-solid{background:rgba(23,24,26,.92); backdrop-filter:blur(10px); padding:14px 0; box-shadow:0 8px 30px rgba(0,0,0,.25)}
 .header-in{display:flex; align-items:center; justify-content:space-between; gap:32px}
 .logo{font-size:20px; font-weight:500; color:var(--white); letter-spacing:.02em}
-.logo-u{color:var(--blue); font-weight:500}
 .logo b{color:var(--gold); font-weight:500}
 .nav{display:flex; gap:28px}
 .nav a{font-size:14px; color:rgba(255,255,255,.75); transition:color .2s}
