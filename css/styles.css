@@ -52,7 +52,9 @@ a{color:inherit; text-decoration:none}
 button{font-family:inherit; cursor:pointer}
 .container{max-width:var(--container); margin:0 auto; padding:0 40px}
 .section{padding:var(--sp-3xl) 0}
-.kicker{font-size:16px; font-weight:300; letter-spacing:.04em; text-transform:uppercase; color:var(--clay)}
+/* Figma (ноды "Система"/"Приватность" и т.д.): естественный регистр, БЕЗ
+   text-transform:uppercase и БЕЗ доп. letter-spacing — я лишний раз стилизовал */
+.kicker{font-size:16px; font-weight:300; color:var(--clay)}
 
 /* Точный масштаб из Figma (get_nodes_info на всех 15 фреймах):
    h1 137px и h2 64px идут с плотным line-height 0.8 и letter-spacing -5% (-6.85/137, -3.2/64) —
@@ -254,19 +256,26 @@ p{margin:0; line-height:1.1}
 .signature-meta{display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--sp-md); margin-top:var(--sp-lg)}
 .signature-meta h3{font-size:36px; color:var(--clay); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(171,106,65,.4)}
 .signature-meta p{font-size:18px; color:rgba(255,255,255,.65); max-width:36ch}
-.signature-chips{display:flex; flex-wrap:wrap; gap:10px; margin-top:var(--sp-xl)}
+/* Figma (Frame 30/24/29): НЕ единый ряд из 3 пилюль — верхний ряд одна широкая
+   плашка, под ней ещё две поменьше; форма — скруглённый прямоугольник rx8
+   (НЕ полная пилюля), обводка белая с opacity .6 (не .22) */
+.signature-chips{display:flex; flex-wrap:wrap; gap:12px; margin-top:var(--sp-xl)}
 .signature-chips span{
-  padding:10px 16px; border:1px solid rgba(255,255,255,.22); border-radius:var(--r-pill);
+  padding:10px 16px; border:1px solid rgba(255,255,255,.6); border-radius:var(--r-xs);
   font-size:18px; color:rgba(255,255,255,.7);
 }
+.signature-chips span:first-child{flex-basis:100%}
 
 /* ---------- 3 карточки: частная территория ---------- */
 /* Сверка по Figma nodeId 1:4625 (Frame 33/34/35, 400x221, шаг 20px между
    карточками) — было gap:24, реально 20; паддинг карточки ~32px, было 24 */
 .priv-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:var(--sp-lg)}
+/* Figma (Frame 33/34/35, нода 1:4353 и т.д.): НЕТ заливки/тени, только контур,
+   цвет обводки почти чёрный #1d0d09 (≈ var(--ink)) — тот же паттерн, что и
+   карточки карусели (04), а не белая "плавающая" карточка с тенью */
 .priv-card{
-  background:var(--white); border-radius:var(--r-lg); padding:32px;
-  box-shadow:var(--shadow-card); border:1px solid var(--line);
+  background:transparent; border-radius:var(--r-lg); padding:32px;
+  border:1px solid var(--ink);
 }
 .priv-card .kicker{display:block; margin-bottom:14px}
 .priv-card h3{margin-bottom:12px}
@@ -301,7 +310,7 @@ p{margin:0; line-height:1.1}
 .plans-info{padding:50px; display:flex; flex-direction:column; gap:var(--sp-lg)}
 .plans-info h3{font-size:28px; color:var(--white); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(171,106,65,.5)}
 .plans-stat{border-top:1px solid rgba(255,255,255,.15); padding-top:14px}
-.plans-stat .k{font-size:16px; font-weight:300; color:rgba(255,255,255,.5); text-transform:uppercase; letter-spacing:.02em}
+.plans-stat .k{font-size:16px; font-weight:300; color:rgba(255,255,255,.5)}
 .plans-stat .v{font-size:24px; margin-top:4px; color:var(--white)}
 .plans-info .btn{margin-top:auto; width:100%; justify-content:center}
 .btn-glass{
@@ -314,10 +323,10 @@ p{margin:0; line-height:1.1}
 .steps-head{display:flex; align-items:flex-end; justify-content:space-between; gap:var(--sp-md)}
 .steps-track{display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; margin-top:var(--sp-lg); padding-bottom:4px; scrollbar-width:none}
 .steps-track::-webkit-scrollbar{display:none}
+/* Figma (1:4689 и т.д.): нет fill/тени, только контур #b9b9b9 */
 .step-card{
   flex:0 0 clamp(280px,32vw,400px); scroll-snap-align:start;
-  border:1px solid var(--line); border-radius:var(--r-sm); padding:35px; background:var(--white);
-  box-shadow:var(--shadow-card);
+  border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:35px; background:transparent;
 }
 .step-card .num{font-size:32px; font-weight:500; color:var(--graphite)}
 .step-card h3{margin:28px 0 20px; font-size:24px}
@@ -326,9 +335,9 @@ p{margin:0; line-height:1.1}
 /* ---------- инвестиции: 3 stat-карточки + фото ---------- */
 .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:var(--sp-lg)}
 .stat-grid-4{grid-template-columns:repeat(4,1fr); margin-top:var(--sp-lg)}
+/* Figma (1:4723 и т.д.): нет fill/тени, только контур #b9b9b9 */
 .stat-card{
-  border:1px solid var(--line); border-radius:var(--r-sm); padding:var(--sp-md); background:var(--white);
-  box-shadow:var(--shadow-card);
+  border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:var(--sp-md); background:transparent;
 }
 .stat-card h3{font-size:32px; font-weight:500; color:var(--ink)}
 .stat-card p{font-size:18px; color:rgba(58,58,58,.6); margin-top:10px}
@@ -350,10 +359,11 @@ p{margin:0; line-height:1.1}
 
 /* ---------- команда ---------- */
 .team-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:var(--sp-lg)}
-.team-card{border:1px solid var(--line); border-radius:var(--r-sm); padding:35px; box-shadow:var(--shadow-card)}
+/* Figma (1:4765/4778): нет fill/тени, только контур #b9b9b9 */
+.team-card{border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:35px; background:transparent}
 .team-photo{aspect-ratio:295/220; border-radius:var(--r-xs); overflow:hidden; margin-bottom:32px; filter:grayscale(1)}
 .team-photo img{width:100%; height:100%; object-fit:cover}
-.team-role{font-size:16px; font-weight:300; color:var(--clay); text-transform:uppercase; letter-spacing:.02em}
+.team-role{font-size:16px; font-weight:300; color:var(--clay)}
 .team-card h3{margin:6px 0 12px}
 .team-card p{font-size:18px; color:rgba(58,58,58,.6)}
 
@@ -369,7 +379,7 @@ p{margin:0; line-height:1.1}
    НЕ горизонтальный ряд под текстом */
 .final-row{display:flex; justify-content:space-between; align-items:flex-start; gap:var(--sp-xl); flex-wrap:wrap}
 .final-text{max-width:640px}
-.final-stats{display:flex; flex-direction:column; gap:44px; text-align:right; padding-top:6px}
+.final-stats{display:flex; flex-direction:column; gap:90px; text-align:right; padding-top:6px}
 .final-stats .stat h4{font-size:32px; color:var(--white); font-weight:500}
 .final-stats .stat p{font-size:18px; color:rgba(255,255,255,.6); margin-top:6px; max-width:26ch; margin-left:auto}
 .final-in .btn-row{margin-top:var(--sp-lg)}
