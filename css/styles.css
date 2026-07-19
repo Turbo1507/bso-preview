@@ -22,6 +22,7 @@
   --white: #ffffff;
   --clay: #ab6a41;         /* акцент — терракота/ржавый corten, сэмплировано с фото фасада */
   --clay-soft: #d3a37c;
+  --muted: #948c7d;        /* второстепенный текст (описания карточек, теги) — тёплый эквивалент #b9b9b9 из Figma */
 
   /* единая шкала скруглений — было вперемешку 8/12/14/18/20px магическими числами */
   --r-xs: 8px;   /* кнопки, теги, инсеты фото внутри карточек */
@@ -67,21 +68,47 @@ p{margin:0; line-height:1.1}
 .lead{font-size:clamp(17px,1.67vw,24px); color:rgba(58,58,58,.68); max-width:64ch; margin-top:var(--sp-md); line-height:1.1}
 .lead.on-dark{color:rgba(255,255,255,.72)}
 .lead-sm{font-size:18px!important}
+/* Figma 1:4436: заголовок и правая подпись вертикально ЦЕНТРИРОВАНЫ друг относительно
+   друга (подпись занимает середину высоты заголовка), а не выровнены по нижнему краю */
+.block-head-split{display:flex; justify-content:space-between; align-items:center; gap:var(--sp-lg); flex-wrap:wrap}
+.block-head-split .lead-sm{text-align:right; margin-top:0; max-width:32ch}
 
+/* Базовая кнопка — по Figma (нода 1:4813/1:4814, финальный CTA, единственный
+   ПОЛНОСТЬЮ финализированный образец): fill white/border тёмный/текст тёмный,
+   radius 8 (НЕ пилюля), font-size 24. Кнопка в блоке "02" (1:4433) выглядела
+   как fill=white+stroke=white+text=gray — это классический Figma-дефолт для
+   несведённого слоя (белая обводка на белой заливке = невидима), не финальный
+   стиль, поэтому НЕ копируем её буквально. */
 .btn{
-  display:inline-flex; align-items:center; gap:10px; white-space:nowrap;
-  padding:20px 34px; border-radius:var(--r-pill); font-size:24px; font-weight:400;
-  transition:transform .25s var(--ease), background .2s, color .2s, border-color .2s;
+  display:inline-flex; align-items:center; justify-content:center; gap:16px; white-space:nowrap;
+  padding:20px 32px; border-radius:var(--r-xs); font-size:24px; font-weight:400;
+  border:1px solid transparent;
+  transition:transform .18s var(--ease), background .18s, color .18s, border-color .18s, box-shadow .18s;
 }
 .btn svg{width:16px; height:16px; flex-shrink:0}
-.btn-clay{background:var(--clay); color:var(--ink)}
-.btn-clay:hover{background:var(--clay-soft)}
-.btn-white{background:var(--white); color:var(--ink)}
-.btn-white:hover{transform:translateY(-2px)}
-.btn-ghost{border:1px solid rgba(255,255,255,.4); color:var(--white); background:transparent}
-.btn-ghost:hover{border-color:var(--clay); color:var(--clay)}
-.btn-line{border:1px solid var(--line); color:var(--graphite); background:transparent}
+/* активное/нажатое состояние — лёгкое приседание + притемнение, без резких скачков (VIP-тон) */
+.btn:active{transform:scale(.97)}
+
+.btn-clay{background:var(--clay); color:var(--white); border-color:var(--clay)}
+.btn-clay:hover{background:var(--clay-soft); border-color:var(--clay-soft)}
+.btn-clay:active{background:#8f5735}
+
+.btn-white{background:var(--white); color:var(--ink); border-color:var(--ink)}
+.btn-white:hover{background:var(--ink); color:var(--white); border-color:var(--ink)}
+.btn-white:active{background:#000; border-color:#000}
+
+.btn-ghost{border-color:rgba(255,255,255,.4); color:var(--white); background:transparent}
+.btn-ghost:hover{border-color:var(--white); background:rgba(255,255,255,.08)}
+.btn-ghost:active{background:rgba(255,255,255,.16)}
+
+.btn-line{border-color:var(--line); color:var(--graphite); background:transparent}
 .btn-line:hover{border-color:var(--clay); color:var(--clay)}
+.btn-line:active{background:var(--stone)}
+
+/* компактная кнопка шапки — high-end/VIP: без крупной пилюли, тонкая и собранная */
+.btn-header{
+  padding:11px 22px; font-size:14px; letter-spacing:.01em; border-radius:var(--r-xs);
+}
 
 /* ---------- header ---------- */
 .site-header{
@@ -93,11 +120,14 @@ p{margin:0; line-height:1.1}
 .logo{font-size:20px; font-weight:500; color:var(--white); letter-spacing:.02em}
 .logo b{color:var(--clay); font-weight:500}
 .nav{display:flex; gap:28px}
-.nav a{font-size:14px; color:rgba(255,255,255,.75); transition:color .2s}
+.nav a{font-size:14px; color:rgba(255,255,255,.75); transition:color .2s; position:relative}
+.nav a::after{content:""; position:absolute; left:0; right:100%; bottom:-4px; height:1px; background:var(--clay); transition:right .2s var(--ease)}
 .nav a:hover{color:var(--white)}
+.nav a:hover::after{right:0}
 .header-cta{display:flex; align-items:center; gap:16px}
 .burger{display:none; flex-direction:column; gap:5px; background:none; border:0; padding:6px}
-.burger span{width:22px; height:1.5px; background:var(--white)}
+.burger span{width:22px; height:1.5px; background:var(--white); transition:background .2s}
+.burger:hover span{background:var(--clay)}
 
 /* ---------- hero ---------- */
 .hero{position:relative; height:100vh; min-height:680px; max-height:1040px; overflow:hidden; display:flex; align-items:center}
@@ -114,26 +144,31 @@ p{margin:0; line-height:1.1}
 .hero-sub{color:rgba(255,255,255,.8); font-size:16px; font-weight:300; max-width:44ch; margin-top:var(--sp-md); line-height:1}
 .hero-scroll{position:absolute; bottom:36px; left:40px; z-index:2; color:rgba(255,255,255,.6); font-size:12px; letter-spacing:.08em; text-transform:uppercase}
 
-/* ---------- location intro ---------- */
-.loc{background:var(--ink); color:var(--white); padding:var(--sp-3xl) 0; position:relative; overflow:hidden}
-.loc-in{display:grid; grid-template-columns:1.1fr .9fr; gap:var(--sp-lg); align-items:center}
+/* ---------- location intro (Figma 1:4423): полноэкранное фото, НЕ 2-колоночная
+   сетка с тёмной картой-карточкой — текст и карта лежат прямо на фото ---------- */
+.loc{position:relative; overflow:hidden; min-height:660px; display:flex; align-items:center; padding:var(--sp-2xl) 0}
+.loc-bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; filter:saturate(1.05) contrast(1.04)}
+.loc-shade{
+  position:absolute; inset:0;
+  background:
+    linear-gradient(100deg, rgba(28,24,21,.8) 0%, rgba(28,24,21,.45) 42%, rgba(28,24,21,.1) 68%),
+    linear-gradient(180deg, rgba(28,24,21,.2) 0%, transparent 30%, rgba(28,24,21,.35) 100%);
+}
+.loc-in{position:relative; z-index:1; width:100%}
+.loc-text{max-width:660px}
 .loc h2{color:var(--white)}
-.loc-map{
-  position:relative; aspect-ratio:699/412; border-radius:var(--r-lg); overflow:hidden;
-  background:var(--ink-soft);
-  display:flex; align-items:center; justify-content:center; padding:var(--sp-md);
-}
-.loc-map img{width:100%; height:100%; object-fit:contain}
-/* "Индийский океан" — реальная подпись на мастер-плане, нашлась в ноде 1:4424 и в черновых
-   дублирующих группах Group196/198 рядом с этой же локацией (не выдумано) */
-.loc-ocean{position:absolute; top:12%; right:8%; font-size:14px; font-weight:200; color:rgba(255,255,255,.55); letter-spacing:.01em}
 .btn-row{margin-top:var(--sp-lg)}
-/* Figma (нода 1:4433/1:4434, фрейм "02"): кнопка внутри секции Локация —
-   font-size 24, скруглённый прямоугольник radius 8 (НЕ пилюля), со стрелкой вправо */
-.loc-in .btn{
-  padding:20px 40px 20px 32px; border-radius:var(--r-xs); font-size:24px; gap:20px;
-}
+/* Figma (нода 1:4433/1:4434): кнопка font-size 24, radius 8 (НЕ пилюля), стрелка вправо */
+.loc-in .btn{padding:20px 40px 20px 32px; border-radius:var(--r-xs); font-size:24px; gap:20px}
 .loc-in .btn svg{width:18px; height:18px}
+/* карта — floating графика поверх фото, БЕЗ карточки/подложки (Figma: Group195 лежит
+   прямо на фоне секции, никакого тёмного бокса с паддингом вокруг неё нет) */
+.loc-map{position:absolute; top:8%; right:-2%; width:52%; max-width:640px; pointer-events:none}
+.loc-map img{width:100%; height:auto; display:block; filter:drop-shadow(0 12px 30px rgba(0,0,0,.35))}
+.loc-ocean{
+  position:absolute; bottom:2%; right:12%;
+  font-size:14px; font-weight:200; color:rgba(255,255,255,.6); letter-spacing:.01em;
+}
 
 /* ---------- минимализм: большое фото + чипы ---------- */
 .min-tags{display:flex; flex-wrap:wrap; gap:10px; margin:var(--sp-lg) 0}
@@ -142,7 +177,7 @@ p{margin:0; line-height:1.1}
    обводка #B9B9B9 — замерено по 7 инстансам в секциях 03 и 04, отличается от общей --line */
 .min-tags .tag-pill, .feat-filters .tag-pill{
   padding:15px 45px; border:1px solid var(--line-strong); border-radius:var(--r-xs);
-  font-size:20px; color:rgba(58,58,58,.75);
+  font-size:20px; color:var(--muted);
 }
 .min-photo{
   border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-card);
@@ -168,22 +203,24 @@ p{margin:0; line-height:1.1}
 .feat-track{display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:4px; scrollbar-width:none}
 .feat-track::-webkit-scrollbar{display:none}
 .feat-card{
-  /* Figma (Frame 29/32/34/36, ~610x607): внешняя карточка radius 18, фото утоплено
-     внутрь на ~20px со своим radius 8 — не полноразмерное фото впритык к краям */
+  /* Figma (Frame 29/32/34/36, 610x607, ноды 1:4460 и т.д.): карточка — ТОЛЬКО
+     контур (stroke #b9b9b9), БЕЗ заливки и БЕЗ тени — не "плавающая белая
+     карточка с shadow", как было раньше (это моя выдумка, в макете её нет).
+     Фото утоплено на 20px (radius 8), а текстовый блок — на ~35px по бокам. */
   flex:0 0 clamp(280px, 32vw, 400px); scroll-snap-align:start;
-  border-radius:var(--r-md); background:var(--white);
-  box-shadow:var(--shadow-card); transition:transform .35s var(--ease);
+  border-radius:var(--r-md); border:1px solid var(--line-strong); background:transparent;
   padding:20px;
 }
-.feat-card:hover{transform:translateY(-6px)}
-.feat-card-photo{aspect-ratio:4/3; border-radius:var(--r-xs); overflow:hidden}
+.feat-card-photo{aspect-ratio:570/376; border-radius:var(--r-xs); overflow:hidden}
 .feat-card-photo img{width:100%; height:100%; object-fit:cover}
-.feat-card-body{padding:var(--sp-md) 0 0}
+.feat-card-body{padding:30px 15px 15px}
 .feat-card-body h3{margin-bottom:14px}
-.feat-card-body p{font-size:18px; color:rgba(58,58,58,.62)}
+.feat-card-body p{font-size:18px; color:var(--muted)}
 .feat-filters{display:flex; flex-wrap:wrap; gap:10px; margin-top:var(--sp-lg)}
-.feat-filters .tag-pill{cursor:pointer; transition:border-color .2s, color .2s}
+.feat-filters .tag-pill{cursor:pointer; transition:border-color .2s, color .2s, background .2s}
+.feat-filters .tag-pill:hover{border-color:var(--clay); color:var(--clay)}
 .feat-filters .tag-pill.is-active{border-color:var(--clay); color:var(--ink); background:var(--stone)}
+.feat-filters .tag-pill:active{background:var(--stone)}
 
 /* ---------- фото Nuanu с бейджем и подписью НА фото (Figma 1:4513) ---------- */
 .nuanu-photo{position:relative; aspect-ratio:1240/632; border-radius:var(--r-xs); overflow:hidden; margin-top:var(--sp-lg)}
@@ -249,13 +286,18 @@ p{margin:0; line-height:1.1}
   padding:15px 28px; border-radius:var(--r-xs); border:1px solid var(--line);
   font-size:20px; font-weight:400; color:rgba(58,58,58,.6); transition:all .2s;
 }
+.plans-tab:not(.is-active):hover{border-color:var(--clay); color:var(--clay)}
 .plans-tab.is-active{background:var(--ink); border-color:var(--ink); color:var(--white)}
+.plans-tab:active{transform:scale(.96)}
 .plans-panel{
   display:grid; grid-template-columns:1.4fr 1fr; gap:0; border-radius:var(--r-lg); overflow:hidden;
   background:var(--ink); box-shadow:var(--shadow-card-dark);
 }
 .plans-viewer{position:relative; aspect-ratio:600/478}
 .plans-viewer .ph-box{position:absolute; inset:0; border-radius:0}
+.plans-dots{position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:6px; z-index:1}
+.plans-dots span{width:8px; height:8px; border-radius:50%; background:rgba(58,53,47,.25)}
+.plans-dots span.on{background:rgba(58,53,47,.5)}
 .plans-info{padding:50px; display:flex; flex-direction:column; gap:var(--sp-lg)}
 .plans-info h3{font-size:28px; color:var(--white); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(171,106,65,.5)}
 .plans-stat{border-top:1px solid rgba(255,255,255,.15); padding-top:14px}
@@ -322,9 +364,14 @@ p{margin:0; line-height:1.1}
 .final-in{position:relative; z-index:1; color:var(--white)}
 .final-in h2{color:var(--white); max-width:16ch}
 .final-in .lead{margin-top:var(--sp-md)}
-.final-stats{display:flex; gap:var(--sp-xl); margin-top:var(--sp-xl); flex-wrap:wrap}
+/* Figma (Group194/193/192, Frame2147223228): 3 цифры — правая колонка, вертикальная
+   стопка с выравниванием по правому краю, стартует на высоте лид-абзаца слева —
+   НЕ горизонтальный ряд под текстом */
+.final-row{display:flex; justify-content:space-between; align-items:flex-start; gap:var(--sp-xl); flex-wrap:wrap}
+.final-text{max-width:640px}
+.final-stats{display:flex; flex-direction:column; gap:44px; text-align:right; padding-top:6px}
 .final-stats .stat h4{font-size:32px; color:var(--white); font-weight:500}
-.final-stats .stat p{font-size:18px; color:rgba(255,255,255,.6); margin-top:6px; max-width:22ch}
+.final-stats .stat p{font-size:18px; color:rgba(255,255,255,.6); margin-top:6px; max-width:26ch; margin-left:auto}
 .final-in .btn-row{margin-top:var(--sp-lg)}
 
 /* ---------- footer ---------- */
@@ -358,14 +405,18 @@ p{margin:0; line-height:1.1}
   display:none; position:fixed; bottom:0; left:0; right:0; z-index:40;
   background:var(--white); padding:12px 16px; box-shadow:0 -8px 24px rgba(0,0,0,.12); gap:10px;
 }
-.mob-cta .btn{flex:1; justify-content:center}
+.mob-cta .btn{flex:1; justify-content:center; padding:14px 20px; font-size:16px}
 
 /* ==================== ADAPTIVE ==================== */
 @media (max-width:1080px){
-  .loc-in{grid-template-columns:1fr}
   .priv-grid, .stat-grid{grid-template-columns:1fr}
   .team-grid{grid-template-columns:1fr}
   .plans-panel{grid-template-columns:1fr}
+}
+@media (max-width:960px){
+  /* карта на фото слишком мелкая и наезжает на текст в узком вьюпорте — прячем,
+     сама фото-подложка и текст остаются главным сообщением секции */
+  .loc-map{display:none}
 }
 @media (max-width:860px){
   .container{padding:0 20px}
@@ -378,7 +429,10 @@ p{margin:0; line-height:1.1}
   .feat-card{flex-basis:80vw}
   .min-tags .tag-pill, .feat-filters .tag-pill{padding:12px 22px; font-size:16px}
   .loc-in .btn{padding:16px 24px 16px 20px; font-size:18px; gap:12px}
-  .final-stats{gap:var(--sp-lg)}
+  .loc{min-height:auto}
+  .block-head-split .lead-sm{text-align:left; max-width:none}
+  .final-stats{gap:var(--sp-lg); text-align:left; margin-top:var(--sp-lg)}
+  .final-stats .stat p{margin-left:0}
   .fin-teaser{flex-direction:column; align-items:flex-start; padding:var(--sp-lg); aspect-ratio:auto; gap:var(--sp-md)}
   .mob-cta{display:flex}
   body{padding-bottom:74px}
