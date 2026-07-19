@@ -143,7 +143,9 @@ p{margin:0; line-height:1.1}
 }
 .hero-in{position:relative; z-index:2; width:100%}
 .hero-title{color:var(--white); max-width:14ch}
-.hero-sub{color:rgba(255,255,255,.8); font-size:16px; font-weight:300; max-width:44ch; margin-top:var(--sp-md); line-height:1}
+/* Figma (1:4421): узкая колонка ~265px (не широкий lead на всю ширину), отступ
+   от заголовка 50px (замерено между низом h1 и верхом абзаца, не sp-md/24px) */
+.hero-sub{color:rgba(255,255,255,.8); font-size:16px; font-weight:300; max-width:31ch; margin-top:50px; line-height:1}
 .hero-scroll{position:absolute; bottom:36px; left:40px; z-index:2; color:rgba(255,255,255,.6); font-size:12px; letter-spacing:.08em; text-transform:uppercase}
 
 /* ---------- location intro (Figma 1:4423): полноэкранное фото, НЕ 2-колоночная
@@ -160,8 +162,10 @@ p{margin:0; line-height:1.1}
 .loc-text{max-width:660px}
 .loc h2{color:var(--white)}
 .btn-row{margin-top:var(--sp-lg)}
-/* Figma (нода 1:4433/1:4434): кнопка font-size 24, radius 8 (НЕ пилюля), стрелка вправо */
-.loc-in .btn{padding:20px 40px 20px 32px; border-radius:var(--r-xs); font-size:24px; gap:20px}
+/* Figma (нода 1:4433/1:4434): кнопка font-size 24, radius 8 (НЕ пилюля), стрелка вправо.
+   strokes у ноды = тот же белый, что и fill — то есть рамка невидима, не тёмная
+   как у .btn-white по умолчанию (та подходит для кнопки в блоке 14, не тут) */
+.loc-in .btn{padding:20px 40px 20px 32px; border-radius:var(--r-xs); font-size:24px; gap:20px; border-color:var(--white)}
 .loc-in .btn svg{width:18px; height:18px}
 /* карта — floating графика поверх фото, БЕЗ карточки/подложки (Figma: Group195 лежит
    прямо на фоне секции, никакого тёмного бокса с паддингом вокруг неё нет) */
@@ -273,12 +277,14 @@ p{margin:0; line-height:1.1}
 /* Figma (Frame 33/34/35, нода 1:4353 и т.д.): НЕТ заливки/тени, только контур,
    цвет обводки почти чёрный #1d0d09 (≈ var(--ink)) — тот же паттерн, что и
    карточки карусели (04), а не белая "плавающая" карточка с тенью */
+/* Figma (1:4627): обводка #b9b9b9 (var(--line-strong)), НЕ ink — перепроверено
+   этим аудитом, предыдущая запись про "почти чёрный #1d0d09" была ошибкой */
 .priv-card{
   background:transparent; border-radius:var(--r-lg); padding:32px;
-  border:1px solid var(--ink);
+  border:1px solid var(--line-strong);
 }
 .priv-card .kicker{display:block; margin-bottom:14px}
-.priv-card h3{margin-bottom:12px}
+.priv-card h3{margin-bottom:24px}
 .priv-card p{font-size:18px; color:rgba(58,58,58,.6)}
 
 /* ---------- планировки: ВЕРХНИЕ табы (правка Босса — было слева) ---------- */
@@ -335,12 +341,14 @@ p{margin:0; line-height:1.1}
 /* ---------- инвестиции: 3 stat-карточки + фото ---------- */
 .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:var(--sp-lg)}
 .stat-grid-4{grid-template-columns:repeat(4,1fr); margin-top:var(--sp-lg)}
-/* Figma (1:4723 и т.д.): нет fill/тени, только контур #b9b9b9 */
+/* Figma (1:4723 и т.д.): нет fill/тени, только контур #b9b9b9; паддинг 35px
+   (не sp-md/24 — замерено от края карточки до текста, тот же паттерн, что
+   у step-card/team-card), отступ значение→описание ~24-30px (не 10) */
 .stat-card{
-  border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:var(--sp-md); background:transparent;
+  border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:35px; background:transparent;
 }
 .stat-card h3{font-size:32px; font-weight:500; color:var(--ink)}
-.stat-card p{font-size:18px; color:rgba(58,58,58,.6); margin-top:10px}
+.stat-card p{font-size:18px; color:rgba(58,58,58,.6); margin-top:24px}
 .why-photo{border-radius:var(--r-lg); overflow:hidden; margin-top:var(--sp-lg); aspect-ratio:1239/466; box-shadow:var(--shadow-card)}
 .why-photo img{width:100%; height:100%; object-fit:cover}
 
@@ -371,15 +379,17 @@ p{margin:0; line-height:1.1}
 .final{position:relative; overflow:hidden; min-height:620px; display:flex; align-items:center}
 .final-bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
 .final-shade{position:absolute; inset:0; background:linear-gradient(100deg, rgba(10,9,7,.72) 0%, rgba(10,9,7,.3) 55%, rgba(10,9,7,.15) 100%), rgba(10,9,7,.22)}
-.final-in{position:relative; z-index:1; color:var(--white)}
+/* width:100% обязателен — .final это flex-контейнер, а .container(.final-in) даёт
+   только max-width, без него flex-child сжимается по контенту (тот же баг,
+   что был найден и исправлен в .loc-in ранее в этом аудите) */
+.final-in{position:relative; z-index:1; color:var(--white); width:100%}
 .final-in h2{color:var(--white); max-width:16ch}
-.final-in .lead{margin-top:var(--sp-md)}
-/* Figma (Group194/193/192, Frame2147223228): 3 цифры — правая колонка, вертикальная
-   стопка с выравниванием по правому краю, стартует на высоте лид-абзаца слева —
-   НЕ горизонтальный ряд под текстом */
-.final-row{display:flex; justify-content:space-between; align-items:flex-start; gap:var(--sp-xl); flex-wrap:wrap}
-.final-text{max-width:640px}
-.final-stats{display:flex; flex-direction:column; gap:90px; text-align:right; padding-top:6px}
+/* Figma (Group194/193/192, Frame2147223228): 3 цифры выровнены по верху ИМЕННО
+   с лид-абзацем (h2 стоит отдельной full-width строкой над рядом, а не в общем
+   блоке с абзацем) — 60px замерено между низом h2 и верхом абзаца */
+.final-row{display:flex; justify-content:space-between; align-items:flex-start; gap:var(--sp-xl); flex-wrap:wrap; margin-top:60px}
+.final-lead{max-width:640px}
+.final-stats{display:flex; flex-direction:column; gap:90px; text-align:right}
 .final-stats .stat h4{font-size:32px; color:var(--white); font-weight:500}
 .final-stats .stat p{font-size:18px; color:rgba(255,255,255,.6); margin-top:6px; max-width:26ch; margin-left:auto}
 .final-in .btn-row{margin-top:var(--sp-lg)}
