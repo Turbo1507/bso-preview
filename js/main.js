@@ -24,25 +24,39 @@ const io = new IntersectionObserver(entries => {
 revealItems.forEach(el => io.observe(el));
 
 /* ---------- горизонтальные карусели (карточки преимуществ, шаги) ---------- */
-function wireCarousel(trackId, prevId, nextId, step) {
+/* prev/next получают disabled в начале/конце скролла (просто opacity ниже,
+   см. .feat-nav button:disabled), точки под каруселью показывают позицию */
+function wireCarousel(trackId, prevId, nextId, dotsId, step) {
   const track = document.getElementById(trackId);
   const prev = document.getElementById(prevId);
   const next = document.getElementById(nextId);
+  const dotsWrap = document.getElementById(dotsId);
   if (!track) return;
+  const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
+  const cards = Array.from(track.children);
   const scrollBy = () => track.clientWidth * 0.7 || step;
+
+  function sync() {
+    const max = track.scrollWidth - track.clientWidth;
+    if (prev) prev.disabled = track.scrollLeft <= 4;
+    if (next) next.disabled = track.scrollLeft >= max - 4;
+    if (dots.length && cards.length) {
+      /* доля прокрутки [0..max] проецируется на индекс точки [0..dots.length-1] —
+         не делить scrollWidth на число карточек: maxScroll != scrollWidth,
+         т.к. clientWidth (видимая часть) тоже занимает место в scrollWidth */
+      const ratio = max > 0 ? track.scrollLeft / max : 0;
+      const idx = Math.round(ratio * (dots.length - 1));
+      dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+    }
+  }
   prev && prev.addEventListener('click', () => track.scrollBy({ left: -scrollBy(), behavior: 'smooth' }));
   next && next.addEventListener('click', () => track.scrollBy({ left: scrollBy(), behavior: 'smooth' }));
+  track.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
 }
-wireCarousel('featTrack', 'featPrev', 'featNext', 400);
-wireCarousel('stepsTrack', 'stepsPrev', 'stepsNext', 300);
-
-/* ---------- фильтр-пилюли карусели преимуществ (визуальный тоггл) ---------- */
-document.querySelectorAll('.feat-filters .tag-pill').forEach(pill => {
-  pill.addEventListener('click', () => {
-    document.querySelectorAll('.feat-filters .tag-pill').forEach(p => p.classList.remove('is-active'));
-    pill.classList.add('is-active');
-  });
-});
+wireCarousel('featTrack', 'featPrev', 'featNext', 'featDots', 400);
+wireCarousel('stepsTrack', 'stepsPrev', 'stepsNext', 'stepsDots', 300);
 
 /* ---------- планировки: верхние табы (правка Босса — раньше были слева) ---------- */
 /* ВНИМАНИЕ: в Figma-прототипе реальные цифры (площадь/вместимость) указаны

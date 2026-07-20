@@ -39,11 +39,10 @@
 </section>
 
 <!-- ===== 02. ЛОКАЦИЯ ===== -->
-<!-- Figma 1:4423: НЕ 2-колоночная сетка с тёмной картой в рамке — единая полноэкранная
-     фото-секция (как hero), текст слева и карта справа лежат прямо на фото без контейнеров -->
+<!-- Figma 1:4423: живой рендер показал — фото НЕТ вообще, плоский тёмный фон
+     (fill ноды #b9b9b9 — тот же неоформленный дефолт, что у 06/Stella Solaris,
+     где уже стоит var(--ink)) — карта лежит поверх плоского цвета, не фото -->
 <section class="loc" id="location">
-  <img class="loc-bg" src="assets/loc-bg.jpg" alt="Вилла Black Sands Oasis, вид на территорию">
-  <div class="loc-shade"></div>
   <div class="container loc-in">
     <div class="loc-text reveal">
       <h2>Приватные виллы внутри Nuanu в&nbsp;стиле desert-modernism</h2>
@@ -62,7 +61,7 @@
   <div class="container">
     <div class="block-head-split">
       <h2 class="reveal">Современный минимализм и&nbsp;восточная чувственность</h2>
-      <p class="lead lead-sm reveal">Виллы Black Sand Oasis выполнены в&nbsp;едином архитектурном стиле Desert Modernism</p>
+      <p class="lead lead-sm reveal">Виллы Black Sand Oasis<br>выполнены в едином архитектурном<br>стиле Desert Modernism</p>
     </div>
     <div class="min-tags reveal">
       <span class="tag-pill">Большие окна в пол</span>
@@ -118,8 +117,10 @@
         </div>
       </article>
     </div>
+    <div class="carousel-dots" id="featDots"><span class="on"></span><span></span><span></span><span></span></div>
+    <!-- Figma: у этого ряда нет hover/active состояний — просто набор тегов, не фильтр -->
     <div class="feat-filters reveal">
-      <span class="tag-pill is-active">Своя приватность</span>
+      <span class="tag-pill">Своя приватность</span>
       <span class="tag-pill">Свой бассейн</span>
       <span class="tag-pill">Свой ритм</span>
     </div>
@@ -130,7 +131,7 @@
 <section class="section" id="nuanu">
   <div class="container">
     <h2 class="reveal">Внутри новой точки притяжения Бали</h2>
-    <p class="lead reveal">Комплекс расположен в кластере Nuanu площадью 45 гектаров на берегу океана с единым мастер-планом и городской инфраструктурой нового поколения</p>
+    <p class="lead lead-wide reveal">Комплекс расположен в кластере Nuanu площадью 45 гектаров на берегу океана<br>с единым мастер-планом и городской инфраструктурой нового поколения</p>
     <!-- Figma 1:4513: фото (с бейджем и подписью НА фото) идёт ПЕРЕД карточками расстояний, не после -->
     <div class="nuanu-photo reveal">
       <div class="ph-box" style="position:absolute; inset:0; border-radius:0">
@@ -140,6 +141,9 @@
       <span class="nuanu-badge">BLACK SANDS OASIS</span>
       <p class="nuanu-caption">Жители Black Sands Oasis находятся в центре событий, сохраняя приватность собственной виллы</p>
     </div>
+    <!-- Figma: горизонтальная линия-разделитель со стрелкой вправо между
+         фото и карточками расстояний (LINE228 в исходнике) -->
+    <div class="nuanu-divider reveal"><span class="line"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg></div>
     <div class="stat-grid stat-grid-4 reveal">
       <div class="stat-card"><h3>0 мин</h3><p>до Nuanu</p></div>
       <div class="stat-card"><h3>3 мин</h3><p>до Океана</p></div>
@@ -156,8 +160,8 @@
     <div class="signature-photo reveal"><img src="assets/stella-solaris.jpg" alt="Арт-объект Stella Solaris" loading="lazy"></div>
     <div class="signature-meta reveal">
       <h3>Stella Solaris</h3>
-      <p>15-метровый арт-объект, созданный в коллаборации с известным архитектурным бюро</p>
-      <p>Визуальная доминанта проекта, усиливающая его статусность</p>
+      <p>15-метровый арт-объект, созданный в коллаборации<br>с известным архитектурным бюро</p>
+      <p>Визуальная доминанта проекта,<br>усиливающая его статусность</p>
     </div>
     <div class="signature-chips reveal">
       <span>Сильный визуальный жест, который работает на образ всего проекта</span>
@@ -242,6 +246,7 @@
       <div class="step-card"><span class="num">04</span><h3>Платежи по этапам</h3><p>Ежеквартальная структура, привязанная к стройке</p></div>
       <div class="step-card"><span class="num">05</span><h3>Готовый актив</h3><p>Срок реализации проекта — 2 года</p></div>
     </div>
+    <div class="carousel-dots" id="stepsDots"><span class="on"></span><span></span><span></span><span></span><span></span></div>
   </div>
 </section>
 
@@ -249,7 +254,7 @@
 <section class="section section-gray" style="background:var(--stone)" id="invest">
   <div class="container">
     <h2 class="reveal">Почему именно Бали и Nuanu</h2>
-    <p class="lead reveal">Бали входит в число сильных туристических направлений мира. В ТОП-районах острова фиксируют рост цен на недвижимость 20% в год и доходность аренды вилл до 16% годовых. Nuanu усиливает эту динамику за счёт ограниченного предложения и развитой городской среды</p>
+    <p class="lead lead-wide reveal">Бали входит в число сильных туристических направлений мира. В ТОП-районах острова фиксируют<br>рост цен на недвижимость 20% в год и доходность аренды вилл до 16% годовых. Nuanu усиливает<br>эту динамику за счёт ограниченного предложения и развитой городской среды</p>
     <div class="stat-grid reveal">
       <div class="stat-card"><h3>+20% в год</h3><p>ориентир роста стоимости недвижимости в топовых районах Бали</p></div>
       <div class="stat-card"><h3>До 16% годовых</h3><p>от краткосрочной аренды вилл на развитых курортах Бали</p></div>
@@ -309,11 +314,13 @@
       <p class="lead on-dark final-lead">Планировки, цены, доступные лоты и условия входа предоставляются через личную консультацию</p>
       <div class="final-stats">
         <div class="stat"><h4>111 Вилл</h4><p>будет построено к 2028г.</p></div>
+        <hr class="final-divider">
         <div class="stat"><h4>35+ Объектов</h4><p>инфраструктуры города будущего Nuanu уже доступны</p></div>
+        <hr class="final-divider">
         <div class="stat"><h4>108 Юнитов</h4><p>уже построено и успешно сдано</p></div>
       </div>
     </div>
-    <div class="btn-row reveal"><a class="btn btn-white" href="#form">Получить персональную подборку вилл</a></div>
+    <div class="btn-row reveal"><a class="btn btn-white" href="#form">Получить персональную подборку вилл<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></div>
   </div>
 </section>
 
