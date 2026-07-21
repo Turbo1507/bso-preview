@@ -138,6 +138,20 @@ p{margin:0; line-height:1.1}
 .nav a:hover{color:var(--white)}
 .nav a:hover::after{right:0}
 .header-cta{display:flex; align-items:center; gap:16px}
+
+/* ---------- переключатель языка RU/EN ---------- */
+.lang{display:flex; align-items:center; gap:6px; font-size:13px; font-weight:500}
+.lang button{background:none; border:0; padding:2px; color:rgba(255,255,255,.5); transition:color .2s}
+.lang button.is-active{color:var(--white)}
+.lang button:hover{color:var(--clay-soft)}
+.lang span{color:rgba(255,255,255,.3); font-size:12px}
+.site-header.is-solid .lang button{color:rgba(28,24,21,.45)}
+.site-header.is-solid .lang button.is-active{color:var(--ink)}
+.site-header.is-solid .lang span{color:rgba(28,24,21,.25)}
+.menu-lang{margin-top:24px; font-size:16px}
+.menu-lang button{color:rgba(28,24,21,.45)}
+.menu-lang button.is-active{color:var(--ink)}
+.menu-lang span{color:rgba(28,24,21,.25)}
 .burger{display:none; flex-direction:column; gap:5px; background:none; border:0; padding:6px; position:relative; z-index:101}
 .burger span{width:22px; height:1.5px; background:var(--white); transition:transform .25s var(--ease), opacity .2s, background .2s}
 .burger:hover span{background:var(--clay)}
