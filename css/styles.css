@@ -42,7 +42,9 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+/* без этого переход по якорю (напр. #contacts) прижимал секцию впритык к
+   верху, и фиксированная шапка перекрывала первую строку заголовка */
+html{scroll-behavior:smooth; scroll-padding-top:100px}
 body{
   margin:0; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
   color:var(--graphite); background:var(--white); -webkit-font-smoothing:antialiased;
@@ -506,7 +508,10 @@ body.menu-open{overflow:hidden}
 }
 
 /* ---------- reveal ---------- */
-.reveal{opacity:0; transform:translateY(24px); transition:opacity .7s var(--ease), transform .7s var(--ease)}
+/* .reveal прячется ТОЛЬКО если html.js стоит (см. инлайн-скрипт в head index.html,
+   выполняется синхронно до первой отрисовки) — если JS отключён/заблокирован/упал,
+   класса нет, и весь контент остаётся видимым по умолчанию, а не скрытым навсегда */
+html.js .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s var(--ease), transform .7s var(--ease)}
 .reveal.in{opacity:1; transform:none}
 @media (prefers-reduced-motion: reduce){.reveal{opacity:1; transform:none; transition:none}}
 
@@ -559,7 +564,9 @@ body.menu-open{overflow:hidden}
   .final-stats .stat + .stat{border-left:0; border-top:1px solid rgba(255,255,255,.18)}
   /* MOBILE_SHIT: фото контейнерное (не full-bleed-лента), кнопка-оверлей
      прячется — текст+кнопка переезжают в сплошную тёмную .fin-panel под фото */
-  .fin-wrap{margin:var(--sp-md) -20px 0}
+  /* .fin-wrap уже full-bleed сам по себе (прямой child секции, без .container) —
+     отрицательный margin здесь был лишним и утапливал фото за края экрана */
+  .fin-wrap{margin-top:var(--sp-md)}
   .fin-photo{aspect-ratio:4/3; margin-top:0; border-radius:0}
   .fin-photo-shade{display:none}
   .fin-photo-in{display:none}
