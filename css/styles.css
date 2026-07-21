@@ -226,17 +226,17 @@ body.menu-open{overflow:hidden}
 }
 
 /* ---------- минимализм: большое фото + чипы ---------- */
-/* space-between вместо фиксированного gap:27 — сумма 4 плашек почти ровно
-   в 1240px контейнера (совпадает с шириной фото ниже), но на волосок не
-   влезала из-за под-пиксельных отличий шрифта и переносилась на 2-ю строку;
-   space-between гарантированно растягивает ряд на всю ширину без переноса */
-.min-tags{display:flex; flex-wrap:wrap; gap:20px; justify-content:space-between; margin:var(--sp-lg) 0}
+/* по правке Босса: space-between растягивал 4 плашки на всю ширину контейнера,
+   из-за разной длины текста промежутки между ними получались НЕРАВНЫМИ и
+   местами неоправданно большими — теперь фиксированный gap, ряд просто
+   переносится на 2-ю строку, если не влезает (это нормально) */
+.min-tags{display:flex; flex-wrap:wrap; gap:16px; margin:var(--sp-lg) 0}
 /* Figma (Frame 24-27, ноды 1:4441 и т.д.): пилюли — скруглённый прямоугольник radius 8
    (не pill), font-size 20, ширина box 54px высотой при ~45px горизонтального паддинга,
    обводка #B9B9B9 — замерено по 7 инстансам в секциях 03 и 04, отличается от общей --line */
 .min-tags .tag-pill, .feat-filters .tag-pill{
   padding:15px 45px; border:1px solid var(--line-strong); border-radius:var(--r-xs);
-  font-size:20px; color:var(--muted);
+  font-size:20px; color:var(--muted); text-align:center;
 }
 .min-photo{
   border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-card);
@@ -332,7 +332,7 @@ body.menu-open{overflow:hidden}
 .signature-chips{display:flex; flex-wrap:wrap; gap:12px; margin-top:var(--sp-xl)}
 .signature-chips span{
   padding:10px 16px; border:1px solid rgba(255,255,255,.6); border-radius:var(--r-xs);
-  font-size:18px; color:rgba(255,255,255,.7);
+  font-size:18px; color:rgba(255,255,255,.7); text-align:center;
 }
 .signature-chips span:first-child{flex-basis:100%}
 
@@ -529,7 +529,11 @@ body.menu-open{overflow:hidden}
 }
 @media (max-width:860px){
   .container{padding:0 20px}
-  .section{padding:var(--sp-2xl) 0}
+  /* по правке Босса: между блоками на мобиле не больше 40px, было 88px сверху/снизу — вдвое зажат */
+  .section{padding:var(--sp-lg) 0}
+  .loc{padding:var(--sp-lg) 0}
+  .fin-section{padding-bottom:var(--sp-lg)}
+  .site-footer{padding-top:var(--sp-lg)}
   .nav, .header-cta .btn-ghost{display:none}
   .burger{display:flex}
   /* сайт в основном светлый — тёмная непрозрачная шапка после скролла на
