@@ -6,15 +6,13 @@ function syncHeader() { header.classList.toggle('is-solid', window.scrollY > 40)
 document.addEventListener('scroll', syncHeader, { passive: true });
 syncHeader();
 
-/* ---------- burger (мобильное меню — простое раскрытие nav) ---------- */
+/* ---------- burger (полноэкранный оверлей — паттерн с unit-wordpress) ---------- */
 const burger = document.getElementById('burger');
-if (burger) {
-  burger.addEventListener('click', () => {
-    const nav = document.querySelector('.nav');
-    const open = nav.style.display === 'flex';
-    nav.style.cssText = open ? '' : 'display:flex; flex-direction:column; position:fixed; top:64px; left:0; right:0; background:rgba(23,24,26,.97); padding:20px 24px; gap:18px;';
-  });
-}
+const menuOverlay = document.getElementById('menuOverlay');
+const menuClose = document.getElementById('menuClose');
+if (burger) burger.addEventListener('click', () => document.body.classList.toggle('menu-open'));
+if (menuClose) menuClose.addEventListener('click', () => document.body.classList.remove('menu-open'));
+if (menuOverlay) menuOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => document.body.classList.remove('menu-open')));
 
 /* ---------- reveal on scroll ---------- */
 const revealItems = document.querySelectorAll('.reveal');
