@@ -7,12 +7,27 @@ document.addEventListener('scroll', syncHeader, { passive: true });
 syncHeader();
 
 /* ---------- burger (полноэкранный оверлей — паттерн с unit-wordpress) ---------- */
+/* оверлей визуально прячется через translateY, но без aria-hidden/inert
+   его ссылки оставались доступны табом и скринридерам как "невидимый дубль" меню */
 const burger = document.getElementById('burger');
 const menuOverlay = document.getElementById('menuOverlay');
 const menuClose = document.getElementById('menuClose');
-if (burger) burger.addEventListener('click', () => document.body.classList.toggle('menu-open'));
-if (menuClose) menuClose.addEventListener('click', () => document.body.classList.remove('menu-open'));
-if (menuOverlay) menuOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => document.body.classList.remove('menu-open')));
+function setMenuOpen(open) {
+  document.body.classList.toggle('menu-open', open);
+  if (burger) burger.setAttribute('aria-expanded', String(open));
+  if (menuOverlay) {
+    menuOverlay.toggleAttribute('inert', !open);
+    menuOverlay.setAttribute('aria-hidden', String(!open));
+  }
+}
+if (burger) {
+  burger.setAttribute('aria-expanded', 'false');
+  burger.setAttribute('aria-controls', 'menuOverlay');
+  burger.addEventListener('click', () => setMenuOpen(!document.body.classList.contains('menu-open')));
+}
+if (menuOverlay) { menuOverlay.setAttribute('aria-hidden', 'true'); menuOverlay.setAttribute('inert', ''); }
+if (menuClose) menuClose.addEventListener('click', () => setMenuOpen(false));
+if (menuOverlay) menuOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenuOpen(false)));
 
 /* ---------- reveal on scroll ---------- */
 const revealItems = document.querySelectorAll('.reveal');
