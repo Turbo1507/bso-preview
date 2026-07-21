@@ -66,7 +66,6 @@
     <div class="loc-text reveal">
       <h2 data-i18n="loc.title">Приватные виллы внутри Nuanu в стиле desert-modernism</h2>
       <p class="lead on-dark" data-i18n="loc.lead">Редкая форма на западном побережье Бали, которая сочетает архитектурный характер и локацию</p>
-      <div class="btn-row"><a class="btn btn-white" href="#contacts"><span data-i18n="loc.cta">Получить презентацию проекта</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></div>
     </div>
     <div class="loc-map reveal">
       <img src="assets/bali-map.svg" alt="Карта западного побережья Бали с расположением Black Sands Oasis" data-i18n-alt="loc.map_alt">
@@ -97,15 +96,10 @@
 </section>
 
 <!-- ===== 04. КАРУСЕЛЬ ПРЕИМУЩЕСТВ ===== -->
-<section class="section section-gray" style="background:var(--stone)">
-  <div class="container">
-    <div class="feat-head">
-      <div></div>
-      <div class="feat-nav">
-        <button id="featPrev" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 6l-6 6 6 6"/></svg></button>
-        <button id="featNext" aria-label="Вперёд"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg></button>
-      </div>
-    </div>
+<!-- по правке Босса: без стрелок-кнопок (это слайдер, скролл и так очевиден) и
+     без серой подложки секции; трек вынесен из .container, чтобы карточки
+     реально уходили за край экрана, а не упирались в невидимую рамку контейнера -->
+<section class="section">
     <div class="feat-track reveal" id="featTrack">
       <article class="feat-card">
         <div class="feat-card-photo"><img src="assets/feat-architecture.jpg" alt="Архитектура виллы" data-i18n-alt="feat.photo1_alt" loading="lazy"></div>
@@ -136,14 +130,15 @@
         </div>
       </article>
     </div>
-    <div class="carousel-dots" id="featDots"><span class="on"></span><span></span><span></span><span></span></div>
-    <!-- Figma: у этого ряда нет hover/active состояний — просто набор тегов, не фильтр -->
-    <div class="feat-filters reveal">
-      <span class="tag-pill" data-i18n="feat.tag1">Своя приватность</span>
-      <span class="tag-pill" data-i18n="feat.tag2">Свой бассейн</span>
-      <span class="tag-pill" data-i18n="feat.tag3">Свой ритм</span>
+    <div class="container">
+      <div class="carousel-dots" id="featDots"><span class="on"></span><span></span><span></span><span></span></div>
+      <!-- Figma: у этого ряда нет hover/active состояний — просто набор тегов, не фильтр -->
+      <div class="feat-filters reveal">
+        <span class="tag-pill" data-i18n="feat.tag1">Своя приватность</span>
+        <span class="tag-pill" data-i18n="feat.tag2">Свой бассейн</span>
+        <span class="tag-pill" data-i18n="feat.tag3">Свой ритм</span>
+      </div>
     </div>
-  </div>
 </section>
 
 <!-- ===== 05. ЛОКАЦИЯ ВНУТРИ NUANU ===== -->
@@ -239,32 +234,35 @@
       </div>
       <div class="plans-info">
         <h3 id="planName">Studio</h3>
-        <div class="plans-stat"><div class="k" data-i18n="plans.area_label">Площадь</div><div class="v" id="planArea">25 м²</div></div>
-        <div class="plans-stat"><div class="k" data-i18n="plans.cap_label">Вместимость</div><div class="v" id="planCap">5 чел.</div></div>
-        <div class="plans-stat"><div class="k" data-i18n="plans.who_label">Для кого</div><div class="v" id="planWho">Один, пары</div></div>
+        <div class="plans-stat">
+          <svg class="plans-stat-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h6v2H6v4H4V4zm16 0v6h-2V6h-4V4h6zM4 20v-6h2v4h4v2H4zm16 0h-6v-2h4v-4h2v6z"/></svg>
+          <div><div class="k" data-i18n="plans.area_label">Площадь</div><div class="v" id="planArea">25 м²</div></div>
+        </div>
+        <div class="plans-stat">
+          <svg class="plans-stat-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm0 2c-4 0-8 2-8 6v2h16v-2c0-4-4-6-8-6z"/></svg>
+          <div><div class="k" data-i18n="plans.cap_label">Вместимость</div><div class="v" id="planCap">5 чел.</div></div>
+        </div>
+        <div class="plans-stat">
+          <svg class="plans-stat-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M12 21s-7.5-4.6-10-9.1C.5 8.4 2.4 5 6 5c2 0 3.4 1.1 4 2.1C10.6 6.1 12 5 14 5c3.6 0 5.5 3.4 4 6.9C19.5 16.4 12 21 12 21z"/></svg>
+          <div><div class="k" data-i18n="plans.who_label">Для кого</div><div class="v" id="planWho">Один, пары</div></div>
+        </div>
         <a class="btn btn-glass" href="#contacts" data-i18n="plans.cta">Приобрести</a>
       </div>
     </div>
   </div>
 </section>
-
 <!-- ===== 09. ОТ ВЫБОРА ЮНИТА ДО ГОТОВОЙ ВИЛЛЫ ===== -->
+<!-- по правке Босса: без стрелок-кнопок, трек вне .container для bleed-эффекта -->
 <section class="section">
-  <div class="container">
-    <div class="steps-head">
-      <h2 class="reveal" data-i18n="steps.title">От выбора юнита до готовой виллы</h2>
-      <div class="feat-nav">
-        <button id="stepsPrev" aria-label="Назад"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M15 6l-6 6 6 6"/></svg></button>
-        <button id="stepsNext" aria-label="Вперёд"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 6l6 6-6 6"/></svg></button>
-      </div>
-    </div>
-    <div class="steps-track reveal" id="stepsTrack">
+  <div class="container"><h2 class="reveal" data-i18n="steps.title">От выбора юнита до готовой виллы</h2></div>
+  <div class="steps-track reveal" id="stepsTrack">
       <div class="step-card"><span class="num">01</span><h3 data-i18n="steps.card1.title">Выбор юнита</h3><p data-i18n="steps.card1.p">Персональный подбор формата под сценарий покупки</p></div>
       <div class="step-card"><span class="num">02</span><h3 data-i18n="steps.card2.title">Внесение депозита</h3><p data-i18n="steps.card2.p">Возвратный депозит $1,500 для бронирования</p></div>
       <div class="step-card"><span class="num">03</span><h3 data-i18n="steps.card3.title">Первый взнос</h3><p data-i18n="steps.card3.p">30% после выбора и фиксации условий входа</p></div>
       <div class="step-card"><span class="num">04</span><h3 data-i18n="steps.card4.title">Платежи по этапам</h3><p data-i18n="steps.card4.p">Ежеквартальная структура, привязанная к стройке</p></div>
       <div class="step-card"><span class="num">05</span><h3 data-i18n="steps.card5.title">Готовый актив</h3><p data-i18n="steps.card5.p">Срок реализации проекта — 2 года</p></div>
     </div>
+  <div class="container">
     <div class="carousel-dots" id="stepsDots"><span class="on"></span><span></span><span></span><span></span><span></span></div>
   </div>
 </section>
@@ -273,7 +271,7 @@
 <section class="section section-gray" style="background:var(--stone)" id="invest">
   <div class="container">
     <h2 class="reveal" data-i18n="invest.title">Почему именно Бали и Nuanu</h2>
-    <p class="lead lead-wide reveal" data-i18n="invest.lead">Бали входит в число сильных туристических направлений мира. В ТОП-районах острова фиксируют<br>рост цен на недвижимость 20% в год и доходность аренды вилл до 16% годовых. Nuanu усиливает<br>эту динамику за счёт ограниченного предложения и развитой городской среды</p>
+    <p class="lead reveal" data-i18n="invest.lead">Бали входит в число сильных туристических направлений мира. В ТОП-районах острова фиксируют рост цен на недвижимость 20% в год и доходность аренды вилл до 16% годовых. Nuanu усиливает эту динамику за счёт ограниченного предложения и развитой городской среды</p>
     <div class="stat-grid reveal">
       <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg><h3 data-i18n="invest.stat1.v">+20% в год</h3><p data-i18n="invest.stat1.p">ориентир роста стоимости недвижимости в топовых районах Бали</p></div>
       <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18.7 4.3a1 1 0 0 1 0 1.4l-14 14a1 1 0 0 1-1.4-1.4l14-14a1 1 0 0 1 1.4 0z"/></svg><h3 data-i18n="invest.stat2.v">До 16% годовых</h3><p data-i18n="invest.stat2.p">от краткосрочной аренды вилл на развитых курортах Бали</p></div>
@@ -284,17 +282,24 @@
 </section>
 
 <!-- ===== 12. ФИНАНСОВАЯ МОДЕЛЬ ===== -->
-<!-- Figma (1:4741): структура проще, чем я раньше выдумал — только заголовок,
-     полноэкранное фото-бандо (Frame28, тот же паттерн что у hero/final — фото
-     шире контейнера, бликует за края) и белая outline-кнопка у нижнего правого
-     края фото. НЕТ отдельного подзаголовка/абзаца с замком — я их придумал. -->
+<!-- Десктоп — Figma 1:4741 (full-bleed фото-бандо + белая кнопка поверх).
+     Мобила — отдельный Figma-набросок MOBILE_SHIT: фото контейнерное (не
+     full-bleed), под ним сплошная тёмная панель с заголовком/абзацем/кнопкой —
+     на мобиле текст переносится сюда (.fin-panel), кнопка-оверлей прячется. -->
 <section class="section fin-section">
   <div class="container"><h2 class="reveal" data-i18n="fin.title">Финансовая модель проекта</h2></div>
-  <div class="fin-photo reveal">
-    <img src="assets/fin-model-docs.png" alt="" loading="lazy">
-    <div class="fin-photo-shade"></div>
-    <div class="container fin-photo-in">
-      <a class="btn btn-white" href="#contacts" data-i18n="fin.cta">Получить финансовую модель</a>
+  <div class="fin-wrap reveal">
+    <div class="fin-photo">
+      <img src="assets/fin-model-docs.png" alt="" loading="lazy">
+      <div class="fin-photo-shade"></div>
+      <div class="container fin-photo-in">
+        <a class="btn btn-white" href="#contacts" data-i18n="fin.cta">Получить финансовую модель</a>
+      </div>
+    </div>
+    <div class="fin-panel">
+      <h3 data-i18n="fin.headline">Расчёт доходности под конкретный юнит</h3>
+      <p data-i18n="fin.p">Полная модель — цена входа, график платежей, прогноз доходности и сроки окупаемости — предоставляется на личной консультации</p>
+      <a class="btn btn-clay" href="#contacts" data-i18n="fin.cta">Получить финансовую модель</a>
     </div>
   </div>
 </section>
@@ -332,9 +337,7 @@
       <p class="lead on-dark final-lead" data-i18n="final.lead">Планировки, цены, доступные лоты и условия входа предоставляются через личную консультацию</p>
       <div class="final-stats">
         <div class="stat"><h4 data-i18n="final.stat1.v">111 Вилл</h4><p data-i18n="final.stat1.p">будет построено к 2028 г.</p></div>
-        <hr class="final-divider">
         <div class="stat"><h4 data-i18n="final.stat2.v">35+ Объектов</h4><p data-i18n="final.stat2.p">инфраструктуры города будущего Nuanu уже доступны</p></div>
-        <hr class="final-divider">
         <div class="stat"><h4 data-i18n="final.stat3.v">108 Юнитов</h4><p data-i18n="final.stat3.p">уже построено и успешно сдано</p></div>
       </div>
     </div>
@@ -347,14 +350,7 @@
   <div class="container footer-in">
     <div class="footer-brand">
       <a class="logo" href="#top"><b>Black Sands Oasis</b></a>
-      <p style="margin-top:14px; font-size:14px; color:rgba(58,58,58,.6); max-width:32ch" data-i18n="footer.desc">Флагманский проект UNIT. в кластере Nuanu, западное побережье Бали</p>
-    </div>
-    <div class="footer-col">
-      <h4 data-i18n="footer.links_title">Важные ссылки</h4>
-      <a href="#" data-i18n="footer.link1">Сертификаты</a>
-      <a href="#" data-i18n="footer.link2">Политика конфиденциальности</a>
-      <a href="#" data-i18n="footer.link3">Согласие на обработку ПД</a>
-      <a href="#" data-i18n="footer.link4">Юр. информация о компании</a>
+      <p data-i18n="footer.desc">Флагманский проект UNIT. в кластере Nuanu, западное побережье Бали</p>
     </div>
     <nav class="footer-col">
       <h4 data-i18n="menu.title">Меню</h4>
@@ -364,6 +360,13 @@
       <a href="#invest" data-i18n="nav.invest">Инвестиции</a>
       <a href="#team" data-i18n="nav.team">Команда</a>
     </nav>
+    <div class="footer-col">
+      <h4 data-i18n="footer.links_title">Важные ссылки</h4>
+      <a href="#" data-i18n="footer.link1">Сертификаты</a>
+      <a href="#" data-i18n="footer.link2">Политика конфиденциальности</a>
+      <a href="#" data-i18n="footer.link3">Согласие на обработку ПД</a>
+      <a href="#" data-i18n="footer.link4">Юр. информация о компании</a>
+    </div>
     <div class="footer-social">
       <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
       <a href="#" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 4L3 11l6 2 2 6 3-4 5 3z"/></svg></a>
