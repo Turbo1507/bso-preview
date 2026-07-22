@@ -131,6 +131,13 @@ if (plansTabs) {
   };
 }
 
+/* ---------- заглушки (сертификаты/юр.страницы/соцсети) — реальных страниц ещё нет ---------- */
+/* href="#" вместо javascript:void(0) — крауler-friendly (см. SEO-аудит Lighthouse),
+   preventDefault не даёт странице прыгать вверх/скроллить */
+document.querySelectorAll('.placeholder-link').forEach(a => {
+  a.addEventListener('click', e => e.preventDefault());
+});
+
 /* ---------- переключатель языка ---------- */
 document.querySelectorAll('[data-lang]').forEach(btn => {
   btn.addEventListener('click', () => window.setLang && window.setLang(btn.dataset.lang));

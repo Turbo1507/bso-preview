@@ -478,7 +478,7 @@ body.menu-open{overflow:hidden}
 }
 .final-stats .stat{flex:1; padding:26px 28px}
 .final-stats .stat + .stat{border-left:1px solid rgba(255,255,255,.18)}
-.final-stats .stat h4{font-size:28px; color:var(--white); font-weight:500}
+.final-stats .stat h3{font-size:28px; color:var(--white); font-weight:500}
 .final-stats .stat p{font-size:14px; color:rgba(255,255,255,.6); margin-top:8px; line-height:1.3}
 .final-in .btn-row{margin-top:var(--sp-lg)}
 
@@ -490,9 +490,9 @@ body.menu-open{overflow:hidden}
 .footer-in{display:grid; grid-template-columns:1.4fr 1fr 1.2fr auto; gap:var(--sp-lg)}
 .footer-brand .logo{color:var(--ink); font-size:22px}
 .footer-brand .logo b{color:var(--clay)}
-.footer-brand p{margin-top:18px; font-size:14px; line-height:1.5; color:rgba(58,58,58,.6); max-width:32ch}
+.footer-brand p{margin-top:18px; font-size:14px; line-height:1.5; color:rgba(58,58,58,.78); max-width:32ch}
 .footer-col h4{font-size:16px; margin-bottom:20px; color:var(--ink); font-weight:500; letter-spacing:0}
-.footer-col a{display:block; font-size:14px; font-weight:300; color:rgba(58,58,58,.6); padding:7px 0; transition:color .2s, padding-left .2s}
+.footer-col a{display:block; font-size:14px; font-weight:300; color:rgba(58,58,58,.78); padding:7px 0; transition:color .2s, padding-left .2s}
 .footer-col a:hover{color:var(--clay); padding-left:4px}
 .footer-social{display:flex; gap:12px; align-self:start}
 .footer-social a{
@@ -504,7 +504,7 @@ body.menu-open{overflow:hidden}
 .footer-bottom{
   display:flex; justify-content:space-between; align-items:center; gap:var(--sp-md); flex-wrap:wrap;
   margin-top:var(--sp-xl); padding-top:var(--sp-md); border-top:1px solid var(--line);
-  font-size:14px; color:rgba(58,58,58,.55);
+  font-size:14px; color:rgba(58,58,58,.78);
 }
 
 /* ---------- reveal ---------- */
