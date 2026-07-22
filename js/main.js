@@ -29,6 +29,16 @@ if (menuOverlay) { menuOverlay.setAttribute('aria-hidden', 'true'); menuOverlay.
 if (menuClose) menuClose.addEventListener('click', () => setMenuOpen(false));
 if (menuOverlay) menuOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenuOpen(false)));
 
+/* ---------- мобильный CTA снизу: скрыт пока мы на хиро, появляется после ---------- */
+const heroSection = document.querySelector('.hero');
+const mobCta = document.querySelector('.mob-cta');
+if (heroSection && mobCta) {
+  const ctaIO = new IntersectionObserver(entries => {
+    entries.forEach(e => mobCta.classList.toggle('show', !e.isIntersecting));
+  }, { threshold: 0 });
+  ctaIO.observe(heroSection);
+}
+
 /* ---------- reveal on scroll ---------- */
 const revealItems = document.querySelectorAll('.reveal');
 const io = new IntersectionObserver(entries => {
