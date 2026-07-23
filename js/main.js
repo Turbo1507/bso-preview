@@ -109,7 +109,12 @@ const NUANU_PINS = [
 ];
 const nuanuPinsWrap = document.getElementById('nuanuPins');
 if (nuanuPinsWrap) {
-  const lines = NUANU_PINS.map(p => `<line x1="${p.dot[0]}" y1="${p.dot[1]}" x2="${p.label[0]}" y2="${p.label[1]}"/><circle cx="${p.dot[0]}" cy="${p.dot[1]}" r=".35"/>`).join('');
+  /* preserveAspectRatio="none" мапит viewBox 100x100 на контейнер 2:1
+     (width:height контейнера ≠ viewBox) — X и Y растягиваются РАЗНЫМИ
+     коэффициентами, поэтому circle (r одинаковый по X/Y) на выходе сплюснут
+     в эллипс по вертикали вдвое; компенсируем через ellipse с ry=2×rx, и
+     non-scaling-stroke, чтобы толщина линии не "гуляла" в зависимости от угла */
+  const lines = NUANU_PINS.map(p => `<line x1="${p.dot[0]}" y1="${p.dot[1]}" x2="${p.label[0]}" y2="${p.label[1]}" vector-effect="non-scaling-stroke"/><ellipse cx="${p.dot[0]}" cy="${p.dot[1]}" rx=".35" ry=".7"/>`).join('');
   const labels = NUANU_PINS.map(p => `<span class="nuanu-pin-label" style="left:${p.label[0]}%;top:${p.label[1]}%" data-ru="${p.ru}" data-en="${p.en}">${p.ru}</span>`).join('');
   nuanuPinsWrap.innerHTML = `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg>${labels}`;
 }
