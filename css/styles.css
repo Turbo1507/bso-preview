@@ -32,7 +32,7 @@
   --r-lg: 10px;  /* крупные фото-блоки, панель планировок */
   --r-pill: 999px;
 
-  --container: 1320px;
+  --container: 1440px;
   --sp-xs: 8px; --sp-sm: 16px; --sp-md: 24px; --sp-lg: 40px;
   --sp-xl: 64px; --sp-2xl: 88px; --sp-3xl: 104px;
 
@@ -280,9 +280,28 @@ body.menu-open{overflow:hidden}
 .feat-card-body h3{margin-bottom:14px; font-size:20px}
 .feat-card-body p{font-size:15px; line-height:1.35; color:var(--muted)}
 /* Figma: это просто теги-подписи, не фильтр — без hover/active/is-active */
-.feat-filters{display:flex; flex-wrap:wrap; gap:10px; margin-top:var(--sp-lg)}
+/* стрелки — в одном ряду с тегами/заголовком, как в Figma (Frame 102/103 у
+   блока 04, Frame 100/101 у блока 09), не отдельной строкой под карточками */
+.feat-filters-row{display:flex; align-items:center; justify-content:space-between; gap:var(--sp-lg); margin-top:var(--sp-lg)}
+.feat-filters{display:flex; flex-wrap:wrap; gap:10px}
+.steps-head-row{display:flex; align-items:center; justify-content:space-between; gap:var(--sp-lg)}
 
 /* ---------- индикатор позиции под каруселями (04 и 09) ---------- */
+/* стрелки вернули по прямому запросу Босса — были убраны в раунде 2026-07-21,
+   но только для десктопа (на мобиле листание пальцем, см. @media 860px).
+   Форма — 1:1 с Figma (блок 04, Frame 102/103, get_svg): скруглённый
+   прямоугольник 85x45 rx7.5, обводка --line-strong, стеклянный blur(13px),
+   тонкий шеврон stroke-width 2 БЕЗ заливки — не круглая кнопка "с интуиции". */
+.carousel-nav{display:flex; align-items:center; gap:16px; flex-shrink:0}
+.carousel-arrow{
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  width:85px; height:45px; border-radius:7.5px; border:1px solid var(--line-strong);
+  background:rgba(255,255,255,.4); backdrop-filter:blur(13px); -webkit-backdrop-filter:blur(13px);
+  color:var(--line-strong); transition:border-color .2s, color .2s, opacity .2s;
+}
+.carousel-arrow svg{width:100%; height:100%}
+.carousel-arrow:hover:not(:disabled){border-color:var(--clay); color:var(--clay)}
+.carousel-arrow:disabled{opacity:.3; cursor:default}
 .carousel-dots{display:flex; justify-content:center; gap:6px; margin-top:var(--sp-md)}
 .carousel-dots span{width:8px; height:8px; border-radius:50%; background:var(--line-strong); transition:background .2s, transform .2s}
 .carousel-dots span.on{background:var(--clay); transform:scale(1.2)}
@@ -303,16 +322,44 @@ body.menu-open{overflow:hidden}
    сверено напрямую по исходнику (nodeId/страница masterplan), это не
    случайный выбор; object-position смещена вниз, чтобы на узком мобильном
    кропе в кадр попадала застройка, а не небо/океан сверху кадра */
-.nuanu-photo{position:relative; aspect-ratio:1240/632; border-radius:var(--r-xs); overflow:hidden; margin-top:var(--sp-lg)}
-.nuanu-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 62%}
+/* aspect-ratio 1600/800 = 2/1 — точное совпадение с нативными пропорциями
+   assets/nuanu-masterplan.jpg (1600x800) и Figma-фрейма "nuanu desk rus"
+   (1060x530, тоже 2/1) — без этого object-fit:cover подрезал кадр и все
+   проценты пинов (снятые с координат Figma-нод) уезжали мимо целей. */
+.nuanu-photo{position:relative; aspect-ratio:1600/800; border-radius:var(--r-xs); overflow:hidden; margin-top:var(--sp-lg)}
+.nuanu-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 50%}
 .nuanu-badge{
-  position:absolute; top:10%; left:15%; padding:11px 20px; border-radius:var(--r-xs);
-  background:rgba(58,53,47,.15); border:1px solid rgba(255,255,255,.9);
+  position:absolute; padding:11px 20px; border-radius:var(--r-xs);
   color:var(--white); font-size:15px; letter-spacing:.04em; text-transform:uppercase;
+  transform:translate(-50%,-50%); white-space:nowrap;
+}
+.nuanu-badge--bso{
+  left:26.13%; top:21.15%;
+  background:rgba(58,53,47,.15); border:1px solid rgba(255,255,255,.9);
+}
+.nuanu-badge--usc{
+  left:76.32%; top:21.15%;
+  background:var(--white); color:var(--graphite); font-size:13px; letter-spacing:0; text-transform:none; font-weight:500;
 }
 .nuanu-caption{
   position:absolute; bottom:8%; right:5%; width:26%; min-width:220px;
   color:var(--white); font-size:18px; line-height:1.1; text-align:right;
+}
+
+/* ---------- пины инфраструктуры на мастер-плане (Figma-фреймы nuanu desk/mob,
+   канал hdgz87wq) — координаты точки (dot) И метки (label) сняты РАЗДЕЛЬНО
+   через get_nodes_info (в Figma подпись стоит не у самой точки, а отнесена
+   линией-указателем в сторону, чтобы соседние подписи не наезжали друг на
+   друга) — соединительная линия рисуется SVG-оверлеем между ними.
+   Рендер из js/main.js (NUANU_PINS). viewBox 0 0 100 100 == проценты 1:1. */
+.nuanu-pins{position:absolute; inset:0; pointer-events:none}
+.nuanu-pins-svg{position:absolute; inset:0; width:100%; height:100%}
+.nuanu-pins-svg line{stroke:rgba(255,255,255,.55); stroke-width:.12}
+.nuanu-pins-svg circle{fill:var(--white)}
+.nuanu-pin-label{
+  position:absolute; transform:translate(-50%,-50%);
+  font-size:11px; line-height:1.2; color:var(--white); text-align:center;
+  max-width:130px; text-shadow:0 1px 3px rgba(0,0,0,.5);
 }
 
 /* ---------- placeholder (аналог unit-furniture, но в графитовой палитре) ---------- */
@@ -449,7 +496,10 @@ body.menu-open{overflow:hidden}
    компактная карточка с замком/абзацем — это была моя выдумка. Фото стопки
    документов (прислал Босс) на всю ширину, кнопка снизу-справа поверх фото ---------- */
 .fin-section{padding-bottom:var(--sp-3xl)}
-.fin-photo{position:relative; overflow:hidden; margin-top:var(--sp-lg); aspect-ratio:1607/318; min-height:200px}
+/* исходник — PNG с реальной альфой (вырезанная стопка документов, не
+   full-bleed фото); background:var(--ink) — чтобы прозрачные поля рамки
+   читались как тёмная панель, а не проваливались в чёрный/белый фон страницы */
+.fin-photo{position:relative; overflow:hidden; margin-top:var(--sp-lg); aspect-ratio:1607/318; min-height:200px; background:var(--ink)}
 .fin-photo img{width:100%; height:100%; object-fit:cover}
 .fin-photo-shade{position:absolute; inset:0; background:linear-gradient(100deg, rgba(10,9,7,.6) 0%, rgba(10,9,7,.2) 45%, rgba(10,9,7,.5) 100%)}
 .fin-photo-in{position:absolute; inset:0; margin:0 auto; display:flex; align-items:flex-end; justify-content:flex-end; padding-bottom:var(--sp-lg)}
@@ -557,6 +607,11 @@ html.js .reveal.in{opacity:1; transform:none}
   .section{padding:var(--sp-lg) 0}
   .loc{padding:var(--sp-lg) 0}
   .fin-section{padding-bottom:var(--sp-lg)}
+  .carousel-arrow{display:none}
+  .nuanu-pin-label{font-size:6.5px; line-height:1.1; max-width:62px}
+  .nuanu-pins-svg circle{r:.5}
+  .nuanu-badge{font-size:10px; padding:7px 12px}
+  .nuanu-badge--usc{font-size:9px}
   .site-footer{padding-top:var(--sp-lg)}
   .nav, .header-cta .btn-ghost{display:none}
   .burger{display:flex}

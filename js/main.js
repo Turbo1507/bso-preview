@@ -81,6 +81,45 @@ function wireCarousel(trackId, prevId, nextId, dotsId, step) {
 wireCarousel('featTrack', 'featPrev', 'featNext', 'featDots', 400);
 wireCarousel('stepsTrack', 'stepsPrev', 'stepsNext', 'stepsDots', 300);
 
+/* ---------- пины инфраструктуры на мастер-плане Nuanu ---------- */
+/* координаты (%) сняты через get_nodes_info с Figma-фреймов "nuanu desk rus"
+   (168:138) и "nuanu desk eng" (168:301), канал hdgz87wq. dot — позиция
+   точки-маркера (Ellipse) на карте; label — позиция текстовой подписи
+   (СВОЯ, не совпадает с dot — в Figma подпись отнесена в сторону линией-
+   указателем, чтобы соседние подписи не наезжали друг на друга, напр.
+   "Музыкальная студия" и "Арт-площадка" стоят рядом на карте, но подписи
+   разведены). Линия dot→label рисуется SVG. Один список на оба языка —
+   assets/nuanu-masterplan.jpg (1600x800) и Figma-фрейм — один кадр 2:1. */
+const NUANU_PINS = [
+  { ru: 'Музыкальная студия', en: 'Music Studio', dot: [23.43, 36.05], label: [23.28, 27.36] },
+  { ru: 'Ресторан Beer Garden', en: 'Restaurant Beer Garden', dot: [17.30, 58.95], label: [17.20, 49.78] },
+  { ru: 'Арт-галерея', en: 'Art Gallery', dot: [36.00, 34.60], label: [36.04, 27.79] },
+  { ru: 'Luna пляжный клуб', en: 'Luna Beach Club', dot: [43.91, 53.31], label: [43.94, 43.36] },
+  { ru: 'Рестораны', en: 'Restaurants', dot: [58.59, 45.73], label: [58.60, 37.62] },
+  { ru: 'Ночной клуб', en: 'Night Club', dot: [73.02, 47.66], label: [73.03, 42.46] },
+  { ru: 'Медиа парк Aurora', en: 'Aurora Media Park', dot: [79.72, 34.27], label: [79.72, 26.66] },
+  { ru: 'Альпака парк', en: 'Alpaca Park', dot: [67.54, 34.27], label: [67.51, 30.69] },
+  { ru: 'Международная школа, детский сад, деревня детского творчества', en: 'International School, Kindergarten, Children’s Creativity Village', dot: [51.98, 27.98], label: [51.96, 21.39] },
+  { ru: 'Ретритный центр', en: 'Retreat Center', dot: [67.54, 62.98], label: [67.53, 55.20] },
+  { ru: 'Торговый центр', en: 'Shopping Center', dot: [84.03, 47.02], label: [84.08, 38.75] },
+  { ru: 'Арт-площадка для мероприятий', en: 'Art Venue for Events', dot: [28.91, 35.56], label: [28.91, 46.02] },
+  { ru: 'Венчальный зал', en: 'Wedding Hall', dot: [22.06, 61.53], label: [22.03, 71.55] },
+  { ru: 'Бассейн в пещере Utopia', en: 'Pool in the Utopia Cave', dot: [36.99, 68.95], label: [37.13, 61.82] },
+  { ru: 'Thk tower', en: 'Thk Tower', dot: [47.78, 68.47], label: [47.99, 77.14] },
+];
+const nuanuPinsWrap = document.getElementById('nuanuPins');
+if (nuanuPinsWrap) {
+  const lines = NUANU_PINS.map(p => `<line x1="${p.dot[0]}" y1="${p.dot[1]}" x2="${p.label[0]}" y2="${p.label[1]}"/><circle cx="${p.dot[0]}" cy="${p.dot[1]}" r=".35"/>`).join('');
+  const labels = NUANU_PINS.map(p => `<span class="nuanu-pin-label" style="left:${p.label[0]}%;top:${p.label[1]}%" data-ru="${p.ru}" data-en="${p.en}">${p.ru}</span>`).join('');
+  nuanuPinsWrap.innerHTML = `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg>${labels}`;
+}
+window.__bsoSyncNuanuPins = function (lang) {
+  if (!nuanuPinsWrap) return;
+  nuanuPinsWrap.querySelectorAll('.nuanu-pin-label').forEach(el => {
+    el.textContent = lang === 'en' ? el.dataset.en : el.dataset.ru;
+  });
+};
+
 /* ---------- планировки: верхние табы (правка Босса — раньше были слева) ---------- */
 /* ВНИМАНИЕ: в Figma-прототипе реальные цифры (площадь/вместимость) указаны
    только для Studio. Для остальных форматов Босс их пока не давал —

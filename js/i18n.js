@@ -6,6 +6,8 @@
 
 window.I18N = {
   ru: {
+    "carousel.prev": "Предыдущее",
+    "carousel.next": "Следующее",
     "meta.title": "Black Sands Oasis — флагманский проект UNIT в Nuanu, Бали",
     "nav.location": "Локация",
     "nav.architecture": "Архитектура",
@@ -132,6 +134,8 @@ window.I18N = {
     "invest.photo_alt": "Приватный бассейн виллы Black Sands Oasis"
   },
   en: {
+    "carousel.prev": "Previous",
+    "carousel.next": "Next",
     "meta.title": "Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali",
     "nav.location": "Location",
     "nav.architecture": "Architecture",
@@ -274,11 +278,16 @@ window.setLang = function (lang) {
     const key = el.getAttribute('data-i18n-alt');
     if (dict[key] != null) el.setAttribute('alt', dict[key]);
   });
+  document.querySelectorAll('[data-i18n-aria]').forEach(el => {
+    const key = el.getAttribute('data-i18n-aria');
+    if (dict[key] != null) el.setAttribute('aria-label', dict[key]);
+  });
   document.querySelectorAll('[data-lang]').forEach(b => {
     b.classList.toggle('is-active', b.dataset.lang === lang);
   });
 
   if (window.__bsoSyncPlan) window.__bsoSyncPlan(lang);
+  if (window.__bsoSyncNuanuPins) window.__bsoSyncNuanuPins(lang);
 
   try { localStorage.setItem('bso_lang', lang); } catch (e) {}
   window.__bsoLang = lang;
