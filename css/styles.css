@@ -289,7 +289,7 @@ body.menu-open{overflow:hidden}
    текста/сетки (карточки "прилипали" к краю экрана вместо грида). */
 .feat-track{
   display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory;
-  --edge: max(40px, calc((100vw - var(--container)) / 2 + 40px));
+  --edge: max(40px, calc((100% - var(--container)) / 2 + 40px));
   scroll-padding-left:var(--edge); padding:0 40px 4px; padding-left:var(--edge);
   scrollbar-width:none;
 }
@@ -317,7 +317,10 @@ body.menu-open{overflow:hidden}
 /* margin-bottom обязателен: по правке Босса ряд стоит НАД .feat-track, который
    лежит вне .container сразу следующим элементом — без отступа снизу ряд
    упирался прямо в верхний край карточек */
-.feat-filters-row{display:flex; align-items:center; justify-content:space-between; gap:var(--sp-lg); margin-top:var(--sp-lg); margin-bottom:var(--sp-lg)}
+/* margin-top убран — .section уже даёт 104px паддинга сверху, этот ряд
+   первый элемент в контейнере, лишний margin-top удваивал разрыв между
+   секциями 03 и 04 (было 224px, в Figma ~139px) */
+.feat-filters-row{display:flex; align-items:center; justify-content:space-between; gap:var(--sp-lg); margin-bottom:var(--sp-lg)}
 .feat-filters{display:flex; flex-wrap:wrap; gap:10px}
 .steps-head-row{display:flex; align-items:center; justify-content:space-between; gap:var(--sp-lg)}
 
@@ -508,7 +511,7 @@ body.menu-open{overflow:hidden}
    тот же паттерн отступов, что у .feat-track */
 .steps-track{
   display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory;
-  --edge: max(40px, calc((100vw - var(--container)) / 2 + 40px));
+  --edge: max(40px, calc((100% - var(--container)) / 2 + 40px));
   scroll-padding-left:var(--edge); margin-top:var(--sp-lg); padding:0 40px 4px; padding-left:var(--edge);
   scrollbar-width:none;
 }
@@ -561,7 +564,8 @@ body.menu-open{overflow:hidden}
 .fin-card-text .btn{margin-top:28px}
 /* по правке Босса — фото должно реально "вылезать" за рамку карточки, не
    на 20-30px, а заметно: крупнее и с лёгким разворотом для динамики */
-.fin-card-photo{flex:0 0 auto; width:46%; max-width:500px; margin:-120px -60px -60px 0; order:2; transform:rotate(-4deg)}
+/* по правке Босса — ещё крупнее на десктопе */
+.fin-card-photo{flex:0 0 auto; width:56%; max-width:620px; margin:-150px -80px -70px 0; order:2; transform:rotate(-4deg)}
 .fin-card-photo img{width:100%; height:auto; display:block; filter:drop-shadow(0 28px 46px rgba(28,24,21,.32))}
 
 /* ---------- команда ---------- */
@@ -578,7 +582,12 @@ body.menu-open{overflow:hidden}
 /* Figma (нода 1:4791): фрейм 745px высотой — было 620, контент вертикально
    центрирован в банере, не растянут впритык к содержимому */
 .final{position:relative; overflow:hidden; min-height:745px; display:flex; align-items:center}
-.final-bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+/* по правке Босса: исходник — почти пустое небо в левых 2/3 кадра, здание
+   и башня зажаты в правый нижний угол; при cover+center вся текстовая зона
+   слева читалась просто как плоская тёмная заливка. Зумим и смещаем кадр
+   к зданию, чтобы архитектура реально была видна за текстом, а не только
+   в дальнем правом крае */
+.final-bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:75% 70%; transform:scale(1.45); transform-origin:75% 70%}
 .final-shade{position:absolute; inset:0; background:linear-gradient(100deg, rgba(10,9,7,.72) 0%, rgba(10,9,7,.3) 55%, rgba(10,9,7,.15) 100%), rgba(10,9,7,.22)}
 /* width:100% обязателен — .final это flex-контейнер, а .container(.final-in) даёт
    только max-width, без него flex-child сжимается по контенту (тот же баг,
