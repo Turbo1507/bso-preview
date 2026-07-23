@@ -229,7 +229,11 @@ body.menu-open{overflow:hidden}
    БЕЗ transform (top:0/bottom:0 + margin:auto) — у элемента уже есть
    .reveal.in, который сам использует transform для анимации и полностью
    перебивает любой другой transform на том же элементе (не суммируется). */
-.loc-map{position:absolute; top:0; bottom:0; margin-block:auto; right:-2%; width:52%; max-width:640px; height:fit-content; pointer-events:none}
+/* Figma (get_node_info 1:4423 + скрин ноды): карта НЕ бьётся о правый край —
+   сидит с заметным отступом внутри фрейма. Прежний right:-2% (бленд наружу)
+   был угадан на глаз, не измерен, и .loc{overflow:hidden} реально обрезал
+   часть береговой линии — фикс: положительный inset вместо bleed-наружу */
+.loc-map{position:absolute; top:0; bottom:0; margin-block:auto; right:6%; width:52%; max-width:640px; height:fit-content; pointer-events:none}
 .loc-map img{width:100%; height:auto; display:block; filter:drop-shadow(0 12px 30px rgba(0,0,0,.35))}
 .loc-ocean{
   position:absolute; bottom:2%; right:12%;
@@ -516,6 +520,10 @@ body.menu-open{overflow:hidden}
 }
 .stat-card h3{font-size:30px; font-weight:500; color:var(--ink)}
 .stat-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.6); margin-top:16px}
+/* Figma (get_nodes_info, "0 мин"/"3 мин"/"20 мин"/"1 ч" — Frame 2147223224/225/226,
+   секция 09): эти значения Regular/400 24px, НЕ Medium/500 32px как у карточек
+   инвестиций (11) — общий .stat-card h3 был скопирован под обе секции один в один */
+.stat-grid-4 .stat-card h3{font-size:24px; font-weight:400}
 /* фото под карточками — увеличено по правке Босса (было 1239/466, плоская узкая лента) */
 .why-photo{border-radius:var(--r-lg); overflow:hidden; margin-top:var(--sp-lg); aspect-ratio:16/8; box-shadow:var(--shadow-card)}
 .why-photo img{width:100%; height:100%; object-fit:cover}
@@ -582,7 +590,9 @@ body.menu-open{overflow:hidden}
 .footer-brand .logo{color:var(--ink); font-size:22px}
 .footer-brand .logo b{color:var(--clay)}
 .footer-brand p{margin-top:18px; font-size:14px; line-height:1.5; color:rgba(58,58,58,.78); max-width:32ch}
-.footer-col h4{font-size:16px; margin-bottom:20px; color:var(--ink); font-weight:500; letter-spacing:0}
+/* Figma ("Меню"/"Важные ссылки"/"Адрес", frame 15): Regular/400 20px, не
+   Medium/500 16px как было — перепутано так же, как заголовки-стат Nuanu */
+.footer-col h4{font-size:20px; margin-bottom:20px; color:var(--ink); font-weight:400; letter-spacing:0}
 .footer-col a{display:block; font-size:14px; font-weight:300; color:rgba(58,58,58,.78); padding:7px 0; transition:color .2s, padding-left .2s}
 .footer-col a:hover{color:var(--clay); padding-left:4px}
 .footer-social{display:flex; gap:12px; align-self:start}
