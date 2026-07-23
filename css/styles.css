@@ -34,7 +34,10 @@
 
   --container: 1440px;
   --sp-xs: 8px; --sp-sm: 16px; --sp-md: 24px; --sp-lg: 40px;
-  --sp-xl: 64px; --sp-2xl: 88px; --sp-3xl: 104px;
+  /* по правке Босса: единый вертикальный ритм между секциями — 120px итого
+     (60 вниз от нижнего блока + 60 вверх от следующего), было 104 (итого 208,
+     неравномерно вперемешку с --sp-2xl=88 у .loc — тоже приведено к 60) */
+  --sp-xl: 64px; --sp-2xl: 60px; --sp-3xl: 60px;
 
   --shadow-card: 0 20px 50px -20px rgba(28,24,21,.18);
   --shadow-card-dark: 0 24px 60px -20px rgba(0,0,0,.55);
@@ -673,10 +676,12 @@ html.js .reveal.in{opacity:1; transform:none}
 }
 @media (max-width:860px){
   .container{padding:0 20px}
-  /* по правке Босса: между блоками на мобиле не больше 40px, было 88px сверху/снизу — вдвое зажат */
-  .section{padding:var(--sp-lg) 0}
-  .loc{padding:var(--sp-lg) 0}
-  .fin-section{padding-bottom:var(--sp-lg)}
+  /* мобильный ритм — вдвое компактнее десктопного 60/60 (единый 30/30=60 общий
+     везде, .loc/.fin-section раньше держали отдельный var(--sp-lg)=40 —
+     давало 70 вместо 60 на стыках с ними) */
+  .section{padding:30px 0}
+  .loc{padding:30px 0}
+  .fin-section{padding-bottom:30px}
   .carousel-arrow{display:none}
   .nuanu-pin-label{font-size:6.5px; line-height:1.1; max-width:62px}
   .nuanu-pins-svg ellipse{rx:.5; ry:1}
