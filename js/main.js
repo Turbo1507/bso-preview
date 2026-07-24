@@ -81,27 +81,30 @@ function wireCarousel(trackId, prevId, nextId, dotsId, step) {
 wireCarousel('featTrack', 'featPrev', 'featNext', 'featDots', 400);
 wireCarousel('stepsTrack', 'stepsPrev', 'stepsNext', 'stepsDots', 300);
 
-/* ---------- галерея фасада (блок 03): один слайд на весь кадр, листается
-   только стрелками — index-based transform, не scroll (в отличие от
-   feat-track/steps-track, тут ровно 1 фото видно за раз, без "ленты") ---------- */
+/* ---------- галерея фасада (блок 03): нативный scroll-snap (не transform по
+   индексу) — один слайд = 100% ширины трека, стрелки листают через scrollBy,
+   на мобиле стрелки спрятаны и то же самое доступно свайпом ---------- */
 function wireSlider(trackId, prevId, nextId, dotsId) {
   const track = document.getElementById(trackId);
   const prev = document.getElementById(prevId);
   const next = document.getElementById(nextId);
   const dotsWrap = document.getElementById(dotsId);
   if (!track) return;
-  const slides = Array.from(track.children);
   const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
-  let idx = 0;
-  function render() {
-    track.style.transform = `translateX(-${idx * 100}%)`;
-    if (prev) prev.disabled = idx === 0;
-    if (next) next.disabled = idx === slides.length - 1;
-    dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+  function sync() {
+    const max = track.scrollWidth - track.clientWidth;
+    if (prev) prev.disabled = track.scrollLeft <= 4;
+    if (next) next.disabled = track.scrollLeft >= max - 4;
+    if (dots.length) {
+      const idx = Math.round(track.scrollLeft / (track.clientWidth || 1));
+      dots.forEach((d, i) => d.classList.toggle('on', i === Math.min(idx, dots.length - 1)));
+    }
   }
-  prev && prev.addEventListener('click', () => { if (idx > 0) { idx--; render(); } });
-  next && next.addEventListener('click', () => { if (idx < slides.length - 1) { idx++; render(); } });
-  render();
+  prev && prev.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
+  next && next.addEventListener('click', () => track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }));
+  track.addEventListener('scroll', sync, { passive: true });
+  window.addEventListener('resize', sync);
+  sync();
 }
 wireSlider('minGalleryTrack', 'minGalleryPrev', 'minGalleryNext', 'minGalleryDots');
 
@@ -150,29 +153,32 @@ window.__bsoSyncNuanuPins = function (lang) {
 };
 
 /* ---------- планировки: верхние табы (правка Босса — раньше были слева) ---------- */
-/* ВНИМАНИЕ: в Figma-прототипе реальные цифры (площадь/вместимость) указаны
-   только для Studio. Для остальных форматов Босс их пока не давал —
-   НЕ придумывать, показывать честное "уточняется"/"TBD" до реальных данных.
-   Двуязычно: PLANS[lang][planId] — синхронизируется с setLang() через
-   window.__bsoSyncPlan (см. js/i18n.js). */
+/* Площадь — реальные цифры из официальной презентации bso-presentation_eng.pdf
+   (unitdeveloper.com/for-partners/black-sands-oasis/), таблица "MASTER PLAN OF
+   VILLAS" + отдельные слайды по каждому юниту, с них же взяты img (планировка,
+   кроп реального скана, не рисовано самостоятельно). Вместимость/"для кого" в
+   презентации не указаны по большинству форматов — НЕ придумывать, оставлять
+   честное "уточняется"/"TBD" до реальных данных (кроме Studio, где эти два
+   поля были заданы раньше). Двуязычно: PLANS[lang][planId] — синхронизируется
+   с setLang() через window.__bsoSyncPlan (см. js/i18n.js). */
 const PLANS = {
   ru: {
-    studio:  { name: 'Studio',   area: '25 м²',  cap: '5 чел.',  who: 'Один, пары' },
-    '1bd':   { name: '1BD',      area: 'Уточняется', cap: 'Уточняется', who: 'Уточняется' },
-    '1bdsky':{ name: '1BD SKY',  area: 'Уточняется', cap: 'Уточняется', who: 'Уточняется' },
-    '2bd':   { name: '2BD',      area: 'Уточняется', cap: 'Уточняется', who: 'Уточняется' },
-    '3bd':   { name: '3BD',      area: 'Уточняется', cap: 'Уточняется', who: 'Уточняется' },
-    '3bdsky':{ name: '3BD SKY',  area: 'Уточняется', cap: 'Уточняется', who: 'Уточняется' },
-    '4bd':   { name: '4BD',      area: 'Уточняется', cap: 'Уточняется', who: 'Уточняется' }
+    studio:  { name: 'Studio',   area: '31,2 м²',   cap: '5 чел.',  who: 'Один, пары', img: 'assets/plan-studio.png', alt: 'Планировка Studio' },
+    '1bd':   { name: '1BD',      area: '71,3 м²',   cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-1bd.png', alt: 'Планировка 1BD' },
+    '1bdsky':{ name: '1BD SKY',  area: '83,3 м²',   cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-1bdsky.png', alt: 'Планировка 1BD SKY' },
+    '2bd':   { name: '2BD',      area: '104,61 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-2bd.png', alt: 'Планировка 2BD' },
+    '3bd':   { name: '3BD',      area: '127,85 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-3bd.png', alt: 'Планировка 3BD' },
+    '3bdsky':{ name: '3BD SKY',  area: '136,51 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-3bdsky.png', alt: 'Планировка 3BD SKY' },
+    '4bd':   { name: '4BD',      area: '159,8 м²',  cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-4bd.png', alt: 'Планировка 4BD' }
   },
   en: {
-    studio:  { name: 'Studio',   area: '25 m²',  cap: '5 people', who: 'Single, couples' },
-    '1bd':   { name: '1BD',      area: 'TBD', cap: 'TBD', who: 'TBD' },
-    '1bdsky':{ name: '1BD SKY',  area: 'TBD', cap: 'TBD', who: 'TBD' },
-    '2bd':   { name: '2BD',      area: 'TBD', cap: 'TBD', who: 'TBD' },
-    '3bd':   { name: '3BD',      area: 'TBD', cap: 'TBD', who: 'TBD' },
-    '3bdsky':{ name: '3BD SKY',  area: 'TBD', cap: 'TBD', who: 'TBD' },
-    '4bd':   { name: '4BD',      area: 'TBD', cap: 'TBD', who: 'TBD' }
+    studio:  { name: 'Studio',   area: '31.2 m²',   cap: '5 people', who: 'Single, couples', img: 'assets/plan-studio.png', alt: 'Studio floor plan' },
+    '1bd':   { name: '1BD',      area: '71.3 m²',   cap: 'TBD', who: 'TBD', img: 'assets/plan-1bd.png', alt: '1BD floor plan' },
+    '1bdsky':{ name: '1BD SKY',  area: '83.3 m²',   cap: 'TBD', who: 'TBD', img: 'assets/plan-1bdsky.png', alt: '1BD SKY floor plan' },
+    '2bd':   { name: '2BD',      area: '104.61 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-2bd.png', alt: '2BD floor plan' },
+    '3bd':   { name: '3BD',      area: '127.85 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-3bd.png', alt: '3BD floor plan' },
+    '3bdsky':{ name: '3BD SKY',  area: '136.51 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-3bdsky.png', alt: '3BD SKY floor plan' },
+    '4bd':   { name: '4BD',      area: '159.8 m²',  cap: 'TBD', who: 'TBD', img: 'assets/plan-4bd.png', alt: '4BD floor plan' }
   }
 };
 const plansTabs = document.getElementById('plansTabs');
@@ -183,6 +189,8 @@ function renderPlan(planId, lang) {
   document.getElementById('planArea').textContent = p.area;
   document.getElementById('planCap').textContent = p.cap;
   document.getElementById('planWho').textContent = p.who;
+  const img = document.getElementById('planImg');
+  if (img) { img.src = p.img; img.alt = p.alt; }
 }
 if (plansTabs) {
   plansTabs.addEventListener('click', e => {
