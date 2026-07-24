@@ -23,7 +23,9 @@
   --clay: #9c4f20;         /* акцент — по прямому запросу Босса (было #ab6a41) */
   --clay-soft: #ba8463;    /* светлее — hover */
   --clay-active: #7d3f1a;  /* темнее — pressed/active, вместо серого/чёрного */
-  --muted: #948c7d;        /* второстепенный текст (описания карточек, теги) — тёплый эквивалент #b9b9b9 из Figma */
+  /* было #948c7d — контраст ~3.3:1 на белом, ниже WCAG AA (4.5:1) почти на
+     всём второстепенном тексте сайта; затемнено в том же оттенке до ~4.8:1 */
+  --muted: #787165;
 
   /* единая шкала скруглений — уменьшена по правке Босса (было 8/12/18/20 — слишком круглo) */
   --r-xs: 5px;   /* кнопки, теги, инсеты фото внутри карточек */
@@ -73,7 +75,9 @@ h1{font-size:clamp(64px,9.5vw,137px)}
 h2{font-size:clamp(32px,4.45vw,64px); text-wrap:balance}
 h3{font-size:24px}
 p{margin:0; line-height:1.1}
-.lead{font-size:clamp(17px,1.67vw,24px); color:rgba(58,58,58,.68); max-width:64ch; margin-top:var(--sp-md); line-height:1.1}
+/* .68 давал ~4.36:1 — чуть ниже WCAG AA (4.5), не было в списке аудита, но
+   та же причина; поднято до .72 */
+.lead{font-size:clamp(17px,1.67vw,24px); color:rgba(58,58,58,.72); max-width:64ch; margin-top:var(--sp-md); line-height:1.1}
 .lead.on-dark{color:rgba(255,255,255,.72)}
 .lead-sm{font-size:18px!important}
 /* для абзацев с явными <br> по разметке Figma — 64ch слишком узко, браузер
@@ -467,7 +471,7 @@ body.menu-open{overflow:hidden}
 .card-ic{width:40px; height:40px; color:var(--clay); display:block; margin-bottom:28px}
 .priv-card .kicker{display:block; margin-bottom:14px}
 .priv-card h3{margin-bottom:24px; font-size:20px}
-.priv-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.6)}
+.priv-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75)}
 
 /* ---------- планировки: ВЕРХНИЕ табы (правка Босса — было слева) ---------- */
 /* Сверка по Figma nodeId 1:4642: табы fontSize 20 (было 16), форма — скруглённый
@@ -481,7 +485,7 @@ body.menu-open{overflow:hidden}
 .plans-tabs{display:flex; flex-wrap:wrap; gap:10px; margin:var(--sp-lg) 0}
 .plans-tab{
   padding:15px 28px; border-radius:var(--r-xs); border:1px solid var(--line);
-  font-size:20px; font-weight:400; color:rgba(58,58,58,.6); transition:all .2s;
+  font-size:20px; font-weight:400; color:rgba(58,58,58,.75); transition:all .2s;
 }
 .plans-tab:not(.is-active):hover{border-color:var(--clay); color:var(--clay)}
 .plans-tab.is-active{background:var(--ink); border-color:var(--ink); color:var(--white)}
@@ -527,7 +531,7 @@ body.menu-open{overflow:hidden}
 /* по правке Босса: акцентный цвет для номера шага, а не нейтральный графит */
 .step-card .num{font-size:32px; font-weight:500; color:var(--clay)}
 .step-card h3{margin:28px 0 20px; font-size:20px}
-.step-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.6)}
+.step-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75)}
 
 /* ---------- инвестиции: 3 stat-карточки + фото ---------- */
 .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:var(--sp-lg)}
@@ -540,7 +544,7 @@ body.menu-open{overflow:hidden}
   border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:28px; background:transparent;
 }
 .stat-card h3{font-size:30px; font-weight:500; color:var(--ink)}
-.stat-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.6); margin-top:16px}
+.stat-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75); margin-top:16px}
 /* Figma (get_nodes_info, "0 мин"/"3 мин"/"20 мин"/"1 ч" — Frame 2147223224/225/226,
    секция 09): эти значения Regular/400 24px, НЕ Medium/500 32px как у карточек
    инвестиций (11) — общий .stat-card h3 был скопирован под обе секции один в один */
@@ -579,7 +583,7 @@ body.menu-open{overflow:hidden}
 .team-photo img{width:100%; height:100%; object-fit:cover}
 .team-role{font-size:16px; font-weight:300; color:var(--clay)}
 .team-card h3{margin:6px 0 12px; font-size:20px}
-.team-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.6)}
+.team-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75)}
 
 /* ---------- финальный CTA ---------- */
 /* Figma (нода 1:4791): фрейм 745px высотой — было 620, контент вертикально
