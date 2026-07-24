@@ -26,7 +26,7 @@ window.I18N = {
     "loc.cta": "Получить презентацию проекта",
     "loc.ocean": "Индийский океан",
     "arch.title": "Современный минимализм и восточная чувственность",
-    "arch.lead": "Виллы Black Sand Oasis<br>выполнены в едином архитектурном<br>стиле Desert Modernism",
+    "arch.lead": "Виллы Black Sands Oasis<br>выполнены в едином архитектурном<br>стиле Desert Modernism",
     "arch.tag1": "Большие окна в пол",
     "arch.tag2": "Натуральные материалы",
     "arch.tag3": "Природные оттенки",
