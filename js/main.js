@@ -81,6 +81,30 @@ function wireCarousel(trackId, prevId, nextId, dotsId, step) {
 wireCarousel('featTrack', 'featPrev', 'featNext', 'featDots', 400);
 wireCarousel('stepsTrack', 'stepsPrev', 'stepsNext', 'stepsDots', 300);
 
+/* ---------- галерея фасада (блок 03): один слайд на весь кадр, листается
+   только стрелками — index-based transform, не scroll (в отличие от
+   feat-track/steps-track, тут ровно 1 фото видно за раз, без "ленты") ---------- */
+function wireSlider(trackId, prevId, nextId, dotsId) {
+  const track = document.getElementById(trackId);
+  const prev = document.getElementById(prevId);
+  const next = document.getElementById(nextId);
+  const dotsWrap = document.getElementById(dotsId);
+  if (!track) return;
+  const slides = Array.from(track.children);
+  const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
+  let idx = 0;
+  function render() {
+    track.style.transform = `translateX(-${idx * 100}%)`;
+    if (prev) prev.disabled = idx === 0;
+    if (next) next.disabled = idx === slides.length - 1;
+    dots.forEach((d, i) => d.classList.toggle('on', i === idx));
+  }
+  prev && prev.addEventListener('click', () => { if (idx > 0) { idx--; render(); } });
+  next && next.addEventListener('click', () => { if (idx < slides.length - 1) { idx++; render(); } });
+  render();
+}
+wireSlider('minGalleryTrack', 'minGalleryPrev', 'minGalleryNext', 'minGalleryDots');
+
 /* ---------- пины инфраструктуры на мастер-плане Nuanu ---------- */
 /* координаты (%) сняты через get_nodes_info с Figma-фреймов "nuanu desk rus"
    (168:138) и "nuanu desk eng" (168:301), канал hdgz87wq. dot — позиция
