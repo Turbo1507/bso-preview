@@ -38,8 +38,9 @@
   --sp-xs: 8px; --sp-sm: 16px; --sp-md: 24px; --sp-lg: 40px;
   /* по правке Босса: единый вертикальный ритм между секциями — 120px итого
      (60 вниз от нижнего блока + 60 вверх от следующего), было 104 (итого 208,
-     неравномерно вперемешку с --sp-2xl=88 у .loc — тоже приведено к 60) */
-  --sp-xl: 64px; --sp-2xl: 60px; --sp-3xl: 60px;
+     неравномерно вперемешку с --sp-2xl=88 у .loc — тоже приведено к 60,
+     затем по правке Босса увеличено до 80/80=160 общий) */
+  --sp-xl: 64px; --sp-2xl: 80px; --sp-3xl: 80px;
 
   --shadow-card: 0 20px 50px -20px rgba(28,24,21,.18);
   --shadow-card-dark: 0 24px 60px -20px rgba(0,0,0,.55);
@@ -687,12 +688,11 @@ html.js .reveal.in{opacity:1; transform:none}
 }
 @media (max-width:860px){
   .container{padding:0 20px}
-  /* мобильный ритм — вдвое компактнее десктопного 60/60 (единый 30/30=60 общий
-     везде, .loc/.fin-section раньше держали отдельный var(--sp-lg)=40 —
-     давало 70 вместо 60 на стыках с ними) */
-  .section{padding:30px 0}
-  .loc{padding:30px 0}
-  .fin-section{padding-bottom:30px}
+  /* мобильный ритм — вдвое компактнее десктопного 80/80 (единый 40/40=80
+     общий везде) */
+  .section{padding:40px 0}
+  .loc{padding:40px 0}
+  .fin-section{padding-bottom:40px}
   .carousel-arrow{display:none}
   .nuanu-pin-label{font-size:6.5px; line-height:1.1; max-width:62px}
   /* .nuanu-caption не имел мобильного override вообще — 18px/min-width:220px
@@ -791,6 +791,10 @@ html.js .reveal.in{opacity:1; transform:none}
      (имя объекта визуально крупнее заголовка блока). Уменьшаем подпись ---------- */
   .signature-meta h3{font-size:24px}
   .signature-meta p{font-size:15px}
+  /* по правилу "внутренний отступ не больше отступа от края" — sp-xl(64)
+     превышал мобильный edge-паддинг секции (40px), не было override */
+  .signature-photo{margin-top:var(--sp-lg)}
+  .signature-chips{margin-top:var(--sp-lg)}
   .signature-chips span{font-size:14px; padding:8px 14px}
 
   /* ---------- инвестиции: карточки компактнее на мобиле, фото крупнее ---------- */
