@@ -47,6 +47,22 @@
   --ease: cubic-bezier(.22,.61,.36,1);
 }
 
+/* ---------- тема "моно" (служебная, для быстрого просмотра) ----------
+   Двухцветная: только текущий тёмный (--ink) + белый, акцентный терракотовый
+   --clay убран. На светлых секциях --clay→--ink (акцент = обычный тёмный
+   текст), --stone→белый. Отдельные места, где --clay используется НА тёмном
+   фоне (.signature/.plans-info — там --clay был "светлым пятном" на --ink),
+   переопределены в белый точечно ниже, иначе акцентный текст сливался бы
+   с фоном той же тёмной переменной. */
+html[data-theme="mono"]{
+  --clay: var(--ink); --clay-soft: var(--graphite); --clay-active: #000000;
+  --stone: var(--white); --line: #e4e4e4; --line-strong: #b0b0b0;
+}
+html[data-theme="mono"] .signature-meta h3,
+html[data-theme="mono"] .plans-stat-ic,
+html[data-theme="mono"] .btn-glass:hover{color:var(--white)}
+html[data-theme="mono"] .signature-meta h3{text-decoration-color:rgba(255,255,255,.4)}
+
 *{box-sizing:border-box}
 /* без этого переход по якорю (напр. #contacts) прижимал секцию впритык к
    верху, и фиксированная шапка перекрывала первую строку заголовка */
@@ -163,9 +179,13 @@ p{margin:0; line-height:1.1}
 .lang button.is-active{color:var(--white)}
 .lang button:hover{color:var(--clay-soft)}
 .lang span{color:rgba(255,255,255,.3); font-size:12px}
-.site-header.is-solid .lang button{color:rgba(28,24,21,.45)}
-.site-header.is-solid .lang button.is-active{color:var(--ink)}
-.site-header.is-solid .lang span{color:rgba(28,24,21,.25)}
+/* по правке Босса: .is-solid тёмный ТОЛЬКО на десктопе (мобильный вариант
+   светлый, см. мобильный override) — тёмный текст был жёстко задан без
+   привязки к брейкпоинту и на десктопе гас на тёмном фоне (тёмное на
+   тёмном). Оставляем белым, только чуть тише непрозрачностью */
+.site-header.is-solid .lang button{color:rgba(255,255,255,.55)}
+.site-header.is-solid .lang button.is-active{color:var(--white)}
+.site-header.is-solid .lang span{color:rgba(255,255,255,.3)}
 .menu-lang{margin-top:24px; font-size:16px}
 .menu-lang button{color:rgba(28,24,21,.45)}
 .menu-lang button.is-active{color:var(--ink)}
@@ -368,6 +388,7 @@ body.menu-open{overflow:hidden}
    (1060x530, тоже 2/1) — без этого object-fit:cover подрезал кадр и все
    проценты пинов (снятые с координат Figma-нод) уезжали мимо целей. */
 .nuanu-photo{position:relative; aspect-ratio:1600/800; border-radius:var(--r-xs); overflow:hidden; margin-top:var(--sp-lg)}
+.nuanu-photo picture{display:block; width:100%; height:100%}
 .nuanu-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 50%}
 .nuanu-badge{
   position:absolute; padding:11px 20px; border-radius:var(--r-xs);
@@ -487,11 +508,19 @@ body.menu-open{overflow:hidden}
 .plans-viewer{position:relative; aspect-ratio:600/478; background:var(--ink); display:flex; align-items:center; justify-content:center; padding:24px}
 /* по правке Босса: планы у каждого юнита были в своём цвете (бежевый/жёлтый/
    зелёный/розовый — со скана презентации), разнобой смотрелся неряшливо.
-   grayscale убирает цвет, mix-blend-mode:multiply "растворяет" светлую
-   подложку скана в var(--ink) позади (тёмное остаётся тёмным, белое фона
-   плана становится цветом панели, а не режет глаз отдельным прямоугольником) */
-.plans-viewer img{max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; filter:grayscale(1); mix-blend-mode:multiply}
+   Затем чистый grayscale без блендинга: план остаётся белым прямоугольником
+   на тёмной панели — стилистически инородно (правка Босса: "планировки и
+   фон разнятся по стилю"). Решение: invert переворачивает скан в тёмный фон
+   + белые линии (вид чертежа), mix-blend-mode:screen "растворяет" именно
+   тёмный фон плана в var(--ink) позади (чёрное не даёт вклада при screen),
+   а белые линии остаются яркими и читаемыми — в отличие от multiply на
+   тёмной подложке (тот крушил линии в чёрный, см. историю правок) */
+.plans-viewer img{max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; filter:grayscale(1) invert(1) brightness(1.1); mix-blend-mode:screen}
 .plans-info{padding:50px; display:flex; flex-direction:column; gap:var(--sp-lg)}
+/* реальный интерьерный рендер по типу виллы (из презентации) — карточка
+   между статами и кнопкой, тот же радиус/пропорции что у карточек сайта */
+.plans-photo{border-radius:var(--r-xs); overflow:hidden; aspect-ratio:16/10}
+.plans-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 15%}
 .plans-info h3{font-size:28px; color:var(--white); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(156,79,32,.5)}
 /* иконки площади/вместимости/для кого — по контексту (правка Босса) */
 .plans-stat{display:flex; align-items:center; gap:14px; border-top:1px solid rgba(255,255,255,.15); padding-top:14px}
@@ -646,6 +675,16 @@ body.menu-open{overflow:hidden}
   margin-top:var(--sp-xl); padding-top:var(--sp-md); border-top:1px solid var(--line);
   font-size:14px; color:rgba(58,58,58,.78);
 }
+/* переключатель темы — служебный, не для клиентов: нарочно без стилизации
+   под остальной сайт (моноширинный, серый) — сразу видно, что это техничка */
+.theme-switch{display:flex; gap:1px; font-family:monospace; font-size:11px; margin-left:auto}
+.theme-switch button{
+  padding:4px 9px; border:1px solid #999; background:#eee; color:#666;
+  border-radius:0;
+}
+.theme-switch button:first-child{border-radius:3px 0 0 3px}
+.theme-switch button:last-child{border-radius:0 3px 3px 0; border-left:0}
+.theme-switch button.is-active{background:#333; color:#fff; border-color:#333}
 
 /* ---------- reveal ---------- */
 /* .reveal прячется ТОЛЬКО если html.js стоит (см. инлайн-скрипт в head index.html,
@@ -691,7 +730,19 @@ html.js .reveal.in{opacity:1; transform:none}
   .nuanu-pins-svg ellipse{rx:.5; ry:1}
   .nuanu-pins-svg line{stroke-width:.8}
   .nuanu-badge{font-size:10px; padding:7px 12px}
-  .nuanu-badge--usc{font-size:9px}
+  /* мобильное фото — отдельный кроп из Figma-фрейма "nuanu mob rus" (174:81,
+     280x289, канал p5olkt4g), не десктопные 1600x800 — иные пропорции кадра */
+  .nuanu-photo{aspect-ratio:280/289}
+  /* пины-точки с линиями сняты с координат ДЕСКТОПНОГО фрейма (174:3) — на
+     мобильном кропе они укажут в случайные места, поэтому на мобиле скрыты;
+     в самом Figma-мобильном фрейме это не dot+line пины, а плоские подписи
+     в другой раскладке — отдельная задача, не подменяем угадыванием */
+  .nuanu-pins{display:none}
+  /* USC-пин в мобильном Figma-фрейме (174:81) отсутствует — на мобиле убран */
+  .nuanu-badge--usc{display:none}
+  /* координаты BSO-бейджа сняты с фрейма "nuanu mob rus" (card 174:119,
+     x20 y40 w89 h17 из 280x289) — центр 64.5/280=23.04%, 48.5/289=16.78% */
+  .nuanu-badge--bso{left:23.04%; top:16.78%}
   .site-footer{padding-top:var(--sp-lg)}
   .nav, .header-cta .btn-ghost{display:none}
   .burger{display:flex}
@@ -701,6 +752,12 @@ html.js .reveal.in{opacity:1; transform:none}
   .site-header.is-solid{background:rgba(255,255,255,.96); box-shadow:0 4px 20px rgba(0,0,0,.08)}
   .site-header.is-solid .logo b{color:var(--ink)}
   .site-header.is-solid .burger span{background:var(--ink)}
+  /* мобильный is-solid светлый (в отличие от тёмного десктопного) — RU/EN
+     переключатель тоже нужен тёмным здесь, иначе белый текст с базового
+     правила сольётся со светлым фоном */
+  .site-header.is-solid .lang button{color:rgba(28,24,21,.45)}
+  .site-header.is-solid .lang button.is-active{color:var(--ink)}
+  .site-header.is-solid .lang span{color:rgba(28,24,21,.25)}
   .hero{height:100svh; min-height:560px}
   .min-foot{flex-direction:column; gap:var(--sp-sm)}
   .min-foot p{font-size:14px; max-width:none}

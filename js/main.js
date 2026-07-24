@@ -161,24 +161,28 @@ window.__bsoSyncNuanuPins = function (lang) {
    честное "уточняется"/"TBD" до реальных данных (кроме Studio, где эти два
    поля были заданы раньше). Двуязычно: PLANS[lang][planId] — синхронизируется
    с setLang() через window.__bsoSyncPlan (см. js/i18n.js). */
+/* photo/photoAlt — реальные интерьерные рендеры по типам, вырезаны из
+   презентации (bso-presentation_eng.pdf, стр. 31/33/35/37/39/41/43 —
+   1:1 соответствие с материалом Figma "МАТЕРИАЛ ДЛЯ ЗАПОЛНЕНИЯ..."), не
+   стоковые/придуманные фото */
 const PLANS = {
   ru: {
-    studio:  { name: 'Studio',   area: '31,2 м²',   cap: '5 чел.',  who: 'Один, пары', img: 'assets/plan-studio.png', alt: 'Планировка Studio' },
-    '1bd':   { name: '1BD',      area: '71,3 м²',   cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-1bd.png', alt: 'Планировка 1BD' },
-    '1bdsky':{ name: '1BD SKY',  area: '83,3 м²',   cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-1bdsky.png', alt: 'Планировка 1BD SKY' },
-    '2bd':   { name: '2BD',      area: '104,61 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-2bd.png', alt: 'Планировка 2BD' },
-    '3bd':   { name: '3BD',      area: '127,85 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-3bd.png', alt: 'Планировка 3BD' },
-    '3bdsky':{ name: '3BD SKY',  area: '136,51 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-3bdsky.png', alt: 'Планировка 3BD SKY' },
-    '4bd':   { name: '4BD',      area: '159,8 м²',  cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-4bd.png', alt: 'Планировка 4BD' }
+    studio:  { name: 'Studio',   area: '31,2 м²',   cap: '5 чел.',  who: 'Один, пары', img: 'assets/plan-studio.png', alt: 'Планировка Studio', photo: 'assets/villa-studio.jpg', photoAlt: 'Интерьер виллы Studio' },
+    '1bd':   { name: '1BD',      area: '71,3 м²',   cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-1bd.png', alt: 'Планировка 1BD', photo: 'assets/villa-1bd.jpg', photoAlt: 'Интерьер виллы 1BD' },
+    '1bdsky':{ name: '1BD SKY',  area: '83,3 м²',   cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-1bdsky.png', alt: 'Планировка 1BD SKY', photo: 'assets/villa-1bdsky.jpg', photoAlt: 'Интерьер виллы 1BD SKY' },
+    '2bd':   { name: '2BD',      area: '104,61 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-2bd.png', alt: 'Планировка 2BD', photo: 'assets/villa-2bd.jpg', photoAlt: 'Интерьер виллы 2BD' },
+    '3bd':   { name: '3BD',      area: '127,85 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-3bd.png', alt: 'Планировка 3BD', photo: 'assets/villa-3bd.jpg', photoAlt: 'Интерьер виллы 3BD' },
+    '3bdsky':{ name: '3BD SKY',  area: '136,51 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-3bdsky.png', alt: 'Планировка 3BD SKY', photo: 'assets/villa-3bdsky.jpg', photoAlt: 'Интерьер виллы 3BD SKY' },
+    '4bd':   { name: '4BD',      area: '159,8 м²',  cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-4bd.png', alt: 'Планировка 4BD', photo: 'assets/villa-4bd.jpg', photoAlt: 'Интерьер виллы 4BD' }
   },
   en: {
-    studio:  { name: 'Studio',   area: '31.2 m²',   cap: '5 people', who: 'Single, couples', img: 'assets/plan-studio.png', alt: 'Studio floor plan' },
-    '1bd':   { name: '1BD',      area: '71.3 m²',   cap: 'TBD', who: 'TBD', img: 'assets/plan-1bd.png', alt: '1BD floor plan' },
-    '1bdsky':{ name: '1BD SKY',  area: '83.3 m²',   cap: 'TBD', who: 'TBD', img: 'assets/plan-1bdsky.png', alt: '1BD SKY floor plan' },
-    '2bd':   { name: '2BD',      area: '104.61 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-2bd.png', alt: '2BD floor plan' },
-    '3bd':   { name: '3BD',      area: '127.85 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-3bd.png', alt: '3BD floor plan' },
-    '3bdsky':{ name: '3BD SKY',  area: '136.51 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-3bdsky.png', alt: '3BD SKY floor plan' },
-    '4bd':   { name: '4BD',      area: '159.8 m²',  cap: 'TBD', who: 'TBD', img: 'assets/plan-4bd.png', alt: '4BD floor plan' }
+    studio:  { name: 'Studio',   area: '31.2 m²',   cap: '5 people', who: 'Single, couples', img: 'assets/plan-studio.png', alt: 'Studio floor plan', photo: 'assets/villa-studio.jpg', photoAlt: 'Studio villa interior' },
+    '1bd':   { name: '1BD',      area: '71.3 m²',   cap: 'TBD', who: 'TBD', img: 'assets/plan-1bd.png', alt: '1BD floor plan', photo: 'assets/villa-1bd.jpg', photoAlt: '1BD villa interior' },
+    '1bdsky':{ name: '1BD SKY',  area: '83.3 m²',   cap: 'TBD', who: 'TBD', img: 'assets/plan-1bdsky.png', alt: '1BD SKY floor plan', photo: 'assets/villa-1bdsky.jpg', photoAlt: '1BD SKY villa interior' },
+    '2bd':   { name: '2BD',      area: '104.61 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-2bd.png', alt: '2BD floor plan', photo: 'assets/villa-2bd.jpg', photoAlt: '2BD villa interior' },
+    '3bd':   { name: '3BD',      area: '127.85 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-3bd.png', alt: '3BD floor plan', photo: 'assets/villa-3bd.jpg', photoAlt: '3BD villa interior' },
+    '3bdsky':{ name: '3BD SKY',  area: '136.51 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-3bdsky.png', alt: '3BD SKY floor plan', photo: 'assets/villa-3bdsky.jpg', photoAlt: '3BD SKY villa interior' },
+    '4bd':   { name: '4BD',      area: '159.8 m²',  cap: 'TBD', who: 'TBD', img: 'assets/plan-4bd.png', alt: '4BD floor plan', photo: 'assets/villa-4bd.jpg', photoAlt: '4BD villa interior' }
   }
 };
 const plansTabs = document.getElementById('plansTabs');
@@ -191,6 +195,8 @@ function renderPlan(planId, lang) {
   document.getElementById('planWho').textContent = p.who;
   const img = document.getElementById('planImg');
   if (img) { img.src = p.img; img.alt = p.alt; }
+  const photo = document.getElementById('planPhoto');
+  if (photo) { photo.src = p.photo; photo.alt = p.photoAlt; }
 }
 if (plansTabs) {
   plansTabs.addEventListener('click', e => {
@@ -222,4 +228,25 @@ if (window.setLang) {
   let initialLang = 'ru';
   try { initialLang = localStorage.getItem('bso_lang') || 'ru'; } catch (e) {}
   window.setLang(initialLang);
+}
+
+/* ---------- переключатель темы (служебный, не для клиентов) ---------- */
+const themeSwitch = document.getElementById('themeSwitch');
+if (themeSwitch) {
+  const buttons = themeSwitch.querySelectorAll('[data-theme-btn]');
+  const applyTheme = (theme) => {
+    if (theme === 'mono') document.documentElement.setAttribute('data-theme', 'mono');
+    else document.documentElement.removeAttribute('data-theme');
+    buttons.forEach(b => b.classList.toggle('is-active', b.dataset.themeBtn === theme));
+  };
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const theme = btn.dataset.themeBtn;
+      try { localStorage.setItem('bsoTheme', theme); } catch (e) {}
+      applyTheme(theme);
+    });
+  });
+  let savedTheme = 'default';
+  try { savedTheme = localStorage.getItem('bsoTheme') || 'default'; } catch (e) {}
+  applyTheme(savedTheme);
 }
