@@ -428,7 +428,7 @@ body.menu-open{overflow:hidden}
 .signature-photo{border-radius:var(--r-lg); overflow:hidden; aspect-ratio:620/327; margin-top:var(--sp-xl); box-shadow:var(--shadow-card-dark)}
 .signature-photo img{width:100%; height:100%; object-fit:cover}
 .signature-meta{display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--sp-md); margin-top:var(--sp-lg)}
-.signature-meta h3{font-size:36px; color:var(--clay); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(171,106,65,.4)}
+.signature-meta h3{font-size:36px; color:var(--clay); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(156,79,32,.4)}
 /* max-width в px (449, замерено в Figma), не 36ch — с явными <br> нужно
    достаточно места под самую длинную строку, иначе браузер перенесёт её ещё раз */
 .signature-meta p{font-size:18px; color:rgba(255,255,255,.65); max-width:460px}
@@ -496,7 +496,7 @@ body.menu-open{overflow:hidden}
 .plans-dots span{width:8px; height:8px; border-radius:50%; background:rgba(58,53,47,.25)}
 .plans-dots span.on{background:rgba(58,53,47,.5)}
 .plans-info{padding:50px; display:flex; flex-direction:column; gap:var(--sp-lg)}
-.plans-info h3{font-size:28px; color:var(--white); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(171,106,65,.5)}
+.plans-info h3{font-size:28px; color:var(--white); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(156,79,32,.5)}
 /* иконки площади/вместимости/для кого — по контексту (правка Босса) */
 .plans-stat{display:flex; align-items:center; gap:14px; border-top:1px solid rgba(255,255,255,.15); padding-top:14px}
 .plans-stat-ic{width:22px; height:22px; color:var(--clay-soft); flex-shrink:0}
