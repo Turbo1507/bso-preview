@@ -258,7 +258,13 @@ body.menu-open{overflow:hidden}
    контейнера — поэтому ширины 279/325/277/278 переведены в ПРОПОРЦИИ
    (flex-grow), а не взяты как абсолютные px: сумма растягивается на 100%
    ширины, относительное соотношение пилюль друг к другу сохранено 1:1 */
-.min-tags{display:flex; flex-wrap:nowrap; gap:27px; margin:var(--sp-lg) 0}
+/* flex-wrap:wrap (не nowrap) — на широких экранах (>~1290 RU/1145 EN) 4
+   пилюли и так помещаются в один ряд за счёт flex-grow ниже, но между этим
+   и мобильным грид-брейкпоинтом (860px) их суммарный min-content (nowrap-
+   текст) шире контейнера — при nowrap-РЯДА (не путать с nowrap-текстом
+   внутри пилюли, он остаётся) это тихо обрезалось overflow-x:hidden на
+   body, а не переносилось. wrap просто пускает лишние пилюли на 2-ю строку */
+.min-tags{display:flex; flex-wrap:wrap; gap:27px; margin:var(--sp-lg) 0}
 /* Figma (Frame 24-27, ноды 1:4441 и т.д.): пилюли — скруглённый прямоугольник radius 8
    (не pill), font-size 20, паддинг 45px по бокам И 20px сверху/снизу (перепроверено
    get_nodes_info: frame height 54 = 20+14(текст)+20, было ошибочно 15/15),
@@ -688,6 +694,9 @@ html.js .reveal.in{opacity:1; transform:none}
   .fin-section{padding-bottom:30px}
   .carousel-arrow{display:none}
   .nuanu-pin-label{font-size:6.5px; line-height:1.1; max-width:62px}
+  /* .nuanu-caption не имел мобильного override вообще — 18px/min-width:220px
+     на фото шириной ~350px перекрывали карту целиком (2/3 ширины фото) */
+  .nuanu-caption{font-size:10px; width:40%; min-width:130px}
   .nuanu-pins-svg ellipse{rx:.5; ry:1}
   .nuanu-pins-svg line{stroke-width:.8}
   .nuanu-badge{font-size:10px; padding:7px 12px}
