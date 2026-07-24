@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>document.documentElement.classList.add('js')</script>
+<script>try{var t=localStorage.getItem('bsoTheme');if(t==='mono')document.documentElement.setAttribute('data-theme','mono')}catch(e){}</script>
 <title data-i18n="meta.title">Black Sands Oasis — флагманский проект UNIT в Nuanu, Бали</title>
 <meta name="description" data-i18n-content="meta.desc" content="Black Sands Oasis — камерные виллы в стиле Desert Modernism внутри города будущего Nuanu на западном побережье Бали.">
 <link rel="stylesheet" href="css/styles.css">
@@ -151,7 +152,10 @@
     <p class="lead lead-wide reveal" data-i18n="nuanu.lead">Комплекс расположен в кластере Nuanu площадью 45 гектаров на берегу океана<br>с единым мастер-планом и городской инфраструктурой нового поколения</p>
     <!-- Figma 1:4513: фото (с бейджем и подписью НА фото) идёт ПЕРЕД карточками расстояний, не после -->
     <div class="nuanu-photo reveal">
-      <img src="assets/nuanu-masterplan.jpg" alt="Мастер-план Nuanu с расположением Black Sands Oasis" data-i18n-alt="nuanu.photo_alt">
+      <picture>
+        <source media="(max-width:860px)" srcset="assets/nuanu-masterplan-mobile.jpg">
+        <img src="assets/nuanu-masterplan.jpg" alt="Мастер-план Nuanu с расположением Black Sands Oasis" data-i18n-alt="nuanu.photo_alt">
+      </picture>
       <div class="nuanu-pins" id="nuanuPins" aria-hidden="true"></div>
       <span class="nuanu-badge nuanu-badge--bso">BLACK SANDS OASIS</span>
       <span class="nuanu-badge nuanu-badge--usc" data-i18n="nuanu.usc_badge">UNIT SPACE CITY</span>
@@ -245,6 +249,9 @@
         <div class="plans-stat">
           <svg class="plans-stat-ic" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" fill="currentColor"/><path fill="currentColor" d="M4 22c0-4.42 3.58-8 8-8s8 3.58 8 8H4z"/></svg>
           <div><div class="k" data-i18n="plans.who_label">Для кого</div><div class="v" id="planWho">Один, пары</div></div>
+        </div>
+        <div class="plans-photo">
+          <img id="planPhoto" src="assets/villa-studio.jpg" alt="Интерьер виллы Studio" loading="lazy">
         </div>
         <a class="btn btn-glass" href="#contacts" data-i18n="plans.cta">Приобрести</a>
       </div>
@@ -383,7 +390,12 @@
   <div class="container footer-bottom">
     <span>Made with ♥ by UNIT. team</span>
     <span>© 2026 unit.now · <a href="consent.html" style="display:inline">Privacy Policy</a></span>
-  </div>
+      <!-- служебный переключатель темы — не для клиентов, для быстрого просмотра -->
+    <div class="theme-switch" id="themeSwitch" aria-label="Тема (служебное)">
+      <button type="button" data-theme-btn="default" class="is-active">Цвет</button>
+      <button type="button" data-theme-btn="mono">Моно</button>
+    </div>
+</div>
 </footer>
 
 <!-- ===== MOBILE CTA ===== -->
