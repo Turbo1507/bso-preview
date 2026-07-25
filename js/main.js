@@ -175,7 +175,7 @@ const PLANS = {
     '2bd':    { name: '2BD', area: '104,61 м²', cap: 'Уточняется', who: 'Уточняется', photos: ['assets/plan-2bd.png','assets/villa-2bd-detail1.jpg','assets/villa-2bd-detail2.jpg','assets/villa-2bd-detail3.jpg'], photoAlts: ['Планировка 2BD','Интерьер виллы 2BD','Интерьер виллы 2BD','Интерьер виллы 2BD'] },
     '3bd':    { name: '3BD', area: '127,85 м²', cap: 'Уточняется', who: 'Уточняется', photos: ['assets/plan-3bd.png','assets/villa-3bd-detail1.jpg','assets/villa-3bd-detail2.jpg','assets/villa-3bd-detail3.jpg'], photoAlts: ['Планировка 3BD','Интерьер виллы 3BD','Интерьер виллы 3BD','Интерьер виллы 3BD'] },
     '3bdsky': { name: '3BD SKY', area: '136,51 м²', cap: 'Уточняется', who: 'Уточняется', photos: ['assets/plan-3bdsky.png','assets/villa-3bdsky-detail1.jpg','assets/villa-3bdsky-detail2.jpg','assets/villa-3bdsky-detail3.jpg'], photoAlts: ['Планировка 3BD SKY','Интерьер виллы 3BD SKY','Интерьер виллы 3BD SKY','Интерьер виллы 3BD SKY'] },
-    '4bd':    { name: '4BD', area: '159,8 м²', cap: 'Уточняется', who: 'Уточняется', photos: ['assets/plan-4bd.png','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg'], photoAlts: ['Планировка 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD'] },
+    '4bd':    { name: '4BD', area: '159,8 м²', cap: 'Уточняется', who: 'Уточняется', photos: ['assets/plan-4bd.png','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd-detail4.jpg'], photoAlts: ['Планировка 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD'] },
   },
   en: {
     studio:   { name: 'Studio', area: '31.2 m²', cap: '5 people', who: 'Single, couples', photos: ['assets/plan-studio.png','assets/villa-studio-detail1.jpg','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg'], photoAlts: ['Studio floor plan','Studio villa interior','Studio villa interior','Studio villa interior'] },
@@ -184,7 +184,7 @@ const PLANS = {
     '2bd':    { name: '2BD', area: '104.61 m²', cap: 'TBD', who: 'TBD', photos: ['assets/plan-2bd.png','assets/villa-2bd-detail1.jpg','assets/villa-2bd-detail2.jpg','assets/villa-2bd-detail3.jpg'], photoAlts: ['2BD floor plan','2BD villa interior','2BD villa interior','2BD villa interior'] },
     '3bd':    { name: '3BD', area: '127.85 m²', cap: 'TBD', who: 'TBD', photos: ['assets/plan-3bd.png','assets/villa-3bd-detail1.jpg','assets/villa-3bd-detail2.jpg','assets/villa-3bd-detail3.jpg'], photoAlts: ['3BD floor plan','3BD villa interior','3BD villa interior','3BD villa interior'] },
     '3bdsky': { name: '3BD SKY', area: '136.51 m²', cap: 'TBD', who: 'TBD', photos: ['assets/plan-3bdsky.png','assets/villa-3bdsky-detail1.jpg','assets/villa-3bdsky-detail2.jpg','assets/villa-3bdsky-detail3.jpg'], photoAlts: ['3BD SKY floor plan','3BD SKY villa interior','3BD SKY villa interior','3BD SKY villa interior'] },
-    '4bd':    { name: '4BD', area: '159.8 m²', cap: 'TBD', who: 'TBD', photos: ['assets/plan-4bd.png','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg'], photoAlts: ['4BD floor plan','4BD villa interior','4BD villa interior','4BD villa interior'] },
+    '4bd':    { name: '4BD', area: '159.8 m²', cap: 'TBD', who: 'TBD', photos: ['assets/plan-4bd.png','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd-detail4.jpg'], photoAlts: ['4BD floor plan','4BD villa interior','4BD villa interior','4BD villa interior','4BD villa interior'] },
   }
 };
 const plansTabs = document.getElementById('plansTabs');
@@ -195,12 +195,25 @@ function renderPlan(planId, lang) {
   document.getElementById('planArea').textContent = p.area;
   document.getElementById('planCap').textContent = p.cap;
   document.getElementById('planWho').textContent = p.who;
-  const photoImgs = document.querySelectorAll('#plansPhotoTrack .plan-photo-img');
-  photoImgs.forEach((el, i) => {
-    if (p.photos[i]) { el.src = p.photos[i]; el.alt = p.photoAlts[i]; }
-  });
+  /* число фото разное по типам (3 у большинства, 4 у 4BD) — слайды-фото
+     пересобираются каждый раз, план (первый слайд) остаётся на месте */
   const track = document.getElementById('plansPhotoTrack');
-  if (track) { track.scrollLeft = 0; plansPhotoSlider && plansPhotoSlider.sync(); }
+  const planImg = document.getElementById('planImg');
+  if (planImg) { planImg.src = p.photos[0]; planImg.alt = p.photoAlts[0]; }
+  track.querySelectorAll('.plans-viewer-slide:not(.plans-viewer-slide--plan)').forEach(el => el.remove());
+  for (let i = 1; i < p.photos.length; i++) {
+    const slide = document.createElement('div');
+    slide.className = 'plans-viewer-slide';
+    const img = document.createElement('img');
+    img.className = 'plan-photo-img';
+    img.loading = 'lazy';
+    img.src = p.photos[i];
+    img.alt = p.photoAlts[i];
+    slide.appendChild(img);
+    track.appendChild(slide);
+  }
+  track.scrollLeft = 0;
+  plansPhotoSlider && plansPhotoSlider.sync();
 }
 if (plansTabs) {
   plansTabs.addEventListener('click', e => {
