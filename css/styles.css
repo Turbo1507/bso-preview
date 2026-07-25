@@ -298,9 +298,21 @@ body.menu-open{overflow:hidden}
 .min-gallery-track::-webkit-scrollbar{display:none}
 .min-gallery-slide{flex:0 0 100%; height:100%; scroll-snap-align:start}
 .min-gallery-slide img{width:100%; height:100%; object-fit:cover; display:block}
-.min-gallery-arrow{position:absolute; top:50%; transform:translateY(-50%); z-index:2}
-.min-gallery-arrow.prev{left:20px}
-.min-gallery-arrow.next{right:20px}
+/* по правке Босса: не кнопка-рамка, а простой шеврон без фона/рамки —
+   кликабельная зона тянется на половину фото (жмёшь в любом месте справа —
+   вперёд, слева — назад), а не только по маленькой иконке */
+.min-gallery-arrow{
+  position:absolute; top:0; bottom:0; width:42%; z-index:2;
+  display:flex; align-items:center; background:none; border:0; padding:0; margin:0;
+  cursor:pointer; color:rgba(255,255,255,.85);
+  filter:drop-shadow(0 1px 4px rgba(0,0,0,.55));
+  transition:color .2s;
+}
+.min-gallery-arrow.prev{left:0; justify-content:flex-start; padding-left:24px}
+.min-gallery-arrow.next{right:0; justify-content:flex-end; padding-right:24px}
+.min-gallery-arrow svg{width:30px; height:30px}
+.min-gallery-arrow:hover:not(:disabled){color:var(--white)}
+.min-gallery-arrow:disabled{opacity:0; pointer-events:none}
 /* по правке Босса — компактнее и элегантнее: активная точка вытягивается в
    тонкий "прогресс-бар" вместо простого укрупнения кружка */
 .min-gallery-dots{position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:5px; z-index:2}
@@ -410,10 +422,6 @@ body.menu-open{overflow:hidden}
 .nuanu-badge--bso{
   left:21.23%; top:15.09%;
   background:rgba(58,53,47,.15); border:1px solid rgba(255,255,255,.9);
-}
-.nuanu-badge--usc{
-  left:80%; top:13.21%;
-  background:var(--white); color:var(--graphite); font-size:13px; letter-spacing:0; text-transform:none; font-weight:500;
 }
 .nuanu-caption{
   position:absolute; bottom:8%; right:5%; width:26%; min-width:220px;
@@ -741,8 +749,6 @@ html.js .reveal.in{opacity:1; transform:none}
      в самом Figma-мобильном фрейме это не dot+line пины, а плоские подписи
      в другой раскладке — отдельная задача, не подменяем угадыванием */
   .nuanu-pins{display:none}
-  /* USC-пин в мобильном Figma-фрейме (174:81) отсутствует — на мобиле убран */
-  .nuanu-badge--usc{display:none}
   /* координаты BSO-бейджа сняты с фрейма "nuanu mob rus" (card 174:119,
      x20 y40 w89 h17 из 280x289) — центр 64.5/280=23.04%, 48.5/289=16.78% */
   .nuanu-badge--bso{left:23.04%; top:16.78%}
