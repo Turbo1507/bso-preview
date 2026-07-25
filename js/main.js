@@ -206,7 +206,6 @@ function renderPlan(planId, lang) {
     slide.className = 'plans-viewer-slide';
     const img = document.createElement('img');
     img.className = 'plan-photo-img';
-    img.loading = 'lazy';
     img.src = p.photos[i];
     img.alt = p.photoAlts[i];
     slide.appendChild(img);
