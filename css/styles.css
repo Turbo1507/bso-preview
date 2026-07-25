@@ -230,7 +230,7 @@ body.menu-open{overflow:hidden}
 .hero-title{color:var(--white); max-width:14ch}
 /* Figma (1:4421): узкая колонка ~265px (не широкий lead на всю ширину), отступ
    от заголовка 50px (замерено между низом h1 и верхом абзаца, не sp-md/24px) */
-.hero-sub{color:rgba(255,255,255,.8); font-size:16px; font-weight:300; max-width:31ch; margin-top:50px; line-height:1}
+.hero-sub{color:rgba(255,255,255,.8); font-size:16px; font-weight:400; max-width:31ch; margin-top:50px; line-height:1}
 .hero-scroll{position:absolute; bottom:36px; left:40px; z-index:2; color:rgba(255,255,255,.6); font-size:12px; letter-spacing:.08em; text-transform:uppercase}
 .hero-in .btn-row{margin-top:var(--sp-lg)}
 
