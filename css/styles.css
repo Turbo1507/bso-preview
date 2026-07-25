@@ -543,7 +543,12 @@ body.menu-open{overflow:hidden}
    кадр (видно было только стену+штору, кровать/ванна обрезались). contain
    на тёмном фоне панели — фото целиком, тёмный паспарту сверху/снизу вместо
    уродливого кропа */
-.plans-viewer-slide img{position:absolute; inset:0; width:100%; height:100%; object-fit:contain; object-position:50% 50%; display:block}
+/* по правке Босса: фото должны заполнять всю область без полей — cover, а
+   не contain. object-position у каждого фото подобран вручную (не 50/50
+   бланкетно), чтобы в кадре оставался интересный объект (вилла/кровать/
+   бассейн), а не срезанное в никуда небо/потолок — задаётся инлайн через
+   JS из PLANS[].positions при рендере слайда */
+.plans-viewer-slide img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block}
 /* первый слайд — сам план: реальные планировки (скан презентации) разного
    соотношения сторон, contain на светлом листе, не обрезается и не тянется */
 .plans-viewer-slide--plan{background:var(--stone)}
