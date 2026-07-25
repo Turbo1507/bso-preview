@@ -236,7 +236,15 @@
         <img id="planImg" src="assets/plan-studio.png" alt="Планировка Studio" loading="lazy">
       </div>
       <div class="plans-photo-main">
-        <img id="planPhoto" src="assets/villa-studio.jpg" alt="Интерьер виллы Studio" loading="lazy">
+        <div class="plans-photo-track" id="plansPhotoTrack">
+          <div class="plans-photo-slide"><img class="plan-photo-img" data-idx="0" src="assets/villa-studio-detail1.jpg" alt="Интерьер виллы Studio" loading="lazy"></div>
+          <div class="plans-photo-slide"><img class="plan-photo-img" data-idx="1" src="assets/villa-studio-detail2.jpg" alt="Интерьер виллы Studio" loading="lazy"></div>
+          <div class="plans-photo-slide"><img class="plan-photo-img" data-idx="2" src="assets/villa-studio-detail3.jpg" alt="Интерьер виллы Studio" loading="lazy"></div>
+          <div class="plans-photo-slide"><img class="plan-photo-img" data-idx="3" src="assets/villa-studio.jpg" alt="Планировка сверху виллы Studio" loading="lazy"></div>
+        </div>
+        <button class="min-gallery-arrow prev" id="plansPhotoPrev" aria-label="Предыдущее" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button class="min-gallery-arrow next" id="plansPhotoNext" aria-label="Следующее" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+        <div class="min-gallery-dots" id="plansPhotoDots"><span class="on"></span><span></span><span></span><span></span></div>
       </div>
       <div class="plans-info">
         <h3 id="planName">Studio</h3>
