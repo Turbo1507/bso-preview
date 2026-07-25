@@ -524,24 +524,26 @@ body.menu-open{overflow:hidden}
    план в тёмный фон блендами, он просто лежит на своём естественном белом
    листе, как в референсах luxury-девелоперов (чистый чертёж на светлом) */
 .plans-panel{
-  display:grid; grid-template-columns:1.05fr 1fr .95fr; gap:2px; border-radius:var(--r-lg); overflow:hidden;
+  display:grid; grid-template-columns:1.3fr 1fr; gap:2px; border-radius:var(--r-lg); overflow:hidden;
   background:var(--line); box-shadow:var(--shadow-card-dark);
 }
-/* реальные планировки (скан презентации) — разное соотношение сторон у
-   каждого юнита, contain на светлом фоне, план не обрезается и не тянется */
-.plans-viewer{position:relative; height:100%; background:var(--stone); display:flex; align-items:center; justify-content:center; padding:24px; min-width:0}
-.plans-viewer img{max-width:100%; max-height:100%; width:auto; height:auto; object-fit:contain; filter:grayscale(1)}
-/* реальный интерьерный рендер по типу виллы (из презентации) — своя светлая
-   панель рядом с планом, а не мелкая карточка внутри тёмной колонки */
-.plans-photo-main{position:relative; height:100%; min-width:0; background:var(--stone); overflow:hidden}
-/* по правке Босса: не одна composite-картинка сверху, а галерея 4 реальных
-   фото виллы (3 интерьерных лайфстайл-кадра из презентации + 1 top-down
-   контекст) — свайп/стрелки, тот же паттерн что у .min-gallery */
-.plans-photo-track{display:flex; height:100%; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch}
-.plans-photo-track::-webkit-scrollbar{display:none}
-.plans-photo-slide{flex:0 0 100%; height:100%; scroll-snap-align:start}
-.plans-photo-slide img{width:100%; height:100%; object-fit:cover; object-position:50% 20%; display:block}
-.plans-photo-main .min-gallery-dots{bottom:14px}
+/* по правке Босса: план и фото виллы — ОДНА область (одна галерея), не два
+   отдельных бокса рядом. Один трек, план — первый слайд (светлый фон,
+   contain, не обрезается), дальше реальные интерьерные фото (тёмный фон,
+   cover) — единый свайп/стрелки на всё */
+.plans-viewer{position:relative; height:100%; min-width:0; min-height:0; overflow:hidden; background:var(--ink)}
+.plans-viewer-track{display:flex; height:100%; min-height:0; overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.plans-viewer-track::-webkit-scrollbar{display:none}
+/* img — position:absolute, а не просто height:100% — картинки (особенно
+   портретные detail-кадры 704x1188) иначе тянули intrinsic-размер через всю
+   flex/grid-цепочку и раздували высоту всей панели планировок до ~1280px */
+.plans-viewer-slide{position:relative; flex:0 0 100%; height:100%; min-height:0; scroll-snap-align:start}
+.plans-viewer-slide img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:50% 20%; display:block}
+/* первый слайд — сам план: реальные планировки (скан презентации) разного
+   соотношения сторон, contain на светлом листе, не обрезается и не тянется */
+.plans-viewer-slide--plan{background:var(--stone)}
+.plans-viewer-slide--plan img{inset:24px; width:calc(100% - 48px); height:calc(100% - 48px); object-fit:contain; filter:grayscale(1)}
+.plans-viewer .min-gallery-dots{bottom:14px}
 .plans-info{padding:50px; display:flex; flex-direction:column; gap:var(--sp-lg); background:var(--ink)}
 .plans-info h3{font-size:28px; color:var(--white); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(156,79,32,.5)}
 /* иконки площади/вместимости/для кого — по контексту (правка Босса) */
@@ -842,12 +844,9 @@ html.js .reveal.in{opacity:1; transform:none}
   .plans-tabs{flex-wrap:nowrap; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; gap:8px; margin:var(--sp-md) 0}
   .plans-tabs::-webkit-scrollbar{display:none}
   .plans-tab{flex:0 0 auto; scroll-snap-align:start; padding:10px 18px; font-size:14px}
-  /* на узком мобильном 2 колонки (план+фото) сжимались до нечитаемых ~170px —
-     план и фото ставятся в один столбец, info остаётся ниже во всю ширину */
   .plans-panel{grid-template-columns:1fr}
   /* панель планировки была слишком высокой — не помещалась на экран целиком */
   .plans-viewer{aspect-ratio:4/3}
-  .plans-photo-main{aspect-ratio:4/3}
   .plans-info{padding:22px; gap:var(--sp-sm)}
   .plans-info h3{font-size:20px}
   .plans-stat{padding-top:10px; gap:10px}
