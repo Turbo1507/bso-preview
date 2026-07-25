@@ -105,8 +105,10 @@ function wireSlider(trackId, prevId, nextId, dotsId) {
   track.addEventListener('scroll', sync, { passive: true });
   window.addEventListener('resize', sync);
   sync();
+  return { sync };
 }
 wireSlider('minGalleryTrack', 'minGalleryPrev', 'minGalleryNext', 'minGalleryDots');
+const plansPhotoSlider = wireSlider('plansPhotoTrack', 'plansPhotoPrev', 'plansPhotoNext', 'plansPhotoDots');
 
 /* ---------- пины инфраструктуры на мастер-плане Nuanu ---------- */
 /* координаты (%) сняты через get_nodes_info с Figma-фреймов "nuanu desk rus"
@@ -167,22 +169,22 @@ window.__bsoSyncNuanuPins = function (lang) {
    стоковые/придуманные фото */
 const PLANS = {
   ru: {
-    studio:  { name: 'Studio',   area: '31,2 м²',   cap: '5 чел.',  who: 'Один, пары', img: 'assets/plan-studio.png', alt: 'Планировка Studio', photo: 'assets/villa-studio.jpg', photoAlt: 'Интерьер виллы Studio' },
-    '1bd':   { name: '1BD',      area: '71,3 м²',   cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-1bd.png', alt: 'Планировка 1BD', photo: 'assets/villa-1bd.jpg', photoAlt: 'Интерьер виллы 1BD' },
-    '1bdsky':{ name: '1BD SKY',  area: '83,3 м²',   cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-1bdsky.png', alt: 'Планировка 1BD SKY', photo: 'assets/villa-1bdsky.jpg', photoAlt: 'Интерьер виллы 1BD SKY' },
-    '2bd':   { name: '2BD',      area: '104,61 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-2bd.png', alt: 'Планировка 2BD', photo: 'assets/villa-2bd.jpg', photoAlt: 'Интерьер виллы 2BD' },
-    '3bd':   { name: '3BD',      area: '127,85 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-3bd.png', alt: 'Планировка 3BD', photo: 'assets/villa-3bd.jpg', photoAlt: 'Интерьер виллы 3BD' },
-    '3bdsky':{ name: '3BD SKY',  area: '136,51 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-3bdsky.png', alt: 'Планировка 3BD SKY', photo: 'assets/villa-3bdsky.jpg', photoAlt: 'Интерьер виллы 3BD SKY' },
-    '4bd':   { name: '4BD',      area: '159,8 м²',  cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-4bd.png', alt: 'Планировка 4BD', photo: 'assets/villa-4bd.jpg', photoAlt: 'Интерьер виллы 4BD' }
+    studio:   { name: 'Studio', area: '31,2 м²', cap: '5 чел.', who: 'Один, пары', img: 'assets/plan-studio.png', alt: 'Планировка Studio', photos: ['assets/villa-studio-detail1.jpg','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg','assets/villa-studio.jpg'], photoAlts: ['Интерьер виллы Studio','Интерьер виллы Studio','Интерьер виллы Studio','Планировка сверху виллы Studio'] },
+    '1bd':    { name: '1BD', area: '71,3 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-1bd.png', alt: 'Планировка 1BD', photos: ['assets/villa-1bd-detail1.jpg','assets/villa-1bd-detail2.jpg','assets/villa-1bd-detail3.jpg','assets/villa-1bd.jpg'], photoAlts: ['Интерьер виллы 1BD','Интерьер виллы 1BD','Интерьер виллы 1BD','Планировка сверху виллы 1BD'] },
+    '1bdsky': { name: '1BD SKY', area: '83,3 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-1bdsky.png', alt: 'Планировка 1BD SKY', photos: ['assets/villa-1bdsky-detail1.jpg','assets/villa-1bdsky-detail2.jpg','assets/villa-1bdsky-detail3.jpg','assets/villa-1bdsky.jpg'], photoAlts: ['Интерьер виллы 1BD SKY','Интерьер виллы 1BD SKY','Интерьер виллы 1BD SKY','Планировка сверху виллы 1BD SKY'] },
+    '2bd':    { name: '2BD', area: '104,61 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-2bd.png', alt: 'Планировка 2BD', photos: ['assets/villa-2bd-detail1.jpg','assets/villa-2bd-detail2.jpg','assets/villa-2bd-detail3.jpg','assets/villa-2bd.jpg'], photoAlts: ['Интерьер виллы 2BD','Интерьер виллы 2BD','Интерьер виллы 2BD','Планировка сверху виллы 2BD'] },
+    '3bd':    { name: '3BD', area: '127,85 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-3bd.png', alt: 'Планировка 3BD', photos: ['assets/villa-3bd-detail1.jpg','assets/villa-3bd-detail2.jpg','assets/villa-3bd-detail3.jpg','assets/villa-3bd.jpg'], photoAlts: ['Интерьер виллы 3BD','Интерьер виллы 3BD','Интерьер виллы 3BD','Планировка сверху виллы 3BD'] },
+    '3bdsky': { name: '3BD SKY', area: '136,51 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-3bdsky.png', alt: 'Планировка 3BD SKY', photos: ['assets/villa-3bdsky-detail1.jpg','assets/villa-3bdsky-detail2.jpg','assets/villa-3bdsky-detail3.jpg','assets/villa-3bdsky.jpg'], photoAlts: ['Интерьер виллы 3BD SKY','Интерьер виллы 3BD SKY','Интерьер виллы 3BD SKY','Планировка сверху виллы 3BD SKY'] },
+    '4bd':    { name: '4BD', area: '159,8 м²', cap: 'Уточняется', who: 'Уточняется', img: 'assets/plan-4bd.png', alt: 'Планировка 4BD', photos: ['assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd.jpg'], photoAlts: ['Интерьер виллы 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Планировка сверху виллы 4BD'] },
   },
   en: {
-    studio:  { name: 'Studio',   area: '31.2 m²',   cap: '5 people', who: 'Single, couples', img: 'assets/plan-studio.png', alt: 'Studio floor plan', photo: 'assets/villa-studio.jpg', photoAlt: 'Studio villa interior' },
-    '1bd':   { name: '1BD',      area: '71.3 m²',   cap: 'TBD', who: 'TBD', img: 'assets/plan-1bd.png', alt: '1BD floor plan', photo: 'assets/villa-1bd.jpg', photoAlt: '1BD villa interior' },
-    '1bdsky':{ name: '1BD SKY',  area: '83.3 m²',   cap: 'TBD', who: 'TBD', img: 'assets/plan-1bdsky.png', alt: '1BD SKY floor plan', photo: 'assets/villa-1bdsky.jpg', photoAlt: '1BD SKY villa interior' },
-    '2bd':   { name: '2BD',      area: '104.61 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-2bd.png', alt: '2BD floor plan', photo: 'assets/villa-2bd.jpg', photoAlt: '2BD villa interior' },
-    '3bd':   { name: '3BD',      area: '127.85 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-3bd.png', alt: '3BD floor plan', photo: 'assets/villa-3bd.jpg', photoAlt: '3BD villa interior' },
-    '3bdsky':{ name: '3BD SKY',  area: '136.51 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-3bdsky.png', alt: '3BD SKY floor plan', photo: 'assets/villa-3bdsky.jpg', photoAlt: '3BD SKY villa interior' },
-    '4bd':   { name: '4BD',      area: '159.8 m²',  cap: 'TBD', who: 'TBD', img: 'assets/plan-4bd.png', alt: '4BD floor plan', photo: 'assets/villa-4bd.jpg', photoAlt: '4BD villa interior' }
+    studio:   { name: 'Studio', area: '31.2 m²', cap: '5 people', who: 'Single, couples', img: 'assets/plan-studio.png', alt: 'Studio floor plan', photos: ['assets/villa-studio-detail1.jpg','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg','assets/villa-studio.jpg'], photoAlts: ['Studio villa interior','Studio villa interior','Studio villa interior','Studio top-down layout'] },
+    '1bd':    { name: '1BD', area: '71.3 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-1bd.png', alt: '1BD floor plan', photos: ['assets/villa-1bd-detail1.jpg','assets/villa-1bd-detail2.jpg','assets/villa-1bd-detail3.jpg','assets/villa-1bd.jpg'], photoAlts: ['1BD villa interior','1BD villa interior','1BD villa interior','1BD top-down layout'] },
+    '1bdsky': { name: '1BD SKY', area: '83.3 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-1bdsky.png', alt: '1BD SKY floor plan', photos: ['assets/villa-1bdsky-detail1.jpg','assets/villa-1bdsky-detail2.jpg','assets/villa-1bdsky-detail3.jpg','assets/villa-1bdsky.jpg'], photoAlts: ['1BD SKY villa interior','1BD SKY villa interior','1BD SKY villa interior','1BD SKY top-down layout'] },
+    '2bd':    { name: '2BD', area: '104.61 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-2bd.png', alt: '2BD floor plan', photos: ['assets/villa-2bd-detail1.jpg','assets/villa-2bd-detail2.jpg','assets/villa-2bd-detail3.jpg','assets/villa-2bd.jpg'], photoAlts: ['2BD villa interior','2BD villa interior','2BD villa interior','2BD top-down layout'] },
+    '3bd':    { name: '3BD', area: '127.85 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-3bd.png', alt: '3BD floor plan', photos: ['assets/villa-3bd-detail1.jpg','assets/villa-3bd-detail2.jpg','assets/villa-3bd-detail3.jpg','assets/villa-3bd.jpg'], photoAlts: ['3BD villa interior','3BD villa interior','3BD villa interior','3BD top-down layout'] },
+    '3bdsky': { name: '3BD SKY', area: '136.51 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-3bdsky.png', alt: '3BD SKY floor plan', photos: ['assets/villa-3bdsky-detail1.jpg','assets/villa-3bdsky-detail2.jpg','assets/villa-3bdsky-detail3.jpg','assets/villa-3bdsky.jpg'], photoAlts: ['3BD SKY villa interior','3BD SKY villa interior','3BD SKY villa interior','3BD SKY top-down layout'] },
+    '4bd':    { name: '4BD', area: '159.8 m²', cap: 'TBD', who: 'TBD', img: 'assets/plan-4bd.png', alt: '4BD floor plan', photos: ['assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd.jpg'], photoAlts: ['4BD villa interior','4BD villa interior','4BD villa interior','4BD top-down layout'] },
   }
 };
 const plansTabs = document.getElementById('plansTabs');
@@ -195,8 +197,12 @@ function renderPlan(planId, lang) {
   document.getElementById('planWho').textContent = p.who;
   const img = document.getElementById('planImg');
   if (img) { img.src = p.img; img.alt = p.alt; }
-  const photo = document.getElementById('planPhoto');
-  if (photo) { photo.src = p.photo; photo.alt = p.photoAlt; }
+  const photoImgs = document.querySelectorAll('#plansPhotoTrack .plan-photo-img');
+  photoImgs.forEach((el, i) => {
+    if (p.photos[i]) { el.src = p.photos[i]; el.alt = p.photoAlts[i]; }
+  });
+  const track = document.getElementById('plansPhotoTrack');
+  if (track) { track.scrollLeft = 0; plansPhotoSlider && plansPhotoSlider.sync(); }
 }
 if (plansTabs) {
   plansTabs.addEventListener('click', e => {
