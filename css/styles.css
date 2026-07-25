@@ -478,6 +478,11 @@ body.menu-open{overflow:hidden}
 /* ---------- 3 карточки: частная территория ---------- */
 /* Сверка по Figma nodeId 1:4625 (Frame 33/34/35, 400x221, шаг 20px между
    карточками) — было gap:24, реально 20; паддинг карточки ~32px, было 24 */
+/* по правке Босса: секция про приватность была чисто иконочной, без фото —
+   добавлено реальное фото приватного бассейна за экраном фасада (из
+   presentation PDF), усиливает посыл gated-community/приватность */
+.priv-photo{border-radius:var(--r-lg); overflow:hidden; aspect-ratio:16/7; margin-top:var(--sp-lg)}
+.priv-photo img{width:100%; height:100%; object-fit:cover; object-position:35% 90%}
 .priv-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:var(--sp-lg)}
 /* Figma (Frame 33/34/35, нода 1:4353 и т.д.): НЕТ заливки/тени, только контур,
    цвет обводки почти чёрный #1d0d09 (≈ var(--ink)) — тот же паттерн, что и
