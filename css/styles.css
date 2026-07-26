@@ -551,10 +551,13 @@ body.menu-open{overflow:hidden}
    бассейн), а не срезанное в никуда небо/потолок — задаётся инлайн через
    JS из PLANS[].positions при рендере слайда */
 .plans-viewer-slide img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block}
-/* первый слайд — сам план: реальные планировки (скан презентации) разного
-   соотношения сторон, contain на светлом листе, не обрезается и не тянется */
-.plans-viewer-slide--plan{background:var(--stone)}
-.plans-viewer-slide--plan img{inset:24px; width:calc(100% - 48px); height:calc(100% - 48px); object-fit:contain; filter:grayscale(1)}
+/* план и топ-вид (разрез виллы сверху) — официальные ассеты застройщика из
+   Figma, экспортированы на белой подложке фрейма; фон бокса — тот же белый
+   (не --stone/бежевый), иначе виден шов между белым кадра и бежевым сайта.
+   Цветные — раньше был grayscale(1) под старый ч/б скан-план, для нового
+   цветного материала фильтр снят */
+.plans-viewer-slide--plan,.plans-viewer-slide--topview{background:#fff}
+.plans-viewer-slide--plan img,.plans-viewer-slide--topview img{inset:24px; width:calc(100% - 48px); height:calc(100% - 48px); object-fit:contain}
 .plans-viewer .min-gallery-dots{bottom:14px}
 /* по правке Босса: расстояние от текста до разделителя должно быть РАВНЫМ
    сверху и снизу каждой линии — раньше сверху был gap:40 (--sp-lg) родителя,

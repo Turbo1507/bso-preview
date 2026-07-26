@@ -207,7 +207,7 @@ function renderPlan(planId, lang) {
   track.querySelectorAll('.plans-viewer-slide:not(.plans-viewer-slide--plan)').forEach(el => el.remove());
   for (let i = 1; i < p.photos.length; i++) {
     const slide = document.createElement('div');
-    slide.className = 'plans-viewer-slide';
+    slide.className = 'plans-viewer-slide' + (i === 1 ? ' plans-viewer-slide--topview' : '');
     const img = document.createElement('img');
     img.className = 'plan-photo-img';
     img.loading = 'lazy';
