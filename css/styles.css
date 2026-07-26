@@ -558,6 +558,12 @@ body.menu-open{overflow:hidden}
    цветного материала фильтр снят */
 .plans-viewer-slide--plan,.plans-viewer-slide--topview{background:#fff}
 .plans-viewer-slide--plan img,.plans-viewer-slide--topview img{inset:24px; width:calc(100% - 48px); height:calc(100% - 48px); object-fit:contain}
+/* двухэтажные форматы: SVG-канвас (viewBox 1:1 с Figma-фреймом) вместо
+   одной сплюснутой картинки — preserveAspectRatio="xMidYMid meet" даёт то же
+   letterbox-поведение, что object-fit:contain у обычного img, картинки этажей
+   и подписи внутри позиционируются точными координатами, визуал не меняется */
+.plan-floors-svg{position:absolute; inset:24px; width:calc(100% - 48px); height:calc(100% - 48px); display:block}
+.plan-floors-svg text{font-family:inherit}
 .plans-viewer .min-gallery-dots{bottom:14px}
 /* по правке Босса: расстояние от текста до разделителя должно быть РАВНЫМ
    сверху и снизу каждой линии — раньше сверху был gap:40 (--sp-lg) родителя,
