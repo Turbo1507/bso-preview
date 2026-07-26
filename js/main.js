@@ -90,7 +90,7 @@ function wireSlider(trackId, prevId, nextId, dotsId) {
   const next = document.getElementById(nextId);
   const dotsWrap = document.getElementById(dotsId);
   if (!track) return;
-  const dots = dotsWrap ? Array.from(dotsWrap.children) : [];
+  let dots = dotsWrap ? Array.from(dotsWrap.children) : [];
   function sync() {
     const max = track.scrollWidth - track.clientWidth;
     if (prev) prev.disabled = track.scrollLeft <= 4;
@@ -100,12 +100,25 @@ function wireSlider(trackId, prevId, nextId, dotsId) {
       dots.forEach((d, i) => d.classList.toggle('on', i === Math.min(idx, dots.length - 1)));
     }
   }
+  /* число слайдов у планировок разное по типам (5 у большинства, 6 у 4BD) —
+     точки нельзя хардкодить в HTML, пересобираем под фактическое число */
+  function setCount(n) {
+    if (!dotsWrap) return;
+    dotsWrap.innerHTML = '';
+    for (let i = 0; i < n; i++) {
+      const span = document.createElement('span');
+      if (i === 0) span.classList.add('on');
+      dotsWrap.appendChild(span);
+    }
+    dots = Array.from(dotsWrap.children);
+    sync();
+  }
   prev && prev.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
   next && next.addEventListener('click', () => track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }));
   track.addEventListener('scroll', sync, { passive: true });
   window.addEventListener('resize', sync);
   sync();
-  return { sync };
+  return { sync, setCount };
 }
 wireSlider('minGalleryTrack', 'minGalleryPrev', 'minGalleryNext', 'minGalleryDots');
 const plansPhotoSlider = wireSlider('plansPhotoTrack', 'plansPhotoPrev', 'plansPhotoNext', 'plansPhotoDots');
@@ -167,28 +180,86 @@ window.__bsoSyncNuanuPins = function (lang) {
 /* photo/photoAlt — реальные интерьерные рендеры по типам, вырезаны из
    презентации (bso-presentation_eng.pdf, стр. 31/33/35/37/39/41/43 —
    1:1 соответствие с материалом Figma "МАТЕРИАЛ ДЛЯ ЗАПОЛНЕНИЯ..."), не
-   стоковые/придуманные фото. topview вставлен первым слайдом (сразу после
-   плана) — даёт целостный вид виллы сверху перед интерьерными деталями. */
+   стоковые/придуманные фото. Порядок слайдов (правка Босса): сначала
+   интерьерные фото виллы, затем план, затем topview (разрез сверху) —
+   последним, после плана. */
 const PLANS = {
   ru: {
-    studio:   { name: 'Studio', area: '31,2 м²', cap: '5 чел.', who: 'Один, пары', photos: ['assets/plan-studio.png','assets/villa-studio-topview.jpg','assets/villa-studio-detail1.jpg','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg'], photoAlts: ['Планировка Studio','Вилла Studio в разрезе сверху','Интерьер виллы Studio','Интерьер виллы Studio','Интерьер виллы Studio'], positions: ['50% 50%','50% 50%','50% 50%','50% 65%','50% 55%'] },
-    '1bd':    { name: '1BD', area: '71,3 м²', cap: '2 чел.', who: 'Пары', photos: ['assets/plan-1bd.png','assets/villa-1bd-topview.jpg','assets/villa-1bd-detail1.jpg','assets/villa-1bd-detail2.jpg','assets/villa-1bd-detail3.jpg'], photoAlts: ['Планировка 1BD','Вилла 1BD в разрезе сверху','Интерьер виллы 1BD','Интерьер виллы 1BD','Интерьер виллы 1BD'], positions: ['50% 50%','50% 50%','50% 60%','50% 75%','50% 55%'] },
-    '1bdsky': { name: '1BD SKY', area: '83,3 м²', cap: '2 чел.', who: 'Пары, workation', photos: ['assets/plan-1bdsky.png','assets/villa-1bdsky-topview.jpg','assets/villa-1bdsky-detail1.jpg','assets/villa-1bdsky-detail2.jpg','assets/villa-1bdsky-detail3.jpg'], photoAlts: ['Планировка 1BD SKY','Вилла 1BD SKY в разрезе сверху','Интерьер виллы 1BD SKY','Интерьер виллы 1BD SKY','Интерьер виллы 1BD SKY'], positions: ['50% 50%','50% 50%','50% 65%','50% 70%','50% 75%'] },
-    '2bd':    { name: '2BD', area: '104,61 м²', cap: '4 чел.', who: 'Пары с ребёнком, друзья', photos: ['assets/plan-2bd.png','assets/villa-2bd-topview.jpg','assets/villa-2bd-detail1.jpg','assets/villa-2bd-detail2.jpg','assets/villa-2bd-detail3.jpg'], photoAlts: ['Планировка 2BD','Вилла 2BD в разрезе сверху','Интерьер виллы 2BD','Интерьер виллы 2BD','Интерьер виллы 2BD'], positions: ['50% 50%','50% 50%','50% 65%','50% 55%','50% 80%'] },
-    '3bd':    { name: '3BD', area: '127,85 м²', cap: '6 чел.', who: 'Семьи с детьми', photos: ['assets/plan-3bd.png','assets/villa-3bd-topview.jpg','assets/villa-3bd-detail1.jpg','assets/villa-3bd-detail2.jpg','assets/villa-3bd-detail3.jpg'], photoAlts: ['Планировка 3BD','Вилла 3BD в разрезе сверху','Интерьер виллы 3BD','Интерьер виллы 3BD','Интерьер виллы 3BD'], positions: ['50% 50%','50% 50%','50% 50%','50% 65%','50% 70%'] },
-    '3bdsky': { name: '3BD SKY', area: '136,51 м²', cap: '6 чел.', who: 'Большие семьи', photos: ['assets/plan-3bdsky.png','assets/villa-3bdsky-topview.jpg','assets/villa-3bdsky-detail1.jpg','assets/villa-3bdsky-detail2.jpg','assets/villa-3bdsky-detail3.jpg'], photoAlts: ['Планировка 3BD SKY','Вилла 3BD SKY в разрезе сверху','Интерьер виллы 3BD SKY','Интерьер виллы 3BD SKY','Интерьер виллы 3BD SKY'], positions: ['50% 50%','50% 50%','50% 65%','50% 50%','50% 60%'] },
-    '4bd':    { name: '4BD', area: '159,8 м²', cap: '8 чел.', who: 'Большие семьи, несколько поколений', photos: ['assets/plan-4bd.png','assets/villa-4bd-topview.jpg','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd-detail4.jpg'], photoAlts: ['Планировка 4BD','Вилла 4BD в разрезе сверху','Интерьер виллы 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD'], positions: ['50% 50%','50% 50%','50% 70%','50% 50%','50% 60%','50% 75%'] },
+    studio:   { name: 'Studio', area: '31,2 м²', cap: '5 чел.', who: 'Один, пары', photos: ['assets/plan-studio.png','assets/villa-studio-detail1.jpg','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg','assets/villa-studio-topview.jpg'], photoAlts: ['Планировка Studio','Интерьер виллы Studio','Интерьер виллы Studio','Интерьер виллы Studio','Вилла Studio в разрезе сверху'], positions: ['50% 50%','50% 50%','50% 65%','50% 55%','50% 50%'] },
+    '1bd':    { name: '1BD', area: '71,3 м²', cap: '2 чел.', who: 'Пары', photos: ['assets/plan-1bd.png','assets/villa-1bd-detail1.jpg','assets/villa-1bd-detail2.jpg','assets/villa-1bd-detail3.jpg','assets/villa-1bd-topview.jpg'], photoAlts: ['Планировка 1BD','Интерьер виллы 1BD','Интерьер виллы 1BD','Интерьер виллы 1BD','Вилла 1BD в разрезе сверху'], positions: ['50% 50%','50% 60%','50% 75%','50% 55%','50% 50%'] },
+    '1bdsky': { name: '1BD SKY', area: '83,3 м²', cap: '2 чел.', who: 'Пары, workation', photos: ['assets/plan-1bdsky.png','assets/villa-1bdsky-detail1.jpg','assets/villa-1bdsky-detail2.jpg','assets/villa-1bdsky-detail3.jpg','assets/villa-1bdsky-topview.jpg'], photoAlts: ['Планировка 1BD SKY','Интерьер виллы 1BD SKY','Интерьер виллы 1BD SKY','Интерьер виллы 1BD SKY','Вилла 1BD SKY в разрезе сверху'], positions: ['50% 50%','50% 65%','50% 70%','50% 75%','50% 50%'] },
+    '2bd':    { name: '2BD', area: '104,61 м²', cap: '4 чел.', who: 'Пары с ребёнком, друзья', photos: ['assets/plan-2bd.png','assets/villa-2bd-detail1.jpg','assets/villa-2bd-detail2.jpg','assets/villa-2bd-detail3.jpg','assets/villa-2bd-topview.jpg'], photoAlts: ['Планировка 2BD','Интерьер виллы 2BD','Интерьер виллы 2BD','Интерьер виллы 2BD','Вилла 2BD в разрезе сверху'], positions: ['50% 50%','50% 65%','50% 55%','50% 80%','50% 50%'] },
+    '3bd':    { name: '3BD', area: '127,85 м²', cap: '6 чел.', who: 'Семьи с детьми', photos: ['assets/plan-3bd.png','assets/villa-3bd-detail1.jpg','assets/villa-3bd-detail2.jpg','assets/villa-3bd-detail3.jpg','assets/villa-3bd-topview.jpg'], photoAlts: ['Планировка 3BD','Интерьер виллы 3BD','Интерьер виллы 3BD','Интерьер виллы 3BD','Вилла 3BD в разрезе сверху'], positions: ['50% 50%','50% 50%','50% 65%','50% 70%','50% 50%'] },
+    '3bdsky': { name: '3BD SKY', area: '136,51 м²', cap: '6 чел.', who: 'Большие семьи', photos: ['assets/plan-3bdsky.png','assets/villa-3bdsky-detail1.jpg','assets/villa-3bdsky-detail2.jpg','assets/villa-3bdsky-detail3.jpg','assets/villa-3bdsky-topview.jpg'], photoAlts: ['Планировка 3BD SKY','Интерьер виллы 3BD SKY','Интерьер виллы 3BD SKY','Интерьер виллы 3BD SKY','Вилла 3BD SKY в разрезе сверху'], positions: ['50% 50%','50% 65%','50% 50%','50% 60%','50% 50%'] },
+    '4bd':    { name: '4BD', area: '159,8 м²', cap: '8 чел.', who: 'Большие семьи, несколько поколений', photos: ['assets/plan-4bd.png','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd-detail4.jpg','assets/villa-4bd-topview.jpg'], photoAlts: ['Планировка 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Вилла 4BD в разрезе сверху'], positions: ['50% 50%','50% 70%','50% 50%','50% 60%','50% 75%','50% 50%'] },
   },
   en: {
-    studio:   { name: 'Studio', area: '31.2 m²', cap: '5 people', who: 'Single, couples', photos: ['assets/plan-studio.png','assets/villa-studio-topview.jpg','assets/villa-studio-detail1.jpg','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg'], photoAlts: ['Studio floor plan','Studio villa cutaway top view','Studio villa interior','Studio villa interior','Studio villa interior'], positions: ['50% 50%','50% 50%','50% 50%','50% 65%','50% 55%'] },
-    '1bd':    { name: '1BD', area: '71.3 m²', cap: '2 people', who: 'Couples', photos: ['assets/plan-1bd.png','assets/villa-1bd-topview.jpg','assets/villa-1bd-detail1.jpg','assets/villa-1bd-detail2.jpg','assets/villa-1bd-detail3.jpg'], photoAlts: ['1BD floor plan','1BD villa cutaway top view','1BD villa interior','1BD villa interior','1BD villa interior'], positions: ['50% 50%','50% 50%','50% 60%','50% 75%','50% 55%'] },
-    '1bdsky': { name: '1BD SKY', area: '83.3 m²', cap: '2 people', who: 'Couples, workation', photos: ['assets/plan-1bdsky.png','assets/villa-1bdsky-topview.jpg','assets/villa-1bdsky-detail1.jpg','assets/villa-1bdsky-detail2.jpg','assets/villa-1bdsky-detail3.jpg'], photoAlts: ['1BD SKY floor plan','1BD SKY villa cutaway top view','1BD SKY villa interior','1BD SKY villa interior','1BD SKY villa interior'], positions: ['50% 50%','50% 50%','50% 65%','50% 70%','50% 75%'] },
-    '2bd':    { name: '2BD', area: '104.61 m²', cap: '4 people', who: 'Couples with a child, friends', photos: ['assets/plan-2bd.png','assets/villa-2bd-topview.jpg','assets/villa-2bd-detail1.jpg','assets/villa-2bd-detail2.jpg','assets/villa-2bd-detail3.jpg'], photoAlts: ['2BD floor plan','2BD villa cutaway top view','2BD villa interior','2BD villa interior','2BD villa interior'], positions: ['50% 50%','50% 50%','50% 65%','50% 55%','50% 80%'] },
-    '3bd':    { name: '3BD', area: '127.85 m²', cap: '6 people', who: 'Families with children', photos: ['assets/plan-3bd.png','assets/villa-3bd-topview.jpg','assets/villa-3bd-detail1.jpg','assets/villa-3bd-detail2.jpg','assets/villa-3bd-detail3.jpg'], photoAlts: ['3BD floor plan','3BD villa cutaway top view','3BD villa interior','3BD villa interior','3BD villa interior'], positions: ['50% 50%','50% 50%','50% 50%','50% 65%','50% 70%'] },
-    '3bdsky': { name: '3BD SKY', area: '136.51 m²', cap: '6 people', who: 'Larger families', photos: ['assets/plan-3bdsky.png','assets/villa-3bdsky-topview.jpg','assets/villa-3bdsky-detail1.jpg','assets/villa-3bdsky-detail2.jpg','assets/villa-3bdsky-detail3.jpg'], photoAlts: ['3BD SKY floor plan','3BD SKY villa cutaway top view','3BD SKY villa interior','3BD SKY villa interior','3BD SKY villa interior'], positions: ['50% 50%','50% 50%','50% 65%','50% 50%','50% 60%'] },
-    '4bd':    { name: '4BD', area: '159.8 m²', cap: '8 people', who: 'Multi-generational families', photos: ['assets/plan-4bd.png','assets/villa-4bd-topview.jpg','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd-detail4.jpg'], photoAlts: ['4BD floor plan','4BD villa cutaway top view','4BD villa interior','4BD villa interior','4BD villa interior','4BD villa interior'], positions: ['50% 50%','50% 50%','50% 70%','50% 50%','50% 60%','50% 75%'] },
+    studio:   { name: 'Studio', area: '31.2 m²', cap: '5 people', who: 'Single, couples', photos: ['assets/plan-studio.png','assets/villa-studio-detail1.jpg','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg','assets/villa-studio-topview.jpg'], photoAlts: ['Studio floor plan','Studio villa interior','Studio villa interior','Studio villa interior','Studio villa cutaway top view'], positions: ['50% 50%','50% 50%','50% 65%','50% 55%','50% 50%'] },
+    '1bd':    { name: '1BD', area: '71.3 m²', cap: '2 people', who: 'Couples', photos: ['assets/plan-1bd.png','assets/villa-1bd-detail1.jpg','assets/villa-1bd-detail2.jpg','assets/villa-1bd-detail3.jpg','assets/villa-1bd-topview.jpg'], photoAlts: ['1BD floor plan','1BD villa interior','1BD villa interior','1BD villa interior','1BD villa cutaway top view'], positions: ['50% 50%','50% 60%','50% 75%','50% 55%','50% 50%'] },
+    '1bdsky': { name: '1BD SKY', area: '83.3 m²', cap: '2 people', who: 'Couples, workation', photos: ['assets/plan-1bdsky.png','assets/villa-1bdsky-detail1.jpg','assets/villa-1bdsky-detail2.jpg','assets/villa-1bdsky-detail3.jpg','assets/villa-1bdsky-topview.jpg'], photoAlts: ['1BD SKY floor plan','1BD SKY villa interior','1BD SKY villa interior','1BD SKY villa interior','1BD SKY villa cutaway top view'], positions: ['50% 50%','50% 65%','50% 70%','50% 75%','50% 50%'] },
+    '2bd':    { name: '2BD', area: '104.61 m²', cap: '4 people', who: 'Couples with a child, friends', photos: ['assets/plan-2bd.png','assets/villa-2bd-detail1.jpg','assets/villa-2bd-detail2.jpg','assets/villa-2bd-detail3.jpg','assets/villa-2bd-topview.jpg'], photoAlts: ['2BD floor plan','2BD villa interior','2BD villa interior','2BD villa interior','2BD villa cutaway top view'], positions: ['50% 50%','50% 65%','50% 55%','50% 80%','50% 50%'] },
+    '3bd':    { name: '3BD', area: '127.85 m²', cap: '6 people', who: 'Families with children', photos: ['assets/plan-3bd.png','assets/villa-3bd-detail1.jpg','assets/villa-3bd-detail2.jpg','assets/villa-3bd-detail3.jpg','assets/villa-3bd-topview.jpg'], photoAlts: ['3BD floor plan','3BD villa interior','3BD villa interior','3BD villa interior','3BD villa cutaway top view'], positions: ['50% 50%','50% 50%','50% 65%','50% 70%','50% 50%'] },
+    '3bdsky': { name: '3BD SKY', area: '136.51 m²', cap: '6 people', who: 'Larger families', photos: ['assets/plan-3bdsky.png','assets/villa-3bdsky-detail1.jpg','assets/villa-3bdsky-detail2.jpg','assets/villa-3bdsky-detail3.jpg','assets/villa-3bdsky-topview.jpg'], photoAlts: ['3BD SKY floor plan','3BD SKY villa interior','3BD SKY villa interior','3BD SKY villa interior','3BD SKY villa cutaway top view'], positions: ['50% 50%','50% 65%','50% 50%','50% 60%','50% 50%'] },
+    '4bd':    { name: '4BD', area: '159.8 m²', cap: '8 people', who: 'Multi-generational families', photos: ['assets/plan-4bd.png','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd-detail4.jpg','assets/villa-4bd-topview.jpg'], photoAlts: ['4BD floor plan','4BD villa interior','4BD villa interior','4BD villa interior','4BD villa interior','4BD villa cutaway top view'], positions: ['50% 50%','50% 70%','50% 50%','50% 60%','50% 75%','50% 50%'] },
   }
 };
+/* ---------- многоэтажные планы/топвиды: слоями, не одним растром ----------
+   Картинки этажей (без текста, тесный кроп) + подписи «1-й/2-й этаж» как
+   настоящий SVG <text> (не вшито в PNG/JPG — переводимо, редактируемо).
+   Координаты x/y/w/h — сырые px 1:1 с Figma-фреймом 1920×1277 (viewBox тех
+   же размеров даёт точное совпадение без пересчёта в %), сняты через
+   get_nodes_info с "villas plans" (channel 24124zuq). Только для
+   двухэтажных форматов; Studio/1BD — один этаж, обычная картинка. */
+const FLOOR_LAYOUTS = {
+  '1bdsky': {
+    plan:   { f2:{src:'assets/plan-1bdsky-f2.png', x:365, y:128, w:846.58, h:601.26}, f1:{src:'assets/plan-1bdsky-f1.png', x:710.67, y:316.93, w:844.07, h:832.07}, label2:{x:1292,y:128}, label1:{x:454,y:1115} },
+    render: { f2:{src:'assets/villa-1bdsky-topview-f2.jpg', x:302, y:128, w:1084, h:675}, f1:{src:'assets/villa-1bdsky-topview-f1.jpg', x:774.68, y:353, w:844.18, h:796}, label2:{x:1466,y:128}, label1:{x:518,y:1115} }
+  },
+  '2bd': {
+    plan:   { f2:{src:'assets/plan-2bd-f2.png', x:203, y:128, w:1030, h:747}, f1:{src:'assets/plan-2bd-f1.png', x:619, y:353, w:1099, h:796}, label2:{x:1313,y:128}, label1:{x:363,y:1115} },
+    render: { f2:{src:'assets/villa-2bd-topview-f2.jpg', x:128, y:139, w:1151.33, h:717.05}, f1:{src:'assets/villa-2bd-topview-f1.jpg', x:629.79, y:377.73, w:1162.21, h:761.11}, label2:{x:1360,y:139}, label1:{x:373,y:1105} }
+  },
+  '3bd': {
+    plan:   { f2:{src:'assets/plan-3bd-f2.png', x:228, y:128, w:846, h:614}, f1:{src:'assets/plan-3bd-f1.png', x:549, y:293, w:1144, h:856}, label2:{x:1154,y:128}, label1:{x:293,y:1115} },
+    render: { f2:{src:'assets/villa-3bd-topview-f2.jpg', x:184, y:128, w:986, h:614}, f1:{src:'assets/villa-3bd-topview-f1.jpg', x:588, y:306, w:1149, h:843}, label2:{x:1250,y:128}, label1:{x:332,y:1115} }
+  },
+  '3bdsky': {
+    plan:   { f2:{src:'assets/plan-3bdsky-f2.png', x:593, y:128, w:735, h:414}, f1:{src:'assets/plan-3bdsky-f1.png', x:683, y:615, w:555, h:534}, label2:{x:1408,y:128}, label1:{x:427,y:1115} },
+    render: { f2:{src:'assets/villa-3bdsky-topview-f2.jpg', x:613, y:128, w:695, h:345}, f1:{src:'assets/villa-3bdsky-topview-f1.jpg', x:653, y:547, w:615, h:602} }
+  },
+  '4bd': {
+    plan:   { f2:{src:'assets/plan-4bd-f2.png', x:597, y:128, w:726.94, h:416.46}, f1:{src:'assets/plan-4bd-f1.png', x:597.18, y:569.70, w:726.76, h:579.30}, label2:{x:1404,y:128}, label1:{x:341,y:1115} },
+    render: { f2:{src:'assets/villa-4bd-topview-f2.jpg', x:560, y:128, w:800, h:397}, f1:{src:'assets/villa-4bd-topview-f1.jpg', x:560, y:561, w:800, h:588}, label2:{x:1440,y:128}, label1:{x:304,y:1115} }
+  }
+};
+const FLOOR_LABEL_TEXT = {
+  ru: { f2: '2-й этаж', f1: '1-й этаж' },
+  en: { f2: '2nd floor', f1: '1st floor' }
+};
+function buildFloorsSVG(layout, lang) {
+  const t = FLOOR_LABEL_TEXT[lang] || FLOOR_LABEL_TEXT.ru;
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('viewBox', '0 0 1920 1277');
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  svg.classList.add('plan-floors-svg');
+  [layout.f2, layout.f1].forEach(part => {
+    const img = document.createElementNS(svgNS, 'image');
+    img.setAttribute('href', part.src);
+    img.setAttribute('x', part.x); img.setAttribute('y', part.y);
+    img.setAttribute('width', part.w); img.setAttribute('height', part.h);
+    svg.appendChild(img);
+  });
+  [['label2', layout.label2], ['label1', layout.label1]].forEach(([key, pos]) => {
+    if (!pos) return;
+    const text = document.createElementNS(svgNS, 'text');
+    text.setAttribute('x', pos.x); text.setAttribute('y', pos.y + 34);
+    text.setAttribute('font-size', '48'); text.setAttribute('fill', '#3a3a3a');
+    text.textContent = t[key.replace('label', 'f')];
+    svg.appendChild(text);
+  });
+  return svg;
+}
 const plansTabs = document.getElementById('plansTabs');
 function renderPlan(planId, lang) {
   const p = (PLANS[lang] || PLANS.ru)[planId];
@@ -197,28 +268,44 @@ function renderPlan(planId, lang) {
   document.getElementById('planArea').textContent = p.area;
   document.getElementById('planCap').textContent = p.cap;
   document.getElementById('planWho').textContent = p.who;
-  /* число фото разное по типам (3 у большинства, 4 у 4BD) — слайды-фото
-     пересобираются каждый раз; план — ПОСЛЕДНИЙ слайд (по правке Босса), не
-     первый — новые фото-слайды вставляются ПЕРЕД ним, не после */
+  /* число фото разное по типам (5 у большинства, 6 у 4BD). Порядок (правка
+     Босса): сначала интерьерные фото виллы (вставляются ПЕРЕД планом), затем
+     план (фикс. слайд в разметке), затем topview — разрез сверху — ПОСЛЕДНИМ
+     слайдом (добавляется ПОСЛЕ плана, не перед). Точки индикатора не
+     хардкожены в HTML — пересобираются под фактическое число слайдов через
+     plansPhotoSlider.setCount(). */
   const track = document.getElementById('plansPhotoTrack');
   const planSlide = track.querySelector('.plans-viewer-slide--plan');
   const planImg = document.getElementById('planImg');
-  if (planImg) { planImg.src = p.photos[0]; planImg.alt = p.photoAlts[0]; }
+  const floors = FLOOR_LAYOUTS[planId];
+  const oldPlanSvg = planSlide.querySelector('svg.plan-floors-svg');
+  if (oldPlanSvg) oldPlanSvg.remove();
+  if (floors) {
+    if (planImg) planImg.style.display = 'none';
+    planSlide.appendChild(buildFloorsSVG(floors.plan, lang));
+  } else {
+    if (planImg) { planImg.style.display = ''; planImg.src = p.photos[0]; planImg.alt = p.photoAlts[0]; }
+  }
   track.querySelectorAll('.plans-viewer-slide:not(.plans-viewer-slide--plan)').forEach(el => el.remove());
   for (let i = 1; i < p.photos.length; i++) {
+    const isTopview = i === p.photos.length - 1;
     const slide = document.createElement('div');
-    slide.className = 'plans-viewer-slide' + (i === 1 ? ' plans-viewer-slide--topview' : '');
-    const img = document.createElement('img');
-    img.className = 'plan-photo-img';
-    img.loading = 'lazy';
-    img.src = p.photos[i];
-    img.alt = p.photoAlts[i];
-    if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
-    slide.appendChild(img);
-    track.insertBefore(slide, planSlide);
+    slide.className = 'plans-viewer-slide' + (isTopview ? ' plans-viewer-slide--topview' : '');
+    if (isTopview && floors) {
+      slide.appendChild(buildFloorsSVG(floors.render, lang));
+    } else {
+      const img = document.createElement('img');
+      img.className = 'plan-photo-img';
+      img.loading = 'lazy';
+      img.src = p.photos[i];
+      img.alt = p.photoAlts[i];
+      if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
+      slide.appendChild(img);
+    }
+    if (isTopview) track.appendChild(slide); else track.insertBefore(slide, planSlide);
   }
   track.scrollLeft = 0;
-  plansPhotoSlider && plansPhotoSlider.sync();
+  plansPhotoSlider && plansPhotoSlider.setCount(p.photos.length);
 }
 if (plansTabs) {
   plansTabs.addEventListener('click', e => {
