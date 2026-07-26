@@ -196,8 +196,10 @@ function renderPlan(planId, lang) {
   document.getElementById('planCap').textContent = p.cap;
   document.getElementById('planWho').textContent = p.who;
   /* число фото разное по типам (3 у большинства, 4 у 4BD) — слайды-фото
-     пересобираются каждый раз, план (первый слайд) остаётся на месте */
+     пересобираются каждый раз; план — ПОСЛЕДНИЙ слайд (по правке Босса), не
+     первый — новые фото-слайды вставляются ПЕРЕД ним, не после */
   const track = document.getElementById('plansPhotoTrack');
+  const planSlide = track.querySelector('.plans-viewer-slide--plan');
   const planImg = document.getElementById('planImg');
   if (planImg) { planImg.src = p.photos[0]; planImg.alt = p.photoAlts[0]; }
   track.querySelectorAll('.plans-viewer-slide:not(.plans-viewer-slide--plan)').forEach(el => el.remove());
@@ -211,7 +213,7 @@ function renderPlan(planId, lang) {
     img.alt = p.photoAlts[i];
     if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
     slide.appendChild(img);
-    track.appendChild(slide);
+    track.insertBefore(slide, planSlide);
   }
   track.scrollLeft = 0;
   plansPhotoSlider && plansPhotoSlider.sync();
