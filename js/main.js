@@ -84,7 +84,7 @@ wireCarousel('stepsTrack', 'stepsPrev', 'stepsNext', 'stepsDots', 300);
 /* ---------- галерея фасада (блок 03): нативный scroll-snap (не transform по
    индексу) — один слайд = 100% ширины трека, стрелки листают через scrollBy,
    на мобиле стрелки спрятаны и то же самое доступно свайпом ---------- */
-function wireSlider(trackId, prevId, nextId, dotsId) {
+function wireSlider(trackId, prevId, nextId, dotsId, autoplayMs) {
   const track = document.getElementById(trackId);
   const prev = document.getElementById(prevId);
   const next = document.getElementById(nextId);
@@ -118,9 +118,24 @@ function wireSlider(trackId, prevId, nextId, dotsId) {
   track.addEventListener('scroll', sync, { passive: true });
   window.addEventListener('resize', sync);
   sync();
+  /* автолистание (по просьбе Босса, галерея фасада) — держит слайд заданное
+     время, потом едет на следующий, зацикливаясь; останавливается насовсем
+     при первом ручном вмешательстве пользователя (свайп/стрелка/точка), не
+     мешает дальше листать вручную */
+  if (autoplayMs) {
+    let timer = setInterval(() => {
+      const max = track.scrollWidth - track.clientWidth;
+      const atEnd = track.scrollLeft >= max - 4;
+      track.scrollTo({ left: atEnd ? 0 : track.scrollLeft + track.clientWidth, behavior: 'smooth' });
+    }, autoplayMs);
+    const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+    track.addEventListener('pointerdown', stop, { once: true });
+    prev && prev.addEventListener('click', stop, { once: true });
+    next && next.addEventListener('click', stop, { once: true });
+  }
   return { sync, setCount };
 }
-wireSlider('minGalleryTrack', 'minGalleryPrev', 'minGalleryNext', 'minGalleryDots');
+wireSlider('minGalleryTrack', 'minGalleryPrev', 'minGalleryNext', 'minGalleryDots', 8000);
 const plansPhotoSlider = wireSlider('plansPhotoTrack', 'plansPhotoPrev', 'plansPhotoNext', 'plansPhotoDots');
 
 /* ---------- пины инфраструктуры на мастер-плане Nuanu ---------- */
@@ -149,23 +164,51 @@ const NUANU_PINS = [
   { ru: 'Бассейн в пещере Utopia', en: 'Pool in the Utopia Cave', dot: [36.99, 68.95], label: [37.13, 61.82] },
   { ru: 'Thk tower', en: 'Thk Tower', dot: [47.78, 68.47], label: [47.99, 77.14] },
 ];
+/* мобильный кроп (assets/nuanu-masterplan-mobile.jpg, 280x289) — ДРУГАЯ
+   раскладка, не dot+line как на десктопе, а плоские подписи прямо на фото
+   (см. Figma "nuanu mob rus"/"nuanu mob eng", 168:216/168:259, канал
+   24124zuq). Координаты — % от 280x289. Все center-анкорные (совпадают у
+   ru/en несмотря на разную ширину бокса — Figma авто-resize текста
+   расширяется симметрично от центра), кроме "Ресторан Beer Garden"
+   (align:'left' в Figma, координата = левый край, стабильна между языками) */
+const NUANU_PINS_MOBILE = [
+  { ru: 'Музыкальная студия', en: 'Music Studio', left: 18.93, top: 34.26 },
+  { ru: 'Ресторан Beer Garden', en: 'Restaurant Beer Garden', left: 3.57, top: 46.37, align: 'left' },
+  { ru: 'Венчальный зал', en: 'Wedding Hall', left: 14.11, top: 60.90 },
+  { ru: 'Бассейн в пещере Utopia', en: 'Pool in the Utopia Cave', left: 33.21, top: 67.82 },
+  { ru: 'Арт-площадка для мероприятий', en: 'Art Venue for Events', left: 30.54, top: 44.29 },
+  { ru: 'Thk tower', en: 'Thk Tower', left: 47.32, top: 74.39 },
+  { ru: 'Арт-галерея', en: 'Art Gallery', left: 39.46, top: 35.64 },
+  { ru: 'Международная школа, детский сад, деревня детского творчества', en: 'International School, Kindergarten, Children’s Creativity Village', left: 50.18, top: 28.03 },
+  { ru: 'Медиа парк Aurora', en: 'Aurora Media Park', left: 86.61, top: 34.60 },
+  { ru: 'Торговый центр', en: 'Shopping Center', left: 88.21, top: 43.60 },
+  { ru: 'Рестораны', en: 'Restaurants', left: 61.96, top: 41.52 },
+  { ru: 'Альпака парк', en: 'Alpaca Park', left: 67.68, top: 35.64 },
+  { ru: 'Ночной клуб', en: 'Night Club', left: 74.11, top: 52.60 },
+  { ru: 'Ретритный центр', en: 'Retreat Center', left: 74.46, top: 67.82 },
+];
 const nuanuPinsWrap = document.getElementById('nuanuPins');
-if (nuanuPinsWrap) {
+const nuanuMobileMQ = window.matchMedia('(max-width:860px)');
+function renderNuanuPins(lang) {
+  if (!nuanuPinsWrap) return;
+  if (nuanuMobileMQ.matches) {
+    nuanuPinsWrap.innerHTML = NUANU_PINS_MOBILE.map(p =>
+      `<span class="nuanu-pin-label${p.align === 'left' ? ' is-left' : ''}" style="left:${p.left}%;top:${p.top}%">${lang === 'en' ? p.en : p.ru}</span>`
+    ).join('');
+    return;
+  }
   /* preserveAspectRatio="none" мапит viewBox 100x100 на контейнер 2:1
      (width:height контейнера ≠ viewBox) — X и Y растягиваются РАЗНЫМИ
      коэффициентами, поэтому circle (r одинаковый по X/Y) на выходе сплюснут
      в эллипс по вертикали вдвое; компенсируем через ellipse с ry=2×rx, и
      non-scaling-stroke, чтобы толщина линии не "гуляла" в зависимости от угла */
   const lines = NUANU_PINS.map(p => `<line x1="${p.dot[0]}" y1="${p.dot[1]}" x2="${p.label[0]}" y2="${p.label[1]}" vector-effect="non-scaling-stroke"/><ellipse cx="${p.dot[0]}" cy="${p.dot[1]}" rx=".35" ry=".7"/>`).join('');
-  const labels = NUANU_PINS.map(p => `<span class="nuanu-pin-label" style="left:${p.label[0]}%;top:${p.label[1]}%" data-ru="${p.ru}" data-en="${p.en}">${p.ru}</span>`).join('');
+  const labels = NUANU_PINS.map(p => `<span class="nuanu-pin-label" style="left:${p.label[0]}%;top:${p.label[1]}%">${lang === 'en' ? p.en : p.ru}</span>`).join('');
   nuanuPinsWrap.innerHTML = `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg>${labels}`;
 }
-window.__bsoSyncNuanuPins = function (lang) {
-  if (!nuanuPinsWrap) return;
-  nuanuPinsWrap.querySelectorAll('.nuanu-pin-label').forEach(el => {
-    el.textContent = lang === 'en' ? el.dataset.en : el.dataset.ru;
-  });
-};
+renderNuanuPins(window.__bsoLang || 'ru');
+nuanuMobileMQ.addEventListener('change', () => renderNuanuPins(window.__bsoLang || 'ru'));
+window.__bsoSyncNuanuPins = function (lang) { renderNuanuPins(lang); };
 
 /* ---------- планировки: верхние табы (правка Босса — раньше были слева) ---------- */
 /* Площадь — реальные цифры из официальной презентации bso-presentation_eng.pdf
@@ -296,7 +339,10 @@ function renderPlan(planId, lang) {
     } else {
       const img = document.createElement('img');
       img.className = 'plan-photo-img';
-      img.loading = 'lazy';
+      /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
+         (коммит ca4a0c2): в горизонтальном scroll-snap треке офскрин-кадры
+         не подгружаются браузером вовремя, слайд виснет пустым/долго грузится
+         при переключении таба виллы, пока юзер не подождёт или не проскроллит */
       img.src = p.photos[i];
       img.alt = p.photoAlts[i];
       if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
