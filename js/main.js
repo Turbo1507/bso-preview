@@ -29,6 +29,90 @@ if (menuOverlay) { menuOverlay.setAttribute('aria-hidden', 'true'); menuOverlay.
 if (menuClose) menuClose.addEventListener('click', () => setMenuOpen(false));
 if (menuOverlay) menuOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenuOpen(false)));
 
+/* ---------- оверлей заявки (тот же паттерн, что на unitdeveloper.com) ----------
+   ВАЖНО: у BSO нет своего бэкенда/CRM-эндпоинта для приёма заявок (сайт —
+   статика на GitHub Pages). Пока шлём через mailto на hello@unit.now (реальный
+   опубликованный адрес UNIT. в футере unitdeveloper.com, не придуман) — это
+   ЧЕСТНЫЙ, но временный канал. Настоящую доставку (форма-бэкенд/Telegram-бот/
+   Битрикс CRM) нужно обсудить с Боссом отдельно. */
+const leadModal = document.getElementById('leadModal');
+const leadForm = document.getElementById('leadForm');
+if (leadModal && leadForm) {
+  const openLead = () => {
+    leadModal.classList.add('is-open');
+    leadModal.setAttribute('aria-hidden', 'false');
+    leadModal.removeAttribute('inert');
+    document.body.classList.add('lead-lock');
+  };
+  const closeLead = () => {
+    leadModal.classList.remove('is-open');
+    leadModal.setAttribute('aria-hidden', 'true');
+    leadModal.setAttribute('inert', '');
+    document.body.classList.remove('lead-lock');
+  };
+  leadModal.setAttribute('aria-hidden', 'true');
+  leadModal.setAttribute('inert', '');
+  document.querySelectorAll('.js-lead-open').forEach(el => el.addEventListener('click', e => {
+    e.preventDefault();
+    setMenuOpen(false);
+    openLead();
+  }));
+  leadModal.querySelectorAll('[data-lead-close]').forEach(el => el.addEventListener('click', closeLead));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLead(); });
+
+  /* телефон: код страны + автоформат по региональному шаблону (как на unit-wp) */
+  const ccSelect = leadForm.querySelector('#leadCc');
+  const phoneLocal = leadForm.querySelector('#leadPhoneLocal');
+  function formatPhoneDigits(digits, pattern) {
+    const groups = (pattern || '3-3-3').split('-').map(n => parseInt(n, 10));
+    const out = []; let i = 0;
+    for (const g of groups) { if (i >= digits.length) break; out.push(digits.slice(i, i + g)); i += g; }
+    if (i < digits.length) out.push(digits.slice(i));
+    return out.filter(Boolean).join(' ');
+  }
+  if (ccSelect && phoneLocal) {
+    const reformat = () => {
+      const digits = phoneLocal.value.replace(/\D+/g, '');
+      const fmt = ccSelect.selectedOptions[0] && ccSelect.selectedOptions[0].dataset.format;
+      phoneLocal.value = formatPhoneDigits(digits, fmt);
+    };
+    phoneLocal.addEventListener('input', reformat);
+    ccSelect.addEventListener('change', reformat);
+  }
+
+  /* кнопка отправки неактивна, пока не отмечено согласие на ПД */
+  const consentBox = leadForm.querySelector('input[name="consent"]');
+  const submitBtn = leadForm.querySelector('button[type="submit"]');
+  const syncSubmitState = () => { if (consentBox && submitBtn) submitBtn.disabled = !consentBox.checked; };
+  if (consentBox) { consentBox.addEventListener('change', syncSubmitState); syncSubmitState(); }
+
+  leadForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const status = leadForm.querySelector('[data-status]');
+    const dict = (window.I18N && window.I18N[window.__bsoLang || 'ru']) || {};
+    const data = new FormData(leadForm);
+    const phone = '+' + (ccSelect ? ccSelect.value : '') + ' ' + (phoneLocal ? phoneLocal.value.trim() : '');
+    const purposeLabels = {
+      own: dict['lead.purpose_own'], invest: dict['lead.purpose_invest'],
+      rent: dict['lead.purpose_rent'], other: dict['lead.purpose_other']
+    };
+    const lines = [
+      'Black Sands Oasis — заявка с сайта',
+      'Имя: ' + (data.get('name') || ''),
+      'Телефон: ' + phone,
+      'Email: ' + (data.get('email') || '—'),
+      'Интерес: ' + (purposeLabels[data.get('purpose')] || data.get('purpose') || '—'),
+      'Комментарий: ' + (data.get('comment') || '—')
+    ];
+    const mailto = 'mailto:hello@unit.now?subject=' + encodeURIComponent('BSO: заявка от ' + (data.get('name') || '')) + '&body=' + encodeURIComponent(lines.join('\n'));
+    window.location.href = mailto;
+    if (status) { status.textContent = dict['lead.success'] || 'Спасибо! Мы скоро свяжемся с вами.'; status.className = 'lead-status is-ok'; }
+    leadForm.reset();
+    syncSubmitState();
+    setTimeout(closeLead, 2200);
+  });
+}
+
 /* ---------- мобильный CTA снизу: скрыт пока мы на хиро, появляется после ---------- */
 const heroSection = document.querySelector('.hero');
 const mobCta = document.querySelector('.mob-cta');

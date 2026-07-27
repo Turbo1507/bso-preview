@@ -763,6 +763,35 @@ html.js .reveal.in{opacity:1; transform:none}
 .mob-cta .btn{flex:1; justify-content:center; padding:14px 20px; font-size:16px}
 @media (prefers-reduced-motion: reduce){.mob-cta{transition:none}}
 
+/* ---------- оверлей заявки (паттерн с unit-wp, тот же UX: бэкдроп+панель,
+   код страны с автоформатом номера, кнопка неактивна без согласия на ПД) ---------- */
+body.lead-lock{overflow:hidden}
+.lead-modal{position:fixed; inset:0; z-index:200; display:none}
+.lead-modal.is-open{display:flex; align-items:center; justify-content:center; padding:24px; box-sizing:border-box; overflow-y:auto}
+.lead-backdrop{position:fixed; inset:0; background:rgba(28,24,21,.6)}
+.lead-panel{position:relative; z-index:1; max-width:480px; width:100%; max-height:calc(100vh - 48px); overflow-y:auto; margin:auto; background:var(--white); border-radius:var(--r-lg); padding:32px; box-shadow:var(--shadow-card)}
+.lead-x{position:absolute; top:16px; right:16px; width:32px; height:32px; border:0; background:var(--stone); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink)}
+.lead-panel h3{font-size:24px; line-height:1.1; margin-right:32px; color:var(--ink)}
+.lead-form-sub{margin-top:6px; color:var(--muted); font-size:13px}
+.lead-field{display:block; margin-top:16px; font-size:12px; color:var(--muted)}
+.lead-field span{display:block; margin-bottom:6px}
+.lead-field input, .lead-field select, .lead-field textarea{width:100%; box-sizing:border-box; border:1px solid var(--line); border-radius:var(--r-xs); padding:11px 14px; font:inherit; font-size:14px; color:var(--ink); background:var(--white)}
+.lead-field select{appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%233a352f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; background-size:11px 8px; padding-right:34px}
+.lead-phone-row{display:flex; gap:8px}
+.lead-phone-row select{flex:0 0 100px; width:100px; padding-left:10px; padding-right:26px; background-position:right 8px center}
+.lead-phone-row input{flex:1; min-width:0}
+.lead-field input:focus, .lead-field select:focus, .lead-field textarea:focus{outline:none; border-color:var(--clay)}
+.lead-field textarea{resize:vertical}
+.lead-consent{display:flex; align-items:flex-start; gap:9px; margin-top:16px; font-size:12px; color:var(--graphite)}
+.lead-consent input{appearance:none; -webkit-appearance:none; width:18px; height:18px; flex:0 0 18px; margin:1px 0 0; border:1.5px solid var(--line-strong); border-radius:5px; background:var(--white); cursor:pointer; position:relative}
+.lead-consent input:checked{background:var(--clay); border-color:var(--clay)}
+.lead-consent input:checked::after{content:""; position:absolute; left:5px; top:2px; width:5px; height:9px; border:solid var(--white); border-width:0 2px 2px 0; transform:rotate(45deg)}
+.lead-panel .btn[disabled]{opacity:.45; cursor:not-allowed; box-shadow:none}
+.lead-panel .btn{margin-top:20px}
+.lead-status{margin-top:12px; font-size:13px; min-height:1em; color:var(--muted)}
+.lead-status.is-ok{color:#1a8a4a}
+.lead-status.is-err{color:#b3341f}
+
 /* ==================== ADAPTIVE ==================== */
 @media (max-width:1080px){
   .priv-grid, .stat-grid{grid-template-columns:1fr}
@@ -939,4 +968,7 @@ html.js .reveal.in{opacity:1; transform:none}
   .footer-col h4{font-size:15px; margin-bottom:12px}
   .footer-col a{font-size:13px; padding:6px 0}
   .footer-bottom{font-size:12px; margin-top:var(--sp-lg); padding-top:18px}
+
+  .lead-modal.is-open{padding:16px}
+  .lead-panel{padding:24px 20px; max-height:calc(100vh - 32px)}
 }
