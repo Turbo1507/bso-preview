@@ -25,7 +25,7 @@
       <div class="lang" role="group" aria-label="language">
         <button data-lang="ru" class="is-active">RU</button><span>/</span><button data-lang="en">EN</button>
       </div>
-      <a class="btn btn-ghost btn-header" href="#contacts" data-i18n="nav.cta">Получить презентацию</a>
+      <a class="btn btn-ghost btn-header js-lead-open" href="#contacts" data-i18n="nav.cta">Получить презентацию</a>
       <button class="burger" id="burger" aria-label="Меню" data-i18n-aria="menu.title"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -42,7 +42,7 @@
   <div class="lang menu-lang" role="group" aria-label="language">
     <button data-lang="ru" class="is-active">RU</button><span>/</span><button data-lang="en">EN</button>
   </div>
-  <a class="btn btn-clay menu-cta" href="#contacts" data-i18n="nav.cta">Получить презентацию</a>
+  <a class="btn btn-clay menu-cta js-lead-open" href="#contacts" data-i18n="nav.cta">Получить презентацию</a>
 </div>
 
 <!-- ===== 01. HERO ===== -->
@@ -262,7 +262,7 @@
           <svg class="plans-stat-ic" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" fill="currentColor"/><path fill="currentColor" d="M4 22c0-4.42 3.58-8 8-8s8 3.58 8 8H4z"/></svg>
           <div><div class="k" data-i18n="plans.who_label">Для кого</div><div class="v" id="planWho">Один, пары</div></div>
         </div>
-                <a class="btn btn-glass" href="#contacts" data-i18n="plans.cta">Приобрести</a>
+                <a class="btn btn-glass js-lead-open" href="#contacts" data-i18n="plans.cta">Приобрести</a>
       </div>
     </div>
   </div>
@@ -320,7 +320,7 @@
       <div class="fin-card-text">
         <h3 data-i18n="fin.headline">Расчёт доходности под конкретный юнит</h3>
         <p data-i18n="fin.p">Полная модель — цена входа, график платежей, прогноз доходности и сроки окупаемости — предоставляется на личной консультации</p>
-        <a class="btn btn-clay" href="#contacts" data-i18n="fin.cta">Получить финансовую модель</a>
+        <a class="btn btn-clay js-lead-open" href="#contacts" data-i18n="fin.cta">Получить финансовую модель</a>
       </div>
     </div>
   </div>
@@ -365,7 +365,7 @@
         <div class="stat"><h3 data-i18n="final.stat2.v">35+ Объектов</h3><p data-i18n="final.stat2.p">инфраструктуры города будущего Nuanu уже доступны</p></div>
         <div class="stat"><h3 data-i18n="final.stat3.v">108 Юнитов</h3><p data-i18n="final.stat3.p">уже построено и успешно сдано</p></div>
       </div>
-      <a class="btn btn-white final-cta" href="#contacts"><span data-i18n="final.cta">Получить персональную подборку вилл</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-white final-cta js-lead-open" href="#contacts"><span data-i18n="final.cta">Получить персональную подборку вилл</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>
@@ -409,7 +409,59 @@
 
 <!-- ===== MOBILE CTA ===== -->
 <div class="mob-cta">
-  <a class="btn btn-clay" href="#contacts" data-i18n="nav.cta">Получить презентацию</a>
+  <a class="btn btn-clay js-lead-open" href="#contacts" data-i18n="nav.cta">Получить презентацию</a>
+</div>
+
+<!-- ===== ОВЕРЛЕЙ ЗАЯВКИ ===== -->
+<div class="lead-modal" id="leadModal" aria-hidden="true">
+  <div class="lead-backdrop" data-lead-close></div>
+  <div class="lead-panel" role="dialog" aria-modal="true" aria-labelledby="leadTitle">
+    <button type="button" class="lead-x" data-lead-close aria-label="Закрыть" data-i18n-aria="lead.close"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
+    <form id="leadForm" novalidate>
+      <h3 id="leadTitle" data-i18n="lead.title">Оставить заявку</h3>
+      <p class="lead-form-sub" data-i18n="lead.sub">Ответим в течение одного рабочего дня</p>
+
+      <label class="lead-field"><span data-i18n="lead.name">Ваше имя</span><input type="text" name="name" required></label>
+      <label class="lead-field"><span data-i18n="lead.phone">Телефон / WhatsApp</span>
+        <div class="lead-phone-row">
+          <select id="leadCc" name="cc" aria-label="Код страны" data-i18n-aria="lead.cc_aria">
+            <option value="62" data-format="3-4-4" selected>ID +62</option>
+            <option value="7" data-format="3-3-2-2">RU +7</option>
+            <option value="380" data-format="2-3-2-2">UA +380</option>
+            <option value="375" data-format="2-3-2-2">BY +375</option>
+            <option value="1" data-format="3-3-4">US +1</option>
+            <option value="44" data-format="4-3-3">GB +44</option>
+            <option value="49" data-format="3-4-4">DE +49</option>
+            <option value="33" data-format="1-2-2-2-2">FR +33</option>
+            <option value="971" data-format="2-3-4">AE +971</option>
+            <option value="65" data-format="4-4">SG +65</option>
+            <option value="60" data-format="2-3-4">MY +60</option>
+            <option value="61" data-format="3-3-3">AU +61</option>
+            <option value="86" data-format="3-4-4">CN +86</option>
+          </select>
+          <input type="tel" id="leadPhoneLocal" name="phone_local" inputmode="numeric" autocomplete="tel-national" required placeholder="812 3456 789">
+        </div>
+      </label>
+      <label class="lead-field"><span data-i18n="lead.email">Email (необязательно)</span><input type="email" name="email"></label>
+
+      <label class="lead-field"><span data-i18n="lead.purpose">Что вас интересует</span>
+        <select name="purpose">
+          <option value="" selected disabled data-i18n="lead.purpose_placeholder">Выберите вариант ▾</option>
+          <option value="own" data-i18n="lead.purpose_own">Купить виллу для себя</option>
+          <option value="invest" data-i18n="lead.purpose_invest">Инвестиция (доходность/перепродажа)</option>
+          <option value="rent" data-i18n="lead.purpose_rent">Аренда / проживание</option>
+          <option value="other" data-i18n="lead.purpose_other">Пока не решил(а)</option>
+        </select>
+      </label>
+
+      <label class="lead-field"><span data-i18n="lead.comment">Комментарий (необязательно)</span><textarea name="comment" rows="3"></textarea></label>
+
+      <label class="lead-consent"><input type="checkbox" name="consent" required><span data-i18n="lead.consent">Согласен(на) на обработку персональных данных</span></label>
+
+      <button type="submit" class="btn btn-clay" style="width:100%" disabled><span data-i18n="lead.submit">Отправить заявку</span></button>
+      <p class="lead-status" data-status=""></p>
+    </form>
+  </div>
 </div>
 
 <script src="js/i18n.js"></script>
