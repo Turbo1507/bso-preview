@@ -150,6 +150,9 @@ window.I18N = {
     "feat.photo3_alt": "Прохлада в тени",
     "feat.photo4_alt": "Высокие стены и свет во внутреннем дворе",
     "nuanu.photo_alt": "Мастер-план Nuanu с расположением Black Sands Oasis",
+    "cookie.text": "Мы используем куки и локальное хранилище браузера, чтобы сайт работал: запоминаем язык, настройки отображения и анонимную статистику посещений.",
+    "cookie.more": "Подробнее",
+    "cookie.accept": "Понятно",
     "sig.photo_alt": "Арт-объект Stella Solaris",
     "invest.photo_alt": "Приватный бассейн виллы Black Sands Oasis"
   },
@@ -298,17 +301,31 @@ window.I18N = {
     "feat.photo3_alt": "Cool shade",
     "feat.photo4_alt": "Tall walls and light in the inner courtyard",
     "nuanu.photo_alt": "Nuanu master plan showing the location of Black Sands Oasis",
+    "cookie.text": "We use cookies and browser local storage to keep the site working: your language, display settings and anonymous usage statistics.",
+    "cookie.more": "Learn more",
+    "cookie.accept": "Got it",
     "sig.photo_alt": "Stella Solaris art object",
     "invest.photo_alt": "Private pool of a Black Sands Oasis villa"
   }
 };
 
 window.setLang = function (lang) {
-  const dict = window.I18N[lang] || window.I18N.ru;
+  const dict = window.I18N[lang] || window.I18N.en;
   document.documentElement.lang = lang;
   document.title = dict['meta.title'];
   const metaDesc = document.querySelector('meta[name="description"]');
   if (metaDesc) metaDesc.setAttribute('content', dict['meta.desc']);
+  /* превью при шаринге держим на языке страницы: og/twitter-теги в <head>
+     статично на EN (основной язык), при переключении на RU — переписываем */
+  [['meta[property="og:title"]', 'content', 'meta.title'],
+   ['meta[name="twitter:title"]', 'content', 'meta.title'],
+   ['meta[property="og:description"]', 'content', 'meta.desc'],
+   ['meta[name="twitter:description"]', 'content', 'meta.desc']].forEach(([sel, attr, key]) => {
+    const el = document.querySelector(sel);
+    if (el && dict[key]) el.setAttribute(attr, dict[key]);
+  });
+  const ogLocale = document.querySelector('meta[property="og:locale"]');
+  if (ogLocale) ogLocale.setAttribute('content', lang === 'ru' ? 'ru_RU' : 'en_US');
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');

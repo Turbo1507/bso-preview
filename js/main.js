@@ -89,7 +89,7 @@ if (leadModal && leadForm) {
   leadForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const status = leadForm.querySelector('[data-status]');
-    const dict = (window.I18N && window.I18N[window.__bsoLang || 'ru']) || {};
+    const dict = (window.I18N && window.I18N[window.__bsoLang || 'en']) || {};
     const data = new FormData(leadForm);
     const phone = '+' + (ccSelect ? ccSelect.value : '') + ' ' + (phoneLocal ? phoneLocal.value.trim() : '');
     const purposeLabels = {
@@ -290,8 +290,8 @@ function renderNuanuPins(lang) {
   const labels = NUANU_PINS.map(p => `<span class="nuanu-pin-label" style="left:${p.label[0]}%;top:${p.label[1]}%">${lang === 'en' ? p.en : p.ru}</span>`).join('');
   nuanuPinsWrap.innerHTML = `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg>${labels}`;
 }
-renderNuanuPins(window.__bsoLang || 'ru');
-nuanuMobileMQ.addEventListener('change', () => renderNuanuPins(window.__bsoLang || 'ru'));
+renderNuanuPins(window.__bsoLang || 'en');
+nuanuMobileMQ.addEventListener('change', () => renderNuanuPins(window.__bsoLang || 'en'));
 window.__bsoSyncNuanuPins = function (lang) { renderNuanuPins(lang); };
 
 /* ---------- планировки: верхние табы (правка Босса — раньше были слева) ---------- */
@@ -312,7 +312,10 @@ window.__bsoSyncNuanuPins = function (lang) { renderNuanuPins(lang); };
    последним, после плана. */
 const PLANS = {
   ru: {
-    studio:   { name: 'Studio', area: '31,2 м²', cap: '5 чел.', who: 'Один, пары', photos: ['assets/plan-studio.png','assets/villa-studio-detail1.jpg','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg','assets/villa-studio-topview.jpg'], photoAlts: ['Планировка Studio','Интерьер виллы Studio','Интерьер виллы Studio','Интерьер виллы Studio','Вилла Studio в разрезе сверху'], positions: ['50% 50%','50% 50%','50% 65%','50% 55%','50% 50%'] },
+    /* detail1 (кадр с телевизором) — 3-й слайд карусели по правке Босса. Учитываем
+       перестановку в renderPlan: photos[0] (план) уезжает предпоследним, поэтому
+       в массиве detail1 стоит 4-м, а в самой карусели показывается третьим */
+    studio:   { name: 'Studio', area: '31,2 м²', cap: '5 чел.', who: 'Один, пары', photos: ['assets/plan-studio.png','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg','assets/villa-studio-detail1.jpg','assets/villa-studio-topview.jpg'], photoAlts: ['Планировка Studio','Интерьер виллы Studio','Интерьер виллы Studio','Интерьер виллы Studio','Вилла Studio в разрезе сверху'], positions: ['50% 50%','50% 65%','50% 55%','50% 50%','50% 50%'] },
     '1bd':    { name: '1BD', area: '71,3 м²', cap: '2 чел.', who: 'Пары', photos: ['assets/plan-1bd.png','assets/villa-1bd-detail1.jpg','assets/villa-1bd-detail2.jpg','assets/villa-1bd-detail3.jpg','assets/villa-1bd-topview.jpg'], photoAlts: ['Планировка 1BD','Интерьер виллы 1BD','Интерьер виллы 1BD','Интерьер виллы 1BD','Вилла 1BD в разрезе сверху'], positions: ['50% 50%','50% 60%','50% 75%','50% 55%','50% 50%'] },
     '1bdsky': { name: '1BD SKY', area: '83,3 м²', cap: '2 чел.', who: 'Пары, workation', photos: ['assets/plan-1bdsky.png','assets/villa-1bdsky-detail1.jpg','assets/villa-1bdsky-detail2.jpg','assets/villa-1bdsky-detail3.jpg','assets/villa-1bdsky-topview.jpg'], photoAlts: ['Планировка 1BD SKY','Интерьер виллы 1BD SKY','Интерьер виллы 1BD SKY','Интерьер виллы 1BD SKY','Вилла 1BD SKY в разрезе сверху'], positions: ['50% 50%','50% 65%','50% 70%','50% 75%','50% 50%'] },
     '2bd':    { name: '2BD', area: '104,61 м²', cap: '4 чел.', who: 'Пары с ребёнком, друзья', photos: ['assets/plan-2bd.png','assets/villa-2bd-detail1.jpg','assets/villa-2bd-detail2.jpg','assets/villa-2bd-detail3.jpg','assets/villa-2bd-topview.jpg'], photoAlts: ['Планировка 2BD','Интерьер виллы 2BD','Интерьер виллы 2BD','Интерьер виллы 2BD','Вилла 2BD в разрезе сверху'], positions: ['50% 50%','50% 65%','50% 55%','50% 80%','50% 50%'] },
@@ -321,7 +324,7 @@ const PLANS = {
     '4bd':    { name: '4BD', area: '159,8 м²', cap: '8 чел.', who: 'Большие семьи, несколько поколений', photos: ['assets/plan-4bd.png','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd-detail4.jpg','assets/villa-4bd-topview.jpg'], photoAlts: ['Планировка 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Интерьер виллы 4BD','Вилла 4BD в разрезе сверху'], positions: ['50% 50%','50% 70%','50% 50%','50% 60%','50% 75%','50% 50%'] },
   },
   en: {
-    studio:   { name: 'Studio', area: '31.2 m²', cap: '5 people', who: 'Single, couples', photos: ['assets/plan-studio.png','assets/villa-studio-detail1.jpg','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg','assets/villa-studio-topview.jpg'], photoAlts: ['Studio floor plan','Studio villa interior','Studio villa interior','Studio villa interior','Studio villa cutaway top view'], positions: ['50% 50%','50% 50%','50% 65%','50% 55%','50% 50%'] },
+    studio:   { name: 'Studio', area: '31.2 m²', cap: '5 people', who: 'Single, couples', photos: ['assets/plan-studio.png','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg','assets/villa-studio-detail1.jpg','assets/villa-studio-topview.jpg'], photoAlts: ['Studio floor plan','Studio villa interior','Studio villa interior','Studio villa interior','Studio villa cutaway top view'], positions: ['50% 50%','50% 65%','50% 55%','50% 50%','50% 50%'] },
     '1bd':    { name: '1BD', area: '71.3 m²', cap: '2 people', who: 'Couples', photos: ['assets/plan-1bd.png','assets/villa-1bd-detail1.jpg','assets/villa-1bd-detail2.jpg','assets/villa-1bd-detail3.jpg','assets/villa-1bd-topview.jpg'], photoAlts: ['1BD floor plan','1BD villa interior','1BD villa interior','1BD villa interior','1BD villa cutaway top view'], positions: ['50% 50%','50% 60%','50% 75%','50% 55%','50% 50%'] },
     '1bdsky': { name: '1BD SKY', area: '83.3 m²', cap: '2 people', who: 'Couples, workation', photos: ['assets/plan-1bdsky.png','assets/villa-1bdsky-detail1.jpg','assets/villa-1bdsky-detail2.jpg','assets/villa-1bdsky-detail3.jpg','assets/villa-1bdsky-topview.jpg'], photoAlts: ['1BD SKY floor plan','1BD SKY villa interior','1BD SKY villa interior','1BD SKY villa interior','1BD SKY villa cutaway top view'], positions: ['50% 50%','50% 65%','50% 70%','50% 75%','50% 50%'] },
     '2bd':    { name: '2BD', area: '104.61 m²', cap: '4 people', who: 'Couples with a child, friends', photos: ['assets/plan-2bd.png','assets/villa-2bd-detail1.jpg','assets/villa-2bd-detail2.jpg','assets/villa-2bd-detail3.jpg','assets/villa-2bd-topview.jpg'], photoAlts: ['2BD floor plan','2BD villa interior','2BD villa interior','2BD villa interior','2BD villa cutaway top view'], positions: ['50% 50%','50% 65%','50% 55%','50% 80%','50% 50%'] },
@@ -389,7 +392,7 @@ function buildFloorsSVG(layout, lang) {
 }
 const plansTabs = document.getElementById('plansTabs');
 function renderPlan(planId, lang) {
-  const p = (PLANS[lang] || PLANS.ru)[planId];
+  const p = (PLANS[lang] || PLANS.en)[planId];
   if (!p) return;
   document.getElementById('planName').textContent = p.name;
   document.getElementById('planArea').textContent = p.area;
@@ -443,7 +446,7 @@ if (plansTabs) {
     if (!btn) return;
     plansTabs.querySelectorAll('.plans-tab').forEach(t => t.classList.remove('is-active'));
     btn.classList.add('is-active');
-    renderPlan(btn.dataset.plan, window.__bsoLang || 'ru');
+    renderPlan(btn.dataset.plan, window.__bsoLang || 'en');
   });
   /* вызывается из setLang() при смене языка — перерисовывает АКТИВНЫЙ таб на новом языке */
   window.__bsoSyncPlan = function (lang) {
@@ -453,7 +456,7 @@ if (plansTabs) {
   /* статичная разметка studio в HTML не знает про object-position — рендерим
      сразу при загрузке, чтобы кроп первого таба тоже был по positions, а не
      дефолтным 50/50 */
-  renderPlan('studio', window.__bsoLang || 'ru');
+  renderPlan('studio', window.__bsoLang || 'en');
 }
 
 /* ---------- заглушки (сертификаты/юр.страницы/соцсети) — реальных страниц ещё нет ---------- */
@@ -467,10 +470,31 @@ document.querySelectorAll('.placeholder-link').forEach(a => {
 document.querySelectorAll('[data-lang]').forEach(btn => {
   btn.addEventListener('click', () => window.setLang && window.setLang(btn.dataset.lang));
 });
+/* английская версия — основная (правка Босса): статическая разметка index.html
+   тоже на EN, поэтому первый кадр не мигает переводом. RU остаётся по кнопке и
+   запоминается в localStorage */
 if (window.setLang) {
-  let initialLang = 'ru';
-  try { initialLang = localStorage.getItem('bso_lang') || 'ru'; } catch (e) {}
+  let initialLang = 'en';
+  try { initialLang = localStorage.getItem('bso_lang') || 'en'; } catch (e) {}
   window.setLang(initialLang);
+}
+
+/* ---------- уведомление про куки/локальное хранилище ----------
+   Сайт — статика без бэкенда: сейчас в браузере хранятся только язык (bso_lang),
+   тема (bsoTheme) и сам факт согласия. Баннер показывается один раз, ждёт пару
+   секунд, чтобы не перебивать первый экран, и уступает модалке заявки. */
+const cookieNote = document.getElementById('cookieNote');
+if (cookieNote) {
+  let accepted = false;
+  try { accepted = localStorage.getItem('bso_cookie_ok') === '1'; } catch (e) {}
+  if (!accepted) {
+    setTimeout(() => cookieNote.classList.add('is-open'), 1800);
+    const okBtn = document.getElementById('cookieOk');
+    if (okBtn) okBtn.addEventListener('click', () => {
+      cookieNote.classList.remove('is-open');
+      try { localStorage.setItem('bso_cookie_ok', '1'); } catch (e) {}
+    });
+  }
 }
 
 /* ---------- переключатель темы (служебный, не для клиентов) ---------- */

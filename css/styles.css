@@ -79,6 +79,11 @@ a{color:inherit; text-decoration:none}
 button{font-family:inherit; cursor:pointer}
 .container{max-width:var(--container); margin:0 auto; padding:0 40px}
 .section{padding:var(--sp-3xl) 0}
+/* архитектура (#architecture) + карусель преимуществ (следующая секция) — по
+   смыслу один блок (правка Босса), не две разные темы: обычные 100+100=200px
+   между ними читались как разрыв. Урезаем верхний паддинг ВТОРОЙ секции
+   точечным adjacent-селектором, не трогая общее правило .section — 100+20=120 */
+#architecture + .section{padding-top:20px}
 /* Figma (ноды "Система"/"Приватность" и т.д.): естественный регистр, БЕЗ
    text-transform:uppercase и БЕЗ доп. letter-spacing — я лишний раз стилизовал */
 .kicker{font-size:16px; font-weight:300; color:var(--clay)}
@@ -209,16 +214,18 @@ body.menu-open .burger span:nth-child(2){opacity:0}
 body.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
 /* ---------- мобильное меню: полноэкранный оверлей (паттерн с unit-wordpress) ---------- */
-/* было padding-top:150px, чисто верхом, без justify-content — .menu-head
-   (~76px: 22px padding + 32px кнопка) оставлял огромный voidsверху, а весь
-   нав-блок дальше жался к низу с пустотой под кнопкой. 96px хватает, чтобы
-   не наезжать на .menu-head + внешний отступ, а justify-content:center
-   распределяет остаток по вертикали симметрично, а не только вниз */
+/* структура: пункты сразу под шапкой меню, языковой переключатель и CTA прижаты
+   к низу экрана (margin-top:auto у .menu-lang). Прошлые варианты не читались:
+   padding-top:150px давал дыру под «Меню», а justify-content:center — дыру
+   сверху (188px) и слипшуюся группу «ссылки+язык+кнопка» внизу. 96px сверху =
+   высота .menu-head (76) + воздух, 40px снизу — как у остальных мобильных
+   нижних отступов */
 .menu-overlay{
   position:fixed; inset:0; z-index:90; background:var(--white);
   transform:translateY(-100%); transition:transform .5s var(--ease);
-  display:flex; flex-direction:column; justify-content:center; padding:96px 24px 40px; gap:2px;
+  display:flex; flex-direction:column; justify-content:flex-start; padding:96px 24px 40px; gap:2px;
 }
+.menu-overlay .menu-lang{margin-top:auto; padding-top:32px}
 body.menu-open .menu-overlay{transform:translateY(0)}
 body.menu-open{overflow:hidden}
 .menu-head{position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:22px 24px; z-index:1}
@@ -713,7 +720,8 @@ body.menu-open{overflow:hidden}
 .site-footer{background:var(--stone); border-radius:var(--r-lg) var(--r-lg) 0 0; padding:var(--sp-xl) 0 var(--sp-md)}
 .footer-in{display:grid; grid-template-columns:1.4fr 1fr 1.2fr auto; gap:var(--sp-lg)}
 .footer-brand .logo{color:var(--ink); font-size:22px}
-.footer-brand .logo b{color:var(--clay)}
+/* по правке Босса: «Black Sands Oasis» в футере — тёмным, не терракотовым */
+.footer-brand .logo b{color:var(--ink)}
 .footer-brand p{margin-top:18px; font-size:14px; line-height:1.5; color:rgba(58,58,58,.78); max-width:32ch}
 /* Figma ("Меню"/"Важные ссылки"/"Адрес", frame 15): Regular/400 20px, не
    Medium/500 16px как было — перепутано так же, как заголовки-стат Nuanu */
@@ -763,6 +771,33 @@ html.js .reveal.in{opacity:1; transform:none}
 .mob-cta .btn{flex:1; justify-content:center; padding:14px 20px; font-size:16px}
 @media (prefers-reduced-motion: reduce){.mob-cta{transition:none}}
 
+/* ---------- уведомление про куки/локальное хранилище (правый нижний угол) ----------
+   Показывается один раз: согласие пишется в localStorage (bso_cookie_ok). Ниже
+   модалки заявки по z-index (200) и выше мобильной CTA-полосы (40), на мобиле
+   садится над этой полосой, а не под неё. */
+.cookie-note{
+  position:fixed; z-index:150; right:24px; bottom:24px; width:min(360px, calc(100vw - 48px));
+  background:var(--white); border:1px solid var(--line); border-radius:var(--r-sm);
+  padding:20px; box-shadow:var(--shadow-card);
+  opacity:0; visibility:hidden; transform:translateY(12px);
+  transition:opacity .35s var(--ease), transform .35s var(--ease), visibility .35s;
+}
+.cookie-note.is-open{opacity:1; visibility:visible; transform:translateY(0)}
+.cookie-note p{font-size:13px; line-height:1.5; color:var(--muted)}
+.cookie-note-row{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:16px}
+.cookie-note-row a{font-size:13px; color:var(--clay); border-bottom:1px solid transparent}
+.cookie-note-row a:hover{border-bottom-color:var(--clay)}
+.cookie-note-row .btn{padding:11px 20px; font-size:14px}
+@media (prefers-reduced-motion: reduce){.cookie-note{transition:none}}
+@media (max-width:860px){
+  /* мобильная CTA-полоса (.mob-cta) занимает низ экрана — уведомление ставим
+     над ней, иначе кнопка «Got it» уходит под полосу и её не нажать */
+  .cookie-note{right:16px; left:16px; bottom:88px; width:auto; padding:16px}
+  .cookie-note p{font-size:12px}
+  .cookie-note-row{margin-top:12px}
+  .cookie-note-row .btn{padding:10px 16px; font-size:13px}
+}
+
 /* ---------- оверлей заявки (паттерн с unit-wp, тот же UX: бэкдроп+панель,
    код страны с автоформатом номера, кнопка неактивна без согласия на ПД) ---------- */
 body.lead-lock{overflow:hidden}
@@ -803,6 +838,9 @@ body.lead-lock{overflow:hidden}
   /* мобильный ритм — компактнее десктопного (было 40/40=80 общий, затем
      +8 по правке Босса "больше воздуха" — 48/48=96 общий) */
   .section{padding:48px 0}
+  /* та же логика, что на десктопе (100+20=120): architecture+карусель — один
+     блок, 48+48=96 читалось разрывом; пропорционально урезано до 48+12=60 */
+  #architecture + .section{padding-top:12px}
   /* подзаголовки (лид-абзацы под H2) — компактнее на мобиле */
   .lead{font-size:12px}
   .fin-section{padding-bottom:48px}
@@ -951,11 +989,9 @@ body.lead-lock{overflow:hidden}
   /* по правилу "внутренний отступ не больше отступа от края" — sp-xl(64)
      превышал мобильный edge-паддинг секции (40px), не было override */
   .signature-photo{margin-top:var(--sp-lg)}
-  .signature-chips{margin-top:var(--sp-lg)}
-  .signature-chips span{
-    font-size:7px; padding:8px 14px;
-    display:flex; align-items:center; justify-content:center;
-  }
+  /* по правке Босса: чипы-описания под Stella Solaris на мобиле убраны —
+     три длинные фразы в 7px были нечитаемы и ломали ритм секции */
+  .signature-chips{display:none}
 
   /* ---------- инвестиции: карточки компактнее на мобиле, фото крупнее ---------- */
   .stat-card{padding:22px}
