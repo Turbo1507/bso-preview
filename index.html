@@ -1,12 +1,30 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>document.documentElement.classList.add('js')</script>
 <script>try{var t=localStorage.getItem('bsoTheme');if(t==='mono')document.documentElement.setAttribute('data-theme','mono')}catch(e){}</script>
-<title data-i18n="meta.title">Black Sands Oasis — флагманский проект UNIT в Nuanu, Бали</title>
-<meta name="description" data-i18n-content="meta.desc" content="Black Sands Oasis — камерные виллы в стиле Desert Modernism внутри города будущего Nuanu на западном побережье Бали.">
+<title data-i18n="meta.title">Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali</title>
+<meta name="description" data-i18n-content="meta.desc" content="Black Sands Oasis — intimate Desert Modernism villas inside the city of the future, Nuanu, on Bali’s west coast.">
+<link rel="canonical" href="https://turbo1507.github.io/bso-preview/">
+<!-- English is the primary language; RU stays available via the switcher -->
+<link rel="alternate" hreflang="en" href="https://turbo1507.github.io/bso-preview/">
+<link rel="alternate" hreflang="x-default" href="https://turbo1507.github.io/bso-preview/">
+<!-- превью при шаринге; og:title/og:description синхронно обновляются в setLang() -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Black Sands Oasis">
+<meta property="og:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
+<meta property="og:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast: seven layouts from 31 to 160 m², private pools, six-metre ceilings and a managed rental programme.">
+<meta property="og:url" content="https://turbo1507.github.io/bso-preview/">
+<meta property="og:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
+<meta property="og:image:alt" content="Black Sands Oasis villas at sunset, Nuanu, Bali">
+<meta property="og:locale" content="en_US">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
+<meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
+<meta name="twitter:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
 <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -16,45 +34,45 @@
   <div class="container header-in">
     <a class="logo" href="#top"><b>Black Sands Oasis</b></a>
     <nav class="nav">
-      <a href="#architecture" data-i18n="nav.architecture">Архитектура</a>
-      <a href="#plans" data-i18n="nav.plans">Планировки</a>
-      <a href="#invest" data-i18n="nav.invest">Инвестиции</a>
-      <a href="#team" data-i18n="nav.team">Команда</a>
+      <a href="#architecture" data-i18n="nav.architecture">Architecture</a>
+      <a href="#plans" data-i18n="nav.plans">Layouts</a>
+      <a href="#invest" data-i18n="nav.invest">Investment</a>
+      <a href="#team" data-i18n="nav.team">Team</a>
     </nav>
     <div class="header-cta">
       <div class="lang" role="group" aria-label="language">
-        <button data-lang="ru" class="is-active">RU</button><span>/</span><button data-lang="en">EN</button>
+        <button data-lang="ru">RU</button><span>/</span><button data-lang="en" class="is-active">EN</button>
       </div>
-      <a class="btn btn-ghost btn-header js-lead-open" href="#contacts" data-i18n="nav.cta">Получить презентацию</a>
-      <button class="burger" id="burger" aria-label="Меню" data-i18n-aria="menu.title"><span></span><span></span><span></span></button>
+      <a class="btn btn-ghost btn-header js-lead-open" href="#contacts" data-i18n="nav.cta">Get the Presentation</a>
+      <button class="burger" id="burger" aria-label="Menu" data-i18n-aria="menu.title"><span></span><span></span><span></span></button>
     </div>
   </div>
 </header>
 <div class="menu-overlay" id="menuOverlay">
   <div class="menu-head">
-    <span class="menu-title" data-i18n="menu.title">Меню</span>
-    <button class="menu-close" id="menuClose" aria-label="Закрыть" data-i18n-aria="menu.close"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+    <span class="menu-title" data-i18n="menu.title">Menu</span>
+    <button class="menu-close" id="menuClose" aria-label="Close" data-i18n-aria="menu.close"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
   </div>
-  <a href="#architecture" data-i18n="nav.architecture">Архитектура</a>
-  <a href="#plans" data-i18n="nav.plans">Планировки</a>
-  <a href="#invest" data-i18n="nav.invest">Инвестиции</a>
-  <a href="#team" data-i18n="nav.team">Команда</a>
+  <a href="#architecture" data-i18n="nav.architecture">Architecture</a>
+  <a href="#plans" data-i18n="nav.plans">Layouts</a>
+  <a href="#invest" data-i18n="nav.invest">Investment</a>
+  <a href="#team" data-i18n="nav.team">Team</a>
   <div class="lang menu-lang" role="group" aria-label="language">
-    <button data-lang="ru" class="is-active">RU</button><span>/</span><button data-lang="en">EN</button>
+    <button data-lang="ru">RU</button><span>/</span><button data-lang="en" class="is-active">EN</button>
   </div>
-  <a class="btn btn-clay menu-cta js-lead-open" href="#contacts" data-i18n="nav.cta">Получить презентацию</a>
+  <a class="btn btn-clay menu-cta js-lead-open" href="#contacts" data-i18n="nav.cta">Get the Presentation</a>
 </div>
 
 <!-- ===== 01. HERO ===== -->
 <section class="hero" id="top">
-  <img class="hero-bg" src="assets/hero-villa-intimate.jpg" alt="Приватная терраса виллы Black Sands Oasis" data-i18n-alt="hero.alt" loading="eager">
+  <img class="hero-bg" src="assets/hero-villa-intimate.jpg" alt="Private terrace of a Black Sands Oasis villa" data-i18n-alt="hero.alt" loading="eager">
   <div class="hero-shade"></div>
   <div class="container hero-in">
     <h1 class="hero-title">Black<br>Sands<br>Oasis</h1>
-    <p class="hero-sub" data-i18n="hero.sub">Тихая роскошь камерных вилл с восточной атмосферой и приватностью</p>
-    <div class="btn-row"><a class="btn btn-white" href="#architecture"><span data-i18n="hero.cta">Изучить предложение</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></div>
+    <p class="hero-sub" data-i18n="hero.sub">Quiet luxury of intimate villas with an Eastern atmosphere and complete privacy</p>
+    <div class="btn-row"><a class="btn btn-white" href="#architecture"><span data-i18n="hero.cta">Explore the Offering</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></div>
   </div>
-  <div class="hero-scroll" data-i18n="hero.scroll">Листайте ↓</div>
+  <div class="hero-scroll" data-i18n="hero.scroll">Scroll ↓</div>
 </section>
 
 <!-- ===== 02-03. ЛОКАЦИЯ + АРХИТЕКТУРА (объединены по правке Босса) ===== -->
@@ -65,30 +83,30 @@
 <section class="section" id="architecture">
   <div class="container">
     <div class="block-head-split">
-      <h2 class="reveal" data-i18n="arch.title">Современный минимализм и восточная чувственность</h2>
-      <p class="lead lead-sm reveal" data-i18n="arch.lead">Редкая форма на западном побережье Бали, которая сочетает архитектурный характер и локацию</p>
+      <h2 class="reveal" data-i18n="arch.title">Modern minimalism and Eastern sensuality</h2>
+      <p class="lead lead-sm reveal" data-i18n="arch.lead">A rare offering on Bali’s west coast, combining architectural character with location</p>
     </div>
     <div class="min-tags reveal">
-      <span class="tag-pill" data-i18n="arch.tag1">Большие окна в пол</span>
-      <span class="tag-pill" data-i18n="arch.tag2">Натуральные материалы</span>
-      <span class="tag-pill" data-i18n="arch.tag3">Природные оттенки</span>
-      <span class="tag-pill" data-i18n="arch.tag4">Текстурные фасады</span>
+      <span class="tag-pill" data-i18n="arch.tag1">Floor-to-ceiling windows</span>
+      <span class="tag-pill" data-i18n="arch.tag2">Natural materials</span>
+      <span class="tag-pill" data-i18n="arch.tag3">Natural tones</span>
+      <span class="tag-pill" data-i18n="arch.tag4">Textured façades</span>
     </div>
     <div class="min-gallery reveal">
       <div class="min-gallery-track" id="minGalleryTrack">
-        <div class="min-gallery-slide"><img src="assets/minimalism-wide.jpg" alt="Фасад виллы Black Sands Oasis" data-i18n-alt="arch.photo_alt"></div>
-        <div class="min-gallery-slide"><img src="assets/villa-exterior-pool2.jpg" alt="Вилла Black Sands Oasis снаружи" data-i18n-alt="arch.photo2_alt"></div>
-        <div class="min-gallery-slide"><img src="assets/villa-exterior-pool1.jpg" alt="Вилла Black Sands Oasis с бассейном" data-i18n-alt="arch.photo3_alt"></div>
-        <div class="min-gallery-slide"><img src="assets/facade-sunset.jpg" alt="Виллы Black Sands Oasis на закате" data-i18n-alt="arch.photo4_alt"></div>
-        <div class="min-gallery-slide"><img src="assets/facade-walkway.jpg" alt="Проход между виллами Black Sands Oasis" data-i18n-alt="arch.photo5_alt"></div>
+        <div class="min-gallery-slide"><img src="assets/minimalism-wide.jpg" alt="Façade of a Black Sands Oasis villa" data-i18n-alt="arch.photo_alt"></div>
+        <div class="min-gallery-slide"><img src="assets/villa-exterior-pool2.jpg" alt="Black Sands Oasis villa exterior" data-i18n-alt="arch.photo2_alt"></div>
+        <div class="min-gallery-slide"><img src="assets/villa-exterior-pool1.jpg" alt="Black Sands Oasis villa with pool" data-i18n-alt="arch.photo3_alt"></div>
+        <div class="min-gallery-slide"><img src="assets/facade-sunset.jpg" alt="Black Sands Oasis villas at sunset" data-i18n-alt="arch.photo4_alt"></div>
+        <div class="min-gallery-slide"><img src="assets/facade-walkway.jpg" alt="Walkway between Black Sands Oasis villas" data-i18n-alt="arch.photo5_alt"></div>
       </div>
-      <button class="min-gallery-arrow prev" id="minGalleryPrev" aria-label="Предыдущее" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-      <button class="min-gallery-arrow next" id="minGalleryNext" aria-label="Следующее" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <button class="min-gallery-arrow prev" id="minGalleryPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button class="min-gallery-arrow next" id="minGalleryNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
       <div class="min-gallery-dots" id="minGalleryDots"><span class="on"></span><span></span><span></span><span></span><span></span></div>
     </div>
     <div class="min-foot reveal">
-      <p data-i18n="arch.foot1">Тонкие ароматы, приглушенные звуки и тактильные детали создают ощущение уединенного мира</p>
-      <p data-i18n="arch.foot2">Эстетика, которая продолжает ландшафт острова и остается глубокой, аутентичной и личной для каждого дома</p>
+      <p data-i18n="arch.foot1">Subtle scents, muted sounds and tactile details create a sense of a secluded world</p>
+      <p data-i18n="arch.foot2">An aesthetic that extends the island’s landscape, staying deep, authentic and personal for every home</p>
     </div>
   </div>
 </section>
@@ -102,43 +120,43 @@
       <!-- Figma (блок 04, Frame 102/103): ряд тегов+стрелок стоит НАД карточками -->
       <div class="feat-filters-row">
         <div class="feat-filters reveal">
-          <span class="tag-pill" data-i18n="feat.tag1">Своя приватность</span>
-          <span class="tag-pill" data-i18n="feat.tag2">Свой бассейн</span>
-          <span class="tag-pill" data-i18n="feat.tag3">Свой ритм</span>
+          <span class="tag-pill" data-i18n="feat.tag1">Your own privacy</span>
+          <span class="tag-pill" data-i18n="feat.tag2">Your own pool</span>
+          <span class="tag-pill" data-i18n="feat.tag3">Your own rhythm</span>
         </div>
         <div class="carousel-nav">
-          <button class="carousel-arrow" id="featPrev" aria-label="Предыдущее" data-i18n-aria="carousel.prev"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M46.5 15L38.5 22.5L46.5 30"/></svg></button>
-          <button class="carousel-arrow" id="featNext" aria-label="Следующее" data-i18n-aria="carousel.next"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M38.5 15L46.5 22.5L38.5 30"/></svg></button>
+          <button class="carousel-arrow" id="featPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M46.5 15L38.5 22.5L46.5 30"/></svg></button>
+          <button class="carousel-arrow" id="featNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M38.5 15L46.5 22.5L38.5 30"/></svg></button>
         </div>
       </div>
     </div>
     <div class="feat-track reveal" id="featTrack">
       <article class="feat-card">
-        <div class="feat-card-photo"><img src="assets/feat-architecture.jpg" alt="Архитектура виллы" data-i18n-alt="feat.photo1_alt"></div>
+        <div class="feat-card-photo"><img src="assets/feat-architecture.jpg" alt="Villa architecture" data-i18n-alt="feat.photo1_alt"></div>
         <div class="feat-card-body">
-          <h3 data-i18n="feat.card1.title">Архитектура, где воздух становится частью пространства</h3>
-          <p data-i18n="feat.card1.p">Терракотовые перфорированные панели, натуральный камень и терраццо в мокрых зонах в сочетании с песочно-карамельной палитрой помогают виллам мягко слиться с окружающим ландшафтом</p>
+          <h3 data-i18n="feat.card1.title">Architecture where air becomes part of the space</h3>
+          <p data-i18n="feat.card1.p">Perforated terracotta panels, natural stone and terrazzo in wet areas, paired with a sandy caramel palette, help the villas blend softly into the surrounding landscape</p>
         </div>
       </article>
       <article class="feat-card">
-        <div class="feat-card-photo"><img src="assets/feat-oasis-plaza.jpg" alt="Личный мини-оазис" data-i18n-alt="feat.photo2_alt"></div>
+        <div class="feat-card-photo"><img src="assets/feat-oasis-plaza.jpg" alt="Private mini-oasis" data-i18n-alt="feat.photo2_alt"></div>
         <div class="feat-card-body">
-          <h3 data-i18n="feat.card2.title">Личный мини-оазис</h3>
-          <p data-i18n="feat.card2.p">Собственный сад и бассейн создают приватную территорию, где в любой момент можно уединиться, замедлиться и почувствовать себя дома, в комфорте и безопасности</p>
+          <h3 data-i18n="feat.card2.title">A private mini-oasis</h3>
+          <p data-i18n="feat.card2.p">A private garden and pool create a territory of your own — a place to retreat, slow down and feel truly at home, in comfort and safety</p>
         </div>
       </article>
       <article class="feat-card">
-        <div class="feat-card-photo"><img src="assets/feat-coolness.jpg" alt="Прохлада в тени" data-i18n-alt="feat.photo3_alt"></div>
+        <div class="feat-card-photo"><img src="assets/feat-coolness.jpg" alt="Cool shade" data-i18n-alt="feat.photo3_alt"></div>
         <div class="feat-card-body">
-          <h3 data-i18n="feat.card3.title">Ощущение прохлады в жарком климате</h3>
-          <p data-i18n="feat.card3.p">Продуманная вентиляция, тени, сценарии освещения и материалы формируют ощущение прохлады и визуального спокойствия</p>
+          <h3 data-i18n="feat.card3.title">A sense of coolness in a hot climate</h3>
+          <p data-i18n="feat.card3.p">Thoughtful ventilation, shade, lighting scenarios and materials create a feeling of coolness and visual calm</p>
         </div>
       </article>
       <article class="feat-card">
-        <div class="feat-card-photo"><img src="assets/feat-ceiling.jpg" alt="Высокие стены и свет во внутреннем дворе" data-i18n-alt="feat.photo4_alt"></div>
+        <div class="feat-card-photo"><img src="assets/feat-ceiling.jpg" alt="Tall walls and light in the inner courtyard" data-i18n-alt="feat.photo4_alt"></div>
         <div class="feat-card-body">
-          <h3 data-i18n="feat.card4.title">Шесть метров света и воздуха</h3>
-          <p data-i18n="feat.card4.p">Высота потолков 6 метров усиливает чувство свободы, открывает больше естественного света и подчеркивает чистоту линий и фактур, вдохновленных природой</p>
+          <h3 data-i18n="feat.card4.title">Six meters of light and air</h3>
+          <p data-i18n="feat.card4.p">6-meter ceilings heighten the sense of freedom, let in more natural light and highlight the clean, nature-inspired lines and textures</p>
         </div>
       </article>
     </div>
@@ -150,26 +168,26 @@
 <!-- ===== 05. ЛОКАЦИЯ ВНУТРИ NUANU ===== -->
 <section class="section" id="nuanu">
   <div class="container">
-    <h2 class="reveal" data-i18n="nuanu.title">Строим в лучшей локации на Бали</h2>
-    <p class="lead lead-wide reveal" data-i18n="nuanu.lead">Комплекс расположен в кластере Nuanu площадью 45 гектаров на берегу океана<br>с единым мастер-планом и городской инфраструктурой нового поколения</p>
+    <h2 class="reveal" data-i18n="nuanu.title">Building in the best location in Bali</h2>
+    <p class="lead lead-wide reveal" data-i18n="nuanu.lead">The complex sits within the 45-hectare Nuanu cluster on the ocean<br>with a unified master plan and next-generation urban infrastructure</p>
     <!-- Figma 1:4513: фото (с бейджем и подписью НА фото) идёт ПЕРЕД карточками расстояний, не после -->
     <div class="nuanu-photo reveal">
       <picture>
         <source media="(max-width:860px)" srcset="assets/nuanu-masterplan-mobile.jpg">
-        <img src="assets/nuanu-masterplan.jpg" alt="Мастер-план Nuanu с расположением Black Sands Oasis" data-i18n-alt="nuanu.photo_alt">
+        <img src="assets/nuanu-masterplan.jpg" alt="Nuanu master plan showing the location of Black Sands Oasis" data-i18n-alt="nuanu.photo_alt">
       </picture>
       <div class="nuanu-pins" id="nuanuPins" aria-hidden="true"></div>
       <span class="nuanu-badge nuanu-badge--bso">BLACK SANDS OASIS</span>
-            <p class="nuanu-caption" data-i18n="nuanu.caption">Жители Black Sands Oasis находятся в центре событий, сохраняя приватность собственной виллы</p>
+            <p class="nuanu-caption" data-i18n="nuanu.caption">Black Sands Oasis residents are at the center of it all, while keeping the privacy of their own villa</p>
     </div>
     <!-- Figma: горизонтальная линия-разделитель со стрелкой вправо между
          фото и карточками расстояний (LINE228 в исходнике) -->
     <div class="nuanu-divider reveal"><span class="line"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
     <div class="stat-grid stat-grid-4 reveal">
-      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg><h3 data-i18n="nuanu.stat1.v">0 мин</h3><p data-i18n="nuanu.stat1.p">до Nuanu</p></div>
-      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 9c1.3-1.5 2.7-2.3 4.2-2.3s2.9.8 4.2 1.8c1.3 1 2.7 1.8 4.2 1.8s2.9-.8 4.2-1.8c.5-.4 1-.8 1.4-1.1"/><path d="M2 15.3c1.3-1.5 2.7-2.3 4.2-2.3s2.9.8 4.2 1.8c1.3 1 2.7 1.8 4.2 1.8s2.9-.8 4.2-1.8c.5-.4 1-.8 1.4-1.1"/></svg><h3 data-i18n="nuanu.stat2.v">3 мин</h3><p data-i18n="nuanu.stat2.p">до Океана</p></div>
-      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M4 21V10l8-6 8 6v11h-6v-7H10v7H4z"/></svg><h3 data-i18n="nuanu.stat3.v">20 мин</h3><p data-i18n="nuanu.stat3.p">до Чангу</p></div>
-      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M22 16v-2l-8.5-5V3.5a1.5 1.5 0 0 0-3 0V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5L22 16z"/></svg><h3 data-i18n="nuanu.stat4.v">1 ч</h3><p data-i18n="nuanu.stat4.p">до Аэропорта (Ngurah Rai)</p></div>
+      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg><h3 data-i18n="nuanu.stat1.v">0 min</h3><p data-i18n="nuanu.stat1.p">to Nuanu</p></div>
+      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M2 9c1.3-1.5 2.7-2.3 4.2-2.3s2.9.8 4.2 1.8c1.3 1 2.7 1.8 4.2 1.8s2.9-.8 4.2-1.8c.5-.4 1-.8 1.4-1.1"/><path d="M2 15.3c1.3-1.5 2.7-2.3 4.2-2.3s2.9.8 4.2 1.8c1.3 1 2.7 1.8 4.2 1.8s2.9-.8 4.2-1.8c.5-.4 1-.8 1.4-1.1"/></svg><h3 data-i18n="nuanu.stat2.v">3 min</h3><p data-i18n="nuanu.stat2.p">to the Ocean</p></div>
+      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M4 21V10l8-6 8 6v11h-6v-7H10v7H4z"/></svg><h3 data-i18n="nuanu.stat3.v">20 min</h3><p data-i18n="nuanu.stat3.p">to Canggu</p></div>
+      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M22 16v-2l-8.5-5V3.5a1.5 1.5 0 0 0-3 0V9L2 14v2l8.5-2.5V19L8 20.5V22l4-1 4 1v-1.5L13.5 19v-5.5L22 16z"/></svg><h3 data-i18n="nuanu.stat4.v">1 hr</h3><p data-i18n="nuanu.stat4.p">to the Airport (Ngurah Rai)</p></div>
     </div>
   </div>
 </section>
@@ -177,17 +195,17 @@
 <!-- ===== 06. АРХИТЕКТУРНАЯ ПОДПИСЬ: STELLA SOLARIS ===== -->
 <section class="section signature">
   <div class="container">
-    <h2 class="reveal" data-i18n="sig.title">Архитектурная подпись комплекса</h2>
-    <div class="signature-photo reveal"><img src="assets/stella-solaris.jpg" alt="Арт-объект Stella Solaris" data-i18n-alt="sig.photo_alt" loading="lazy"></div>
+    <h2 class="reveal" data-i18n="sig.title">The complex’s architectural signature</h2>
+    <div class="signature-photo reveal"><img src="assets/stella-solaris.jpg" alt="Stella Solaris art object" data-i18n-alt="sig.photo_alt" loading="lazy"></div>
     <div class="signature-meta reveal">
       <h3>Stella Solaris</h3>
-      <p data-i18n="sig.p1">15-метровый арт-объект, созданный в коллаборации<br>с известным архитектурным бюро</p>
-      <p data-i18n="sig.p2">Визуальная доминанта проекта,<br>усиливающая его статусность</p>
+      <p data-i18n="sig.p1">A 15-meter art object created in collaboration<br>with a renowned architecture firm</p>
+      <p data-i18n="sig.p2">The project’s visual landmark,<br>reinforcing its status</p>
     </div>
     <div class="signature-chips reveal">
-      <span data-i18n="sig.chip1">Сильный визуальный жест, который работает на образ всего проекта</span>
-      <span data-i18n="sig.chip2">Архитектурный объект у входа в комплекс</span>
-      <span data-i18n="sig.chip3">Элемент узнаваемости и статуса</span>
+      <span data-i18n="sig.chip1">A strong visual gesture that shapes the image of the whole project</span>
+      <span data-i18n="sig.chip2">An architectural landmark at the complex’s entrance</span>
+      <span data-i18n="sig.chip3">An element of recognition and status</span>
     </div>
   </div>
 </section>
@@ -195,28 +213,28 @@
 <!-- ===== 07. ЧАСТНАЯ ТЕРРИТОРИЯ ===== -->
 <section class="section">
   <div class="container">
-    <h2 class="reveal" data-i18n="priv.title">Частная территория нового уровня</h2>
+    <h2 class="reveal" data-i18n="priv.title">A new level of private territory</h2>
     <div class="priv-photo reveal">
-      <img src="assets/villa-2bd-detail1.jpg" alt="Приватный бассейн виллы за экраном фасада" data-i18n-alt="priv.photo_alt" loading="lazy">
+      <img src="assets/villa-2bd-detail1.jpg" alt="Private villa pool behind the facade screen" data-i18n-alt="priv.photo_alt" loading="lazy">
     </div>
     <div class="priv-grid reveal">
       <div class="priv-card">
         <svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
-        <span class="kicker" data-i18n="priv.card1.kicker">Система</span>
-        <h3 data-i18n="priv.card1.title">Единая архитектурная логика</h3>
-        <p data-i18n="priv.card1.p">Проект воспринимается не как набор объектов, а как целостная среда</p>
+        <span class="kicker" data-i18n="priv.card1.kicker">System</span>
+        <h3 data-i18n="priv.card1.title">A unified architectural logic</h3>
+        <p data-i18n="priv.card1.p">The project reads not as a set of separate objects, but as a whole environment</p>
       </div>
       <div class="priv-card">
         <svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M12 2a5 5 0 0 0-5 5v3H6a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V11a1 1 0 0 0-1-1h-1V7a5 5 0 0 0-5-5zm3 8V7a3 3 0 1 0-6 0v3h6z"/></svg>
-        <span class="kicker" data-i18n="priv.card2.kicker">Приватность</span>
-        <h3 data-i18n="priv.card2.title">Комфорт без компромиссов</h3>
-        <p data-i18n="priv.card2.p">Ритм застройки, ощущение пространства и личная территория продуманы заранее</p>
+        <span class="kicker" data-i18n="priv.card2.kicker">Privacy</span>
+        <h3 data-i18n="priv.card2.title">Comfort without compromise</h3>
+        <p data-i18n="priv.card2.p">The development’s rhythm, sense of space and private territory are all planned in advance</p>
       </div>
       <div class="priv-card">
         <svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M3 4h11v16H3V4zm13 0h5v7h-5V4zm0 9h5v7h-5v-7z"/></svg>
-        <span class="kicker" data-i18n="priv.card3.kicker">Сценарии</span>
-        <h3 data-i18n="priv.card3.title">Разные форматы внутри одного комплекса</h3>
-        <p data-i18n="priv.card3.p">От компактных решений до семейных резиденций, всё в общей премиальной рамке</p>
+        <span class="kicker" data-i18n="priv.card3.kicker">Scenarios</span>
+        <h3 data-i18n="priv.card3.title">Different formats within a single complex</h3>
+        <p data-i18n="priv.card3.p">From compact layouts to family residences, all within one shared premium framework</p>
       </div>
     </div>
   </div>
@@ -225,8 +243,8 @@
 <!-- ===== 08. ПЛАНИРОВКИ (ВЕРХНИЕ табы — было слева, правка Босса) ===== -->
 <section class="section section-gray" style="background:var(--stone)" id="plans">
   <div class="container">
-    <h2 class="reveal" data-i18n="plans.title">Планировки под разные сценарии жизни</h2>
-    <p class="lead reveal" data-i18n="plans.lead">Каждый формат сохраняет единое ДНК проекта: выразительную архитектуру, ощущение воздуха, приватность и премиальный сценарий проживания — для жизни, отдыха, workation и инвестиции</p>
+    <h2 class="reveal" data-i18n="plans.title">Layouts for every scenario of life</h2>
+    <p class="lead reveal" data-i18n="plans.lead">Every format keeps the project’s shared DNA — expressive architecture, a sense of air, privacy and a premium living scenario — for living, relaxing, workation and investment</p>
     <div class="plans-tabs reveal" id="plansTabs">
       <button class="plans-tab is-active" data-plan="studio">Studio</button>
       <button class="plans-tab" data-plan="1bd">1BD</button>
@@ -239,30 +257,30 @@
     <div class="plans-panel reveal">
       <div class="plans-viewer">
         <div class="plans-viewer-track" id="plansPhotoTrack">
-          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="1" src="assets/villa-studio-detail1.jpg" alt="Интерьер виллы Studio"></div>
-          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="2" src="assets/villa-studio-detail2.jpg" alt="Интерьер виллы Studio"></div>
-          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="3" src="assets/villa-studio-detail3.jpg" alt="Интерьер виллы Studio"></div>
-          <div class="plans-viewer-slide plans-viewer-slide--plan"><img id="planImg" class="plan-photo-img" data-idx="0" src="assets/plan-studio.png" alt="Планировка Studio"></div>
+          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="1" src="assets/villa-studio-detail1.jpg" alt="Studio villa interior"></div>
+          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="2" src="assets/villa-studio-detail2.jpg" alt="Studio villa interior"></div>
+          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="3" src="assets/villa-studio-detail3.jpg" alt="Studio villa interior"></div>
+          <div class="plans-viewer-slide plans-viewer-slide--plan"><img id="planImg" class="plan-photo-img" data-idx="0" src="assets/plan-studio.png" alt="Studio floor plan"></div>
         </div>
-        <button class="min-gallery-arrow prev" id="plansPhotoPrev" aria-label="Предыдущее" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-        <button class="min-gallery-arrow next" id="plansPhotoNext" aria-label="Следующее" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+        <button class="min-gallery-arrow prev" id="plansPhotoPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button class="min-gallery-arrow next" id="plansPhotoNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
         <div class="min-gallery-dots" id="plansPhotoDots"><span class="on"></span><span></span><span></span><span></span></div>
       </div>
       <div class="plans-info">
         <h3 id="planName">Studio</h3>
         <div class="plans-stat">
           <svg class="plans-stat-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M4 4h6v2H6v4H4V4zm16 0v6h-2V6h-4V4h6zM4 20v-6h2v4h4v2H4zm16 0h-6v-2h4v-4h2v6z"/></svg>
-          <div><div class="k" data-i18n="plans.area_label">Площадь</div><div class="v" id="planArea">25 м²</div></div>
+          <div><div class="k" data-i18n="plans.area_label">Area</div><div class="v" id="planArea">31.2 m²</div></div>
         </div>
         <div class="plans-stat">
           <svg class="plans-stat-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M12 3.2 3 10.4V21h6v-7h6v7h6v-10.6L12 3.2z"/></svg>
-          <div><div class="k" data-i18n="plans.cap_label">Вместимость</div><div class="v" id="planCap">5 чел.</div></div>
+          <div><div class="k" data-i18n="plans.cap_label">Capacity</div><div class="v" id="planCap">5 people</div></div>
         </div>
         <div class="plans-stat">
           <svg class="plans-stat-ic" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" fill="currentColor"/><path fill="currentColor" d="M4 22c0-4.42 3.58-8 8-8s8 3.58 8 8H4z"/></svg>
-          <div><div class="k" data-i18n="plans.who_label">Для кого</div><div class="v" id="planWho">Один, пары</div></div>
+          <div><div class="k" data-i18n="plans.who_label">Who it’s for</div><div class="v" id="planWho">Single, couples</div></div>
         </div>
-                <a class="btn btn-glass js-lead-open" href="#contacts" data-i18n="plans.cta">Приобрести</a>
+                <a class="btn btn-glass js-lead-open" href="#contacts" data-i18n="plans.cta">Purchase</a>
       </div>
     </div>
   </div>
@@ -273,19 +291,19 @@
   <div class="container">
     <!-- Figma (блок 09, Frame 100/101): стрелки — в ОДНОМ ряду с заголовком, справа -->
     <div class="steps-head-row">
-      <h2 class="reveal" data-i18n="steps.title">Как купить виллу</h2>
+      <h2 class="reveal" data-i18n="steps.title">How to buy a villa</h2>
       <div class="carousel-nav">
-        <button class="carousel-arrow" id="stepsPrev" aria-label="Предыдущее" data-i18n-aria="carousel.prev"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M46.5 15L38.5 22.5L46.5 30"/></svg></button>
-        <button class="carousel-arrow" id="stepsNext" aria-label="Следующее" data-i18n-aria="carousel.next"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M38.5 15L46.5 22.5L38.5 30"/></svg></button>
+        <button class="carousel-arrow" id="stepsPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M46.5 15L38.5 22.5L46.5 30"/></svg></button>
+        <button class="carousel-arrow" id="stepsNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M38.5 15L46.5 22.5L38.5 30"/></svg></button>
       </div>
       </div>
   </div>
   <div class="steps-track reveal" id="stepsTrack">
-      <div class="step-card"><span class="num">01</span><h3 data-i18n="steps.card1.title">Выбор юнита</h3><p data-i18n="steps.card1.p">Персональный подбор формата под сценарий покупки</p></div>
-      <div class="step-card"><span class="num">02</span><h3 data-i18n="steps.card2.title">Внесение депозита</h3><p data-i18n="steps.card2.p">Возвратный депозит $1,500 для бронирования</p></div>
-      <div class="step-card"><span class="num">03</span><h3 data-i18n="steps.card3.title">Первый взнос</h3><p data-i18n="steps.card3.p">30% после выбора и фиксации условий входа</p></div>
-      <div class="step-card"><span class="num">04</span><h3 data-i18n="steps.card4.title">Платежи по этапам</h3><p data-i18n="steps.card4.p">Ежеквартальная структура, привязанная к стройке</p></div>
-      <div class="step-card"><span class="num">05</span><h3 data-i18n="steps.card5.title">Готовый актив</h3><p data-i18n="steps.card5.p">Срок реализации проекта — 2 года</p></div>
+      <div class="step-card"><span class="num">01</span><h3 data-i18n="steps.card1.title">Choosing a unit</h3><p data-i18n="steps.card1.p">A personal match of format to your purchase scenario</p></div>
+      <div class="step-card"><span class="num">02</span><h3 data-i18n="steps.card2.title">Deposit</h3><p data-i18n="steps.card2.p">A refundable $1,500 deposit to reserve</p></div>
+      <div class="step-card"><span class="num">03</span><h3 data-i18n="steps.card3.title">First payment</h3><p data-i18n="steps.card3.p">30% after selection, locking in entry terms</p></div>
+      <div class="step-card"><span class="num">04</span><h3 data-i18n="steps.card4.title">Staged payments</h3><p data-i18n="steps.card4.p">A quarterly structure tied to construction progress</p></div>
+      <div class="step-card"><span class="num">05</span><h3 data-i18n="steps.card5.title">A completed asset</h3><p data-i18n="steps.card5.p">Project completion in 2 years</p></div>
     </div>
   <div class="container">
     <div class="carousel-dots" id="stepsDots"><span class="on"></span><span></span><span></span><span></span><span></span></div>
@@ -295,14 +313,14 @@
 <!-- ===== 11. ПОЧЕМУ БАЛИ И NUANU ===== -->
 <section class="section section-gray" style="background:var(--stone)" id="invest">
   <div class="container">
-    <h2 class="reveal" data-i18n="invest.title">Почему именно Бали и Nuanu</h2>
-    <p class="lead lead-wide reveal" data-i18n="invest.lead">Бали входит в число сильных туристических направлений мира.<br>В ТОП-районах острова фиксируют рост цен на недвижимость 20% в год и доходность аренды вилл до 16% годовых.<br>Nuanu усиливает эту динамику за счёт ограниченного предложения и развитой городской среды</p>
+    <h2 class="reveal" data-i18n="invest.title">Why Bali, why Nuanu</h2>
+    <p class="lead lead-wide reveal" data-i18n="invest.lead">Bali ranks among the world’s strongest tourism destinations. Its top areas see property values rising 20% a year, with villa rental yields of up to 16% annually. Nuanu amplifies this momentum through limited supply and a developed urban environment</p>
     <div class="stat-grid reveal">
-      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg><h3 data-i18n="invest.stat1.v">+20% в год</h3><p data-i18n="invest.stat1.p">ориентир роста стоимости недвижимости в топовых районах Бали</p></div>
-      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18.7 4.3a1 1 0 0 1 0 1.4l-14 14a1 1 0 0 1-1.4-1.4l14-14a1 1 0 0 1 1.4 0z"/></svg><h3 data-i18n="invest.stat2.v">До 16% годовых</h3><p data-i18n="invest.stat2.p">от краткосрочной аренды вилл на развитых курортах Бали</p></div>
-      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M4 21V10l8-6 8 6v11h-6v-7H10v7H4z"/></svg><h3 data-i18n="invest.stat3.v">Город Nuanu</h3><p data-i18n="invest.stat3.p">Современный город у океана с инфраструктурой для семьи, работы и творчества</p></div>
+      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg><h3 data-i18n="invest.stat1.v">+20% a year</h3><p data-i18n="invest.stat1.p">benchmark growth in property value across Bali’s top areas</p></div>
+      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18.7 4.3a1 1 0 0 1 0 1.4l-14 14a1 1 0 0 1-1.4-1.4l14-14a1 1 0 0 1 1.4 0z"/></svg><h3 data-i18n="invest.stat2.v">Up to 16% annually</h3><p data-i18n="invest.stat2.p">from short-term villa rentals in Bali’s established resort areas</p></div>
+      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M4 21V10l8-6 8 6v11h-6v-7H10v7H4z"/></svg><h3 data-i18n="invest.stat3.v">The city of Nuanu</h3><p data-i18n="invest.stat3.p">A modern oceanfront city with infrastructure for family, work and creativity</p></div>
     </div>
-    <div class="why-photo reveal"><img src="assets/why-bali.jpg" alt="Приватный бассейн виллы Black Sands Oasis" data-i18n-alt="invest.photo_alt" loading="lazy"></div>
+    <div class="why-photo reveal"><img src="assets/why-bali.jpg" alt="Private pool of a Black Sands Oasis villa" data-i18n-alt="invest.photo_alt" loading="lazy"></div>
   </div>
 </section>
 
@@ -314,13 +332,13 @@
      документов (PNG с альфой) выступает за верхний/правый край карточки. -->
 <section class="section fin-section">
   <div class="container">
-    <h2 class="reveal" data-i18n="fin.title">Финансовая модель проекта</h2>
+    <h2 class="reveal" data-i18n="fin.title">The project’s financial model</h2>
     <div class="fin-card reveal">
       <div class="fin-card-photo"><img src="assets/fin-model-docs.png" alt="" loading="lazy"></div>
       <div class="fin-card-text">
-        <h3 data-i18n="fin.headline">Расчёт доходности под конкретный юнит</h3>
-        <p data-i18n="fin.p">Полная модель — цена входа, график платежей, прогноз доходности и сроки окупаемости — предоставляется на личной консультации</p>
-        <a class="btn btn-clay js-lead-open" href="#contacts" data-i18n="fin.cta">Получить финансовую модель</a>
+        <h3 data-i18n="fin.headline">A return calculation for your specific unit</h3>
+        <p data-i18n="fin.p">The complete model — entry price, payment schedule, yield forecast and payback period — is provided during a personal consultation</p>
+        <a class="btn btn-clay js-lead-open" href="#contacts" data-i18n="fin.cta">Get the Financial Model</a>
       </div>
     </div>
   </div>
@@ -329,19 +347,19 @@
 <!-- ===== 13. КОМАНДА ===== -->
 <section class="section section-gray" style="background:var(--stone)" id="team">
   <div class="container">
-    <h2 class="reveal" data-i18n="team.title">Кто делает Black Sands Oasis</h2>
+    <h2 class="reveal" data-i18n="team.title">Who’s behind Black Sands Oasis</h2>
     <div class="team-grid reveal">
       <div class="team-card">
-        <div class="team-photo"><img src="assets/team-stepan.png" alt="Степан Федосеев" loading="lazy"></div>
-        <span class="team-role" data-i18n="team.role1">Основатель</span>
-        <h3 data-i18n="team.name1">Степан Федосеев</h3>
-        <p data-i18n="team.p1">Основатель UNIT. и UNIT.BUILD. Эксперт по системному управлению и внедрению технологий в строительстве</p>
+        <div class="team-photo"><img src="assets/team-stepan.png" alt="Stepan Fedoseev" loading="lazy"></div>
+        <span class="team-role" data-i18n="team.role1">Founder</span>
+        <h3 data-i18n="team.name1">Stepan Fedoseev</h3>
+        <p data-i18n="team.p1">Founder of UNIT. and UNIT.BUILD. An expert in systems management and technology implementation in construction</p>
       </div>
       <div class="team-card">
-        <div class="team-photo"><img src="assets/team-anna.png" alt="Анна Орлова" loading="lazy"></div>
-        <span class="team-role" data-i18n="team.role2">Со-владелец</span>
-        <h3 data-i18n="team.name2">Анна Орлова</h3>
-        <p data-i18n="team.p2">Архитектор и дизайнер с 10-летним опытом коммерческих и жилых проектов в Индонезии, Европе и Франции</p>
+        <div class="team-photo"><img src="assets/team-anna.png" alt="Anna Orlova" loading="lazy"></div>
+        <span class="team-role" data-i18n="team.role2">Co-owner</span>
+        <h3 data-i18n="team.name2">Anna Orlova</h3>
+        <p data-i18n="team.p2">Architect and designer with 10 years of experience in commercial and residential projects across Indonesia, Europe and France</p>
       </div>
     </div>
   </div>
@@ -357,15 +375,15 @@
   <img class="final-bg" src="assets/cta-band.jpg" alt="" loading="lazy">
   <div class="final-shade"></div>
   <div class="container final-in">
-    <h2 class="reveal" data-i18n="final.title">Сильная локация и продуманный девелопмент в одной точке</h2>
+    <h2 class="reveal" data-i18n="final.title">Strong location and considered development in one place</h2>
     <div class="final-row reveal">
-      <p class="lead on-dark final-lead" data-i18n="final.lead">Планировки, цены, доступные лоты и условия входа предоставляются через личную консультацию</p>
+      <p class="lead on-dark final-lead" data-i18n="final.lead">Layouts, pricing, available lots and entry terms are shared during a personal consultation</p>
       <div class="final-stats">
-        <div class="stat"><h3 data-i18n="final.stat1.v">111 Вилл</h3><p data-i18n="final.stat1.p">будет построено к 2028 г.</p></div>
-        <div class="stat"><h3 data-i18n="final.stat2.v">35+ Объектов</h3><p data-i18n="final.stat2.p">инфраструктуры города будущего Nuanu уже доступны</p></div>
-        <div class="stat"><h3 data-i18n="final.stat3.v">108 Юнитов</h3><p data-i18n="final.stat3.p">уже построено и успешно сдано</p></div>
+        <div class="stat"><h3 data-i18n="final.stat1.v">111 Villas</h3><p data-i18n="final.stat1.p">to be built by 2028</p></div>
+        <div class="stat"><h3 data-i18n="final.stat2.v">35+ Facilities</h3><p data-i18n="final.stat2.p">of Nuanu’s city-of-the-future infrastructure already available</p></div>
+        <div class="stat"><h3 data-i18n="final.stat3.v">108 Units</h3><p data-i18n="final.stat3.p">already built and successfully delivered</p></div>
       </div>
-      <a class="btn btn-white final-cta js-lead-open" href="#contacts"><span data-i18n="final.cta">Получить персональную подборку вилл</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a>
+      <a class="btn btn-white final-cta js-lead-open" href="#contacts"><span data-i18n="final.cta">Get a Personal Selection of Villas</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a>
     </div>
   </div>
 </section>
@@ -375,21 +393,21 @@
   <div class="container footer-in">
     <div class="footer-brand">
       <a class="logo" href="#top"><b>Black Sands Oasis</b></a>
-      <p data-i18n="footer.desc">Флагманский проект UNIT. в кластере Nuanu, западное побережье Бали</p>
+      <p data-i18n="footer.desc">UNIT.'s flagship project in the Nuanu cluster, Bali’s west coast</p>
     </div>
     <nav class="footer-col">
-      <h4 data-i18n="menu.title">Меню</h4>
-      <a href="#architecture" data-i18n="nav.architecture">Архитектура</a>
-      <a href="#plans" data-i18n="nav.plans">Планировки</a>
-      <a href="#invest" data-i18n="nav.invest">Инвестиции</a>
-      <a href="#team" data-i18n="nav.team">Команда</a>
+      <h4 data-i18n="menu.title">Menu</h4>
+      <a href="#architecture" data-i18n="nav.architecture">Architecture</a>
+      <a href="#plans" data-i18n="nav.plans">Layouts</a>
+      <a href="#invest" data-i18n="nav.invest">Investment</a>
+      <a href="#team" data-i18n="nav.team">Team</a>
     </nav>
     <div class="footer-col">
-      <h4 data-i18n="footer.links_title">Важные ссылки</h4>
-      <a href="#" class="placeholder-link" data-i18n="footer.link1">Сертификаты</a>
-      <a href="consent.html" data-i18n="footer.link2">Политика конфиденциальности</a>
-      <a href="consent.html" data-i18n="footer.link3">Согласие на обработку ПД</a>
-      <a href="legal-info.html" data-i18n="footer.link4">Юр. информация о компании</a>
+      <h4 data-i18n="footer.links_title">Important Links</h4>
+      <a href="#" class="placeholder-link" data-i18n="footer.link1">Certificates</a>
+      <a href="consent.html" data-i18n="footer.link2">Privacy Policy</a>
+      <a href="consent.html" data-i18n="footer.link3">Personal Data Consent</a>
+      <a href="legal-info.html" data-i18n="footer.link4">Company Legal Information</a>
     </div>
     <div class="footer-social">
       <a href="#" class="placeholder-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
@@ -400,31 +418,31 @@
     <span>Made with ♥ by UNIT. team</span>
     <span>© 2026 unit.now · <a href="consent.html" style="display:inline">Privacy Policy</a></span>
       <!-- служебный переключатель темы — не для клиентов, для быстрого просмотра -->
-    <div class="theme-switch" id="themeSwitch" aria-label="Тема (служебное)">
-      <button type="button" data-theme-btn="default" class="is-active" data-i18n="theme.color">Цвет</button>
-      <button type="button" data-theme-btn="mono" data-i18n="theme.mono">Моно</button>
+    <div class="theme-switch" id="themeSwitch" aria-label="Theme (internal)">
+      <button type="button" data-theme-btn="default" class="is-active" data-i18n="theme.color">Color</button>
+      <button type="button" data-theme-btn="mono" data-i18n="theme.mono">Mono</button>
     </div>
 </div>
 </footer>
 
 <!-- ===== MOBILE CTA ===== -->
 <div class="mob-cta">
-  <a class="btn btn-clay js-lead-open" href="#contacts" data-i18n="nav.cta">Получить презентацию</a>
+  <a class="btn btn-clay js-lead-open" href="#contacts" data-i18n="nav.cta">Get the Presentation</a>
 </div>
 
 <!-- ===== ОВЕРЛЕЙ ЗАЯВКИ ===== -->
 <div class="lead-modal" id="leadModal" aria-hidden="true">
   <div class="lead-backdrop" data-lead-close></div>
   <div class="lead-panel" role="dialog" aria-modal="true" aria-labelledby="leadTitle">
-    <button type="button" class="lead-x" data-lead-close aria-label="Закрыть" data-i18n-aria="lead.close"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
+    <button type="button" class="lead-x" data-lead-close aria-label="Close" data-i18n-aria="lead.close"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 4l12 12M16 4L4 16"/></svg></button>
     <form id="leadForm" novalidate>
-      <h3 id="leadTitle" data-i18n="lead.title">Оставить заявку</h3>
-      <p class="lead-form-sub" data-i18n="lead.sub">Ответим в течение одного рабочего дня</p>
+      <h3 id="leadTitle" data-i18n="lead.title">Leave a request</h3>
+      <p class="lead-form-sub" data-i18n="lead.sub">We’ll get back to you within one business day</p>
 
-      <label class="lead-field"><span data-i18n="lead.name">Ваше имя</span><input type="text" name="name" required></label>
-      <label class="lead-field"><span data-i18n="lead.phone">Телефон / WhatsApp</span>
+      <label class="lead-field"><span data-i18n="lead.name">Your name</span><input type="text" name="name" required></label>
+      <label class="lead-field"><span data-i18n="lead.phone">Phone / WhatsApp</span>
         <div class="lead-phone-row">
-          <select id="leadCc" name="cc" aria-label="Код страны" data-i18n-aria="lead.cc_aria">
+          <select id="leadCc" name="cc" aria-label="Country code" data-i18n-aria="lead.cc_aria">
             <option value="62" data-format="3-4-4" selected>ID +62</option>
             <option value="7" data-format="3-3-2-2">RU +7</option>
             <option value="380" data-format="2-3-2-2">UA +380</option>
@@ -442,25 +460,34 @@
           <input type="tel" id="leadPhoneLocal" name="phone_local" inputmode="numeric" autocomplete="tel-national" required placeholder="812 3456 789">
         </div>
       </label>
-      <label class="lead-field"><span data-i18n="lead.email">Email (необязательно)</span><input type="email" name="email"></label>
+      <label class="lead-field"><span data-i18n="lead.email">Email (optional)</span><input type="email" name="email"></label>
 
-      <label class="lead-field"><span data-i18n="lead.purpose">Что вас интересует</span>
+      <label class="lead-field"><span data-i18n="lead.purpose">What are you interested in</span>
         <select name="purpose">
-          <option value="" selected disabled data-i18n="lead.purpose_placeholder">Выберите вариант ▾</option>
-          <option value="own" data-i18n="lead.purpose_own">Купить виллу для себя</option>
-          <option value="invest" data-i18n="lead.purpose_invest">Инвестиция (доходность/перепродажа)</option>
-          <option value="rent" data-i18n="lead.purpose_rent">Аренда / проживание</option>
-          <option value="other" data-i18n="lead.purpose_other">Пока не решил(а)</option>
+          <option value="" selected disabled data-i18n="lead.purpose_placeholder">Select what interests you ▾</option>
+          <option value="own" data-i18n="lead.purpose_own">Buying a villa for myself</option>
+          <option value="invest" data-i18n="lead.purpose_invest">Investment (yield/resale)</option>
+          <option value="rent" data-i18n="lead.purpose_rent">Rental/living</option>
+          <option value="other" data-i18n="lead.purpose_other">Not sure yet</option>
         </select>
       </label>
 
-      <label class="lead-field"><span data-i18n="lead.comment">Комментарий (необязательно)</span><textarea name="comment" rows="3"></textarea></label>
+      <label class="lead-field"><span data-i18n="lead.comment">Comment (optional)</span><textarea name="comment" rows="3"></textarea></label>
 
-      <label class="lead-consent"><input type="checkbox" name="consent" required><span data-i18n="lead.consent">Согласен(на) на обработку персональных данных</span></label>
+      <label class="lead-consent"><input type="checkbox" name="consent" required><span data-i18n="lead.consent">I agree to the processing of personal data</span></label>
 
-      <button type="submit" class="btn btn-clay" style="width:100%" disabled><span data-i18n="lead.submit">Отправить заявку</span></button>
+      <button type="submit" class="btn btn-clay" style="width:100%" disabled><span data-i18n="lead.submit">Send request</span></button>
       <p class="lead-status" data-status=""></p>
     </form>
+  </div>
+</div>
+
+<!-- ===== COOKIE / STORAGE NOTICE ===== -->
+<div class="cookie-note" id="cookieNote" role="dialog" aria-live="polite" aria-labelledby="cookieNoteText">
+  <p id="cookieNoteText" data-i18n="cookie.text">We use cookies and local storage to keep the site working — your language, display settings and anonymous usage statistics.</p>
+  <div class="cookie-note-row">
+    <a href="consent.html" data-i18n="cookie.more">Learn more</a>
+    <button type="button" class="btn btn-clay" id="cookieOk" data-i18n="cookie.accept">Got it</button>
   </div>
 </div>
 
