@@ -293,8 +293,18 @@ function renderNuanuPins(lang) {
      в эллипс по вертикали вдвое; компенсируем через ellipse с ry=2×rx, и
      non-scaling-stroke, чтобы толщина линии не "гуляла" в зависимости от угла */
   const lines = NUANU_PINS.map(p => `<line x1="${p.dot[0]}" y1="${p.dot[1]}" x2="${p.label[0]}" y2="${p.label[1]}" vector-effect="non-scaling-stroke"/><ellipse cx="${p.dot[0]}" cy="${p.dot[1]}" rx=".35" ry=".7"/>`).join('');
+  /* Бейдж BLACK SANDS OASIS в v1 стоит без указателя, в отличие от остальных
+     подписей. Страница может попросить такой же пин, задав
+     window.BSO_NUANU_BADGE_PIN = {dot:[x%,y%], from:[x%,y%]} ДО подключения
+     файла. Рисуем теми же примитивами, что и прочие пины, чтобы точка и линия
+     масштабировались одинаково. Мобильная ветка выше пинов не рисует вообще —
+     там бейдж так и остаётся без точки, как и все остальные подписи. */
+  const badgePin = window.BSO_NUANU_BADGE_PIN;
+  const badgeSvg = badgePin
+    ? `<line x1="${badgePin.dot[0]}" y1="${badgePin.dot[1]}" x2="${badgePin.from[0]}" y2="${badgePin.from[1]}" vector-effect="non-scaling-stroke"/><ellipse cx="${badgePin.dot[0]}" cy="${badgePin.dot[1]}" rx=".35" ry=".7"/>`
+    : '';
   const labels = NUANU_PINS.map(p => `<span class="nuanu-pin-label" style="left:${p.label[0]}%;top:${p.label[1]}%">${lang === 'en' ? p.en : p.ru}</span>`).join('');
-  nuanuPinsWrap.innerHTML = `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}</svg>${labels}`;
+  nuanuPinsWrap.innerHTML = `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}${badgeSvg}</svg>${labels}`;
 }
 renderNuanuPins(window.__bsoLang || 'en');
 nuanuMobileMQ.addEventListener('change', () => renderNuanuPins(window.__bsoLang || 'en'));

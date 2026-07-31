@@ -9,6 +9,19 @@
    в макете это RU-only, английской версии там нет. */
 (function () {
   var ru = {
+    "gallery.title": "Галерея проекта",
+    "gallery.alt1": "Клубный корпус комплекса среди пальм",
+    "gallery.alt2": "Гостиная виллы в вечернем свете",
+    "gallery.alt3": "Гостиная под шестиметровым скатным потолком",
+    "gallery.alt4": "Спальня с выходом в приватный сад",
+    "gallery.alt5": "Раковина из травертина у зелёной стены",
+    "gallery.alt6": "Спальня пентхауса с панорамным видом",
+
+    "villas.card1.alt": "Приватный двор с деревом за перфорированным терракотовым экраном",
+    "villas.card2.alt": "Спальня в мягкой тени солнцезащитных панелей",
+    "villas.card3.alt": "Обеденная зона под шестиметровым потолком с плетёными светильниками",
+    "villas.card4.alt": "Терракотовые объёмы виллы среди пальм в сумерках",
+
     "nav.faq": "Вопросы",
 
     "villas.title": "Виллы в комплексе будущего это:",
@@ -37,6 +50,19 @@
   };
 
   var en = {
+    "gallery.title": "Project gallery",
+    "gallery.alt1": "Clubhouse of the complex among palms",
+    "gallery.alt2": "Villa living room in the evening light",
+    "gallery.alt3": "Living room under a pitched six-metre ceiling",
+    "gallery.alt4": "Bedroom opening onto a private garden",
+    "gallery.alt5": "Travertine washbasin against a planted wall",
+    "gallery.alt6": "Penthouse bedroom with a panoramic view",
+
+    "villas.card1.alt": "Private courtyard with a tree behind a perforated terracotta screen",
+    "villas.card2.alt": "Bedroom in the soft shade of sun-screening panels",
+    "villas.card3.alt": "Dining area under a six-metre ceiling with woven pendant lamps",
+    "villas.card4.alt": "Terracotta villa volumes among palms at dusk",
+
     "nav.faq": "FAQ",
 
     "villas.title": "Villas in a community of the future:",
