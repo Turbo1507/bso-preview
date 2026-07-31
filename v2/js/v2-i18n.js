@@ -9,6 +9,19 @@
    в макете это RU-only, английской версии там нет. */
 (function () {
   var ru = {
+    "gallery.cap1": "Клубный корпус",
+    "gallery.cap2": "Гостиная вечером",
+    "gallery.cap3": "Шестиметровый потолок",
+    "gallery.cap4": "Спальня в сад",
+    "gallery.cap5": "Травертин и зелень",
+    "gallery.cap6": "Пентхаус, панорама",
+    "gallery.cap7": "Ужин при лампах",
+    "gallery.cap8": "Фактурная стена",
+    "gallery.cap9": "Шторы в пол",
+    "gallery.cap10": "Рабочий угол",
+    "gallery.cap11": "Душевая в террацо",
+    "gallery.cap12": "Студия в сад",
+
     "priv.photo_title": "Свой забор, сад и бассейн — у каждой виллы",
 
     "stepsSticky.lead": "От выбора юнита до ключей — пять шагов, каждый закреплён договором.",
@@ -61,6 +74,19 @@
   };
 
   var en = {
+    "gallery.cap1": "Clubhouse",
+    "gallery.cap2": "Living room at dusk",
+    "gallery.cap3": "Six-metre ceiling",
+    "gallery.cap4": "Bedroom onto the garden",
+    "gallery.cap5": "Travertine and greenery",
+    "gallery.cap6": "Penthouse, panoramic view",
+    "gallery.cap7": "Dining after dark",
+    "gallery.cap8": "Textured wall",
+    "gallery.cap9": "Floor-to-ceiling curtains",
+    "gallery.cap10": "Bedside working corner",
+    "gallery.cap11": "Shower in terrazzo",
+    "gallery.cap12": "Studio facing the garden",
+
     "priv.photo_title": "Your own fence, garden and pool — with every villa",
 
     "stepsSticky.lead": "From choosing a unit to the keys — five steps, each fixed in the contract.",

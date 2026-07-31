@@ -204,6 +204,42 @@ body.menu-open .burger span{background:var(--white)}
 .lead-consent input:checked::after{border-color:var(--on-gold)}
 .lead-consent input:checked{background:var(--clay); border-color:var(--clay)}
 
+/* ---------- планировки: разворот-документ вместо карточки товара ----------
+   Было: слева фото-карусель, справа тёмный сайдбар с иконками, значениями и
+   кнопкой — ровно композиция карточки товара, из-за неё блок и читался
+   дёшево. Стало: кадр во всю ширину, как лист из проектной папки, а под ним
+   одна тонкая строка характеристик. Иконки убраны совсем — на трёх строках
+   они работали украшением; значения набраны Prata, как цифры шагов, подписи
+   ушли в капитель. Разметку не трогаем, только раскладку. */
+.plans-panel{display:block; border-radius:0; box-shadow:none; overflow:visible}
+.plans-viewer{height:auto; aspect-ratio:16/9; border-radius:var(--r-lg);
+  background:var(--ink); box-shadow:var(--shadow-card)}
+.plans-info{
+  /* flex-direction обязателен: в v1 у .plans-info стоит column, и без сброса
+     строка характеристик оставалась колонкой (замер: высота 455px) */
+  display:flex; flex-direction:row; align-items:flex-end; flex-wrap:wrap; gap:40px;
+  background:transparent; padding:32px 0 0; margin-top:0;
+  border-top:1px solid var(--line);
+}
+.plans-info h3{font-family:'Prata',Georgia,serif; font-weight:400; font-size:32px;
+  margin:0 40px 0 0; text-decoration:none; color:var(--white)}
+.plans-stat{display:block; border-top:0; padding:0; gap:0}
+.plans-stat-ic{display:none}
+.plans-stat .k{font-size:12px; letter-spacing:.12em; text-transform:uppercase;
+  color:rgba(255,255,255,.45)}
+.plans-stat .v{font-family:'Prata',Georgia,serif; font-size:32px; line-height:1.1;
+  margin-top:8px; color:var(--white)}
+/* в колоночной раскладке v1 кнопка растягивалась по ширине панели; в строке
+   ей нужен явный размер по контенту, иначе уезжает на отдельную строку */
+.plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto; width:auto}
+@media (max-width:860px){
+  .plans-viewer{aspect-ratio:4/3}
+  .plans-info{gap:24px; padding-top:24px}
+  .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
+  .plans-stat .v{font-size:24px; margin-top:4px}
+  .plans-info .btn-glass{margin-left:0; flex:0 0 100%}
+}
+
 /* ---------- вариант B: «спецификация» вместо пилюль ---------- */
 /* Пилюля обещает короткий ярлык. Атрибуты архитектуры в неё ещё влезали,
    а заметки слайдера и чипы Stella были предложениями на 10–12 слов — отсюда
@@ -220,8 +256,10 @@ body.menu-open .burger span{background:var(--white)}
 /* по правке Босса — не пины на кадре, а мелкий текст под ним с пониженной
    непрозрачностью: поясняет, что в кадре, и не спорит с фотографией */
 .gal-slide{margin:0; display:flex; flex-direction:column}
+/* строго одна строка (правка Босса): длинные описания живут в alt, здесь —
+   короткий ярлык. nowrap страхует от переноса, если текст всё же удлинят */
 .gal-cap{margin-top:12px; font-size:13px; line-height:1.4; color:rgba(255,255,255,.45);
-  max-width:34ch}
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 
 /* ---------- «Частная территория», вариант 3 ---------- */
 /* Та же геометрия, что у блока 3: крупный вертикальный кадр слева на всю
