@@ -1,5 +1,11 @@
 /* BLACK SANDS OASIS — базовый интерактив: header, reveal, карусели, табы планировок */
 
+/* Пути к фото планировок ниже прописаны как 'assets/...' — относительно страницы.
+   v2 лежит на уровень глубже (/v2/), а картинки общие и остаются в /assets/,
+   поэтому страница может объявить window.BSO_ASSET_PREFIX ДО подключения этого
+   файла. Для v1 переменной нет → префикс пустой, поведение прежнее. */
+const ASSET = s => (window.BSO_ASSET_PREFIX || '') + s;
+
 /* ---------- header solid on scroll ---------- */
 const header = document.getElementById('header');
 function syncHeader() { header.classList.toggle('is-solid', window.scrollY > 40); }
@@ -375,7 +381,7 @@ function buildFloorsSVG(layout, lang) {
   svg.classList.add('plan-floors-svg');
   [layout.f2, layout.f1].forEach(part => {
     const img = document.createElementNS(svgNS, 'image');
-    img.setAttribute('href', part.src);
+    img.setAttribute('href', ASSET(part.src));
     img.setAttribute('x', part.x); img.setAttribute('y', part.y);
     img.setAttribute('width', part.w); img.setAttribute('height', part.h);
     svg.appendChild(img);
@@ -414,7 +420,7 @@ function renderPlan(planId, lang) {
     if (planImg) planImg.style.display = 'none';
     planSlide.appendChild(buildFloorsSVG(floors.plan, lang));
   } else {
-    if (planImg) { planImg.style.display = ''; planImg.src = p.photos[0]; planImg.alt = p.photoAlts[0]; }
+    if (planImg) { planImg.style.display = ''; planImg.src = ASSET(p.photos[0]); planImg.alt = p.photoAlts[0]; }
   }
   track.querySelectorAll('.plans-viewer-slide:not(.plans-viewer-slide--plan)').forEach(el => el.remove());
   for (let i = 1; i < p.photos.length; i++) {
@@ -430,7 +436,7 @@ function renderPlan(planId, lang) {
          (коммит ca4a0c2): в горизонтальном scroll-snap треке офскрин-кадры
          не подгружаются браузером вовремя, слайд виснет пустым/долго грузится
          при переключении таба виллы, пока юзер не подождёт или не проскроллит */
-      img.src = p.photos[i];
+      img.src = ASSET(p.photos[i]);
       img.alt = p.photoAlts[i];
       if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
       slide.appendChild(img);
