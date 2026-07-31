@@ -233,7 +233,7 @@ body.menu-open .burger span{background:var(--white)}
    нашего объекта. Пин (точка + короткий указатель) добавляется через
    window.BSO_NUANU_BADGE_PIN в index.html — теми же примитивами, что у
    остальных названий. */
-.nuanu-badge--bso{background:var(--bg); border:0}
+.nuanu-badge--bso{background:var(--surface); border:0}
 
 /* ---------- куки-плашка ---------- */
 /* background:var(--white) остался белым (переменная означает «белый текст на
@@ -313,18 +313,21 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 /* читаемость текста держится ТОЛЬКО rgba-слоем: никаких filter:brightness/
    saturate на самом фото — оно от них становится грязным */
 .vcard::after{content:''; position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(to top, rgba(11,12,11,.9) 0%, rgba(11,12,11,.62) 30%, rgba(11,12,11,.12) 62%, rgba(11,12,11,0) 100%)}
+  background:linear-gradient(to top, rgba(11,12,11,.84) 0%, rgba(11,12,11,.5) 22%, rgba(11,12,11,.08) 48%, rgba(11,12,11,0) 100%)}
 /* высокая карточка: текст сверху, значит и затемнение сверху. В прототипе
    заголовок лежит на тёмном потолке самого кадра — но это держится только
    на конкретном фото, поэтому подложку задаём явно */
-.vcard--tall::after{background:linear-gradient(to bottom, rgba(11,12,11,.86) 0%, rgba(11,12,11,.55) 34%, rgba(11,12,11,.08) 66%, rgba(11,12,11,0) 100%)}
-.vcard-text{position:absolute; left:0; right:0; bottom:0; z-index:2; padding:32px}
-.vcard--tall .vcard-text{bottom:auto; top:0; padding:48px 40px 40px}
-/* вес 500, а не Bold как в прототипе: это наш шаг шкалы для заголовков карточек,
-   и он же не спорит с просьбой держать текст утончённее */
-.vcard-text h3{margin:0 0 12px; font-size:clamp(22px,2.5vw,36px); font-weight:500; line-height:1.12;
-  color:var(--white); max-width:22ch; text-wrap:balance}
-.vcard-text p{margin:0; font-size:clamp(15px,1.3vw,18px); line-height:1.45; color:rgba(255,255,255,.82); max-width:60ch}
+.vcard--tall::after{background:linear-gradient(to bottom, rgba(11,12,11,.8) 0%, rgba(11,12,11,.44) 24%, rgba(11,12,11,.06) 50%, rgba(11,12,11,0) 100%)}
+.vcard-text{position:absolute; left:0; right:0; bottom:0; z-index:2; padding:28px}
+.vcard--tall .vcard-text{bottom:auto; top:0; padding:36px 32px 32px}
+/* Правка Босса: 36/18 закрывали кадр — текст спущен к шкале карточек сайта
+   (там h3 20px), но остаётся на ступень крупнее, потому что и карточки крупнее.
+   Вес 500, а не Bold как в прототипе: это наш шаг шкалы для заголовков карточек. */
+.vcard-text h3{margin:0 0 8px; font-size:clamp(18px,1.75vw,25px); font-weight:500; line-height:1.16;
+  color:var(--white); max-width:34ch; text-wrap:balance}
+/* max-width подобран так, чтобы подпись укладывалась в две строки, а не в три:
+   лишняя строка — это ещё ~22px закрытого кадра на каждой карточке */
+.vcard-text p{margin:0; font-size:clamp(13px,1.05vw,15px); line-height:1.45; color:rgba(255,255,255,.8); max-width:70ch}
 
 /* =========================================================================
    FAQ «Ответы на вопросы» — узкая центральная колонка (в макете 1060 из 1920),
@@ -403,8 +406,8 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .gal-track{gap:12px; padding:0 20px}
 
   .villas-grid{gap:16px; margin-top:var(--sp-xl); grid-auto-rows:minmax(300px,auto)}
-  .vcard-text{padding:22px}
-  .vcard--tall .vcard-text{padding:26px 22px 22px}
+  .vcard-text{padding:20px}
+  .vcard--tall .vcard-text{padding:24px 20px 20px}
   .faq-q{padding:16px 18px; gap:14px}
   .faq-a p{padding:14px 18px 4px}
   .faq-list{gap:10px}
