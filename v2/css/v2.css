@@ -1,0 +1,251 @@
+/* BLACK SANDS OASIS v2 — тёмная тема.
+   Палитра снята с наработки на странице «БСО 2» в Figma (фрейм «бсо2», 6:651):
+   фон #0b0c0b, поверхности #1e1e1e/#272727/#2a2c2a, стекло #ffffff@4–10%,
+   акцент — линейный градиент #cb9c38 → #efd05e (9 применений: кнопки, активный
+   таб), заголовки Prata 70–80px с line-height ≈ 1.0.
+   Отличие от исходника по прямому указанию Босса: фон страницы не почти-чёрный,
+   а ГРАФИТ — поэтому базовый тон поднят до #232624, а «глубокие» полосы
+   (футер, тёмные панели) уведены ниже него, чтобы иерархия поверхностей
+   сохранилась: deep < bg < surface < surface-2.
+   Лист накладывается ПОВЕРХ ../css/styles.css и переопределяет только цвет
+   и новые блоки — разметка и раскладка v1 не дублируются. */
+
+/* ---------- Prata: заголовочный шрифт макета, самохост (не Google CDN) ---------- */
+@font-face{font-family:'Prata';font-style:normal;font-weight:400;font-display:swap;
+  src:url('../assets/fonts/prata-cyrillic.woff2') format('woff2');
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Prata';font-style:normal;font-weight:400;font-display:swap;
+  src:url('../assets/fonts/prata-cyrillic-ext.woff2') format('woff2');
+  unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:'Prata';font-style:normal;font-weight:400;font-display:swap;
+  src:url('../assets/fonts/prata-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+
+/* ---------- токены ---------- */
+:root{
+  --bg:#232624;          /* графит — фон страницы (правка Босса) */
+  --bg-deep:#181a19;     /* тёмные полосы, футер, панели «ниже» фона */
+  --surface:#2b2f2d;     /* карточки */
+  --surface-2:#343834;   /* приподнятое состояние / ховер */
+  --gold-1:#cb9c38;
+  --gold-2:#efd05e;
+  --grad-gold:linear-gradient(90deg,var(--gold-1),var(--gold-2));
+  --on-gold:#1a1c1b;     /* текст на золоте — тёмный, как в макете */
+
+  /* переопределения базовых переменных v1 (см. ../css/styles.css) */
+  --white:#ffffff;       /* остаётся «белым» там, где это ТЕКСТ на тёмном */
+  --ink:#191b1a;         /* «тёмная панель» теперь глубже фона, а не темнее света */
+  --ink-soft:#1f2120;
+  --graphite:#ebe9e4;    /* был текст-на-светлом → стал светлый текст */
+  --stone:var(--bg-deep);/* чередующиеся секции и футер */
+  --line:rgba(255,255,255,.13);
+  --line-strong:rgba(255,255,255,.26);
+  --muted:rgba(255,255,255,.62);
+  --clay:#d9ae45;        /* сплошной эквивалент золота — для иконок/линий/точек */
+  --clay-soft:#efd05e;
+  --clay-active:#b8892c;
+
+  --shadow-card:0 24px 60px -24px rgba(0,0,0,.6);
+}
+
+/* ---------- базовые поверхности ---------- */
+body{background:var(--bg); color:var(--graphite)}
+
+/* шапка в «приклеенном» состоянии: была почти белая плашка */
+.site-header.is-solid{background:rgba(24,26,25,.94); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px)}
+.site-header.is-solid .logo b{color:var(--white)}
+.site-header.is-solid .burger span{background:var(--white)}
+.site-header.is-solid .lang button.is-active{color:var(--white)}
+
+/* мобильное меню — было белое полотно */
+.menu-overlay{background:var(--bg-deep)}
+.menu-overlay a{color:var(--graphite)}
+.menu-title{color:var(--muted)}
+.menu-close{color:var(--graphite)}
+/* переключатель языка в оверлее был тёмным (rgba(28,24,21,.45)) под белое
+   меню v1 — на тёмном полотне v2 «RU / EN» пропадали полностью */
+.menu-lang button{color:rgba(255,255,255,.55)}
+.menu-lang button.is-active{color:var(--white)}
+.menu-lang span{color:rgba(255,255,255,.3)}
+body.menu-open .burger span{background:var(--white)}
+
+/* нижняя мобильная плашка CTA */
+.mob-cta{background:var(--bg-deep); border-top:1px solid var(--line)}
+
+/* ---------- текст: все «тёмный по светлому» переводим в светлый ---------- */
+.lead{color:rgba(255,255,255,.72)}
+.min-foot p{color:rgba(255,255,255,.62)}
+.priv-card p,
+.step-card p,
+.stat-card p,
+.team-card p{color:rgba(255,255,255,.7)}
+.footer-brand p,
+.footer-col a,
+.footer-bottom{color:rgba(255,255,255,.66)}
+.stat-card h3{color:var(--white)}
+.footer-brand .logo,
+.footer-brand .logo b,
+.footer-col h4{color:var(--white)}
+
+/* ---------- карточки: в v1 прозрачные с обводкой, здесь — заполненные ---------- */
+.feat-card,
+.priv-card,
+.step-card,
+.stat-card,
+.team-card{background:var(--surface); border-color:var(--line); box-shadow:var(--shadow-card)}
+.min-tags .tag-pill,
+.feat-filters .tag-pill{border-color:var(--line-strong); color:var(--muted)}
+
+/* ---------- кнопки: основной CTA — золотой градиент с тёмным текстом ---------- */
+.btn-clay,
+.btn-white{background:var(--grad-gold); color:var(--on-gold); border-color:transparent}
+.btn-clay:hover,
+.btn-white:hover{background:linear-gradient(90deg,#d8a941,#f5db72); color:var(--on-gold); border-color:transparent}
+.btn-clay:active,
+.btn-white:active{background:linear-gradient(90deg,#b8892c,#d9b944); color:var(--on-gold); border-color:transparent}
+.btn-white svg{color:var(--on-gold)}
+/* `.menu-overlay .menu-cta{color:var(--white)}` в v1 специфичнее, чем .btn-clay,
+   и перебивал тёмный текст — белым по золоту получалось 1.9:1 */
+.menu-overlay .menu-cta{color:var(--on-gold)}
+.btn-line{border-color:var(--line-strong); color:var(--graphite)}
+.btn-line:active{background:rgba(255,255,255,.06)}
+
+/* стрелки каруселей были на полупрозрачном БЕЛОМ — на графите это светлое пятно */
+.carousel-arrow{background:rgba(255,255,255,.05); border-color:var(--line-strong); color:rgba(255,255,255,.55)}
+.carousel-arrow:hover:not(:disabled){background:rgba(255,255,255,.1)}
+.carousel-dots span{background:rgba(255,255,255,.22)}
+
+/* ---------- планировки: активный таб — золотой, как в макете ---------- */
+/* background не задан в v1 → у <button> остаётся системный buttonface (#f0f0f0).
+   На светлой теме это читалось как бледная плашка, на графите — светлое пятно. */
+.plans-tab{background:transparent; color:rgba(255,255,255,.72); border-color:var(--line)}
+/* панели планировок стоят на «глубокой» секции (--stone), а их собственный фон
+   был --ink — почти тот же тон, панель пропадала. Поднимаем до поверхности. */
+.plans-viewer,
+.plans-info{background:var(--surface)}
+.plans-tab.is-active{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
+.plans-tab:not(.is-active):hover{border-color:var(--clay); color:var(--clay)}
+/* планы — документы на белом листе, так и остаются листом */
+.plans-viewer-slide--plan,
+.plans-viewer-slide--topview{background:#fff}
+
+/* ---------- форма заявки ---------- */
+.lead-panel{background:var(--surface)}
+.lead-panel h3{color:var(--white)}
+.lead-x{background:rgba(255,255,255,.08); color:var(--graphite)}
+.lead-field input,
+.lead-field select,
+.lead-field textarea{background:rgba(255,255,255,.05); color:var(--graphite); border-color:var(--line-strong)}
+.lead-field select option{background:var(--surface); color:var(--graphite)}
+.lead-consent{color:var(--muted)}
+.lead-consent input{background:rgba(255,255,255,.05); border-color:var(--line-strong)}
+.lead-consent input:checked::after{border-color:var(--on-gold)}
+.lead-consent input:checked{background:var(--clay); border-color:var(--clay)}
+
+/* ---------- куки-плашка ---------- */
+/* background:var(--white) остался белым (переменная означает «белый текст на
+   тёмном» и не переопределялась), а цвет текста уже светлый — получалось
+   белое по белому, плашка читалась пустой. */
+.cookie-note{background:var(--surface); border-color:var(--line-strong)}
+.cookie-note p{color:var(--muted)}
+/* z-index плашки (150) выше оверлея меню (90): пока куки не приняты, открытое
+   мобильное меню перекрывалось ею ровно по переключателю RU/EN. Прячем плашку
+   на время открытого меню — та же болячка есть и в v1. */
+body.menu-open .cookie-note{opacity:0; visibility:hidden; pointer-events:none}
+
+/* ---------- футер ---------- */
+.footer-social a{border-color:var(--line); color:var(--graphite)}
+.footer-social a:hover{background:var(--clay); border-color:var(--clay); color:var(--on-gold)}
+
+/* ---------- типографика: Prata на секционных заголовках ---------- */
+/* В макете все h2 — Prata 70–80px при line-height 65–75, то есть ≈1.0.
+   Hero-заголовок оставлен на Helvetica: в макете он тоже не Prata (Onest 100). */
+h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-height:1.04; letter-spacing:-.005em}
+.signature-meta h3,
+.plans-info h3{font-family:'Prata',Georgia,serif; font-weight:400}
+
+/* =========================================================================
+   БЛОК 3 макета «бсо2»: «Виллы в комплексе будущего это:»
+   Слева — Prata-заголовок, справа — два абзаца вводного текста.
+   Ниже — сетка из 4 фото-карточек: ряд 1 = 6/6, ряд 2 = 5/7 (как в макете,
+   там 745+745 и 580+905 при контенте 1520px). Текст лежит НА фото, читаемость
+   держится только rgba-слоем градиента — без filter:brightness/saturate,
+   иначе фото становится грязным.
+   ========================================================================= */
+/* В v1 стоит `#architecture + .section{padding-top:20px}` — правка Босса, чтобы
+   архитектура и шедшая за ней карусель преимуществ читались как ОДНА тема.
+   В v2 следом идёт самостоятельный блок со своим крупным заголовком и вводным
+   текстом — это отдельная тема, и урезанный отступ склеивал её с подписью
+   предыдущей секции. Возвращаем общий ритм секций (100+100). */
+.section.villas{padding-top:var(--sp-3xl)}
+
+.villas-head{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:var(--sp-lg) 80px; align-items:start}
+.villas-head h2{margin:0; max-width:11ch}
+.villas-intro{display:flex; flex-direction:column; gap:20px; padding-top:6px}
+.villas-intro p{margin:0; font-size:clamp(15px,1.25vw,18px); line-height:1.5; color:rgba(255,255,255,.72)}
+
+.villas-grid{display:grid; grid-template-columns:repeat(12,1fr); gap:24px; margin-top:var(--sp-2xl)}
+.vcard{position:relative; grid-column:span 6; min-height:clamp(320px,30vw,440px);
+  border-radius:var(--r-lg); overflow:hidden; background:var(--surface); box-shadow:var(--shadow-card)}
+.vcard:nth-child(3){grid-column:span 5}
+.vcard:nth-child(4){grid-column:span 7}
+.vcard img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.vcard::after{content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(11,12,11,.9) 0%, rgba(11,12,11,.62) 30%, rgba(11,12,11,.12) 62%, rgba(11,12,11,0) 100%)}
+/* карточка «6-метровые потолки» — единственная, где текст в макете стоит СВЕРХУ */
+.vcard--top::after{background:linear-gradient(to bottom, rgba(11,12,11,.9) 0%, rgba(11,12,11,.6) 30%, rgba(11,12,11,.1) 62%, rgba(11,12,11,0) 100%)}
+.vcard-text{position:absolute; left:0; right:0; bottom:0; z-index:2; padding:32px 36px 34px}
+.vcard--top .vcard-text{bottom:auto; top:0; padding:32px 36px 34px}
+.vcard-text h3{margin:0 0 12px; font-size:clamp(22px,2.5vw,36px); font-weight:500; line-height:1.15;
+  color:var(--white); max-width:16ch; text-wrap:balance}
+.vcard-text p{margin:0; font-size:clamp(14px,1.15vw,17px); line-height:1.45; color:rgba(255,255,255,.78); max-width:52ch}
+
+/* =========================================================================
+   FAQ «Ответы на вопросы» — узкая центральная колонка (в макете 1060 из 1920),
+   раскрытый вопрос = белая пилюля с тёмным текстом, закрытые = поверхность.
+   ========================================================================= */
+.faq-wrap{max-width:1060px; margin:0 auto}
+.faq-wrap h2{margin:0 0 var(--sp-lg)}
+.faq-list{display:flex; flex-direction:column; gap:14px}
+.faq-item{border-radius:var(--r-lg); overflow:hidden}
+.faq-q{display:flex; align-items:center; justify-content:space-between; gap:24px; width:100%;
+  padding:20px 26px; text-align:left; border:1px solid var(--line); border-radius:var(--r-lg);
+  background:var(--surface); color:var(--graphite); font-size:clamp(15px,1.25vw,18px); font-weight:400;
+  transition:background .2s var(--ease), color .2s var(--ease), border-color .2s var(--ease)}
+.faq-q:hover{background:var(--surface-2)}
+.faq-chev{flex:0 0 auto; width:20px; height:20px; transition:transform .28s var(--ease)}
+.faq-item.is-open .faq-q{background:var(--white); color:var(--ink); border-color:transparent}
+.faq-item.is-open .faq-chev{transform:rotate(180deg)}
+/* раскрытие без max-height-магии: grid 0fr→1fr корректно анимирует любую высоту */
+.faq-a{display:grid; grid-template-rows:0fr; transition:grid-template-rows .32s var(--ease)}
+.faq-item.is-open .faq-a{grid-template-rows:1fr}
+.faq-a > div{overflow:hidden}
+.faq-a p{margin:0; padding:18px 26px 6px; font-size:clamp(14px,1.1vw,17px); line-height:1.55; color:rgba(255,255,255,.66)}
+
+/* чипы под Stella Solaris: .45 давало 4.46:1 на тёмной подложке — чуть ниже AA */
+.signature-chips span{color:rgba(255,255,255,.58); border-color:rgba(255,255,255,.35)}
+
+/* ---------- планшет / мобайл ---------- */
+@media (max-width:1024px){
+  .villas-head{grid-template-columns:1fr; gap:24px}
+  .villas-head h2{max-width:none}
+  .vcard,
+  .vcard:nth-child(3),
+  .vcard:nth-child(4){grid-column:span 12}
+}
+@media (max-width:860px){
+  /* та же история, что с .menu-lang: под белую «приклеенную» шапку v1 цвет был
+     тёмный, на тёмной шапке v2 RU/EN исчезали */
+  .site-header.is-solid .lang button{color:rgba(255,255,255,.55)}
+  .site-header.is-solid .lang button.is-active{color:var(--white)}
+  .site-header.is-solid .lang span{color:rgba(255,255,255,.3)}
+
+  .section.villas{padding-top:48px}   /* тот же ритм, что у остальных секций на мобиле */
+  .villas-grid{gap:16px; margin-top:var(--sp-xl)}
+  .vcard{min-height:300px}
+  .vcard-text{padding:22px 22px 24px}
+  .vcard--top .vcard-text{padding:22px 22px 24px}
+  .faq-q{padding:16px 18px; gap:14px}
+  .faq-a p{padding:14px 18px 4px}
+  .faq-list{gap:10px}
+}
