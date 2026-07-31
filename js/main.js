@@ -300,8 +300,10 @@ function renderNuanuPins(lang) {
      масштабировались одинаково. Мобильная ветка выше пинов не рисует вообще —
      там бейдж так и остаётся без точки, как и все остальные подписи. */
   const badgePin = window.BSO_NUANU_BADGE_PIN;
+  /* класс badge-pin — чтобы страница могла покрасить указатель бейджа отдельно
+     от остальных пинов (у BSO он тёмный, у прочих подписей белый) */
   const badgeSvg = badgePin
-    ? `<line x1="${badgePin.dot[0]}" y1="${badgePin.dot[1]}" x2="${badgePin.from[0]}" y2="${badgePin.from[1]}" vector-effect="non-scaling-stroke"/><ellipse cx="${badgePin.dot[0]}" cy="${badgePin.dot[1]}" rx=".35" ry=".7"/>`
+    ? `<line class="badge-pin" x1="${badgePin.dot[0]}" y1="${badgePin.dot[1]}" x2="${badgePin.from[0]}" y2="${badgePin.from[1]}" vector-effect="non-scaling-stroke"/><ellipse class="badge-pin" cx="${badgePin.dot[0]}" cy="${badgePin.dot[1]}" rx=".35" ry=".7"/>`
     : '';
   const labels = NUANU_PINS.map(p => `<span class="nuanu-pin-label" style="left:${p.label[0]}%;top:${p.label[1]}%">${lang === 'en' ? p.en : p.ru}</span>`).join('');
   nuanuPinsWrap.innerHTML = `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}${badgeSvg}</svg>${labels}`;
