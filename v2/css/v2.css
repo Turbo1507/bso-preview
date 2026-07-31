@@ -228,6 +228,48 @@ body.menu-open .burger span{background:var(--white)}
 /* точки слайдера иначе оказались бы под карточками */
 .min-gallery .min-gallery-dots{bottom:22px; z-index:4}
 
+/* ---------- «Как купить виллу», вариант со липким заголовком ---------- */
+/* Референс — product-feed на burton.com: слева колонка, которая остаётся на
+   месте, справа лента карточек. Блок стоит рядом со старой каруселью, она не
+   удалена — сравниваем.
+
+   Без этой строки sticky не работал бы вовсе: в v1 у body стоит
+   overflow-x:hidden, а он делает body контейнером прокрутки, и потомок с
+   position:sticky липнет уже не к вьюпорту. `clip` обрезает горизонтальный
+   вылет так же, но контейнер прокрутки НЕ создаёт. */
+body{overflow-x:clip}
+
+.ss-grid{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:80px; align-items:start}
+/* align-self:start обязателен: иначе элемент растягивается по высоте колонки
+   и «липнуть» ему уже некуда. top — высота приклеенной шапки плюс воздух */
+.ss-head{position:sticky; top:120px; align-self:start}
+.ss-head h2{margin:0}
+.ss-head .lead{margin-top:24px; max-width:24ch}
+.ss-cta{margin-top:40px}
+
+.ss-list{display:flex; flex-direction:column; gap:24px; margin:0; padding:0; list-style:none}
+.ss-card{
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r-sm);
+  padding:40px; box-shadow:var(--shadow-card);
+}
+.ss-card .num{display:block; font-size:32px; font-weight:500; color:var(--clay); line-height:1}
+.ss-card h3{margin:24px 0 8px; font-size:24px}
+.ss-card p{margin:0; font-size:16px; line-height:1.5; color:rgba(255,255,255,.7)}
+
+@media (max-width:1024px){
+  .ss-grid{grid-template-columns:1fr; gap:40px}
+  /* на узком экране липкая колонка съедала бы пол-экрана — отключаем */
+  .ss-head{position:static}
+  .ss-head .lead{max-width:none}
+}
+@media (max-width:860px){
+  .ss-card{padding:24px}
+  .ss-card .num{font-size:24px}
+  .ss-card h3{margin:16px 0 8px; font-size:18px}
+  .ss-card p{font-size:14px}
+  .ss-cta{margin-top:24px}
+}
+
 /* ---------- галерея проекта ---------- */
 /* Высота полосы задана, ширина слайда считается от пропорций самого кадра
    (width:auto при height:100%) — портретные и горизонтальные рендеры стоят
