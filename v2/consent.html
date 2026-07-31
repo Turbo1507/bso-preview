@@ -1,66 +1,67 @@
 <!DOCTYPE html>
-<html lang="ru">
+<!-- data-title-key: js/legal.js подставит <title> на нужном языке -->
+<html lang="en" data-title-key="consent.title">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Согласие на обработку персональных данных — Black Sands Oasis</title>
-<link rel="stylesheet" href="css/styles.css">
-<style>
-  .legal-page{padding:calc(var(--sp-3xl) + 60px) 0 var(--sp-3xl)}
-  .legal-page h1{font-size:clamp(32px,4vw,48px); font-weight:400; letter-spacing:-.03em; margin-bottom:var(--sp-lg)}
-  .legal-page h2{font-size:22px; font-weight:500; letter-spacing:0; line-height:1.2; margin:var(--sp-xl) 0 var(--sp-sm)}
-  .legal-page p{font-size:16px; line-height:1.6; color:rgba(58,58,58,.8); max-width:72ch; margin-bottom:var(--sp-sm)}
-  .legal-page a.back{display:inline-block; margin-bottom:var(--sp-lg); color:var(--clay); font-size:14px}
-  .legal-page ul{max-width:72ch; margin:0 0 var(--sp-sm); padding-left:20px}
-  .legal-page li{font-size:16px; line-height:1.6; color:rgba(58,58,58,.8); margin-bottom:6px}
-</style>
+<title>Personal Data Consent — Black Sands Oasis</title>
+<meta name="robots" content="noindex">
+<!-- v2 лежит на уровень глубже: базовые стили общие, тёмная тема своя -->
+<link rel="stylesheet" href="../css/styles.css">
+<link rel="stylesheet" href="css/v2.css">
 </head>
 <body>
 <section class="legal-page">
   <div class="container">
-    <a class="back" href="index.html">← Вернуться на сайт Black Sands Oasis</a>
-    <h1>Согласие на обработку персональных данных</h1>
+    <div class="legal-head">
+      <a class="back" href="index.html" data-i18n="legal.back">← Back to the Black Sands Oasis site</a>
+      <div class="lang" role="group" aria-label="language">
+        <button data-lang="ru">RU</button><span>/</span><button data-lang="en" class="is-active">EN</button>
+      </div>
+    </div>
+    <h1 data-i18n="consent.h1">Personal Data Consent</h1>
 
-    <p>Оставляя заявку на сайте, в мессенджере или на личной консультации, вы даёте согласие PT. UNIT NUANU PROPERTY (Jl Pantai Nyanyi No. 88, Beraban, Tabanan, Bali 80351, Indonesia) на обработку своих персональных данных на условиях, изложенных ниже.</p>
+    <p data-i18n="consent.intro">By submitting a request on the site, in a messenger or at a personal consultation, you consent to PT. UNIT NUANU PROPERTY (Jl Pantai Nyanyi No. 88, Beraban, Tabanan, Bali 80351, Indonesia) processing your personal data on the terms set out below.</p>
 
-    <h2>Какие данные обрабатываются</h2>
+    <h2 data-i18n="consent.h2_what">What data is processed</h2>
     <ul>
-      <li>Имя и контактные данные: телефон, мессенджер (WhatsApp/Telegram), email</li>
-      <li>Содержание обращения и запрошенные материалы (презентация, финансовая модель, планировки)</li>
-      <li>Технические данные браузера/устройства при посещении сайта (для аналитики, без прямой идентификации личности)</li>
+      <li data-i18n="consent.what1">Name and contact details: phone, messenger (WhatsApp/Telegram), email</li>
+      <li data-i18n="consent.what2">The content of your request and the materials you asked for (presentation, financial model, floor plans)</li>
+      <li data-i18n="consent.what3">Technical browser/device data collected during your visit (for analytics, without direct identification)</li>
     </ul>
 
-    <h2>Цели обработки</h2>
+    <h2 data-i18n="consent.h2_why">Purposes of processing</h2>
     <ul>
-      <li>Обработка заявки и обратная связь по проекту Black Sands Oasis</li>
-      <li>Проведение консультаций, подбор юнита, отправка индивидуального предложения</li>
-      <li>Коммуникация по статусу сделки и объекта</li>
-      <li>Улучшение сайта и сервиса</li>
+      <li data-i18n="consent.why1">Handling your request and getting back to you about the Black Sands Oasis project</li>
+      <li data-i18n="consent.why2">Running consultations, selecting a unit, sending an individual offer</li>
+      <li data-i18n="consent.why3">Communication about the status of the deal and the property</li>
+      <li data-i18n="consent.why4">Improving the site and the service</li>
     </ul>
 
-    <h2>Правовое основание</h2>
-    <p>Обработка осуществляется на основании вашего согласия и в объёме, необходимом для заключения и исполнения договора, в соответствии с Законом Республики Индонезия № 27 от 2022 года «О защите персональных данных» (UU No. 27/2022 tentang Pelindungan Data Pribadi).</p>
+    <h2 data-i18n="consent.h2_basis">Legal basis</h2>
+    <p data-i18n="consent.basis">Processing is carried out on the basis of your consent and to the extent required to conclude and perform the contract, in accordance with Law of the Republic of Indonesia No. 27 of 2022 on Personal Data Protection (UU No. 27/2022 tentang Pelindungan Data Pribadi).</p>
 
-    <h2>Защита данных</h2>
-    <p>Данные хранятся в защищённых информационных системах с ограниченным доступом сотрудников по принципу необходимой достаточности. Компания применяет организационные и технические меры защиты, соразмерные характеру обрабатываемых данных.</p>
+    <h2 data-i18n="consent.h2_safety">Data protection</h2>
+    <p data-i18n="consent.safety">Data is stored in secured information systems with employee access limited on a need-to-know basis. The company applies organisational and technical safeguards proportionate to the nature of the data processed.</p>
 
-    <h2>Передача третьим лицам</h2>
-    <p>Компания не продаёт персональные данные третьим лицам. Подрядчики и партнёры, привлекаемые для обработки заявок (например, платёжные и коммуникационные сервисы), получают доступ только к данным, необходимым для выполнения своей задачи.</p>
+    <h2 data-i18n="consent.h2_third">Transfer to third parties</h2>
+    <p data-i18n="consent.third">The company does not sell personal data to third parties. Contractors and partners engaged to process requests (for example, payment and communication services) are given access only to the data required to perform their task.</p>
 
-    <h2>Ваши права</h2>
+    <h2 data-i18n="consent.h2_rights">Your rights</h2>
     <ul>
-      <li>Запросить доступ к своим данным</li>
-      <li>Потребовать исправления неточных данных</li>
-      <li>Потребовать удаления данных</li>
-      <li>Ограничить обработку</li>
-      <li>Отозвать согласие в любой момент — это не влияет на законность обработки до отзыва</li>
+      <li data-i18n="consent.right1">Request access to your data</li>
+      <li data-i18n="consent.right2">Request correction of inaccurate data</li>
+      <li data-i18n="consent.right3">Request deletion of your data</li>
+      <li data-i18n="consent.right4">Restrict processing</li>
+      <li data-i18n="consent.right5">Withdraw consent at any time — this does not affect the lawfulness of processing before the withdrawal</li>
     </ul>
 
-    <h2>Оператор данных</h2>
+    <h2 data-i18n="consent.h2_operator">Data controller</h2>
     <p>PT. UNIT NUANU PROPERTY<br>Jl Pantai Nyanyi No. 88, Beraban, Tabanan, Bali 80351, Indonesia<br>unitdeveloper.com</p>
 
-    <p style="margin-top:var(--sp-lg); font-size:14px; color:rgba(58,58,58,.55)">Для отзыва согласия или вопросов по обработке данных — свяжитесь с нами через форму на сайте.</p>
+    <p class="legal-note" data-i18n="consent.note">To withdraw your consent or ask a question about data processing, contact us through the form on the site.</p>
   </div>
 </section>
+<script src="js/legal.js"></script>
 </body>
 </html>

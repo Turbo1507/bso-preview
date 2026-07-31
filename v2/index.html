@@ -105,10 +105,13 @@
       <button class="min-gallery-arrow prev" id="minGalleryPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
       <button class="min-gallery-arrow next" id="minGalleryNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
       <div class="min-gallery-dots" id="minGalleryDots"><span class="on"></span><span></span><span></span><span></span><span></span></div>
-    </div>
-    <div class="min-foot reveal">
-      <p data-i18n="arch.foot1">Subtle scents, muted sounds and tactile details create a sense of a secluded world</p>
+      <!-- правка Босса: подписи, висевшие отдельным рядом под слайдером,
+           лежат теперь НА фото стеклянными карточками. pointer-events:none —
+           иначе оверлей перехватывал бы свайп по треку. -->
+      <div class="min-gallery-notes">
+        <p data-i18n="arch.foot1">Subtle scents, muted sounds and tactile details create a sense of a secluded world</p>
       <p data-i18n="arch.foot2">An aesthetic that extends the island’s landscape, staying deep, authentic and personal for every home</p>
+      </div>
     </div>
   </div>
 </section>
@@ -129,29 +132,29 @@
       </div>
     </div>
     <div class="villas-grid reveal">
-      <article class="vcard">
-        <img src="../assets/feat-oasis-plaza.jpg" alt="Private mini-oasis" data-i18n-alt="feat.photo2_alt" loading="lazy">
-        <div class="vcard-text">
-          <h3 data-i18n="villas.card1.t">A private mini-oasis</h3>
-          <p data-i18n="villas.card1.p">A private garden and pool create a territory of your own — a place to retreat, slow down and feel truly at home, in comfort and safety</p>
-        </div>
-      </article>
-      <article class="vcard">
-        <img src="../assets/feat-coolness.jpg" alt="Cool shade" data-i18n-alt="feat.photo3_alt" loading="lazy">
-        <div class="vcard-text">
-          <h3 data-i18n="villas.card2.t">A sense of coolness in a hot climate</h3>
-          <p data-i18n="villas.card2.p">Thoughtful ventilation, shade, lighting scenarios and materials — inside the villa every detail works for your comfort</p>
-        </div>
-      </article>
-      <article class="vcard vcard--top">
-        <img src="../assets/feat-ceiling.jpg" alt="Tall walls and light in the inner courtyard" data-i18n-alt="feat.photo4_alt" loading="lazy">
+      <article class="vcard vcard--tall">
+        <img src="../assets/villas-ceilings.jpg" alt="Dining area under a six-metre ceiling with woven pendant lamps" data-i18n-alt="villas.card3.alt" loading="lazy">
         <div class="vcard-text">
           <h3 data-i18n="villas.card3.t">Six-meter ceilings</h3>
           <p data-i18n="villas.card3.p">Plenty of light and air</p>
         </div>
       </article>
       <article class="vcard">
-        <img src="../assets/feat-architecture.jpg" alt="Villa architecture" data-i18n-alt="feat.photo1_alt" loading="lazy">
+        <img src="../assets/villas-coolness.jpg" alt="Bedroom in the soft shade of sun-screening panels" data-i18n-alt="villas.card2.alt" loading="lazy">
+        <div class="vcard-text">
+          <h3 data-i18n="villas.card2.t">A sense of coolness in a hot climate</h3>
+          <p data-i18n="villas.card2.p">Thoughtful ventilation, shade, lighting scenarios and materials — inside the villa every detail works for your comfort</p>
+        </div>
+      </article>
+      <article class="vcard">
+        <img src="../assets/villas-privacy.jpg" alt="Private courtyard with a tree behind a perforated terracotta screen" data-i18n-alt="villas.card1.alt" loading="lazy">
+        <div class="vcard-text">
+          <h3 data-i18n="villas.card1.t">A private mini-oasis</h3>
+          <p data-i18n="villas.card1.p">A private garden and pool create a territory of your own — a place to retreat, slow down and feel truly at home, in comfort and safety</p>
+        </div>
+      </article>
+      <article class="vcard">
+        <img src="../assets/villas-modernism.jpg" alt="Terracotta villa volumes among palms at dusk" data-i18n-alt="villas.card4.alt" loading="lazy">
         <div class="vcard-text">
           <h3 data-i18n="villas.card4.t">A journey into Desert Modernism</h3>
           <p data-i18n="villas.card4.p">Perforated terracotta panels, natural stone and terrazzo in wet areas, paired with a sandy caramel palette, help the villas blend softly into the surrounding landscape</p>
@@ -192,16 +195,21 @@
 <section class="section signature">
   <div class="container">
     <h2 class="reveal" data-i18n="sig.title">The complex’s architectural signature</h2>
-    <div class="signature-photo reveal"><img src="../assets/stella-solaris.jpg" alt="Stella Solaris art object" data-i18n-alt="sig.photo_alt" loading="lazy"></div>
+    <!-- правка Босса: чипы переехали ПРЯМО НА фото Stella Solaris, в одну строку,
+         стеклянными. Поэтому лежат внутри .signature-photo, а не отдельным
+         блоком под .signature-meta, как в v1. -->
+    <div class="signature-photo reveal">
+      <img src="../assets/stella-solaris.jpg" alt="Stella Solaris art object" data-i18n-alt="sig.photo_alt" loading="lazy">
+      <div class="signature-chips">
+      <span data-i18n="sig.chip1">A strong visual gesture that shapes the image of the whole project</span>
+      <span data-i18n="sig.chip2">An architectural landmark at the complex’s entrance</span>
+      <span data-i18n="sig.chip3">An element of recognition and status</span>
+      </div>
+    </div>
     <div class="signature-meta reveal">
       <h3>Stella Solaris</h3>
       <p data-i18n="sig.p1">A 15-meter art object created in collaboration<br>with a renowned architecture firm</p>
       <p data-i18n="sig.p2">The project’s visual landmark,<br>reinforcing its status</p>
-    </div>
-    <div class="signature-chips reveal">
-      <span data-i18n="sig.chip1">A strong visual gesture that shapes the image of the whole project</span>
-      <span data-i18n="sig.chip2">An architectural landmark at the complex’s entrance</span>
-      <span data-i18n="sig.chip3">An element of recognition and status</span>
     </div>
   </div>
 </section>
@@ -354,13 +362,43 @@
         <h3 data-i18n="team.name1">Stepan Fedoseev</h3>
         <p data-i18n="team.p1">Founder of UNIT. and UNIT.BUILD. An expert in systems management and technology implementation in construction</p>
       </div>
-      <div class="team-card">
+      <!-- скрывается на EN-версии по правке Босса, см. css/v2.css -->
+      <div class="team-card team-card--anna">
         <div class="team-photo"><img src="../assets/team-anna.png" alt="Anna Orlova" loading="lazy"></div>
         <span class="team-role" data-i18n="team.role2">Co-owner</span>
         <h3 data-i18n="team.name2">Anna Orlova</h3>
         <p data-i18n="team.p2">Architect and designer with 10 years of experience in commercial and residential projects across Indonesia, Europe and France</p>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ===== 13.7. ГАЛЕРЕЯ ПРОЕКТА (блок из макета «бсо2») =====
+     Полоса фиксированной высоты: ширина слайда идёт от самой фотографии, а не
+     наоборот. Кадры в архиве разной ориентации, и загонять их в общую рамку
+     значило бы резать половину — здесь каждый показан целиком.
+     Фото отобраны по правилам Босса: одна вилла в кадре, никаких аэрофото
+     с рядами вилл и кадров с моделями. -->
+<section class="section gallery" id="gallery">
+  <div class="container">
+    <div class="steps-head-row">
+      <h2 class="reveal" data-i18n="gallery.title">Project gallery</h2>
+      <div class="carousel-nav">
+        <button class="carousel-arrow" id="galPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M46.5 15L38.5 22.5L46.5 30"/></svg></button>
+        <button class="carousel-arrow" id="galNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M38.5 15L46.5 22.5L38.5 30"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <div class="gal-track reveal" id="galTrack">
+      <div class="gal-slide"><img src="../assets/gal-clubhouse.jpg" alt="Clubhouse of the complex among palms" data-i18n-alt="gallery.alt1"></div>
+      <div class="gal-slide"><img src="../assets/gal-evening-living.jpg" alt="Villa living room in the evening light" data-i18n-alt="gallery.alt2"></div>
+      <div class="gal-slide"><img src="../assets/gal-living-room.jpg" alt="Living room under a pitched six-metre ceiling" data-i18n-alt="gallery.alt3"></div>
+      <div class="gal-slide"><img src="../assets/gal-bedroom-garden.jpg" alt="Bedroom opening onto a private garden" data-i18n-alt="gallery.alt4"></div>
+      <div class="gal-slide"><img src="../assets/gal-bath-detail.jpg" alt="Travertine washbasin against a planted wall" data-i18n-alt="gallery.alt5"></div>
+      <div class="gal-slide"><img src="../assets/gal-penthouse-view.jpg" alt="Penthouse bedroom with a panoramic view" data-i18n-alt="gallery.alt6"></div>
+  </div>
+  <div class="container">
+    <div class="carousel-dots" id="galDots"><span class="on"></span><span></span><span></span><span></span><span></span><span></span></div>
   </div>
 </section>
 
@@ -549,6 +587,9 @@
 
 <!-- v2 лежит на уровень глубже, ассеты общие в /assets/ — main.js читает этот префикс -->
 <script>window.BSO_ASSET_PREFIX = '../';</script>
+<!-- пин у бейджа BSO на мастер-плане: точка на застройке прямо под бейджем,
+     короткий указатель от его нижнего края. Проценты — от кадра nuanu-masterplan -->
+<script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
 <script src="../js/i18n.js"></script>
 <script src="js/v2-i18n.js"></script>
 <script src="../js/main.js"></script>

@@ -23,10 +23,14 @@
 
 /* ---------- токены ---------- */
 :root{
-  --bg:#232624;          /* графит — фон страницы (правка Босса) */
-  --bg-deep:#181a19;     /* тёмные полосы, футер, панели «ниже» фона */
-  --surface:#2b2f2d;     /* карточки */
-  --surface-2:#343834;   /* приподнятое состояние / ховер */
+  /* Фон страницы задан Боссом точным значением #131313 (сначала был графит
+     #232624). Оттенок нейтральный, без зеленцы, поэтому вся шкала поверхностей
+     пересобрана нейтральной — и она сошлась с исходным макетом «бсо2»:
+     карточки там ровно #1e1e1e, приподнятое #272727. */
+  --bg:#131313;          /* фон страницы */
+  --bg-deep:#0b0b0b;     /* тёмные полосы, футер, панели «ниже» фона */
+  --surface:#1e1e1e;     /* карточки */
+  --surface-2:#272727;   /* приподнятое состояние / ховер */
   --gold-1:#cb9c38;
   --gold-2:#efd05e;
   --grad-gold:linear-gradient(90deg,var(--gold-1),var(--gold-2));
@@ -34,8 +38,8 @@
 
   /* переопределения базовых переменных v1 (см. ../css/styles.css) */
   --white:#ffffff;       /* остаётся «белым» там, где это ТЕКСТ на тёмном */
-  --ink:#191b1a;         /* «тёмная панель» теперь глубже фона, а не темнее света */
-  --ink-soft:#1f2120;
+  --ink:#0d0d0d;         /* «тёмная панель» теперь глубже фона, а не темнее света */
+  --ink-soft:#151515;
   --graphite:#ebe9e4;    /* был текст-на-светлом → стал светлый текст */
   --stone:var(--bg-deep);/* чередующиеся секции и футер */
   --line:rgba(255,255,255,.13);
@@ -123,6 +127,15 @@ body.menu-open .burger span{background:var(--white)}
    был --ink — почти тот же тон, панель пропадала. Поднимаем до поверхности. */
 .plans-viewer,
 .plans-info{background:var(--surface)}
+/* подчёркивание названия планировки осталось от старого акцента — в v1 оно
+   зашито как rgba(156,79,32,.5), то есть терракота #9c4f20; переводим на золото */
+.plans-info h3{text-decoration-color:rgba(217,174,69,.75)}
+/* правка Босса: кнопка «Приобрести» — фирменным золотым градиентом.
+   Метрики кнопки не трогаем: пропорции фото-карточки виллы в соседней
+   колонке от этого не должны поехать. */
+.plans-info .btn-glass{background:var(--grad-gold); color:var(--on-gold); border-color:transparent}
+.plans-info .btn-glass:hover{background:linear-gradient(90deg,#d8a941,#f5db72); color:var(--on-gold); border-color:transparent}
+.plans-info .btn-glass:active{background:linear-gradient(90deg,#b8892c,#d9b944); color:var(--on-gold); border-color:transparent}
 .plans-tab.is-active{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
 .plans-tab:not(.is-active):hover{border-color:var(--clay); color:var(--clay)}
 /* планы — документы на белом листе, так и остаются листом */
@@ -142,6 +155,86 @@ body.menu-open .burger span{background:var(--white)}
 .lead-consent input:checked::after{border-color:var(--on-gold)}
 .lead-consent input:checked{background:var(--clay); border-color:var(--clay)}
 
+/* ---------- слайдер архитектуры: подписи стеклянными карточками на фото ------ */
+/* Правка Босса: два «висящих» абзаца под слайдером переехали НА кадр.
+   Кадру добавлена высота (16/9 → 3/2), иначе карточки съедали бы картинку.
+   pointer-events:none на всём слое: под ним лежит горизонтальный scroll-snap
+   трек, и перехваченный свайп сломал бы листание на телефоне. */
+.min-gallery{aspect-ratio:3/2}
+.min-gallery-notes{
+  position:absolute; left:0; right:0; bottom:0; z-index:3; pointer-events:none;
+  display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:0 20px 52px;
+}
+/* подложка под всей полосой — чтобы карточки не «висели» на светлом кадре */
+.min-gallery-notes::before{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:190%; z-index:-1;
+  background:linear-gradient(to top, rgba(11,12,11,.62), rgba(11,12,11,0));
+}
+.min-gallery-notes p{
+  margin:0; padding:18px 22px; border-radius:var(--r-xs);
+  background:rgba(11,12,11,.34); border:1px solid rgba(255,255,255,.22);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  color:rgba(255,255,255,.92); font-size:clamp(13px,1.15vw,17px); line-height:1.4; max-width:none;
+}
+/* точки слайдера иначе оказались бы под карточками */
+.min-gallery .min-gallery-dots{bottom:22px; z-index:4}
+
+/* ---------- галерея проекта ---------- */
+/* Высота полосы задана, ширина слайда считается от пропорций самого кадра
+   (width:auto при height:100%) — портретные и горизонтальные рендеры стоят
+   рядом, и ни один не режется. Трек вынесен из .container, чтобы уезжал за
+   край экрана, как остальные карусели проекта. */
+.gal-track{
+  display:flex; gap:20px; margin-top:var(--sp-lg);
+  padding:0 40px; overflow-x:auto; scroll-snap-type:x mandatory;
+  scrollbar-width:none; -webkit-overflow-scrolling:touch;
+}
+.gal-track::-webkit-scrollbar{display:none}
+.gal-slide{
+  flex:0 0 auto; height:clamp(320px,42vw,560px); scroll-snap-align:center;
+  border-radius:var(--r-lg); overflow:hidden; background:var(--surface); box-shadow:var(--shadow-card);
+}
+/* НЕ loading="lazy" внутри горизонтального трека офскрин — тот же баг, что
+   чинили в min-gallery: слайд повисает пустым при листании */
+.gal-slide img{height:100%; width:auto; max-width:none; display:block; object-fit:cover}
+
+/* ---------- Stella Solaris: чипы лежат на фото стеклянной строкой ---------- */
+/* Правка Босса: три плашки переехали с отдельного ряда под текстом прямо на
+   кадр, в одну строку. flex:1 1 0 — три равные колонки, текст переносится
+   ВНУТРИ плашки: nowrap по словам развалил бы строку на длинной фразе.
+   Стекло тёмное (rgba поверх кадра + blur), а не белое: закат на фото яркий,
+   светлая полупрозрачная подложка не удержала бы контраст текста. */
+.signature-photo{position:relative}
+.signature-photo .signature-chips{
+  position:absolute; left:0; right:0; bottom:0; z-index:2; margin:0;
+  display:flex; flex-wrap:nowrap; align-items:stretch; gap:16px;
+  padding:0 24px 24px;
+}
+/* мягкая подложка под всей строкой — чтобы плашки не «висели» на светлом небе */
+.signature-photo .signature-chips::before{
+  content:''; position:absolute; left:0; right:0; bottom:0; height:220%; z-index:-1;
+  background:linear-gradient(to top, rgba(11,12,11,.6), rgba(11,12,11,0));
+  pointer-events:none;
+}
+.signature-photo .signature-chips span{
+  flex:1 1 0; min-width:0;
+  display:flex; align-items:center; justify-content:center;
+  padding:14px 18px; border-radius:var(--r-xs);
+  background:rgba(11,12,11,.34); border:1px solid rgba(255,255,255,.24);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  color:rgba(255,255,255,.94); font-size:clamp(13px,1.05vw,15px); line-height:1.35;
+  text-align:center; text-wrap:balance;
+}
+
+/* ---------- бейдж BLACK SANDS OASIS на мастер-плане Nuanu ---------- */
+/* Правка Босса: сделать акцентнее — залить цветом фона страницы (графит),
+   обводку убрать. Была полупрозрачная подложка rgba(58,53,47,.15) с белой
+   рамкой — на пёстром рендере читалась как ещё одна подпись, а не как метка
+   нашего объекта. Пин (точка + короткий указатель) добавляется через
+   window.BSO_NUANU_BADGE_PIN в index.html — теми же примитивами, что у
+   остальных названий. */
+.nuanu-badge--bso{background:var(--bg); border:0}
+
 /* ---------- куки-плашка ---------- */
 /* background:var(--white) остался белым (переменная означает «белый текст на
    тёмном» и не переопределялась), а цвет текста уже светлый — получалось
@@ -153,9 +246,29 @@ body.menu-open .burger span{background:var(--white)}
    на время открытого меню — та же болячка есть и в v1. */
 body.menu-open .cookie-note{opacity:0; visibility:hidden; pointer-events:none}
 
+/* ---------- команда: на EN показываем только Степана ---------- */
+/* Правка Босса — то же решение, что уже действует на unitdeveloper.com в блоке
+   Founders. Язык берём из атрибута lang на <html>: его выставляет setLang(),
+   поэтому переключение RU/EN работает без перезагрузки. Оставшаяся карточка
+   центрируется и не растягивается на всю ширину блока. */
+html[lang="en"] .team-card--anna{display:none}
+html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(560px,100%)); justify-content:center}
+
 /* ---------- футер ---------- */
 .footer-social a{border-color:var(--line); color:var(--graphite)}
 .footer-social a:hover{background:var(--clay); border-color:var(--clay); color:var(--on-gold)}
+
+/* ---------- вспомогательные подписи: Light → Regular ---------- */
+/* Правка Босса: «вспомогательные тексты хельветики — regular начертанием для
+   большей утончённости». В v1 кикеры, роли, лейблы статов и ссылки футера
+   стояли на Light/300 — на светлом фоне это читалось изящно, а на тёмном
+   тонкие штрихи размываются и выглядят замыленно, а не тонко. Regular/400
+   на тёмном даёт более чистый рисунок буквы. Заголовки (500) не трогаем —
+   это не вспомогательный текст. */
+.kicker,
+.plans-stat .k,
+.team-role,
+.footer-col a{font-weight:400}
 
 /* ---------- типографика: Prata на секционных заголовках ---------- */
 /* В макете все h2 — Prata 70–80px при line-height 65–75, то есть ≈1.0.
@@ -184,21 +297,34 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .villas-intro{display:flex; flex-direction:column; gap:20px; padding-top:6px}
 .villas-intro p{margin:0; font-size:clamp(15px,1.25vw,18px); line-height:1.5; color:rgba(255,255,255,.72)}
 
-.villas-grid{display:grid; grid-template-columns:repeat(12,1fr); gap:24px; margin-top:var(--sp-2xl)}
-.vcard{position:relative; grid-column:span 6; min-height:clamp(320px,30vw,440px);
-  border-radius:var(--r-lg); overflow:hidden; background:var(--surface); box-shadow:var(--shadow-card)}
-.vcard:nth-child(3){grid-column:span 5}
-.vcard:nth-child(4){grid-column:span 7}
+/* Сетка — по прототипу Босса (Figma 275:715 «block3_redesigned_prototype»):
+   слева ОДНА высокая карточка «6-метровые потолки» на всю высоту блока (он
+   просил сделать на них больший акцент), справа стопка из трёх. В прототипе
+   контент 1517px: колонки 741 и 744, зазор 32, три правые карточки 313/318/314
+   с зазорами 35 — то есть по замыслу это 1fr/1fr и три равные строки, просто
+   набросок неровный. Приводим к сетке: равные колонки, зазор 32 везде,
+   высота строки = (высота блока − 2 зазора)/3. */
+.villas-grid{display:grid; grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(3, clamp(190px,19.6vw,282px)); gap:32px; margin-top:var(--sp-2xl)}
+.vcard{position:relative; border-radius:var(--r-lg); overflow:hidden;
+  background:var(--surface); box-shadow:var(--shadow-card)}
+.vcard--tall{grid-row:1 / span 3}
 .vcard img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+/* читаемость текста держится ТОЛЬКО rgba-слоем: никаких filter:brightness/
+   saturate на самом фото — оно от них становится грязным */
 .vcard::after{content:''; position:absolute; inset:0; pointer-events:none;
   background:linear-gradient(to top, rgba(11,12,11,.9) 0%, rgba(11,12,11,.62) 30%, rgba(11,12,11,.12) 62%, rgba(11,12,11,0) 100%)}
-/* карточка «6-метровые потолки» — единственная, где текст в макете стоит СВЕРХУ */
-.vcard--top::after{background:linear-gradient(to bottom, rgba(11,12,11,.9) 0%, rgba(11,12,11,.6) 30%, rgba(11,12,11,.1) 62%, rgba(11,12,11,0) 100%)}
-.vcard-text{position:absolute; left:0; right:0; bottom:0; z-index:2; padding:32px 36px 34px}
-.vcard--top .vcard-text{bottom:auto; top:0; padding:32px 36px 34px}
-.vcard-text h3{margin:0 0 12px; font-size:clamp(22px,2.5vw,36px); font-weight:500; line-height:1.15;
-  color:var(--white); max-width:16ch; text-wrap:balance}
-.vcard-text p{margin:0; font-size:clamp(14px,1.15vw,17px); line-height:1.45; color:rgba(255,255,255,.78); max-width:52ch}
+/* высокая карточка: текст сверху, значит и затемнение сверху. В прототипе
+   заголовок лежит на тёмном потолке самого кадра — но это держится только
+   на конкретном фото, поэтому подложку задаём явно */
+.vcard--tall::after{background:linear-gradient(to bottom, rgba(11,12,11,.86) 0%, rgba(11,12,11,.55) 34%, rgba(11,12,11,.08) 66%, rgba(11,12,11,0) 100%)}
+.vcard-text{position:absolute; left:0; right:0; bottom:0; z-index:2; padding:32px}
+.vcard--tall .vcard-text{bottom:auto; top:0; padding:48px 40px 40px}
+/* вес 500, а не Bold как в прототипе: это наш шаг шкалы для заголовков карточек,
+   и он же не спорит с просьбой держать текст утончённее */
+.vcard-text h3{margin:0 0 12px; font-size:clamp(22px,2.5vw,36px); font-weight:500; line-height:1.12;
+  color:var(--white); max-width:22ch; text-wrap:balance}
+.vcard-text p{margin:0; font-size:clamp(15px,1.3vw,18px); line-height:1.45; color:rgba(255,255,255,.82); max-width:60ch}
 
 /* =========================================================================
    FAQ «Ответы на вопросы» — узкая центральная колонка (в макете 1060 из 1920),
@@ -225,13 +351,42 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 /* чипы под Stella Solaris: .45 давало 4.46:1 на тёмной подложке — чуть ниже AA */
 .signature-chips span{color:rgba(255,255,255,.58); border-color:rgba(255,255,255,.35)}
 
+/* ---------- юридические страницы (consent.html, legal-info.html) ---------- */
+/* В v1 их стили жили инлайном в самих файлах и были светлыми (rgba(58,58,58,.8)).
+   Здесь они собраны в теме — заодно чинится главное: копии в /v2/ подключали
+   `css/styles.css`, которого на этом уровне нет, и открывались вообще без
+   оформления. */
+.legal-page{padding:calc(var(--sp-3xl) + 60px) 0 var(--sp-3xl)}
+.legal-head{display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:var(--sp-lg)}
+.legal-page h1{font-family:'Prata',Georgia,serif; font-size:clamp(30px,4vw,48px); font-weight:400;
+  line-height:1.06; letter-spacing:-.005em; margin:0 0 var(--sp-lg)}
+/* подзаголовки юрстраницы — Helvetica, а не Prata: у Prata только вес 400,
+   на 500 браузер синтезировал бы псевдожир */
+.legal-page h2{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;
+  font-size:22px; font-weight:500; line-height:1.2; margin:var(--sp-xl) 0 var(--sp-sm); color:var(--white)}
+.legal-page p{font-size:16px; line-height:1.6; color:rgba(255,255,255,.72); max-width:72ch; margin:0 0 var(--sp-sm)}
+.legal-page ul{max-width:72ch; margin:0 0 var(--sp-sm); padding-left:20px}
+.legal-page li{font-size:16px; line-height:1.6; color:rgba(255,255,255,.72); margin-bottom:6px}
+.legal-page a.back{color:var(--clay); font-size:14px}
+.legal-page a.back:hover{color:var(--clay-soft)}
+.legal-page p a{color:var(--clay); border-bottom:1px solid rgba(217,174,69,.4)}
+.legal-page .legal-note{margin-top:var(--sp-lg); font-size:14px; color:rgba(255,255,255,.5)}
+.legal-head .lang button{color:rgba(255,255,255,.55); font-size:14px}
+.legal-head .lang button.is-active{color:var(--white)}
+.legal-head .lang span{color:rgba(255,255,255,.3)}
+@media (max-width:860px){
+  .legal-page{padding:96px 0 48px}
+  .legal-head{flex-wrap:wrap; gap:12px}
+}
+
 /* ---------- планшет / мобайл ---------- */
 @media (max-width:1024px){
   .villas-head{grid-template-columns:1fr; gap:24px}
   .villas-head h2{max-width:none}
-  .vcard,
-  .vcard:nth-child(3),
-  .vcard:nth-child(4){grid-column:span 12}
+  /* две колонки в один столбец: высокая карточка перестаёт растягиваться
+     на три строки и получает свою пропорцию */
+  .villas-grid{grid-template-columns:1fr; grid-template-rows:none; grid-auto-rows:minmax(260px,auto)}
+  .vcard--tall{grid-row:auto; min-height:clamp(380px,54vw,520px)}
 }
 @media (max-width:860px){
   /* та же история, что с .menu-lang: под белую «приклеенную» шапку v1 цвет был
@@ -241,10 +396,15 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .site-header.is-solid .lang span{color:rgba(255,255,255,.3)}
 
   .section.villas{padding-top:48px}   /* тот же ритм, что у остальных секций на мобиле */
-  .villas-grid{gap:16px; margin-top:var(--sp-xl)}
-  .vcard{min-height:300px}
-  .vcard-text{padding:22px 22px 24px}
-  .vcard--top .vcard-text{padding:22px 22px 24px}
+  /* кадр выше — двум карточкам-подписям нужно место, иначе они съедают фото */
+  .min-gallery{aspect-ratio:1/1}
+  .min-gallery-notes{grid-template-columns:1fr; gap:8px; padding:0 12px 44px}
+  .min-gallery-notes p{padding:12px 14px; font-size:12px; line-height:1.35}
+  .gal-track{gap:12px; padding:0 20px}
+
+  .villas-grid{gap:16px; margin-top:var(--sp-xl); grid-auto-rows:minmax(300px,auto)}
+  .vcard-text{padding:22px}
+  .vcard--tall .vcard-text{padding:26px 22px 22px}
   .faq-q{padding:16px 18px; gap:14px}
   .faq-a p{padding:14px 18px 4px}
   .faq-list{gap:10px}
