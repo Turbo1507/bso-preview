@@ -9,6 +9,13 @@
    в макете это RU-only, английской версии там нет. */
 (function () {
   var ru = {
+    "gallery.alt7": "Обеденная зона виллы вечером",
+    "gallery.alt8": "Интерьер с фактурной стеной во всю высоту",
+    "gallery.alt9": "Гостиная за прозрачными шторами в пол",
+    "gallery.alt10": "Спальня с рабочим уголком у кровати",
+    "gallery.alt11": "Душевая, отделанная терраццо",
+    "gallery.alt12": "Студия с кроватью лицом в сад",
+
     "gallery.title": "Галерея проекта",
     "gallery.alt1": "Клубный корпус комплекса среди пальм",
     "gallery.alt2": "Гостиная виллы в вечернем свете",
@@ -44,12 +51,19 @@
     "faq.q3": "В каком стиле выполнены виллы",
     "faq.a3": "Desert Modernism: терракотовые перфорированные панели, натуральный камень, терраццо в мокрых зонах и песочно-карамельная палитра, за счёт которой архитектура мягко ложится в ландшафт. Потолки 6 метров, большие окна в пол, собственный сад и бассейн у каждой виллы.",
     "faq.q4": "Какие гарантии для инвестора",
-    "faq.a4": "Полный возврат средств, если не получена лицензия PBG. Гарантия 25 лет на конструктив, 5 лет на инженерные сети и 1 год на отделку и технику. Leasehold 35–37 лет с возможностью продления, условия фиксируются договором.",
+    "faq.a4": "Полный возврат всех внесённых платежей, если не получена лицензия PBG. Гарантия 25 лет на конструктив, 5 лет на внутренние инженерные сети и 1 год на отделку и технику. Leasehold 35 лет плюс гарантированное продление на 20 лет.",
     "faq.q5": "Как устроена покупка и оплата",
-    "faq.a5": "Возвратный депозит $1 500 на бронирование, первый взнос 30% после фиксации условий входа, дальше платежи по этапам стройки — рассрочка на весь период строительства. Старт строительства и PBG — февраль 2026, срок реализации — 2 года."
+    "faq.a5": "Депозит бронирования — $1 500 (условно невозвратный): он закрепляет юнит и фиксирует цену на 14 дней. Далее 30% после подписания договоров и платежи по этапам стройки. Старт строительства — февраль 2026, срок — 24 месяца по договору: передача студий в апреле 2028, вилл — в октябре 2028."
   };
 
   var en = {
+    "gallery.alt7": "Dining area of a villa after dark",
+    "gallery.alt8": "Interior with a full-height textured wall",
+    "gallery.alt9": "Living room behind sheer floor-to-ceiling curtains",
+    "gallery.alt10": "Bedroom with a bedside working corner",
+    "gallery.alt11": "Shower room finished in terrazzo",
+    "gallery.alt12": "Studio with a bed facing the garden",
+
     "gallery.title": "Project gallery",
     "gallery.alt1": "Clubhouse of the complex among palms",
     "gallery.alt2": "Villa living room in the evening light",
@@ -85,9 +99,9 @@
     "faq.q3": "What style are the villas built in",
     "faq.a3": "Desert Modernism: perforated terracotta panels, natural stone, terrazzo in wet areas and a sandy caramel palette that lets the architecture settle softly into the landscape. Six-meter ceilings, floor-to-ceiling windows, a private garden and pool with every villa.",
     "faq.q4": "What guarantees does an investor get",
-    "faq.a4": "A full refund if the PBG licence is not obtained. A 25-year guarantee on the structure, 5 years on engineering systems and 1 year on finishes and appliances. Leasehold of 35–37 years with an option to extend; terms are fixed in the contract.",
+    "faq.a4": "A full refund of all payments made if the PBG permit is not obtained. A 25-year structural warranty, 5 years on internal engineering systems and 1 year on finishes and appliances. Leasehold of 35 years plus a guaranteed 20-year extension.",
     "faq.q5": "How does the purchase and payment work",
-    "faq.a5": "A refundable $1,500 reservation deposit, a 30% first instalment once the entry terms are fixed, then payments tied to construction stages — an instalment plan for the whole build period. Construction and PBG start in February 2026; the project takes 2 years to deliver."
+    "faq.a5": "A $1,500 booking deposit (conditionally non-refundable) secures the unit and locks the price for 14 days. Then 30% after signing the agreements and payments tied to construction stages. Construction starts in February 2026 and runs 24 months under the agreement: studios handed over in April 2028, villas in October 2028."
   };
 
   if (!window.I18N) return;

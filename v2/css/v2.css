@@ -234,6 +234,12 @@ body.menu-open .burger span{background:var(--white)}
    window.BSO_NUANU_BADGE_PIN в index.html — теми же примитивами, что у
    остальных названий. */
 .nuanu-badge--bso{background:var(--surface); border:0}
+/* указатель и точка бейджа — тёмные (#131313, правка Босса), в отличие от
+   белых пинов остальных подписей: так метка нашего объекта отделяется от
+   инфраструктурных. Линия чуть толще белых — тёмное на пёстром кадре тоньше
+   читается */
+.nuanu-pins-svg line.badge-pin{stroke:#131313; stroke-width:1.8}
+.nuanu-pins-svg ellipse.badge-pin{fill:#131313}
 
 /* ---------- куки-плашка ---------- */
 /* background:var(--white) остался белым (переменная означает «белый текст на
@@ -253,6 +259,27 @@ body.menu-open .cookie-note{opacity:0; visibility:hidden; pointer-events:none}
    центрируется и не растягивается на всю ширину блока. */
 html[lang="en"] .team-card--anna{display:none}
 html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(560px,100%)); justify-content:center}
+/* Оставшаяся в одиночестве карточка вертикальной колонкой смотрелась сиротливо
+   (правка Босса). На десктопе разворачиваем её горизонтально: фото слева,
+   текст справа — раскладка делается сеткой по четырём плоским детям карточки,
+   разметку трогать не нужно. На мобиле остаётся вертикальной. */
+@media (min-width:861px){
+  html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(860px,100%))}
+  /* :not(.team-card--anna) обязателен: без него `display:grid` имел ту же
+     специфичность, что и `display:none` выше, стоял ниже по файлу и
+     перебивал скрытие — Анна возвращалась на EN */
+  html[lang="en"] .team-card:not(.team-card--anna){
+    display:grid; grid-template-columns:300px minmax(0,1fr);
+    grid-template-rows:auto auto auto; column-gap:40px; row-gap:8px; padding:40px;
+    /* без align-content строки растягивались по высоте фото и текст
+       расползался — группируем его в один блок по центру */
+    align-content:center;
+  }
+  html[lang="en"] .team-card:not(.team-card--anna) .team-photo{grid-column:1; grid-row:1 / 4; align-self:center; margin-bottom:0}
+  html[lang="en"] .team-card:not(.team-card--anna) .team-role{grid-column:2; grid-row:1; align-self:end}
+  html[lang="en"] .team-card:not(.team-card--anna) h3{grid-column:2; grid-row:2}
+  html[lang="en"] .team-card:not(.team-card--anna) p{grid-column:2; grid-row:3; align-self:start}
+}
 
 /* ---------- футер ---------- */
 .footer-social a{border-color:var(--line); color:var(--graphite)}
@@ -269,6 +296,15 @@ html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(560px,100%)); just
 .plans-stat .k,
 .team-role,
 .footer-col a{font-weight:400}
+
+/* Крупные подзаголовки под h2 — наоборот, на ступень легче. Они и так стояли
+   на Regular/400 (проверено: computed 400, подгружен HelveticaNeue-Roman, не
+   Medium), но светлый текст на почти чёрном оптически прибавляет в весе и
+   читается как Medium. На 18–24px Light держит рисунок буквы и выглядит тем
+   самым «regular», которого просил Босс; мелкие подписи выше остаются на 400 —
+   там Light как раз замыливается. */
+.lead,
+.villas-intro p{font-weight:300}
 
 /* ---------- типографика: Prata на секционных заголовках ---------- */
 /* В макете все h2 — Prata 70–80px при line-height 65–75, то есть ≈1.0.
