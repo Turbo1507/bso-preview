@@ -6,7 +6,7 @@
 Версию бампить при каждом деплое (см. v2/README.md)."""
 import io, re, sys
 sys.stdout.reconfigure(encoding='utf-8')
-V = "20260801f"
+V = "20260801h"
 BASE = r'C:\Users\diman\.claude\агенты\дизайнер\_хранилище\дизайн\bso\site\v2'
 
 TARGETS = {
