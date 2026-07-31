@@ -9,6 +9,8 @@
    в макете это RU-only, английской версии там нет. */
 (function () {
   var ru = {
+    "stepsSticky.lead": "От выбора юнита до ключей — пять шагов, каждый закреплён договором.",
+
     "gallery.alt7": "Обеденная зона виллы вечером",
     "gallery.alt8": "Интерьер с фактурной стеной во всю высоту",
     "gallery.alt9": "Гостиная за прозрачными шторами в пол",
@@ -57,6 +59,8 @@
   };
 
   var en = {
+    "stepsSticky.lead": "From choosing a unit to the keys — five steps, each fixed in the contract.",
+
     "gallery.alt7": "Dining area of a villa after dark",
     "gallery.alt8": "Interior with a full-height textured wall",
     "gallery.alt9": "Living room behind sheer floor-to-ceiling curtains",

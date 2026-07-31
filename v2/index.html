@@ -24,8 +24,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="../css/styles.css?v=20260801a">
-<link rel="stylesheet" href="css/v2.css?v=20260801a">
+<link rel="stylesheet" href="../css/styles.css?v=20260801b">
+<link rel="stylesheet" href="css/v2.css?v=20260801b">
 </head>
 <body>
 
@@ -317,6 +317,55 @@
   </div>
 </section>
 
+<!-- ===== 09-b. КАК КУПИТЬ ВИЛЛУ — вариант со «липким» заголовком =====
+     Второй вариант того же блока, по просьбе Босса стоит РЯДОМ со старым
+     (карусель выше не удалена — их надо сравнить). Референс — product-feed
+     на burton.com: слева колонка, которая держится на месте, справа лента
+     карточек. Здесь левая колонка на position:sticky, правая — обычный
+     столбик, так что «прокрутка» заголовка вместе с блоком получается без
+     единой строки JS и корректно деградирует в старых браузерах.
+     ВАЖНО: в v1 у body стоит overflow-x:hidden, а это делает body scroll-
+     контейнером и убивает sticky у потомков. В css/v2.css оно заменено на
+     overflow-x:clip — клип обрезает так же, но контейнер прокрутки не создаёт. -->
+<section class="section steps-sticky" id="steps-sticky">
+  <div class="container">
+    <div class="ss-grid">
+      <div class="ss-head">
+        <h2 class="reveal" data-i18n="steps.title">How to buy a villa</h2>
+        <p class="lead reveal" data-i18n="stepsSticky.lead">From choosing a unit to the keys — five steps, each fixed in the contract.</p>
+        <a class="btn btn-clay ss-cta reveal js-lead-open" href="#contacts" data-i18n="nav.cta">Get the Presentation</a>
+      </div>
+      <ol class="ss-list reveal">
+        <li class="ss-card">
+          <span class="num">01</span>
+          <h3 data-i18n="steps.card1.title">Choosing a unit</h3>
+          <p data-i18n="steps.card1.p">A personal selection of the format that matches your purchase scenario</p>
+        </li>
+        <li class="ss-card">
+          <span class="num">02</span>
+          <h3 data-i18n="steps.card2.title">Paying the deposit</h3>
+          <p data-i18n="steps.card2.p">A $1,500 booking deposit, conditionally non-refundable</p>
+        </li>
+        <li class="ss-card">
+          <span class="num">03</span>
+          <h3 data-i18n="steps.card3.title">First instalment</h3>
+          <p data-i18n="steps.card3.p">30% after selection, locking in entry terms</p>
+        </li>
+        <li class="ss-card">
+          <span class="num">04</span>
+          <h3 data-i18n="steps.card4.title">Payments by stage</h3>
+          <p data-i18n="steps.card4.p">A quarterly structure tied to construction</p>
+        </li>
+        <li class="ss-card">
+          <span class="num">05</span>
+          <h3 data-i18n="steps.card5.title">A completed asset</h3>
+          <p data-i18n="steps.card5.p">Project completion in 2 years</p>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
 <!-- ===== 11. ПОЧЕМУ БАЛИ И NUANU ===== -->
 <section class="section section-gray" style="background:var(--stone)" id="invest">
   <div class="container">
@@ -596,9 +645,9 @@
 <!-- пин у бейджа BSO на мастер-плане: точка на застройке прямо под бейджем,
      короткий указатель от его нижнего края. Проценты — от кадра nuanu-masterplan -->
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
-<script src="../js/i18n.js?v=20260801a"></script>
-<script src="js/v2-i18n.js?v=20260801a"></script>
-<script src="../js/main.js?v=20260801a"></script>
-<script src="js/v2.js?v=20260801a"></script>
+<script src="../js/i18n.js?v=20260801b"></script>
+<script src="js/v2-i18n.js?v=20260801b"></script>
+<script src="../js/main.js?v=20260801b"></script>
+<script src="js/v2.js?v=20260801b"></script>
 </body>
 </html>
