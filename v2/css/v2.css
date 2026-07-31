@@ -228,6 +228,37 @@ body.menu-open .burger span{background:var(--white)}
 /* точки слайдера иначе оказались бы под карточками */
 .min-gallery .min-gallery-dots{bottom:22px; z-index:4}
 
+/* ---------- ПРОТОТИП: плашки на карточках планировок ---------- */
+/* Показываю то, что описывал словами: площадь и вместимость уходят ПОВЕРХ
+   кадра, а статусы проекта собираются в одну строку над сеткой. Стекло
+   тёмное и pointer-events:none — те же правила, что у остальных накладок. */
+.pp-head{display:flex; align-items:baseline; justify-content:space-between; gap:32px; flex-wrap:wrap}
+.pp-head h2{margin:0}
+.pp-status{display:flex; flex-wrap:wrap; gap:8px}
+.pp-badge{
+  padding:8px 14px; border-radius:var(--r-pill); font-size:14px;
+  background:var(--surface); border:1px solid var(--line-strong); color:var(--muted);
+}
+.pp-badge--on{color:var(--clay); border-color:rgba(217,174,69,.45)}
+.pp-grid{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin-top:var(--sp-lg)}
+.pp-card{position:relative; aspect-ratio:4/5; border-radius:var(--r-lg); overflow:hidden;
+  background:var(--surface); box-shadow:var(--shadow-card)}
+.pp-card img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.pp-card::after{content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(11,12,11,.8) 0%, rgba(11,12,11,.35) 26%, rgba(11,12,11,0) 55%)}
+.pp-tags{position:absolute; top:16px; left:16px; right:16px; z-index:2; display:flex; flex-wrap:wrap; gap:8px; pointer-events:none}
+.pp-tags span{
+  padding:7px 12px; border-radius:var(--r-pill); font-size:13px; color:rgba(255,255,255,.94);
+  background:rgba(11,12,11,.42); border:1px solid rgba(255,255,255,.24);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+}
+.pp-name{position:absolute; left:20px; bottom:18px; z-index:2; font-size:24px; color:var(--white)}
+@media (max-width:860px){
+  .pp-grid{grid-template-columns:1fr; gap:16px}
+  .pp-card{aspect-ratio:3/2}
+  .pp-head{gap:16px}
+}
+
 /* ---------- «Как купить виллу», вариант со липким заголовком ---------- */
 /* Референс — product-feed на burton.com: слева колонка, которая остаётся на
    месте, справа лента карточек. Блок стоит рядом со старой каруселью, она не

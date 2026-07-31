@@ -24,8 +24,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="../css/styles.css?v=20260801e">
-<link rel="stylesheet" href="css/v2.css?v=20260801e">
+<link rel="stylesheet" href="../css/styles.css?v=20260801f">
+<link rel="stylesheet" href="css/v2.css?v=20260801f">
 </head>
 <body>
 
@@ -292,6 +292,44 @@
     </div>
   </div>
 </section>
+<!-- ===== 08-b. ПЛАНИРОВКИ — ПРОТОТИП плашек (правка Босса: показать, а не описывать) =====
+     Дубляж основного блока планировок, стоит сразу после него. Смысл прототипа:
+     площадь и вместимость переезжают ПОВЕРХ кадра плашками, а на весь блок
+     вешается статус-строка. Все цифры реальные: площади и вместимость — из
+     PLANS в ../js/main.js, статусы — с unitdeveloper.com/for-partners/.
+     Остатков юнитов («осталось 3») тут нет: их нет в открытых данных, они
+     живут в availability list, которого у меня нет.
+     Текст прототипа не переводится — это макет для сравнения, не продакшн. -->
+<section class="section plans-proto" id="plans-proto">
+  <div class="container">
+    <div class="pp-head">
+      <h2>Планировки — прототип плашек</h2>
+      <div class="pp-status">
+        <span class="pp-badge pp-badge--on">PBG получен</span>
+        <span class="pp-badge">Старт стройки — февраль 2026</span>
+        <span class="pp-badge">Передача — 2028</span>
+      </div>
+    </div>
+    <div class="pp-grid">
+      <article class="pp-card">
+        <img src="../assets/villa-studio-detail2.jpg" alt="Studio">
+        <div class="pp-tags"><span>31,2 м²</span><span>5 чел.</span></div>
+        <div class="pp-name">Studio</div>
+      </article>
+      <article class="pp-card">
+        <img src="../assets/villa-1bd-detail1.jpg" alt="1BD">
+        <div class="pp-tags"><span>71,3 м²</span><span>2 чел.</span></div>
+        <div class="pp-name">1BD</div>
+      </article>
+      <article class="pp-card">
+        <img src="../assets/villa-2bd-detail2.jpg" alt="2BD">
+        <div class="pp-tags"><span>104,61 м²</span><span>4 чел.</span></div>
+        <div class="pp-name">2BD</div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <!-- Старый блок «Как купить виллу» (карусель шагов) убран по правке Босса —
      остался только вариант со липким заголовком ниже. Вернуть целиком:
          git show 34cd263:v2/index.html
@@ -638,9 +676,9 @@
 <!-- пин у бейджа BSO на мастер-плане: точка на застройке прямо под бейджем,
      короткий указатель от его нижнего края. Проценты — от кадра nuanu-masterplan -->
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
-<script src="../js/i18n.js?v=20260801e"></script>
-<script src="js/v2-i18n.js?v=20260801e"></script>
-<script src="../js/main.js?v=20260801e"></script>
-<script src="js/v2.js?v=20260801e"></script>
+<script src="../js/i18n.js?v=20260801f"></script>
+<script src="js/v2-i18n.js?v=20260801f"></script>
+<script src="../js/main.js?v=20260801f"></script>
+<script src="js/v2.js?v=20260801f"></script>
 </body>
 </html>
