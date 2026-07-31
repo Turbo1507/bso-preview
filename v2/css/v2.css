@@ -212,7 +212,11 @@ body.menu-open .burger span{background:var(--white)}
    они работали украшением; значения набраны Prata, как цифры шагов, подписи
    ушли в капитель. Разметку не трогаем, только раскладку. */
 .plans-panel{display:block; border-radius:0; box-shadow:none; overflow:visible}
-.plans-viewer{height:auto; aspect-ratio:16/9; border-radius:var(--r-lg);
+/* Высота кадра привязана к экрану, а не к пропорции: по правке Босса табы
+   типологий и строка с CTA должны попадать в один экран вместе с фото.
+   При 16/9 кадр съедал 757px из 900 и строка уезжала за сгиб. 52vh на
+   ноутбуке даёт ~470, и весь блок от табов до кнопки укладывается. */
+.plans-viewer{height:clamp(340px,62vh,660px); aspect-ratio:auto; border-radius:var(--r-lg);
   background:var(--ink); box-shadow:var(--shadow-card)}
 .plans-info{
   /* flex-direction обязателен: в v1 у .plans-info стоит column, и без сброса
@@ -221,8 +225,13 @@ body.menu-open .burger span{background:var(--white)}
   background:transparent; padding:32px 0 0; margin-top:0;
   border-top:1px solid var(--line);
 }
+/* название виллы оформлено как «Stella Solaris» (правка Босса): Prata,
+   золото, подчёркивание с отбивкой. Толщина линии у обоих сделана тоньше —
+   дефолтная для 32px слишком жирная и спорит с засечками Prata */
 .plans-info h3{font-family:'Prata',Georgia,serif; font-weight:400; font-size:32px;
-  margin:0 40px 0 0; text-decoration:none; color:var(--white)}
+  margin:0 40px 0 0; color:var(--clay);
+  text-decoration:underline; text-underline-offset:8px; text-decoration-thickness:1px}
+.signature-meta h3{text-decoration-thickness:1px; text-underline-offset:8px}
 .plans-stat{display:block; border-top:0; padding:0; gap:0}
 .plans-stat-ic{display:none}
 .plans-stat .k{font-size:12px; letter-spacing:.12em; text-transform:uppercase;
@@ -231,7 +240,9 @@ body.menu-open .burger span{background:var(--white)}
   margin-top:8px; color:var(--white)}
 /* в колоночной раскладке v1 кнопка растягивалась по ширине панели; в строке
    ей нужен явный размер по контенту, иначе уезжает на отдельную строку */
-.plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto; width:auto}
+/* ширина как у кнопки в шапке (замер: 200px) — правка Босса */
+.plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
+  width:200px; justify-content:center}
 @media (max-width:860px){
   .plans-viewer{aspect-ratio:4/3}
   .plans-info{gap:24px; padding-top:24px}
@@ -239,6 +250,23 @@ body.menu-open .burger span{background:var(--white)}
   .plans-stat .v{font-size:24px; margin-top:4px}
   .plans-info .btn-glass{margin-left:0; flex:0 0 100%}
 }
+
+/* ---------- расстояния до точек: спецификация вместо карточек ----------
+   Четыре плашки в ряд на 390px ужимались до нечитаемого (кегли доходили до
+   10.5px). Здесь тот же язык, что у характеристик планировок и атрибутов
+   архитектуры: тонкая линия, значение Prata, подпись капителью, без плашек.
+   На мобиле строка разворачивается: значение слева, куда — справа. Четыре
+   спокойные строки вместо четырёх сжатых колонок. */
+.stat-grid-4{grid-template-columns:repeat(4,minmax(0,1fr)); gap:0 32px}
+.stat-grid-4 .stat-card{
+  background:none; border:0; border-top:1px solid var(--line);
+  border-radius:0; box-shadow:none; padding:24px 0 0;
+}
+.stat-grid-4 .card-ic{display:none}
+.stat-grid-4 .stat-card h3{font-family:'Prata',Georgia,serif; font-weight:400;
+  font-size:32px; line-height:1.1; color:var(--white)}
+.stat-grid-4 .stat-card p{margin-top:8px; font-size:12px; letter-spacing:.12em;
+  text-transform:uppercase; color:rgba(255,255,255,.45); line-height:1.4}
 
 /* ---------- вариант B: «спецификация» вместо пилюль ---------- */
 /* Пилюля обещает короткий ярлык. Атрибуты архитектуры в неё ещё влезали,
@@ -723,8 +751,13 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 
   /* --- шкала кеглей: 12 / 14 / 16 / 20 / 24 / 32 --- */
   .lead{font-size:14px}                                   /* было 12 */
-  .stat-grid-4 .stat-card h3{font-size:16px}              /* было 15 */
-  .stat-grid-4 .stat-card p{font-size:12px; line-height:1.4; margin-top:8px}  /* было 10.5/1.25/5 */
+  /* разворачиваем в строки: значение слева, направление справа — вместо
+     четырёх сжатых колонок четыре спокойные строки */
+  .stat-grid-4{grid-template-columns:1fr; gap:0}
+  .stat-grid-4 .stat-card{display:flex; align-items:baseline; justify-content:space-between;
+    gap:16px; padding:16px 0}
+  .stat-grid-4 .stat-card h3{font-size:24px}
+  .stat-grid-4 .stat-card p{margin-top:0; text-align:right; flex:0 1 auto}
   .team-role{font-size:12px}                              /* было 13 */
   .pv-card p{font-size:14px}                              /* было 15 */
   .gal-cap{font-size:12px}                                /* было 13 */
