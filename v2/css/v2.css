@@ -239,21 +239,40 @@ body.menu-open .burger span{background:var(--white)}
    вылет так же, но контейнер прокрутки НЕ создаёт. */
 body{overflow-x:clip}
 
-.ss-grid{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:80px; align-items:start}
+/* Левая колонка задана в пикселях, а не долей. С долей (4fr = 432px) набор
+   внутри заканчивался на 344 — заголовок переносится по text-wrap:balance,
+   у лида max-width, кнопка ещё уже, — и 128px пустоты внутри колонки
+   складывались с зазором 48 в визуальные 176. Дыру создавала незаполненная
+   колонка, а не гэп. 352 = ближайшее кратное 8 к фактической ширине набора,
+   так что объявленный зазор теперь равен видимому. */
+.ss-grid{display:grid; grid-template-columns:352px minmax(0,1fr); gap:48px; align-items:start}
 /* align-self:start обязателен: иначе элемент растягивается по высоте колонки
    и «липнуть» ему уже некуда. top — высота приклеенной шапки плюс воздух */
 .ss-head{position:sticky; top:120px; align-self:start}
 .ss-head h2{margin:0}
-.ss-head .lead{margin-top:24px; max-width:24ch}
+/* без max-width: колонка уже задана в пикселях, и ограничивать строку ещё
+   раз значит снова недозаполнить колонку — ровно та дыра, которую чиним */
+.ss-head .lead{margin-top:24px; max-width:none}
 .ss-cta{margin-top:40px}
 
 .ss-list{display:flex; flex-direction:column; gap:24px; margin:0; padding:0; list-style:none}
+/* Под эту раскладку карточка перестроена горизонтально: крупная цифра слева,
+   текст справа. Столбиком (цифра над заголовком) карточки выходили высокими
+   и пустыми, а цифра терялась. Цифра — шрифтом заголовков (Prata), по правке
+   Босса: она тут работает как акцент блока, а не как мелкая метка. */
 .ss-card{
+  display:grid; grid-template-columns:auto minmax(0,1fr); gap:32px; align-items:start;
   background:var(--surface); border:1px solid var(--line); border-radius:var(--r-sm);
-  padding:40px; box-shadow:var(--shadow-card);
+  padding:32px 40px; box-shadow:var(--shadow-card);
 }
-.ss-card .num{display:block; font-size:32px; font-weight:500; color:var(--clay); line-height:1}
-.ss-card h3{margin:24px 0 8px; font-size:24px}
+.ss-card .num{
+  font-family:'Prata',Georgia,serif; font-weight:400;
+  font-size:clamp(40px,4.4vw,64px); line-height:.9; color:var(--clay);
+  /* ширина под двузначное число — цифры выстраиваются в колонку по левому краю */
+  min-width:2ch; font-variant-numeric:tabular-nums;
+}
+.ss-card-body{min-width:0}
+.ss-card h3{margin:0 0 8px; font-size:24px}
 .ss-card p{margin:0; font-size:16px; line-height:1.5; color:rgba(255,255,255,.7)}
 
 @media (max-width:1024px){
@@ -263,10 +282,11 @@ body{overflow-x:clip}
   .ss-head .lead{max-width:none}
 }
 @media (max-width:860px){
-  .ss-card{padding:24px}
-  .ss-card .num{font-size:24px}
-  .ss-card h3{margin:16px 0 8px; font-size:18px}
+  .ss-card{padding:24px; gap:20px}
+  .ss-card .num{font-size:36px}
+  .ss-card h3{font-size:18px}
   .ss-card p{font-size:14px}
+  .ss-list{gap:16px}
   .ss-cta{margin-top:24px}
 }
 
