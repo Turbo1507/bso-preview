@@ -129,7 +129,10 @@ body.menu-open .burger span{background:var(--white)}
 .plans-info{background:var(--surface)}
 /* подчёркивание названия планировки осталось от старого акцента — в v1 оно
    зашито как rgba(156,79,32,.5), то есть терракота #9c4f20; переводим на золото */
-.plans-info h3{text-decoration-color:rgba(217,174,69,.75)}
+/* подчёркивания заголовков зашиты в v1 старой терракотой rgba(156,79,32,…) —
+   и у планировок, и у Stella Solaris; переводим оба на золото */
+.plans-info h3,
+.signature-meta h3{text-decoration-color:rgba(217,174,69,.75)}
 /* правка Босса: кнопка «Приобрести» — фирменным золотым градиентом.
    Метрики кнопки не трогаем: пропорции фото-карточки виллы в соседней
    колонке от этого не должны поехать. */
@@ -150,7 +153,53 @@ body.menu-open .burger span{background:var(--white)}
 .lead-field select,
 .lead-field textarea{background:rgba(255,255,255,.05); color:var(--graphite); border-color:var(--line-strong)}
 .lead-field select option{background:var(--surface); color:var(--graphite)}
-.lead-consent{color:var(--muted)}
+
+/* ---------- кастомный выпадающий список (правка Босса) ---------- */
+/* Нативный select нельзя покрасить внутри — попап рисует ОС. Поэтому поверх
+   него строится своя кнопка со стрелкой и свой список в наших цветах, а сам
+   <select> остаётся в DOM источником правды: его читают formData и
+   автоформат телефона в main.js (`ccSelect.selectedOptions[0].dataset.format`). */
+.csel{position:relative}
+.csel-native{position:absolute; opacity:0; pointer-events:none; width:1px; height:1px; margin:0; padding:0; border:0}
+.csel-btn{
+  display:flex; align-items:center; justify-content:space-between; gap:8px; width:100%;
+  padding:14px 16px; border:1px solid var(--line-strong); border-radius:var(--r-xs);
+  background:rgba(255,255,255,.05); color:var(--graphite); font-size:15px; text-align:left;
+  transition:border-color .2s var(--ease), background .2s var(--ease);
+}
+.csel-btn:hover{border-color:var(--clay)}
+.csel.is-open .csel-btn{border-color:var(--clay); background:rgba(255,255,255,.08)}
+.csel-btn[data-placeholder="true"] .csel-val{color:var(--muted)}
+.csel-chev{flex:0 0 auto; width:16px; height:16px; color:var(--clay); transition:transform .22s var(--ease)}
+.csel.is-open .csel-chev{transform:rotate(180deg)}
+/* min-width по кнопке, но панель может быть шире: колонка кода страны узкая,
+   и «UA +380» в ней ломалось на две строки */
+.csel-list{
+  position:absolute; left:0; right:auto; min-width:100%; width:max-content; max-width:min(320px, 80vw);
+  top:calc(100% + 8px); z-index:20; margin:0;
+  max-height:240px; overflow-y:auto; padding:8px; list-style:none;
+  background:var(--surface-2); border:1px solid var(--line-strong);
+  border-radius:var(--r-sm); box-shadow:var(--shadow-card);
+}
+.csel-list[hidden]{display:none}
+.csel-opt{
+  padding:10px 12px; border-radius:var(--r-xs); font-size:15px;
+  color:var(--graphite); cursor:pointer; transition:background .15s, color .15s;
+}
+.csel-opt:hover,
+.csel-opt.is-active{background:rgba(255,255,255,.07)}
+.csel-opt.is-sel{color:var(--clay)}
+/* полоса прокрутки списка — в тон панели, а не системная светлая */
+.csel-list{scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.22) transparent}
+.csel-list::-webkit-scrollbar{width:8px}
+.csel-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22); border-radius:99px}
+/* Чекбокс согласия и подпись не совпадали по базовой линии: бокс 18px, а
+   строка текста при 12px и дефолтном line-height ≈14px, плюс ручной сдвиг
+   margin-top:1px. Задаём строке ровно ту же высоту, что у бокса, — тогда
+   flex-start совмещает их без подпорок. Заодно gap 9 → 12 (сетка 8px). */
+.lead-consent{color:var(--muted); gap:12px; font-size:12px; line-height:18px}
+.lead-consent input{margin:0}
+.lead-consent span{line-height:18px}
 .lead-consent input{background:rgba(255,255,255,.05); border-color:var(--line-strong)}
 .lead-consent input:checked::after{border-color:var(--on-gold)}
 .lead-consent input:checked{background:var(--clay); border-color:var(--clay)}
@@ -263,22 +312,40 @@ html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(560px,100%)); just
    (правка Босса). На десктопе разворачиваем её горизонтально: фото слева,
    текст справа — раскладка делается сеткой по четырём плоским детям карточки,
    разметку трогать не нужно. На мобиле остаётся вертикальной. */
+/* Сама карточка команды в v1 стоит вне сетки 8px: паддинг 35, отступы
+   заголовка 6/12, подпись 13px. Приводим компонент к шкале — по правилу
+   переноса правок это касается обеих карточек и обоих языков, не только
+   английской. */
+.team-card{padding:40px}
+.team-role{font-size:16px}
+.team-card h3{font-size:24px; margin:8px 0 16px}
+.team-card p{font-size:16px; line-height:1.5}
+
 @media (min-width:861px){
-  html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(860px,100%))}
+  html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(864px,100%))}
   /* :not(.team-card--anna) обязателен: без него `display:grid` имел ту же
      специфичность, что и `display:none` выше, стоял ниже по файлу и
      перебивал скрытие — Анна возвращалась на EN */
   html[lang="en"] .team-card:not(.team-card--anna){
-    display:grid; grid-template-columns:300px minmax(0,1fr);
-    grid-template-rows:auto auto auto; column-gap:40px; row-gap:8px; padding:40px;
+    display:grid; grid-template-columns:320px minmax(0,1fr);
+    grid-template-rows:auto auto auto; column-gap:40px; row-gap:0; padding:40px;
     /* без align-content строки растягивались по высоте фото и текст
        расползался — группируем его в один блок по центру */
     align-content:center;
   }
   html[lang="en"] .team-card:not(.team-card--anna) .team-photo{grid-column:1; grid-row:1 / 4; align-self:center; margin-bottom:0}
-  html[lang="en"] .team-card:not(.team-card--anna) .team-role{grid-column:2; grid-row:1; align-self:end}
-  html[lang="en"] .team-card:not(.team-card--anna) h3{grid-column:2; grid-row:2}
-  html[lang="en"] .team-card:not(.team-card--anna) p{grid-column:2; grid-row:3; align-self:start}
+  /* карточка тут вдвое крупнее — и шкала на ступень выше. Отступы задаём
+     не общим row-gap, а по близости: должность и имя — одна группа (8px),
+     описание отделено (24px) */
+  html[lang="en"] .team-card:not(.team-card--anna) .team-role{grid-column:2; grid-row:1; align-self:end; margin-bottom:8px}
+  html[lang="en"] .team-card:not(.team-card--anna) h3{grid-column:2; grid-row:2; font-size:32px; margin:0 0 24px}
+  html[lang="en"] .team-card:not(.team-card--anna) p{grid-column:2; grid-row:3; align-self:start; font-size:18px; line-height:1.5; margin:0}
+}
+@media (max-width:860px){
+  /* 20px в v1 тоже вне сетки */
+  .team-card{padding:24px}
+  .team-card h3{font-size:18px; margin:8px 0 16px}
+  .team-role{font-size:13px}
 }
 
 /* ---------- футер ---------- */
@@ -304,7 +371,11 @@ html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(560px,100%)); just
    самым «regular», которого просил Босс; мелкие подписи выше остаются на 400 —
    там Light как раз замыливается. */
 .lead,
-.villas-intro p{font-weight:300}
+.villas-intro p,
+.signature-meta p{font-weight:300}
+/* .nuanu-caption того же размера и роли оставлен на 400 умышленно: он лежит
+   НА фото, а дизайн-система запрещает менять вес текста на фото относительно
+   макета — Light там начинает пропадать на светлых участках кадра. */
 
 /* ---------- типографика: Prata на секционных заголовках ---------- */
 /* В макете все h2 — Prata 70–80px при line-height 65–75, то есть ≈1.0.

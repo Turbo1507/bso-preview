@@ -174,17 +174,21 @@ wireCarousel('stepsTrack', 'stepsPrev', 'stepsNext', 'stepsDots', 300);
 /* ---------- галерея фасада (блок 03): нативный scroll-snap (не transform по
    индексу) — один слайд = 100% ширины трека, стрелки листают через scrollBy,
    на мобиле стрелки спрятаны и то же самое доступно свайпом ---------- */
-function wireSlider(trackId, prevId, nextId, dotsId, autoplayMs) {
+function wireSlider(trackId, prevId, nextId, dotsId, autoplayMs, opts) {
   const track = document.getElementById(trackId);
   const prev = document.getElementById(prevId);
   const next = document.getElementById(nextId);
   const dotsWrap = document.getElementById(dotsId);
   if (!track) return;
+  /* loop: с последнего кадра стрелка «вперёд» уводит на первый и наоборот,
+     стрелки при этом никогда не гаснут (автолистание крутилось по кругу и
+     раньше, а вот руками галерея упиралась в края) */
+  const loop = !!(opts && opts.loop);
   let dots = dotsWrap ? Array.from(dotsWrap.children) : [];
   function sync() {
     const max = track.scrollWidth - track.clientWidth;
-    if (prev) prev.disabled = track.scrollLeft <= 4;
-    if (next) next.disabled = track.scrollLeft >= max - 4;
+    if (prev) prev.disabled = loop ? false : track.scrollLeft <= 4;
+    if (next) next.disabled = loop ? false : track.scrollLeft >= max - 4;
     if (dots.length) {
       const idx = Math.round(track.scrollLeft / (track.clientWidth || 1));
       dots.forEach((d, i) => d.classList.toggle('on', i === Math.min(idx, dots.length - 1)));
@@ -203,8 +207,14 @@ function wireSlider(trackId, prevId, nextId, dotsId, autoplayMs) {
     dots = Array.from(dotsWrap.children);
     sync();
   }
-  prev && prev.addEventListener('click', () => track.scrollBy({ left: -track.clientWidth, behavior: 'smooth' }));
-  next && next.addEventListener('click', () => track.scrollBy({ left: track.clientWidth, behavior: 'smooth' }));
+  function step(dir) {
+    const max = track.scrollWidth - track.clientWidth;
+    if (loop && dir > 0 && track.scrollLeft >= max - 4) return track.scrollTo({ left: 0, behavior: 'smooth' });
+    if (loop && dir < 0 && track.scrollLeft <= 4) return track.scrollTo({ left: max, behavior: 'smooth' });
+    track.scrollBy({ left: dir * track.clientWidth, behavior: 'smooth' });
+  }
+  prev && prev.addEventListener('click', () => step(-1));
+  next && next.addEventListener('click', () => step(1));
   track.addEventListener('scroll', sync, { passive: true });
   window.addEventListener('resize', sync);
   sync();
@@ -225,7 +235,7 @@ function wireSlider(trackId, prevId, nextId, dotsId, autoplayMs) {
   }
   return { sync, setCount };
 }
-wireSlider('minGalleryTrack', 'minGalleryPrev', 'minGalleryNext', 'minGalleryDots', 8000);
+wireSlider('minGalleryTrack', 'minGalleryPrev', 'minGalleryNext', 'minGalleryDots', 8000, { loop: true });
 const plansPhotoSlider = wireSlider('plansPhotoTrack', 'plansPhotoPrev', 'plansPhotoNext', 'plansPhotoDots');
 
 /* ---------- пины инфраструктуры на мастер-плане Nuanu ---------- */
