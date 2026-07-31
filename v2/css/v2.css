@@ -228,6 +228,35 @@ body.menu-open .burger span{background:var(--white)}
 /* точки слайдера иначе оказались бы под карточками */
 .min-gallery .min-gallery-dots{bottom:22px; z-index:4}
 
+/* ---------- «Частная территория», вариант 3 ---------- */
+/* Та же геометрия, что у блока 3: крупный вертикальный кадр слева на всю
+   высоту, три карточки справа. Строки одинаковой высоты — сетка задаёт
+   ритм, а не содержимое. */
+.pv-grid{display:grid; grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(3, clamp(140px,14vw,190px)); gap:32px; margin-top:var(--sp-lg)}
+.pv-photo{grid-row:1 / span 3; position:relative; margin:0; border-radius:var(--r-lg);
+  overflow:hidden; background:var(--surface); box-shadow:var(--shadow-card)}
+.pv-photo img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+/* читаемость подписи — только rgba-слоем, без filter на самом кадре */
+.pv-photo::after{content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(11,12,11,.86) 0%, rgba(11,12,11,.45) 26%, rgba(11,12,11,0) 58%)}
+.pv-photo-text{position:absolute; left:0; right:0; bottom:0; z-index:2; padding:32px}
+.pv-photo-text h3{margin:0; font-size:clamp(20px,2vw,28px); font-weight:500; line-height:1.15;
+  color:var(--white); max-width:20ch; text-wrap:balance}
+.pv-card{display:grid; align-content:center; padding:32px 40px;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r-sm); box-shadow:var(--shadow-card)}
+.pv-card h3{margin:8px 0 8px; font-size:20px}
+.pv-card p{margin:0; font-size:15px; line-height:1.5; color:rgba(255,255,255,.7)}
+@media (max-width:1024px){
+  .pv-grid{grid-template-columns:1fr; grid-template-rows:none; grid-auto-rows:auto}
+  .pv-photo{grid-row:auto; min-height:clamp(320px,50vw,440px)}
+}
+@media (max-width:860px){
+  .pv-grid{gap:16px}
+  .pv-card{padding:24px}
+  .pv-photo-text{padding:22px}
+}
+
 /* ---------- ПРОТОТИП: плашки на карточках планировок ---------- */
 /* Показываю то, что описывал словами: площадь и вместимость уходят ПОВЕРХ
    кадра, а статусы проекта собираются в одну строку над сеткой. Стекло

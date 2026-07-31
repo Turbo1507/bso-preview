@@ -9,6 +9,8 @@
    в макете это RU-only, английской версии там нет. */
 (function () {
   var ru = {
+    "priv.photo_title": "Свой забор, сад и бассейн у каждой виллы",
+
     "stepsSticky.lead": "От выбора юнита до ключей — пять шагов, каждый закреплён договором.",
 
     "gallery.alt7": "Обеденная зона виллы вечером",
@@ -59,6 +61,8 @@
   };
 
   var en = {
+    "priv.photo_title": "Its own fence, garden and pool with every villa",
+
     "stepsSticky.lead": "From choosing a unit to the keys — five steps, each fixed in the contract.",
 
     "gallery.alt7": "Dining area of a villa after dark",

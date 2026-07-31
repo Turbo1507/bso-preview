@@ -24,8 +24,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="../css/styles.css?v=20260801f">
-<link rel="stylesheet" href="css/v2.css?v=20260801f">
+<link rel="stylesheet" href="../css/styles.css?v=20260801h">
+<link rel="stylesheet" href="css/v2.css?v=20260801h">
 </head>
 <body>
 
@@ -214,34 +214,37 @@
   </div>
 </section>
 
-<!-- ===== 07. ЧАСТНАЯ ТЕРРИТОРИЯ ===== -->
+<!-- ===== 07. ЧАСТНАЯ ТЕРРИТОРИЯ — вариант 3 (выбор Босса) =====
+     Было: фото во всю ширину + три равные карточки с иконками. Тот же
+     паттерн уже трижды на странице, а формулировки абстрактные.
+     Стало: геометрия блока 3 — крупный вертикальный кадр слева, три
+     коротких пункта справа. Иконки убраны: на карточке из трёх строк
+     они работали как украшение, а не как навигация.
+     Вернуть прежний вид: git show 74290ab:v2/index.html, секция 07. -->
 <section class="section">
   <div class="container">
-    <h2 class="reveal" data-i18n="priv.title">A new level of private territory</h2>
-    <div class="priv-photo reveal">
-      <!-- было villa-2bd-detail1.jpg — после замены ассетов 27.07 там оказалась
-           спальня с рабочим столом, а alt обещает приватный бассейн. Поставлен
-           реальный кадр приватного бассейна (рендер 3BD, одна вилла в кадре). -->
-      <img src="../assets/villa-private-pool.jpg" alt="Private villa pool behind the facade screen" data-i18n-alt="priv.photo_alt" loading="lazy">
-    </div>
-    <div class="priv-grid reveal">
-      <div class="priv-card">
-        <svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z"/></svg>
+    <h2 class="reveal" data-i18n="priv.title">A new level of private territory</h2>
+    <div class="pv-grid reveal">
+      <figure class="pv-photo">
+        <img src="../assets/villa-private-pool.jpg" alt="Private villa pool behind the facade screen" data-i18n-alt="priv.photo_alt" loading="lazy">
+        <figcaption class="pv-photo-text">
+          <h3 data-i18n="priv.photo_title">Its own fence, garden and pool with every villa</h3>
+        </figcaption>
+      </figure>
+      <div class="pv-card">
         <span class="kicker" data-i18n="priv.card1.kicker">System</span>
-        <h3 data-i18n="priv.card1.title">A unified architectural logic</h3>
-        <p data-i18n="priv.card1.p">The project reads not as a set of separate objects, but as a whole environment</p>
+        <h3 data-i18n="priv.card1.title">A unified architectural logic</h3>
+        <p data-i18n="priv.card1.p">The project reads not as a set of separate objects, but as a whole environment</p>
       </div>
-      <div class="priv-card">
-        <svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M12 2a5 5 0 0 0-5 5v3H6a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V11a1 1 0 0 0-1-1h-1V7a5 5 0 0 0-5-5zm3 8V7a3 3 0 1 0-6 0v3h6z"/></svg>
+      <div class="pv-card">
         <span class="kicker" data-i18n="priv.card2.kicker">Privacy</span>
         <h3 data-i18n="priv.card2.title">Comfort without compromise</h3>
-        <p data-i18n="priv.card2.p">The development’s rhythm, sense of space and private territory are all planned in advance</p>
+        <p data-i18n="priv.card2.p">The development’s rhythm, sense of space and private territory are all planned in advance</p>
       </div>
-      <div class="priv-card">
-        <svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M3 4h11v16H3V4zm13 0h5v7h-5V4zm0 9h5v7h-5v-7z"/></svg>
+      <div class="pv-card">
         <span class="kicker" data-i18n="priv.card3.kicker">Scenarios</span>
-        <h3 data-i18n="priv.card3.title">Different formats within a single complex</h3>
-        <p data-i18n="priv.card3.p">From compact layouts to family residences, all within one shared premium framework</p>
+        <h3 data-i18n="priv.card3.title">Different formats within a single complex</h3>
+        <p data-i18n="priv.card3.p">From compact layouts to family residences, all within one shared premium framework</p>
       </div>
     </div>
   </div>
@@ -292,44 +295,6 @@
     </div>
   </div>
 </section>
-<!-- ===== 08-b. ПЛАНИРОВКИ — ПРОТОТИП плашек (правка Босса: показать, а не описывать) =====
-     Дубляж основного блока планировок, стоит сразу после него. Смысл прототипа:
-     площадь и вместимость переезжают ПОВЕРХ кадра плашками, а на весь блок
-     вешается статус-строка. Все цифры реальные: площади и вместимость — из
-     PLANS в ../js/main.js, статусы — с unitdeveloper.com/for-partners/.
-     Остатков юнитов («осталось 3») тут нет: их нет в открытых данных, они
-     живут в availability list, которого у меня нет.
-     Текст прототипа не переводится — это макет для сравнения, не продакшн. -->
-<section class="section plans-proto" id="plans-proto">
-  <div class="container">
-    <div class="pp-head">
-      <h2>Планировки — прототип плашек</h2>
-      <div class="pp-status">
-        <span class="pp-badge pp-badge--on">PBG получен</span>
-        <span class="pp-badge">Старт стройки — февраль 2026</span>
-        <span class="pp-badge">Передача — 2028</span>
-      </div>
-    </div>
-    <div class="pp-grid">
-      <article class="pp-card">
-        <img src="../assets/villa-studio-detail2.jpg" alt="Studio">
-        <div class="pp-tags"><span>31,2 м²</span><span>5 чел.</span></div>
-        <div class="pp-name">Studio</div>
-      </article>
-      <article class="pp-card">
-        <img src="../assets/villa-1bd-detail1.jpg" alt="1BD">
-        <div class="pp-tags"><span>71,3 м²</span><span>2 чел.</span></div>
-        <div class="pp-name">1BD</div>
-      </article>
-      <article class="pp-card">
-        <img src="../assets/villa-2bd-detail2.jpg" alt="2BD">
-        <div class="pp-tags"><span>104,61 м²</span><span>4 чел.</span></div>
-        <div class="pp-name">2BD</div>
-      </article>
-    </div>
-  </div>
-</section>
-
 <!-- Старый блок «Как купить виллу» (карусель шагов) убран по правке Босса —
      остался только вариант со липким заголовком ниже. Вернуть целиком:
          git show 34cd263:v2/index.html
@@ -676,9 +641,9 @@
 <!-- пин у бейджа BSO на мастер-плане: точка на застройке прямо под бейджем,
      короткий указатель от его нижнего края. Проценты — от кадра nuanu-masterplan -->
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
-<script src="../js/i18n.js?v=20260801f"></script>
-<script src="js/v2-i18n.js?v=20260801f"></script>
-<script src="../js/main.js?v=20260801f"></script>
-<script src="js/v2.js?v=20260801f"></script>
+<script src="../js/i18n.js?v=20260801h"></script>
+<script src="js/v2-i18n.js?v=20260801h"></script>
+<script src="../js/main.js?v=20260801h"></script>
+<script src="js/v2.js?v=20260801h"></script>
 </body>
 </html>
