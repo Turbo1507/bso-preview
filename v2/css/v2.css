@@ -204,29 +204,24 @@ body.menu-open .burger span{background:var(--white)}
 .lead-consent input:checked::after{border-color:var(--on-gold)}
 .lead-consent input:checked{background:var(--clay); border-color:var(--clay)}
 
-/* ---------- слайдер архитектуры: подписи стеклянными карточками на фото ------ */
-/* Правка Босса: два «висящих» абзаца под слайдером переехали НА кадр.
-   Кадру добавлена высота (16/9 → 3/2), иначе карточки съедали бы картинку.
-   pointer-events:none на всём слое: под ним лежит горизонтальный scroll-snap
-   трек, и перехваченный свайп сломал бы листание на телефоне. */
-.min-gallery{aspect-ratio:3/2}
-.min-gallery-notes{
-  position:absolute; left:0; right:0; bottom:0; z-index:3; pointer-events:none;
-  display:grid; grid-template-columns:1fr 1fr; gap:16px; padding:0 20px 52px;
-}
-/* подложка под всей полосой — чтобы карточки не «висели» на светлом кадре */
-.min-gallery-notes::before{
-  content:''; position:absolute; left:0; right:0; bottom:0; height:190%; z-index:-1;
-  background:linear-gradient(to top, rgba(11,12,11,.62), rgba(11,12,11,0));
-}
-.min-gallery-notes p{
-  margin:0; padding:18px 22px; border-radius:var(--r-xs);
-  background:rgba(11,12,11,.34); border:1px solid rgba(255,255,255,.22);
-  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-  color:rgba(255,255,255,.92); font-size:clamp(13px,1.15vw,17px); line-height:1.4; max-width:none;
-}
-/* точки слайдера иначе оказались бы под карточками */
-.min-gallery .min-gallery-dots{bottom:22px; z-index:4}
+/* ---------- вариант B: «спецификация» вместо пилюль ---------- */
+/* Пилюля обещает короткий ярлык. Атрибуты архитектуры в неё ещё влезали,
+   а заметки слайдера и чипы Stella были предложениями на 10–12 слов — отсюда
+   дешевизна. Здесь строка листа характеристик: номер, засечка, текст.
+   Тот же язык, что у Prata-цифр в шагах, — страница читается как одна система. */
+.spec-list{list-style:none; margin:var(--sp-lg) 0 0; padding:0;
+  display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0}
+.spec-row{display:flex; align-items:baseline; gap:12px; padding:16px 24px 16px 0;
+  border-top:1px solid var(--line); color:var(--graphite); font-size:16px; line-height:1.35}
+.spec-num{font-family:'Prata',Georgia,serif; font-size:14px; color:var(--clay);
+  font-variant-numeric:tabular-nums; flex:0 0 auto}
+
+/* ---------- подписи в галерее проекта ---------- */
+/* по правке Босса — не пины на кадре, а мелкий текст под ним с пониженной
+   непрозрачностью: поясняет, что в кадре, и не спорит с фотографией */
+.gal-slide{margin:0; display:flex; flex-direction:column}
+.gal-cap{margin-top:12px; font-size:13px; line-height:1.4; color:rgba(255,255,255,.45);
+  max-width:34ch}
 
 /* ---------- «Частная территория», вариант 3 ---------- */
 /* Та же геометрия, что у блока 3: крупный вертикальный кадр слева на всю
@@ -366,41 +361,15 @@ body{overflow-x:clip}
   scrollbar-width:none; -webkit-overflow-scrolling:touch;
 }
 .gal-track::-webkit-scrollbar{display:none}
-.gal-slide{
-  flex:0 0 auto; height:clamp(320px,42vw,560px); scroll-snap-align:center;
-  border-radius:var(--r-lg); overflow:hidden; background:var(--surface); box-shadow:var(--shadow-card);
+/* высота задана картинке, а не слайду: под кадром теперь живёт подпись */
+.gal-slide{flex:0 0 auto; scroll-snap-align:center}
+.gal-slide img{
+  height:clamp(320px,42vw,560px); border-radius:var(--r-lg);
+  background:var(--surface); box-shadow:var(--shadow-card);
 }
 /* НЕ loading="lazy" внутри горизонтального трека офскрин — тот же баг, что
    чинили в min-gallery: слайд повисает пустым при листании */
-.gal-slide img{height:100%; width:auto; max-width:none; display:block; object-fit:cover}
-
-/* ---------- Stella Solaris: чипы лежат на фото стеклянной строкой ---------- */
-/* Правка Босса: три плашки переехали с отдельного ряда под текстом прямо на
-   кадр, в одну строку. flex:1 1 0 — три равные колонки, текст переносится
-   ВНУТРИ плашки: nowrap по словам развалил бы строку на длинной фразе.
-   Стекло тёмное (rgba поверх кадра + blur), а не белое: закат на фото яркий,
-   светлая полупрозрачная подложка не удержала бы контраст текста. */
-.signature-photo{position:relative}
-.signature-photo .signature-chips{
-  position:absolute; left:0; right:0; bottom:0; z-index:2; margin:0;
-  display:flex; flex-wrap:nowrap; align-items:stretch; gap:16px;
-  padding:0 24px 24px;
-}
-/* мягкая подложка под всей строкой — чтобы плашки не «висели» на светлом небе */
-.signature-photo .signature-chips::before{
-  content:''; position:absolute; left:0; right:0; bottom:0; height:220%; z-index:-1;
-  background:linear-gradient(to top, rgba(11,12,11,.6), rgba(11,12,11,0));
-  pointer-events:none;
-}
-.signature-photo .signature-chips span{
-  flex:1 1 0; min-width:0;
-  display:flex; align-items:center; justify-content:center;
-  padding:14px 18px; border-radius:var(--r-xs);
-  background:rgba(11,12,11,.34); border:1px solid rgba(255,255,255,.24);
-  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
-  color:rgba(255,255,255,.94); font-size:clamp(13px,1.05vw,15px); line-height:1.35;
-  text-align:center; text-wrap:balance;
-}
+.gal-slide img{width:auto; max-width:none; display:block; object-fit:cover}
 
 /* ---------- бейдж BLACK SANDS OASIS на мастер-плане Nuanu ---------- */
 /* Правка Босса: сделать акцентнее — залить цветом фона страницы (графит),
@@ -499,7 +468,16 @@ html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(560px,100%)); just
    там Light как раз замыливается. */
 .lead,
 .villas-intro p,
-.signature-meta p{font-weight:300}
+.signature-meta p,
+/* описания в карточках — тоже 300 (правка Босса: «поставить всем»).
+   Мелкие подписи-лейблы выше остаются на 400, там Light замыливается. */
+.stat-card p,
+.priv-card p,
+.pv-card p,
+.step-card p,
+.ss-card p,
+.team-card p,
+.vcard-text p{font-weight:300}
 /* .nuanu-caption того же размера и роли оставлен на 400 умышленно: он лежит
    НА фото, а дизайн-система запрещает менять вес текста на фото относительно
    макета — Light там начинает пропадать на светлых участках кадра. */
@@ -590,7 +568,6 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .faq-a p{margin:0; padding:18px 26px 6px; font-size:clamp(14px,1.1vw,17px); line-height:1.55; color:rgba(255,255,255,.66)}
 
 /* чипы под Stella Solaris: .45 давало 4.46:1 на тёмной подложке — чуть ниже AA */
-.signature-chips span{color:rgba(255,255,255,.58); border-color:rgba(255,255,255,.35)}
 
 /* ---------- юридические страницы (consent.html, legal-info.html) ---------- */
 /* В v1 их стили жили инлайном в самих файлах и были светлыми (rgba(58,58,58,.8)).
@@ -620,6 +597,79 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .legal-head{flex-wrap:wrap; gap:12px}
 }
 
+/* ============================================================================
+   МОБИЛЬНАЯ СИСТЕМА: отступы и шкала кеглей
+   ----------------------------------------------------------------------------
+   Аудит показал ровно то, на что указал Босс: жёлоб 20px (вне сетки 8),
+   отступ «заголовок → контент» гулял 16/24/40 от блока к блоку, и на странице
+   жило 17 разных кеглей (7,10,11,12,13,14,15,16,18,19,20,22,24,30,32,36,64).
+   Для сравнения замерил burton.com: жёлоб 16, восемь кеглей (9,12,14,16,18,
+   20,24,32), веса 400/500/700 с закреплёнными ролями. И главное — у них у
+   секций padding:0, вертикальный ритм живёт на обёртке через именованные
+   модификаторы, поэтому «40 вместо 24» просто неоткуда взять.
+
+   Здесь то же по смыслу, но в наших терминах: одна лестница отступов и одна
+   шкала кеглей, заданные в одном месте, а не по месту в каждом блоке.
+   ========================================================================= */
+@media (max-width:860px){
+  /* --- лестница отступов --- */
+  .container{padding:0 16px}          /* жёлоб: 20 (вне сетки) → 16, как у Burton */
+  .section{padding:48px 0}            /* единственная ступень ритма секций */
+  /* v1 просаживает верхний отступ у соседа #architecture селектором с ID,
+     и он перебивал .section.villas по специфичности — блок липнул к
+     предыдущему (замер: padding-top 12px вместо 48). Бьём тем же оружием. */
+  #villas.section{padding-top:48px}
+
+  /* заголовок → лид: 16 (лид — продолжение заголовка, одна группа)
+     заголовок/лид → контент: 24 (следующая группа) */
+  .lead{margin-top:16px}
+  .signature-photo,
+  .team-grid,
+  .villas-grid,
+  .pv-grid,
+  .spec-list,
+  .nuanu-photo,
+  .stat-grid,
+  .priv-grid,
+  .plans-tabs{margin-top:24px}
+  .faq-wrap h2{margin-bottom:24px}
+  .gal-track{margin-top:24px}
+
+  /* --- шкала кеглей: 12 / 14 / 16 / 20 / 24 / 32 --- */
+  .lead{font-size:14px}                                   /* было 12 */
+  .stat-grid-4 .stat-card h3{font-size:16px}              /* было 15 */
+  .stat-grid-4 .stat-card p{font-size:12px; line-height:1.4; margin-top:8px}  /* было 10.5/1.25/5 */
+  .team-role{font-size:12px}                              /* было 13 */
+  .pv-card p{font-size:14px}                              /* было 15 */
+  .gal-cap{font-size:12px}                                /* было 13 */
+  .spec-row{font-size:14px}
+  .vcard-text p{font-size:14px}                           /* нижняя граница clamp была 13 */
+  .faq-q{font-size:16px}                                  /* нижняя граница clamp была 15 */
+
+  /* остальные выпадающие из шкалы — поимённо, по факту замера страницы */
+  .csel-btn, .csel-opt, .csel-val{font-size:16px}         /* было 15 */
+  .footer-col a, .footer-brand p, .placeholder-link{font-size:14px}  /* было 13/11 */
+  .footer-col h4{font-size:16px}                          /* было 15 */
+  .menu-overlay a{font-size:20px}                         /* было 19 */
+  .logo b, .logo{font-size:20px}                          /* было 22 */
+  .lang button, .lang span{font-size:12px}                /* было 13 */
+  .plans-stat .k{font-size:12px}                          /* было 13 */
+  .stat-card h3{font-size:24px}                           /* было 30 */
+  .lead-form-sub{font-size:12px}                          /* было 13 */
+  .cookie-note-row .btn, .cookie-note-row a, .mob-cta .btn{font-size:14px}  /* было 13 */
+  .plans-info .btn-glass{font-size:16px}                  /* было 15 */
+  .ss-card .num{font-size:32px}                           /* было 36 */
+  .villas-intro p, .signature-meta p, .stat-grid .stat-card p{font-size:14px}  /* было 15 */
+  .final-stats .stat p{font-size:12px}                    /* было 11 */
+  .footer-bottom, .footer-bottom a, .footer-bottom span{font-size:12px}  /* было 13 */
+
+  /* СОЗНАТЕЛЬНОЕ исключение: подписи и бейдж на мастер-плане (7–10px).
+     Это аннотации поверх карты, они живут в своей системе координат и
+     привязаны к кадру; на общей текстовой шкале им делать нечего.
+     Всё равно требуют пересборки, когда придёт мастер-план в высоком
+     разрешении, — тогда и пересчитаю. */
+}
+
 /* ---------- планшет / мобайл ---------- */
 @media (max-width:1024px){
   .villas-head{grid-template-columns:1fr; gap:24px}
@@ -638,9 +688,6 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 
   .section.villas{padding-top:48px}   /* тот же ритм, что у остальных секций на мобиле */
   /* кадр выше — двум карточкам-подписям нужно место, иначе они съедают фото */
-  .min-gallery{aspect-ratio:1/1}
-  .min-gallery-notes{grid-template-columns:1fr; gap:8px; padding:0 12px 44px}
-  .min-gallery-notes p{padding:12px 14px; font-size:12px; line-height:1.35}
   .gal-track{gap:12px; padding:0 20px}
 
   .villas-grid{gap:16px; margin-top:var(--sp-xl); grid-auto-rows:minmax(300px,auto)}

@@ -24,8 +24,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="../css/styles.css?v=20260801h">
-<link rel="stylesheet" href="css/v2.css?v=20260801h">
+<link rel="stylesheet" href="../css/styles.css?v=20260801j">
+<link rel="stylesheet" href="css/v2.css?v=20260801j">
 </head>
 <body>
 
@@ -88,12 +88,14 @@
       <h2 class="reveal" data-i18n="arch.title">Modern minimalism and Eastern sensuality</h2>
       <p class="lead lead-sm reveal" data-i18n="arch.lead">A rare offering on Bali’s west coast, combining architectural character with location</p>
     </div>
-    <div class="min-tags reveal">
-      <span class="tag-pill" data-i18n="arch.tag1">Floor-to-ceiling windows</span>
-      <span class="tag-pill" data-i18n="arch.tag2">Natural materials</span>
-      <span class="tag-pill" data-i18n="arch.tag3">Natural tones</span>
-      <span class="tag-pill" data-i18n="arch.tag4">Textured façades</span>
-    </div>
+    <!-- вариант B «спецификация» вместо пилюль: строка с номером и засечкой,
+         как лист характеристик. Пилюли обещали ярлык, а внутри были фразы. -->
+    <ul class="spec-list reveal">
+        <li class="spec-row"><span class="spec-num">01</span><span data-i18n="arch.tag1">Floor-to-ceiling windows</span></li>
+        <li class="spec-row"><span class="spec-num">02</span><span data-i18n="arch.tag2">Natural materials</span></li>
+        <li class="spec-row"><span class="spec-num">03</span><span data-i18n="arch.tag3">Natural tones</span></li>
+        <li class="spec-row"><span class="spec-num">04</span><span data-i18n="arch.tag4">Textured façades</span></li>
+    </ul>
     <div class="min-gallery reveal">
       <div class="min-gallery-track" id="minGalleryTrack">
         <div class="min-gallery-slide"><img src="../assets/minimalism-wide.jpg" alt="Façade of a Black Sands Oasis villa" data-i18n-alt="arch.photo_alt"></div>
@@ -105,13 +107,6 @@
       <button class="min-gallery-arrow prev" id="minGalleryPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
       <button class="min-gallery-arrow next" id="minGalleryNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
       <div class="min-gallery-dots" id="minGalleryDots"><span class="on"></span><span></span><span></span><span></span><span></span></div>
-      <!-- правка Босса: подписи, висевшие отдельным рядом под слайдером,
-           лежат теперь НА фото стеклянными карточками. pointer-events:none —
-           иначе оверлей перехватывал бы свайп по треку. -->
-      <div class="min-gallery-notes">
-        <p data-i18n="arch.foot1">Subtle scents, muted sounds and tactile details create a sense of a secluded world</p>
-      <p data-i18n="arch.foot2">An aesthetic that extends the island’s landscape, staying deep, authentic and personal for every home</p>
-      </div>
     </div>
   </div>
 </section>
@@ -200,11 +195,6 @@
          блоком под .signature-meta, как в v1. -->
     <div class="signature-photo reveal">
       <img src="../assets/stella-solaris.jpg" alt="Stella Solaris art object" data-i18n-alt="sig.photo_alt" loading="lazy">
-      <div class="signature-chips">
-      <span data-i18n="sig.chip1">A strong visual gesture that shapes the image of the whole project</span>
-      <span data-i18n="sig.chip2">An architectural landmark at the complex’s entrance</span>
-      <span data-i18n="sig.chip3">An element of recognition and status</span>
-      </div>
     </div>
     <div class="signature-meta reveal">
       <h3>Stella Solaris</h3>
@@ -435,18 +425,18 @@
     </div>
   </div>
   <div class="gal-track reveal" id="galTrack">
-      <div class="gal-slide"><img src="../assets/gal-clubhouse.jpg" alt="Clubhouse of the complex among palms" data-i18n-alt="gallery.alt1"></div>
-      <div class="gal-slide"><img src="../assets/gal-evening-living.jpg" alt="Villa living room in the evening light" data-i18n-alt="gallery.alt2"></div>
-      <div class="gal-slide"><img src="../assets/gal-living-room.jpg" alt="Living room under a pitched six-metre ceiling" data-i18n-alt="gallery.alt3"></div>
-      <div class="gal-slide"><img src="../assets/gal-bedroom-garden.jpg" alt="Bedroom opening onto a private garden" data-i18n-alt="gallery.alt4"></div>
-      <div class="gal-slide"><img src="../assets/gal-bath-detail.jpg" alt="Travertine washbasin against a planted wall" data-i18n-alt="gallery.alt5"></div>
-      <div class="gal-slide"><img src="../assets/gal-penthouse-view.jpg" alt="Penthouse bedroom with a panoramic view" data-i18n-alt="gallery.alt6"></div>
-      <div class="gal-slide"><img src="../assets/gal-night-dining.jpg" alt="Dining area of a villa after dark" data-i18n-alt="gallery.alt7"></div>
-      <div class="gal-slide"><img src="../assets/gal-interior-wall.jpg" alt="Interior with a full-height textured wall" data-i18n-alt="gallery.alt8"></div>
-      <div class="gal-slide"><img src="../assets/gal-living-curtains.jpg" alt="Living room behind sheer floor-to-ceiling curtains" data-i18n-alt="gallery.alt9"></div>
-      <div class="gal-slide"><img src="../assets/gal-bedroom-table.jpg" alt="Bedroom with a bedside working corner" data-i18n-alt="gallery.alt10"></div>
-      <div class="gal-slide"><img src="../assets/gal-shower.jpg" alt="Shower room finished in terrazzo" data-i18n-alt="gallery.alt11"></div>
-      <div class="gal-slide"><img src="../assets/gal-studio.jpg" alt="Studio with a bed facing the garden" data-i18n-alt="gallery.alt12"></div>
+      <figure class="gal-slide"><img src="../assets/gal-clubhouse.jpg" alt="Clubhouse of the complex among palms" data-i18n-alt="gallery.alt1"><figcaption class="gal-cap" data-i18n="gallery.alt1">Clubhouse of the complex among palms</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-evening-living.jpg" alt="Villa living room in the evening light" data-i18n-alt="gallery.alt2"><figcaption class="gal-cap" data-i18n="gallery.alt2">Villa living room in the evening light</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-living-room.jpg" alt="Living room under a pitched six-metre ceiling" data-i18n-alt="gallery.alt3"><figcaption class="gal-cap" data-i18n="gallery.alt3">Living room under a pitched six-metre ceiling</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-bedroom-garden.jpg" alt="Bedroom opening onto a private garden" data-i18n-alt="gallery.alt4"><figcaption class="gal-cap" data-i18n="gallery.alt4">Bedroom opening onto a private garden</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-bath-detail.jpg" alt="Travertine washbasin against a planted wall" data-i18n-alt="gallery.alt5"><figcaption class="gal-cap" data-i18n="gallery.alt5">Travertine washbasin against a planted wall</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-penthouse-view.jpg" alt="Penthouse bedroom with a panoramic view" data-i18n-alt="gallery.alt6"><figcaption class="gal-cap" data-i18n="gallery.alt6">Penthouse bedroom with a panoramic view</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-night-dining.jpg" alt="Dining area of a villa after dark" data-i18n-alt="gallery.alt7"><figcaption class="gal-cap" data-i18n="gallery.alt7">Dining area of a villa after dark</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-interior-wall.jpg" alt="Interior with a full-height textured wall" data-i18n-alt="gallery.alt8"><figcaption class="gal-cap" data-i18n="gallery.alt8">Interior with a full-height textured wall</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-living-curtains.jpg" alt="Living room behind sheer floor-to-ceiling curtains" data-i18n-alt="gallery.alt9"><figcaption class="gal-cap" data-i18n="gallery.alt9">Living room behind sheer floor-to-ceiling curtains</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-bedroom-table.jpg" alt="Bedroom with a bedside working corner" data-i18n-alt="gallery.alt10"><figcaption class="gal-cap" data-i18n="gallery.alt10">Bedroom with a bedside working corner</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-shower.jpg" alt="Shower room finished in terrazzo" data-i18n-alt="gallery.alt11"><figcaption class="gal-cap" data-i18n="gallery.alt11">Shower room finished in terrazzo</figcaption></figure>
+      <figure class="gal-slide"><img src="../assets/gal-studio.jpg" alt="Studio with a bed facing the garden" data-i18n-alt="gallery.alt12"><figcaption class="gal-cap" data-i18n="gallery.alt12">Studio with a bed facing the garden</figcaption></figure>
   </div>
   <div class="container">
     <div class="carousel-dots" id="galDots"><span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -641,9 +631,9 @@
 <!-- пин у бейджа BSO на мастер-плане: точка на застройке прямо под бейджем,
      короткий указатель от его нижнего края. Проценты — от кадра nuanu-masterplan -->
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
-<script src="../js/i18n.js?v=20260801h"></script>
-<script src="js/v2-i18n.js?v=20260801h"></script>
-<script src="../js/main.js?v=20260801h"></script>
-<script src="js/v2.js?v=20260801h"></script>
+<script src="../js/i18n.js?v=20260801j"></script>
+<script src="js/v2-i18n.js?v=20260801j"></script>
+<script src="../js/main.js?v=20260801j"></script>
+<script src="js/v2.js?v=20260801j"></script>
 </body>
 </html>
