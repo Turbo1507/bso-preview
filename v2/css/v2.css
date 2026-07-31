@@ -260,10 +260,14 @@ body{overflow-x:clip}
    текст справа. Столбиком (цифра над заголовком) карточки выходили высокими
    и пустыми, а цифра терялась. Цифра — шрифтом заголовков (Prata), по правке
    Босса: она тут работает как акцент блока, а не как мелкая метка. */
+/* min-height + центрирование по вертикали: при высоте «по контенту» карточки
+   выходили 124px и выглядели зажатыми — цифра почти упиралась в края.
+   176 = 22×8, содержимое центрируется, воздух сверху и снизу одинаковый. */
 .ss-card{
-  display:grid; grid-template-columns:auto minmax(0,1fr); gap:32px; align-items:start;
+  display:grid; grid-template-columns:auto minmax(0,1fr); gap:32px; align-items:center;
+  min-height:176px;
   background:var(--surface); border:1px solid var(--line); border-radius:var(--r-sm);
-  padding:32px 40px; box-shadow:var(--shadow-card);
+  padding:40px 48px; box-shadow:var(--shadow-card);
 }
 .ss-card .num{
   font-family:'Prata',Georgia,serif; font-weight:400;
@@ -282,7 +286,8 @@ body{overflow-x:clip}
   .ss-head .lead{max-width:none}
 }
 @media (max-width:860px){
-  .ss-card{padding:24px; gap:20px}
+  /* на мобиле фиксированная высота только раздувала бы список */
+  .ss-card{padding:24px; gap:20px; min-height:0}
   .ss-card .num{font-size:36px}
   .ss-card h3{font-size:18px}
   .ss-card p{font-size:14px}
@@ -461,7 +466,11 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
    предыдущей секции. Возвращаем общий ритм секций (100+100). */
 .section.villas{padding-top:var(--sp-3xl)}
 
-.villas-head{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:var(--sp-lg) 80px; align-items:start}
+/* Колонки и зазор — ровно как у .villas-grid ниже (1fr/1fr, 32), иначе
+   вводный текст начинался на 24px правее карточек: у шапки был зазор 80,
+   у сетки 32, и левые края правых колонок не совпадали (правка Босса). */
+.villas-head{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  column-gap:32px; row-gap:var(--sp-lg); align-items:start}
 .villas-head h2{margin:0; max-width:11ch}
 .villas-intro{display:flex; flex-direction:column; gap:20px; padding-top:6px}
 .villas-intro p{margin:0; font-size:clamp(15px,1.25vw,18px); line-height:1.5; color:rgba(255,255,255,.72)}

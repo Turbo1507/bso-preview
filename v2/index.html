@@ -24,8 +24,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="../css/styles.css?v=20260801d">
-<link rel="stylesheet" href="css/v2.css?v=20260801d">
+<link rel="stylesheet" href="../css/styles.css?v=20260801e">
+<link rel="stylesheet" href="css/v2.css?v=20260801e">
 </head>
 <body>
 
@@ -292,30 +292,13 @@
     </div>
   </div>
 </section>
-<!-- ===== 09. ОТ ВЫБОРА ЮНИТА ДО ГОТОВОЙ ВИЛЛЫ ===== -->
-<!-- по правке Босса: без стрелок-кнопок, трек вне .container для bleed-эффекта -->
-<section class="section">
-  <div class="container">
-    <!-- Figma (блок 09, Frame 100/101): стрелки — в ОДНОМ ряду с заголовком, справа -->
-    <div class="steps-head-row">
-      <h2 class="reveal" data-i18n="steps.title">How to buy a villa</h2>
-      <div class="carousel-nav">
-        <button class="carousel-arrow" id="stepsPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M46.5 15L38.5 22.5L46.5 30"/></svg></button>
-        <button class="carousel-arrow" id="stepsNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 85 45" fill="none" stroke="currentColor" stroke-width="2"><path d="M38.5 15L46.5 22.5L38.5 30"/></svg></button>
-      </div>
-      </div>
-  </div>
-  <div class="steps-track reveal" id="stepsTrack">
-      <div class="step-card"><span class="num">01</span><h3 data-i18n="steps.card1.title">Choosing a unit</h3><p data-i18n="steps.card1.p">A personal match of format to your purchase scenario</p></div>
-      <div class="step-card"><span class="num">02</span><h3 data-i18n="steps.card2.title">Deposit</h3><p data-i18n="steps.card2.p">A $1,500 booking deposit, conditionally non-refundable</p></div>
-      <div class="step-card"><span class="num">03</span><h3 data-i18n="steps.card3.title">First payment</h3><p data-i18n="steps.card3.p">30% after selection, locking in entry terms</p></div>
-      <div class="step-card"><span class="num">04</span><h3 data-i18n="steps.card4.title">Staged payments</h3><p data-i18n="steps.card4.p">A quarterly structure tied to construction progress</p></div>
-      <div class="step-card"><span class="num">05</span><h3 data-i18n="steps.card5.title">A completed asset</h3><p data-i18n="steps.card5.p">Project completion in 2 years</p></div>
-    </div>
-  <div class="container">
-    <div class="carousel-dots" id="stepsDots"><span class="on"></span><span></span><span></span><span></span><span></span></div>
-  </div>
-</section>
+<!-- Старый блок «Как купить виллу» (карусель шагов) убран по правке Босса —
+     остался только вариант со липким заголовком ниже. Вернуть целиком:
+         git show 34cd263:v2/index.html
+     и забрать оттуда секцию «09. ОТ ВЫБОРА ЮНИТА ДО ГОТОВОЙ ВИЛЛЫ».
+     Стили .steps-track/.step-card в ../css/styles.css и вызов
+     wireCarousel('stepsTrack', …) в ../js/main.js НЕ трогали: вызов
+     тихо выходит, если трека нет, а v1 ими продолжает пользоваться. -->
 
 <!-- ===== 09-b. КАК КУПИТЬ ВИЛЛУ — вариант со «липким» заголовком =====
      Второй вариант того же блока, по просьбе Босса стоит РЯДОМ со старым
@@ -655,9 +638,9 @@
 <!-- пин у бейджа BSO на мастер-плане: точка на застройке прямо под бейджем,
      короткий указатель от его нижнего края. Проценты — от кадра nuanu-masterplan -->
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
-<script src="../js/i18n.js?v=20260801d"></script>
-<script src="js/v2-i18n.js?v=20260801d"></script>
-<script src="../js/main.js?v=20260801d"></script>
-<script src="js/v2.js?v=20260801d"></script>
+<script src="../js/i18n.js?v=20260801e"></script>
+<script src="js/v2-i18n.js?v=20260801e"></script>
+<script src="../js/main.js?v=20260801e"></script>
+<script src="js/v2.js?v=20260801e"></script>
 </body>
 </html>
