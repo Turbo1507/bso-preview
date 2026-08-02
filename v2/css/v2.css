@@ -693,11 +693,13 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .stat-grid,
 .plans-tabs,
 .gal-track{margin-top:40px}
-/* .spec-list → .min-gallery: до правки было margin-top:0 у min-gallery (шло
-   встык, только внутренний padding-bottom:16 у последней .spec-row) — тот же
-   токен 40px, что у остальных пар "контент-блок → следующий контент-блок"
-   в этом списке, а не отдельное число */
-.spec-list + .min-gallery{margin-top:40px}
+/* .spec-list → .min-gallery: до правки было margin-top:0 (шло встык). НЕ 40px
+   — это был бы тот же (или больше) отступ, что от лида до самого spec-list,
+   а два контент-блока ВНУТРИ одной секции обязаны стоять теснее, чем
+   заголовок/лид к первому блоку (внешний > внутренний, см. дизайн-система.md
+   п.1) — иначе секция читается как два несвязанных куска. 24px — на ступень
+   меньше внешних 40 */
+.spec-list + .min-gallery{margin-top:24px}
 .faq-wrap h2{margin-bottom:40px}
 
 /* шкала кеглей 12/14/16/18/20/24/32/40/64 — выпадающие правим поимённо */
@@ -762,7 +764,9 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .plans-tabs{margin-top:24px}
   .faq-wrap h2{margin-bottom:24px}
   .gal-track{margin-top:24px}
-  .spec-list + .min-gallery{margin-top:24px}
+  /* на мобиле внешний лид→контент — уже 24 (:753), внутренний обязан быть
+     меньше — 16, ступень вниз, та же логика, что на десктопе */
+  .spec-list + .min-gallery{margin-top:16px}
 
   /* --- шкала кеглей: 12 / 14 / 16 / 20 / 24 / 32 --- */
   .lead{font-size:14px}                                   /* было 12 */
