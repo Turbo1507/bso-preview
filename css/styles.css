@@ -1018,6 +1018,9 @@ body.lead-lock{overflow:hidden}
   .footer-col h4{font-size:15px; margin-bottom:12px}
   .footer-col a{font-size:13px; padding:6px 0}
   .footer-bottom{font-size:12px; margin-top:var(--sp-lg); padding-top:18px}
+  /* на узком экране "Nuanu, Bali — HH:MM WITA · " не влезает опрятно в общий
+     ряд футера и переносится некрасиво — на мобиле оставляем только погоду */
+  .bali-clock-full, .bali-clock-sep{display:none}
 
   .lead-modal.is-open{padding:16px}
   .lead-panel{padding:24px 20px; max-height:calc(100vh - 32px)}
