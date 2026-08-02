@@ -746,6 +746,14 @@ body.menu-open{overflow:hidden}
   margin-top:var(--sp-xl); padding-top:var(--sp-md); border-top:1px solid var(--line);
   font-size:14px; color:rgba(58,58,58,.78);
 }
+/* живой штрих в футере — реальное время на Бали (WITA) + текущая температура
+   (Open-Meteo, без ключа). Цифры акцентным цветом — единственная тёплая
+   деталь на нейтральной строке футера. Если запрос погоды не прошёл (сеть/
+   блокировка), main.js прячет #baliWeatherWrap целиком — остаётся только
+   время, ничего не ломается */
+.bali-clock{font-variant-numeric:tabular-nums}
+.bali-clock #baliTime,
+.bali-clock #baliTemp{color:var(--clay); font-weight:500}
 /* переключатель темы — служебный, не для клиентов: нарочно без стилизации
    под остальной сайт (моноширинный, серый) — сразу видно, что это техничка */
 .theme-switch{display:flex; gap:1px; font-family:monospace; font-size:11px; margin-left:auto}
@@ -1013,4 +1021,26 @@ body.lead-lock{overflow:hidden}
 
   .lead-modal.is-open{padding:16px}
   .lead-panel{padding:24px 20px; max-height:calc(100vh - 32px)}
+}
+
+/* ---------- мягкий zoom фото на ховере (крафт-деталь) ----------
+   Только контейнеры, где УЖЕ есть overflow:hidden вокруг object-fit:cover
+   фото — увеличенный кадр обрезается тем же боксом, ничего не съезжает и не
+   перекрывает соседей. Планировки/топвиды (белые технические чертежи)
+   осознанно исключены — зум фото уместен, зум чертежа нет. Без
+   prefers-reduced-motion — сам transform лёгкий (4.5%), не сравним с
+   полноэкранной анимацией. */
+.signature-photo img,
+.why-photo img,
+.feat-card-photo img,
+.min-gallery-slide img,
+.plans-viewer-slide:not(.plans-viewer-slide--plan):not(.plans-viewer-slide--topview) img{
+  transition:transform .5s var(--ease);
+}
+.signature-photo:hover img,
+.why-photo:hover img,
+.feat-card-photo:hover img,
+.min-gallery-slide:hover img,
+.plans-viewer-slide:not(.plans-viewer-slide--plan):not(.plans-viewer-slide--topview):hover img{
+  transform:scale(1.045);
 }

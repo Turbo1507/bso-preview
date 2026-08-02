@@ -829,3 +829,11 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .faq-a p{padding:14px 18px 4px}
   .faq-list{gap:10px}
 }
+
+/* ---------- мягкий zoom фото на ховере (v2-специфичные карточки) ----------
+   Тот же приём, что в styles.css: контейнер уже clip'ает через overflow:hidden
+   (:597, :304), увеличенный кадр не вылезает за скруглённые углы. */
+.vcard img,
+.pv-photo img{transition:transform .5s var(--ease)}
+.vcard:hover img,
+.pv-photo:hover img{transform:scale(1.045)}

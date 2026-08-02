@@ -136,6 +136,62 @@ const io = new IntersectionObserver(entries => {
 }, { threshold: 0.14 });
 revealItems.forEach(el => io.observe(el));
 
+/* ---------- счётчик-анимация на цифрах (Nuanu/Investment статы, Area/Capacity
+   планировок) ---------- */
+/* Общий парсер: находит ПЕРВОЕ число в тексте узла (целое или с точкой/запятой),
+   анимирует 0→число за duration, сохраняя префикс/суффикс ("Up to 16% annually",
+   "31.2 m²", "0 min" и т.д.) и число знаков после запятой у цели. По завершении
+   принудительно ставит исходный текст — от rounding-дрейфа requestAnimationFrame. */
+function animateNumberIn(el, duration = 900) {
+  if (!el || el.dataset.counted === '1') return;
+  const original = el.textContent;
+  const m = original.match(/\d+(?:[.,]\d+)?/);
+  if (!m) return;
+  el.dataset.counted = '1';
+  const raw = m[0];
+  const target = parseFloat(raw.replace(',', '.'));
+  const decimals = (raw.split(/[.,]/)[1] || '').length;
+  const prefix = original.slice(0, m.index);
+  const suffix = original.slice(m.index + raw.length);
+  const start = performance.now();
+  function tick(now) {
+    const p = Math.min((now - start) / duration, 1);
+    const eased = 1 - Math.pow(1 - p, 3);
+    el.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
+    if (p < 1) requestAnimationFrame(tick); else el.textContent = original;
+  }
+  requestAnimationFrame(tick);
+}
+const statNumIO = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { animateNumberIn(e.target); statNumIO.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('.stat-card h3').forEach(el => statNumIO.observe(el));
+
+/* ---------- живой футер: время + погода на Бали (WITA, Nuanu/Tabanan) ---------- */
+/* Open-Meteo — без API-ключа, CORS открыт, подходит для чисто статического
+   сайта. Координаты — примерный район Nuanu (west coast, Tabanan). Если фетч
+   не прошёл (сеть/адблок/офлайн) — тихо прячем только часть с температурой,
+   часы работают независимо (Intl.DateTimeFormat, без сети). */
+const baliTimeEl = document.getElementById('baliTime');
+if (baliTimeEl) {
+  const fmt = new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Makassar', hour: '2-digit', minute: '2-digit' });
+  const syncBaliTime = () => { baliTimeEl.textContent = fmt.format(new Date()); };
+  syncBaliTime();
+  setInterval(syncBaliTime, 30000);
+}
+const baliTempEl = document.getElementById('baliTemp');
+const baliWeatherWrap = document.getElementById('baliWeatherWrap');
+if (baliTempEl && baliWeatherWrap) {
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=-8.57&longitude=115.08&current=temperature_2m&timezone=Asia%2FMakassar')
+    .then(r => { if (!r.ok) throw new Error('weather http ' + r.status); return r.json(); })
+    .then(data => {
+      const t = data && data.current && data.current.temperature_2m;
+      if (typeof t !== 'number') throw new Error('no temperature in response');
+      baliTempEl.textContent = Math.round(t) + '°C';
+    })
+    .catch(() => { baliWeatherWrap.style.display = 'none'; });
+}
+
 /* ---------- горизонтальные карусели (карточки преимуществ, шаги) ---------- */
 /* prev/next получают disabled в начале/конце скролла (просто opacity ниже,
    см. .feat-nav button:disabled), точки под каруселью показывают позицию */
@@ -431,9 +487,12 @@ function renderPlan(planId, lang) {
   const p = (PLANS[lang] || PLANS.en)[planId];
   if (!p) return;
   document.getElementById('planName').textContent = p.name;
-  document.getElementById('planArea').textContent = p.area;
-  document.getElementById('planCap').textContent = p.cap;
+  const planAreaEl = document.getElementById('planArea');
+  const planCapEl = document.getElementById('planCap');
+  planAreaEl.textContent = p.area; planAreaEl.dataset.counted = '';
+  planCapEl.textContent = p.cap; planCapEl.dataset.counted = '';
   document.getElementById('planWho').textContent = p.who;
+  animateNumberIn(planAreaEl); animateNumberIn(planCapEl);
   /* число фото разное по типам (5 у большинства, 6 у 4BD). Порядок (правка
      Босса): сначала интерьерные фото виллы (вставляются ПЕРЕД планом), затем
      план (фикс. слайд в разметке), затем topview — разрез сверху — ПОСЛЕДНИМ
