@@ -688,17 +688,18 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .team-grid,
 .villas-grid,
 .pv-grid,
-.spec-list,
 .nuanu-photo,
 .stat-grid,
 .plans-tabs,
 .gal-track{margin-top:40px}
-/* .spec-list → .min-gallery: до правки было margin-top:0 (шло встык). НЕ 40px
-   — это был бы тот же (или больше) отступ, что от лида до самого spec-list,
-   а два контент-блока ВНУТРИ одной секции обязаны стоять теснее, чем
-   заголовок/лид к первому блоку (внешний > внутренний, см. дизайн-система.md
-   п.1) — иначе секция читается как два несвязанных куска. 24px — на ступень
-   меньше внешних 40 */
+/* .spec-list — НЕ в общем списке 40px выше: у .spec-row (:284) есть
+   padding-top:16 перед самим текстом чипа, которого нет у остальных
+   элементов того списка (фото/грид садятся вплотную к своему верхнему краю).
+   Раз Боссу важен именно зазор ДО ТЕКСТА чипа, а не до невидимой линии-
+   разделителя строки — margin здесь 24, чтобы 24+16(padding)=40 ровно от
+   текста, как у соседей. Симметрично снизу: последняя строка даёт
+   padding-bottom:16 до текста, плюс 24 margin к галерее = те же 40. */
+.spec-list{margin-top:24px}
 .spec-list + .min-gallery{margin-top:24px}
 .faq-wrap h2{margin-bottom:40px}
 
@@ -757,16 +758,17 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .team-grid,
   .villas-grid,
   .pv-grid,
-  .spec-list,
   .nuanu-photo,
   .stat-grid,
   .priv-grid,
   .plans-tabs{margin-top:24px}
   .faq-wrap h2{margin-bottom:24px}
   .gal-track{margin-top:24px}
-  /* на мобиле внешний лид→контент — уже 24 (:753), внутренний обязан быть
-     меньше — 16, ступень вниз, та же логика, что на десктопе */
-  .spec-list + .min-gallery{margin-top:16px}
+  /* та же компенсация padding-top:16 строки, что на десктопе (:696) — цель
+     24 ровно от текста чипа (внешняя мобильная ступень), значит margin 8,
+     не 24 */
+  .spec-list{margin-top:8px}
+  .spec-list + .min-gallery{margin-top:8px}
 
   /* --- шкала кеглей: 12 / 14 / 16 / 20 / 24 / 32 --- */
   .lead{font-size:14px}                                   /* было 12 */
@@ -803,6 +805,14 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .ss-card .num{font-size:32px}                           /* было 36 */
   .villas-intro p, .signature-meta p, .stat-grid .stat-card p{font-size:14px}  /* было 15 */
   .final-stats .stat p{font-size:12px}                    /* было 11 */
+  /* v2-only (Босс просил не трогать v1): было заголовок→лид/лид→статы/статы→
+     кнопка везде одинаковые 24px (row-gap грида одним числом на все пары
+     строк) — читалось как одна мешанина без групп. Разведено: заголовок→лид
+     16 (одна группа), лид→статы 24 (группа→контент), статы→кнопка 40
+     (кнопка — отдельное действие, разнесена заметно дальше) */
+  .final-row{row-gap:0; margin-top:16px}
+  .final-cta{margin-top:40px}
+  .final-stats{margin-top:24px}
   .footer-bottom, .footer-bottom a, .footer-bottom span{font-size:12px}  /* было 13 */
 
   /* СОЗНАТЕЛЬНОЕ исключение: подписи и бейдж на мастер-плане (7–10px).
