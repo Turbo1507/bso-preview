@@ -651,7 +651,13 @@ body.menu-open{overflow:hidden}
 .fin-card-text{flex:1 1 420px; max-width:460px; order:1}
 .fin-card-text h3{font-size:36px; color:var(--white); font-weight:500}
 .fin-card-text p{font-size:16px; line-height:1.35; color:rgba(255,255,255,.65); margin-top:16px}
-.fin-card-text .btn{margin-top:28px}
+/* white-space:normal переопределяет базовый .btn{nowrap} — в RU кнопка
+   "Получить финансовую модель" (409px min-content) раздувала .fin-card-text
+   (flex:1 1 420px) шире EN-версии и утаскивала фиксированный отрицательный
+   margin .fin-card-photo (:658) за физический край экрана в диапазоне
+   861-1070px (реальный горизонтальный скролл всей страницы). Перенос кнопки
+   в 2 строки на этих ширинах устраняет overflow, на 1440+ она и так в 1 строку */
+.fin-card-text .btn{margin-top:28px; white-space:normal; text-align:center}
 /* по правке Босса — фото должно реально "вылезать" за рамку карточки, не
    на 20-30px, а заметно: крупнее и с лёгким разворотом для динамики */
 /* по правке Босса — ещё крупнее на десктопе */

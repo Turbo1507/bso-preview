@@ -151,7 +151,7 @@ window.I18N = {
     "feat.photo4_alt": "Двухсветное пространство с лестницей и панорамным окном",
     "nuanu.photo_alt": "Мастер-план Nuanu с расположением Black Sands Oasis",
     "cookie.text": "Мы используем куки и локальное хранилище браузера, чтобы сайт работал: запоминаем язык, настройки отображения и анонимную статистику посещений.",
-    "cookie.more": "Подробнее",
+    "cookie.more": "Подробнее об использовании cookie",
     "cookie.accept": "Понятно",
     "sig.photo_alt": "Арт-объект Stella Solaris",
     "invest.photo_alt": "Приватный бассейн виллы Black Sands Oasis"
@@ -302,7 +302,7 @@ window.I18N = {
     "feat.photo4_alt": "Double-height space with a staircase and a panoramic window",
     "nuanu.photo_alt": "Nuanu master plan showing the location of Black Sands Oasis",
     "cookie.text": "We use cookies and browser local storage to keep the site working: your language, display settings and anonymous usage statistics.",
-    "cookie.more": "Learn more",
+    "cookie.more": "Learn more about cookies",
     "cookie.accept": "Got it",
     "sig.photo_alt": "Stella Solaris art object",
     "invest.photo_alt": "Private pool of a Black Sands Oasis villa"
