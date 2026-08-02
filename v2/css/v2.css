@@ -96,7 +96,8 @@ body.menu-open .burger span{background:var(--white)}
 .priv-card,
 .step-card,
 .stat-card,
-.team-card{background:var(--surface); border-color:var(--line); box-shadow:var(--shadow-card)}
+.team-card,
+.fin-card{background:var(--surface); border-color:var(--line); box-shadow:var(--shadow-card)}
 .min-tags .tag-pill,
 .feat-filters .tag-pill{border-color:var(--line-strong); color:var(--muted)}
 
@@ -235,7 +236,7 @@ body.menu-open .burger span{background:var(--white)}
 .plans-stat{display:block; border-top:0; padding:0; gap:0}
 .plans-stat-ic{display:none}
 .plans-stat .k{font-size:12px; letter-spacing:.12em; text-transform:uppercase;
-  color:rgba(255,255,255,.45)}
+  color:rgba(255,255,255,.5)}
 .plans-stat .v{font-family:'Prata',Georgia,serif; font-size:32px; line-height:1.1;
   margin-top:8px; color:var(--white)}
 /* в колоночной раскладке v1 кнопка растягивалась по ширине панели; в строке
@@ -244,7 +245,12 @@ body.menu-open .burger span{background:var(--white)}
 .plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
   width:200px; justify-content:center}
 @media (max-width:860px){
-  .plans-viewer{aspect-ratio:4/3}
+  /* width:100%+height:auto обязательны вместе с aspect-ratio: без них
+     наследуемый height:clamp(...) (:219) оставался в силе, и браузер считал
+     ШИРИНУ из высоты через aspect-ratio (а не наоборот) — на 390px кадр
+     раздувался до 698px в 343px-контейнере и рвал страницу горизонтальным
+     скроллом */
+  .plans-viewer{aspect-ratio:4/3; width:100%; height:auto}
   .plans-info{gap:24px; padding-top:24px}
   .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
   .plans-stat .v{font-size:24px; margin-top:4px}
@@ -286,7 +292,7 @@ body.menu-open .burger span{background:var(--white)}
 .gal-slide{margin:0; display:flex; flex-direction:column}
 /* строго одна строка (правка Босса): длинные описания живут в alt, здесь —
    короткий ярлык. nowrap страхует от переноса, если текст всё же удлинят */
-.gal-cap{margin-top:12px; font-size:13px; line-height:1.4; color:rgba(255,255,255,.45);
+.gal-cap{margin-top:12px; font-size:13px; line-height:1.4; color:rgba(255,255,255,.5);
   white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
 
 /* ---------- «Частная территория», вариант 3 ---------- */
@@ -761,6 +767,10 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .team-role{font-size:12px}                              /* было 13 */
   .pv-card p{font-size:14px}                              /* было 15 */
   .gal-cap{font-size:12px}                                /* было 13 */
+  /* 4 колонки на 390px давали перенос в 3 строки ("Floor-to-ceiling windows")
+     и вклад в горизонтальный overflow страницы — тот же паттерн, что уже
+     применён к .villas-grid/.pv-grid выше */
+  .spec-list{grid-template-columns:1fr}
   .spec-row{font-size:14px}
   .vcard-text p{font-size:14px}                           /* нижняя граница clamp была 13 */
   .faq-q{font-size:16px}                                  /* нижняя граница clamp была 15 */
