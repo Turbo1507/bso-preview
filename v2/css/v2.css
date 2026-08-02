@@ -705,7 +705,10 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .menu-overlay a{font-size:20px}                /* было 19 */
 .logo, .logo b{font-size:20px}                 /* было 22 */
 .vcard-text h3{font-size:24px}                 /* верх clamp давал 25 */
-.plans-info h3{font-size:24px}                 /* было 28 */
+/* верните было: проход по шкале кеглей срезал название формата ("Studio" и
+   т.д.) до 24px, сравняв с мелкими лейблами — но по замыслу (:232) оно должно
+   визуально стоять вровень с соседней цифрой площади (тоже 32px, тоже Prata),
+   а не проигрывать ей. 32 УЖЕ есть в шкале (тот же шаг, что у .plans-stat .v) */
 .stat-card h3{font-size:32px}                  /* было 30 */
 .signature-meta h3,
 .fin-card-text h3{font-size:32px}              /* было 36 */
