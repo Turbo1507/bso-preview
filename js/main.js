@@ -292,9 +292,17 @@ const nuanuMobileMQ = window.matchMedia('(max-width:860px)');
 function renderNuanuPins(lang) {
   if (!nuanuPinsWrap) return;
   if (nuanuMobileMQ.matches) {
-    nuanuPinsWrap.innerHTML = NUANU_PINS_MOBILE.map(p =>
+    const labels = NUANU_PINS_MOBILE.map(p =>
       `<span class="nuanu-pin-label${p.align === 'left' ? ' is-left' : ''}" style="left:${p.left}%;top:${p.top}%">${lang === 'en' ? p.en : p.ru}</span>`
     ).join('');
+    /* тот же пин бейджа BSO, что и на десктопе (window.BSO_NUANU_BADGE_PIN_MOBILE,
+       задаётся в index.html) — раньше мобильная ветка вообще не рисовала SVG,
+       поэтому бейдж оставался без указателя, в отличие от десктопа */
+    const badgePinMobile = window.BSO_NUANU_BADGE_PIN_MOBILE;
+    const badgeSvgMobile = badgePinMobile
+      ? `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none"><line class="badge-pin" x1="${badgePinMobile.dot[0]}" y1="${badgePinMobile.dot[1]}" x2="${badgePinMobile.from[0]}" y2="${badgePinMobile.from[1]}" vector-effect="non-scaling-stroke"/><ellipse class="badge-pin" cx="${badgePinMobile.dot[0]}" cy="${badgePinMobile.dot[1]}" rx=".35" ry=".7"/></svg>`
+      : '';
+    nuanuPinsWrap.innerHTML = badgeSvgMobile + labels;
     return;
   }
   /* preserveAspectRatio="none" мапит viewBox 100x100 на контейнер 2:1
