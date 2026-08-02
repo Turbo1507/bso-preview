@@ -282,7 +282,7 @@ body.menu-open .burger span{background:var(--white)}
 .spec-list{list-style:none; margin:var(--sp-lg) 0 0; padding:0;
   display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:0}
 .spec-row{display:flex; align-items:baseline; gap:12px; padding:16px 24px 16px 0;
-  border-top:1px solid var(--line); color:var(--graphite); font-size:16px; line-height:1.35}
+  border-top:1px solid var(--line); color:var(--graphite); font-size:20px; line-height:1.35}
 .spec-num{font-family:'Prata',Georgia,serif; font-size:14px; color:var(--clay);
   font-variant-numeric:tabular-nums; flex:0 0 auto}
 
@@ -693,6 +693,11 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .stat-grid,
 .plans-tabs,
 .gal-track{margin-top:40px}
+/* .spec-list → .min-gallery: до правки было margin-top:0 у min-gallery (шло
+   встык, только внутренний padding-bottom:16 у последней .spec-row) — тот же
+   токен 40px, что у остальных пар "контент-блок → следующий контент-блок"
+   в этом списке, а не отдельное число */
+.spec-list + .min-gallery{margin-top:40px}
 .faq-wrap h2{margin-bottom:40px}
 
 /* шкала кеглей 12/14/16/18/20/24/32/40/64 — выпадающие правим поимённо */
@@ -757,6 +762,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .plans-tabs{margin-top:24px}
   .faq-wrap h2{margin-bottom:24px}
   .gal-track{margin-top:24px}
+  .spec-list + .min-gallery{margin-top:24px}
 
   /* --- шкала кеглей: 12 / 14 / 16 / 20 / 24 / 32 --- */
   .lead{font-size:14px}                                   /* было 12 */
