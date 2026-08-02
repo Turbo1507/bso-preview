@@ -187,7 +187,8 @@ if (baliTempEl && baliWeatherWrap) {
     .then(data => {
       const t = data && data.current && data.current.temperature_2m;
       if (typeof t !== 'number') throw new Error('no temperature in response');
-      baliTempEl.textContent = Math.round(t) + '°C';
+      const rounded = Math.round(t);
+      baliTempEl.textContent = (rounded >= 0 ? '+' : '') + rounded + '°C';
     })
     .catch(() => { baliWeatherWrap.style.display = 'none'; });
 }
