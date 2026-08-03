@@ -86,7 +86,7 @@ body.menu-open .burger span{background:var(--white)}
 .footer-brand p,
 .footer-col a,
 .footer-bottom{color:rgba(255,255,255,.66)}
-.stat-card h3{color:var(--white)}
+.stat-card h3{color:var(--clay)}
 .footer-brand .logo,
 .footer-brand .logo b,
 .footer-col h4{color:var(--white)}
@@ -111,16 +111,30 @@ body.menu-open .burger span{background:var(--white)}
    position:relative уже есть в styles.css:645. Тёмный скрим — тот же приём,
    что у .pv-photo::after (v2.css выше): читаемость белого текста только
    rgba-слоем, без filter:brightness на самом фото. */
-.fin-card{overflow:hidden}
+/* Карточка выше (min-height, было по контенту ~350px) — таблицу за блюром
+   было не различить (правка Босса). Текст и кнопка — раздельные абсолютные
+   блоки по нижним углам (было — всё вместе слева по центру), скрим теперь
+   снизу вверх: верх карточки светлее — видно саму таблицу, низ темнее —
+   держит контраст текста/кнопки. */
+.fin-card{overflow:hidden; position:relative; min-height:520px; display:block; padding:0}
 .fin-card-photo--sheet{position:absolute; inset:0; width:100%; height:100%;
   max-width:none; margin:0; transform:none; border-radius:0; box-shadow:none; z-index:0}
 .fin-card-photo--sheet img{width:100%; height:100%; object-fit:cover; object-position:center top;
   filter:blur(4px) saturate(.85); transform:scale(1.06)}
 .fin-card-photo--sheet::after{content:''; position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(100deg, rgba(24,24,23,.94) 0%, rgba(24,24,23,.86) 42%, rgba(24,24,23,.55) 100%)}
-.fin-card-text{position:relative; z-index:1}
+  background:linear-gradient(180deg, rgba(24,24,23,.08) 0%, rgba(24,24,23,.32) 55%, rgba(24,24,23,.92) 100%)}
+/* .fin-card-text (styles.css:651-653) больше не в разметке — класс
+   переименован в .fin-card-copy для абсолютного позиционирования, поэтому
+   базовые цвет/кегль/отступ переносим сюда явно, а не полагаемся на v1-правило */
+.fin-card-copy{position:absolute; left:60px; bottom:40px; z-index:1; max-width:440px}
+.fin-card-copy h3{font-size:32px; color:var(--white); font-weight:500; margin:0}
+.fin-card-copy p{font-size:16px; line-height:1.35; color:rgba(255,255,255,.65); margin-top:16px}
+.fin-card-cta{position:absolute; right:60px; bottom:40px; z-index:1}
 @media (max-width:860px){
-  .fin-card-photo--sheet::after{background:linear-gradient(180deg, rgba(24,24,23,.5) 0%, rgba(24,24,23,.92) 55%)}
+  .fin-card{min-height:460px}
+  .fin-card-photo--sheet::after{background:linear-gradient(180deg, rgba(24,24,23,.1) 0%, rgba(24,24,23,.4) 45%, rgba(24,24,23,.94) 85%)}
+  .fin-card-copy{left:24px; right:24px; bottom:88px; max-width:none}
+  .fin-card-cta{left:24px; right:24px; bottom:24px; width:auto; justify-content:center}
 }
 .min-tags .tag-pill,
 .feat-filters .tag-pill{border-color:var(--line-strong); color:var(--muted)}
@@ -241,44 +255,44 @@ body.menu-open .burger span{background:var(--white)}
 .plans-viewer{display:flex; align-items:flex-start; gap:40px; padding:40px;
   border-radius:var(--r-lg); background:var(--ink); box-shadow:var(--shadow-card);
   height:auto; overflow:visible}
-.plans-viewer-media{position:relative; flex:0 0 auto; width:min(340px,42%); aspect-ratio:3/4;
+.plans-viewer-media{position:relative; flex:0 0 auto; width:min(460px,50%); aspect-ratio:3/4;
   border-radius:var(--r-md); overflow:hidden; background:var(--bg-deep)}
 .plans-viewer-media .min-gallery-dots{bottom:14px}
 
-.plans-toggle{flex:1 1 auto; align-self:flex-start; min-width:0}
+/* align-self:stretch (не flex-start) — рамка тянется на всю высоту фото, а не
+   схлопывается до высоты одной кнопки: раньше справа от узкого 3:4-фото была
+   голая пустота на всю высоту карточки, «фото выглядело прижатым влево»
+   (правка Босса). Теперь кнопка+пустая рамка read как единая пара с фото. */
+.plans-toggle{flex:1 1 auto; align-self:stretch; min-width:0; display:flex; flex-direction:column;
+  border-radius:var(--r-sm); border:1px solid var(--line); overflow:hidden}
 .plans-toggle-btn{
   display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%;
-  padding:18px 24px; border-radius:var(--r-sm); background:rgba(255,255,255,.06);
-  border:1px solid var(--line); color:var(--white); font-size:16px; text-align:left;
-  transition:background .2s var(--ease), border-radius .2s var(--ease);
+  padding:18px 24px; flex:0 0 auto; background:rgba(255,255,255,.06); border:0;
+  color:var(--white); font-size:16px; text-align:left;
+  transition:background .2s var(--ease);
 }
 .plans-toggle-btn:hover{background:rgba(255,255,255,.1)}
 .plans-toggle-chevron{flex:0 0 auto; width:20px; height:20px; color:var(--clay); transition:transform .3s var(--ease)}
-.plans-toggle.is-open .plans-toggle-btn{border-radius:var(--r-sm) var(--r-sm) 0 0; background:var(--bg-deep); border-color:var(--bg-deep)}
-.plans-toggle.is-open .plans-toggle-chevron{transform:rotate(180deg)}
+.plans-toggle.is-open .plans-toggle-btn{background:#f4f1ea; color:#1f1f1f}
+.plans-toggle.is-open .plans-toggle-chevron{transform:rotate(180deg); color:#8a6a2a}
 /* max-height, не grid-rows: содержимое (картинка) меняет intrinsic-размер
-   при смене таба виллы, аккордеон FAQ этой проблемы не знает (текст) */
-.plans-toggle-panel{max-height:0; overflow:hidden; background:var(--bg-deep);
-  border-radius:0 0 var(--r-sm) var(--r-sm); transition:max-height .35s var(--ease)}
+   при смене таба виллы, аккордеон FAQ этой проблемы не знает (текст).
+   Панель — САМА светлая «бумага» (не тёмный бокс со светлой картинкой
+   внутри): у PNG-планов белый фон запечён в сам файл (Босс не обрезал), и
+   тёмная рамка вокруг светлого прямоугольника всё равно давала видимый шов.
+   Когда фон панели = фон картинки, шва просто нет физически. */
+.plans-toggle-panel{flex:1 1 auto; max-height:0; overflow:hidden; background:#f4f1ea;
+  transition:max-height .35s var(--ease)}
 .plans-toggle.is-open .plans-toggle-panel{max-height:520px}
-/* планы — портретные (497x1112), при width:100% колонки высота уходила за
-   1800px (замер) — панель проматывалась на полэкрана. object-fit:contain
-   в пределах max-height держит кадр в разумных границах вместо растяжения
-   на всю ширину колонки */
-.plans-toggle-panel-in{padding:20px; display:flex; justify-content:center}
-/* белые поля на PNG-планировках (Босс: «лень было убирать») — тёплая светлая
-   «бумага» вместо жёсткого стыка с тёмной панелью: край не бросается в глаза,
-   читается как рамка листа, а не как баг */
-.plans-toggle-panel-in img{display:block; width:auto; height:auto; max-width:100%; max-height:440px;
-  object-fit:contain; border-radius:var(--r-xs); background:#f4f1ea}
+.plans-toggle-panel-in{padding:20px; display:flex; justify-content:center; align-items:flex-start; height:100%}
+.plans-toggle-panel-in img{display:block; width:auto; height:auto; max-width:100%; max-height:440px; object-fit:contain}
 /* двухэтажные типы — buildFloorsSVG вставляет <svg class="plan-floors-svg">
    вместо img (сама функция общая с v1, там она сидит в position:absolute
    боксе с фиксированной высотой — тут высота панели автоматическая, поэтому
    position:absolute+inset сбрасываем, размер держит aspect-ratio 1920:1277 —
    тот же, что у viewBox функции buildFloorsSVG */
 .plans-toggle-panel-in svg.plan-floors-svg{position:static; inset:auto;
-  width:100%; height:auto; max-width:440px; aspect-ratio:1920/1277;
-  border-radius:var(--r-xs); background:#f4f1ea}
+  width:100%; height:auto; max-width:440px; aspect-ratio:1920/1277}
 
 .plans-info{
   /* flex-direction обязателен: в v1 у .plans-info стоит column, и без сброса
@@ -333,7 +347,7 @@ body.menu-open .burger span{background:var(--white)}
 }
 .stat-grid-4 .card-ic{display:none}
 .stat-grid-4 .stat-card h3{font-family:'Prata',Georgia,serif; font-weight:400;
-  font-size:32px; line-height:1.1; color:var(--white)}
+  font-size:32px; line-height:1.1; color:var(--clay)}
 .stat-grid-4 .stat-card p{margin-top:8px; font-size:12px; letter-spacing:.12em;
   text-transform:uppercase; color:rgba(255,255,255,.45); line-height:1.4}
 
