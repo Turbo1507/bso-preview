@@ -25,8 +25,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="../css/styles.css?v=20260803n">
-<link rel="stylesheet" href="css/v2.css?v=20260803n">
+<link rel="stylesheet" href="../css/styles.css?v=20260803o">
+<link rel="stylesheet" href="css/v2.css?v=20260803o">
 </head>
 <body>
 
@@ -259,25 +259,28 @@
       <button class="plans-tab" data-plan="4bd">4BD</button>
     </div>
     <div class="plans-panel reveal">
-      <div class="plans-viewer">
-        <div class="plans-viewer-media">
-          <div class="plans-viewer-track" id="plansPhotoTrack">
-            <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="1" src="../assets/villa-studio-detail1.jpg" alt="Studio villa interior"></div>
-            <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="2" src="../assets/villa-studio-detail2.jpg" alt="Studio villa interior"></div>
-            <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="3" src="../assets/villa-studio-detail3.jpg" alt="Studio villa interior"></div>
-          </div>
-          <button class="min-gallery-arrow prev" id="plansPhotoPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-          <button class="min-gallery-arrow next" id="plansPhotoNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-          <div class="min-gallery-dots" id="plansPhotoDots"><span class="on"></span><span></span><span></span></div>
+      <div class="plans-viewer" id="plansViewer">
+        <div class="plans-viewer-track" id="plansPhotoTrack">
+          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="1" src="../assets/villa-studio-detail1.jpg" alt="Studio villa interior"></div>
+          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="2" src="../assets/villa-studio-detail2.jpg" alt="Studio villa interior"></div>
+          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="3" src="../assets/villa-studio-detail3.jpg" alt="Studio villa interior"></div>
         </div>
+        <button class="min-gallery-arrow prev" id="plansPhotoPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button class="min-gallery-arrow next" id="plansPhotoNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+        <div class="min-gallery-dots" id="plansPhotoDots"><span class="on"></span><span></span><span></span></div>
+        <!-- чип-раскрывашка поверх фото, не отдельная колонка (правка Босса:
+             «не логично отдавать 80% места под то, что мб никто не откроет») —
+             план разворачивается оверлеем на то же фото, лишнего места не ест -->
         <div class="plans-toggle" id="plansToggle">
           <button class="plans-toggle-btn" id="plansToggleBtn" aria-expanded="false">
             <span data-i18n="plans.view_layout">View floor plan</span>
             <svg class="plans-toggle-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
           </button>
-          <div class="plans-toggle-panel" id="plansTogglePanel">
-            <div class="plans-toggle-panel-in"><img id="planToggleImg" src="../assets/plan-studio.png" alt="Studio floor plan"></div>
-          </div>
+        </div>
+        <!-- панель — сестра .plans-toggle, не внутри неё: inset:0 должен мерить
+             от всего фото-кадра .plans-viewer, а не от маленькой кнопки -->
+        <div class="plans-toggle-panel" id="plansTogglePanel">
+          <div class="plans-toggle-panel-in"><img id="planToggleImg" src="../assets/plan-studio.png" alt="Studio floor plan"></div>
         </div>
       </div>
       <div class="plans-info">
@@ -683,9 +686,9 @@
      из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
      что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="../js/i18n.js?v=20260803n"></script>
-<script src="js/v2-i18n.js?v=20260803n"></script>
-<script src="../js/main.js?v=20260803n"></script>
-<script src="js/v2.js?v=20260803n"></script>
+<script src="../js/i18n.js?v=20260803o"></script>
+<script src="js/v2-i18n.js?v=20260803o"></script>
+<script src="../js/main.js?v=20260803o"></script>
+<script src="js/v2.js?v=20260803o"></script>
 </body>
 </html>

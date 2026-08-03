@@ -176,17 +176,19 @@
   });
 })();
 
-/* Раскрывашка «Смотреть планировку» над фото в блоке планировок — реф Figma
-   «план1»/«план2» (295:331/332, канал 41fc2tir). Высота панели через
-   max-height (не grid-template-rows, как у FAQ выше) — картинка внутри
-   меняет intrinsic-размер при смене таба виллы, а grid 0fr→1fr анимирует
-   ряд, а не контент, и рвано скакал бы при каждом переключении типа. */
+/* Раскрывашка «Смотреть планировку» — чип-кнопка стеклом поверх фото, план
+   разворачивается оверлеем на тот же кадр (реф идея «план1»/«план2»,
+   295:331/332, канал 41fc2tir, без отдельной колонки — правка Босса 04.08:
+   не тратить полблока на то, что могут не открыть). is-open вешается на
+   #plansViewer (весь фото-кадр), а не на .plans-toggle (маленькая кнопка) —
+   .plans-toggle-panel лежит рядом с .plans-toggle, не внутри ннего, и должна
+   мерить inset:0 от кадра целиком, не от кнопки. */
 (function () {
-  var toggle = document.getElementById('plansToggle');
+  var viewer = document.getElementById('plansViewer');
   var btn = document.getElementById('plansToggleBtn');
-  if (!toggle || !btn) return;
+  if (!viewer || !btn) return;
   btn.addEventListener('click', function () {
-    var open = toggle.classList.toggle('is-open');
+    var open = viewer.classList.toggle('is-open');
     btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
   /* смена таба виллы закрывает панель — иначе старая схема висит открытой
@@ -194,7 +196,7 @@
   var tabs = document.getElementById('plansTabs');
   if (tabs) tabs.addEventListener('click', function (e) {
     if (e.target.closest('.plans-tab')) {
-      toggle.classList.remove('is-open');
+      viewer.classList.remove('is-open');
       btn.setAttribute('aria-expanded', 'false');
     }
   });
