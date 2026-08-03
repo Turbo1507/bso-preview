@@ -9,6 +9,7 @@
    в макете это RU-only, английской версии там нет. */
 (function () {
   var ru = {
+    "plans.cta.v2": "Узнать подробнее",
     "gallery.cap1": "Клубный корпус",
     "gallery.cap2": "Гостиная вечером",
     "gallery.cap3": "Шестиметровый потолок",
@@ -66,6 +67,7 @@
   };
 
   var en = {
+    "plans.cta.v2": "Learn more",
     "gallery.cap1": "Clubhouse",
     "gallery.cap2": "Living room at dusk",
     "gallery.cap3": "Six-metre ceiling",
