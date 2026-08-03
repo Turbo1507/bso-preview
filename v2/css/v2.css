@@ -98,6 +98,22 @@ body.menu-open .burger span{background:var(--white)}
 .stat-card,
 .team-card,
 .fin-card{background:var(--surface); border-color:var(--line); box-shadow:var(--shadow-card)}
+/* Правка Босса 03.08: вместо иллюстративной стопки документов — реальный на
+   вид скрин таблицы (мокап, не настоящие цифры юнитов), заблюренный — как
+   в лендингах, где финмодель отдают только на консультации, а тут её только
+   намекают показать. Ротация/вылет за край (styles.css:664, задуманы под
+   PNG-стопку) сняты — таблице развёрнутой на 4° только мешал бы читаться
+   даже сквозь блюр. Blur — на самом img (не box-shadow), scale(1.06)
+   прячет мутную кромку по краю, где filter:blur цепляет прозрачные пиксели
+   за границей кадра. */
+.fin-card-photo--sheet{width:56%; max-width:620px; margin:0; transform:none;
+  border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-card); position:relative}
+.fin-card-photo--sheet img{filter:blur(4px) saturate(.85); transform:scale(1.06); box-shadow:none}
+.fin-card-photo--sheet::after{content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(180deg, rgba(30,30,30,0) 55%, var(--surface) 100%)}
+@media (max-width:860px){
+  .fin-card-photo--sheet{width:100%; max-width:none; margin:0 0 20px}
+}
 .min-tags .tag-pill,
 .feat-filters .tag-pill{border-color:var(--line-strong); color:var(--muted)}
 
