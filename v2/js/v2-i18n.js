@@ -10,6 +10,8 @@
 (function () {
   var ru = {
     "plans.cta.v2": "Узнать подробнее",
+    "final.kicker": "UNIT. · Флагманский проект группы",
+    "final.unit_note": "UNIT. — девелопер с реализованными проектами на Бали, включая Space City. Black Sands Oasis — его флагман",
     "gallery.cap1": "Клубный корпус",
     "gallery.cap2": "Гостиная вечером",
     "gallery.cap3": "Шестиметровый потолок",
@@ -68,6 +70,8 @@
 
   var en = {
     "plans.cta.v2": "Learn more",
+    "final.kicker": "UNIT. · Group's flagship project",
+    "final.unit_note": "UNIT. is the developer behind completed projects across Bali, including Space City — Black Sands Oasis is its flagship",
     "gallery.cap1": "Clubhouse",
     "gallery.cap2": "Living room at dusk",
     "gallery.cap3": "Six-metre ceiling",
