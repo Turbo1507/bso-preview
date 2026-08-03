@@ -698,12 +698,16 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .arch-chip--bl{bottom:24px; left:24px}
 .arch-chip--br{bottom:24px; right:24px}
 @media (max-width:640px){
+  /* На честных 375px (не на артефакте headless innerWidth+110px, см.
+     headless-chrome-innerwidth-quirk) верхняя пара чипов реально перекрывала
+     друг друга — левый+правый бок о бок не помещались. Пары складываем в
+     столбик по своей стороне (tr под tl, bl над br), не бок о бок. */
   .arch-hero{aspect-ratio:3/4}
-  .arch-chip{padding:8px 14px; font-size:12px}
+  .arch-chip{padding:8px 14px; font-size:12px; max-width:calc(100% - 32px)}
   .arch-chip--tl{top:16px; left:16px}
-  .arch-chip--tr{top:16px; right:16px}
-  .arch-chip--bl{bottom:16px; left:16px}
-  .arch-chip--br{bottom:16px; right:16px}
+  .arch-chip--tr{top:60px; left:16px; right:auto}
+  .arch-chip--bl{bottom:60px; left:16px}
+  .arch-chip--br{bottom:16px; left:16px; right:auto}
 }
 
 /* В v1 стоит `#architecture + .section{padding-top:20px}` — правка Босса, чтобы
