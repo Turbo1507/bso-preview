@@ -214,7 +214,13 @@ body.menu-open .burger span{background:var(--white)}
    статичная пара план+рендер рядом, БЕЗ карусели: реф Figma
    «studio_plan+render_desktop» (289:98, канал 41fc2tir) — там план и topview
    стоят двумя кадрами бок о бок, не свайпом. */
+/* margin-top:40 перенесён СЮДА с .plans-tabs (которому его сбросили в 0 —
+   иначе табы не совпадали по верху с .plans-viewer в соседней колонке).
+   Без этой строки между .lead и панелью было 0px — реальный баг, найден
+   замером getBoundingClientRect, не на глаз. 40 — тот же лид→контент шаг,
+   что был здесь исторически (.plans-tabs{margin-top:40px}, styles.css). */
 .plans-panel{display:grid; grid-template-columns:260px minmax(0,1fr); gap:48px; align-items:start;
+  margin-top:var(--sp-lg);
   border-radius:0; box-shadow:none; overflow:visible}
 .plans-side{display:flex; flex-direction:column; gap:32px; position:sticky; top:120px}
 /* сбрасывает общий `.plans-tabs{margin-top:40px}` (v2.css, список отступов
@@ -263,6 +269,8 @@ body.menu-open .burger span{background:var(--white)}
   .plans-tabs--vertical .plans-tab{width:auto; text-align:center}
 }
 @media (max-width:860px){
+  /* мобильный лид→контент шаг — 24, не 40 (та же лестница, что везде на сайте) */
+  .plans-panel{margin-top:var(--sp-md)}
   /* width:100%+height:auto обязательны вместе с aspect-ratio: без них
      наследуемый height:clamp(...) оставался в силе, и браузер считал
      ШИРИНУ из высоты через aspect-ratio (а не наоборот) — на 390px кадр
