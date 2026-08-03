@@ -426,10 +426,16 @@ body{overflow-x:clip}
 /* Высота полосы задана, ширина слайда считается от пропорций самого кадра
    (width:auto при height:100%) — портретные и горизонтальные рендеры стоят
    рядом, и ни один не режется. Трек вынесен из .container, чтобы уезжал за
-   край экрана, как остальные карусели проекта. */
+   край экрана, как остальные карусели проекта.
+   Левый паддинг — тот же --edge-расчёт, что у .feat-track (styles.css:349):
+   на экранах шире --container flat 40px уезжает левее реального края текста/
+   сетки, первый кадр «прилипает» к краю вьюпорта вместо общей левой границы
+   контента (баг с фото Nuanu на скрине Босса от заказчика). */
 .gal-track{
   display:flex; gap:20px; margin-top:var(--sp-lg);
-  padding:0 40px; overflow-x:auto; scroll-snap-type:x mandatory;
+  --edge: max(40px, calc((100% - var(--container)) / 2 + 40px));
+  padding:0 40px; padding-left:var(--edge);
+  overflow-x:auto; scroll-snap-type:x mandatory;
   scrollbar-width:none; -webkit-overflow-scrolling:touch;
 }
 .gal-track::-webkit-scrollbar{display:none}
@@ -442,6 +448,20 @@ body{overflow-x:clip}
 /* НЕ loading="lazy" внутри горизонтального трека офскрин — тот же баг, что
    чинили в min-gallery: слайд повисает пустым при листании */
 .gal-slide img{width:auto; max-width:none; display:block; object-fit:cover}
+
+/* ---------- запрет нативного drag на фото каруселей (баг заказчика: фото
+   «мотает вверх-вниз» в карточках планировок) ---------- */
+/* Ни в styles.css, ни здесь раньше не было -webkit-user-drag/user-select —
+   браузер по умолчанию тащит <img> как файл при клике-протяге мышью/трекпадом
+   в ЛЮБУЮ сторону (это HTML5 drag, не скролл трека). На тач-жестах не мешало,
+   но на маке в Chrome мышью/трекпадом ровно так и выглядит «мотает вверх-вниз»
+   вместо горизонтального скролла трека. Правим только для v2 (файл подключён
+   только на v2-страницах), styles.css и v1 не трогаем. */
+.plans-viewer-slide img,
+.gal-slide img,
+.min-gallery-slide img{
+  -webkit-user-drag:none; user-drag:none; user-select:none; -webkit-user-select:none;
+}
 
 /* ---------- бейдж BLACK SANDS OASIS на мастер-плане Nuanu ---------- */
 /* Правка Босса: сделать акцентнее — залить цветом фона страницы (графит),
