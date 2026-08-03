@@ -678,11 +678,33 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
    детерминирован и без text-wrap:balance, а не зависит от эвристики браузера. */
 #architecture .block-head-split h2{max-width:920px}
 
-/* Слайдер фасадов (styles.css:304 — aspect-ratio:16/9, 765px высотой при
-   1360px контейнере) — по правке Босса ниже, ближе к масштабу остальных
-   full-bleed фото на странице (.gal-slide img держит max 560px, см. v2.css
-   выше). 2.4/1 при том же контейнере — 567px. */
-#architecture .min-gallery{aspect-ratio:2.4/1}
+/* ---------- блок 02-03 + 07 слиты (правка Босса 04.08) ----------
+   Было два похожих блока (архитектура-слайдер из 5 фото + частная территория
+   3 карточки). Голосовая заметка Босса: «не нужно много вилл — одну хорошую
+   фотографию». Стало: 1 крупное фото, 4 стеклянных чипа по углам — тот же
+   glass-приём, что у .nuanu-badge/.pp-tags, объединяет архитектуру и
+   приватность без повтора одинаковой композиции блок-за-блоком. */
+.arch-hero{position:relative; margin-top:var(--sp-lg); border-radius:var(--r-lg);
+  overflow:hidden; aspect-ratio:16/9; box-shadow:var(--shadow-card)}
+.arch-hero img{width:100%; height:100%; object-fit:cover; display:block}
+.arch-chip{
+  position:absolute; padding:10px 18px; border-radius:var(--r-pill);
+  background:rgba(11,12,11,.42); border:1px solid rgba(255,255,255,.24);
+  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  color:rgba(255,255,255,.94); font-size:14px; white-space:nowrap;
+}
+.arch-chip--tl{top:24px; left:24px}
+.arch-chip--tr{top:24px; right:24px}
+.arch-chip--bl{bottom:24px; left:24px}
+.arch-chip--br{bottom:24px; right:24px}
+@media (max-width:640px){
+  .arch-hero{aspect-ratio:3/4}
+  .arch-chip{padding:8px 14px; font-size:12px}
+  .arch-chip--tl{top:16px; left:16px}
+  .arch-chip--tr{top:16px; right:16px}
+  .arch-chip--bl{bottom:16px; left:16px}
+  .arch-chip--br{bottom:16px; right:16px}
+}
 
 /* В v1 стоит `#architecture + .section{padding-top:20px}` — правка Босса, чтобы
    архитектура и шедшая за ней карусель преимуществ читались как ОДНА тема.
