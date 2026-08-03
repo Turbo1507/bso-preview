@@ -205,56 +205,75 @@ body.menu-open .burger span{background:var(--white)}
 .lead-consent input:checked::after{border-color:var(--on-gold)}
 .lead-consent input:checked{background:var(--clay); border-color:var(--clay)}
 
-/* ---------- планировки: разворот-документ вместо карточки товара ----------
-   Было: слева фото-карусель, справа тёмный сайдбар с иконками, значениями и
-   кнопкой — ровно композиция карточки товара, из-за неё блок и читался
-   дёшево. Стало: кадр во всю ширину, как лист из проектной папки, а под ним
-   одна тонкая строка характеристик. Иконки убраны совсем — на трёх строках
-   они работали украшением; значения набраны Prata, как цифры шагов, подписи
-   ушли в капитель. Разметку не трогаем, только раскладку. */
-.plans-panel{display:block; border-radius:0; box-shadow:none; overflow:visible}
-/* Высота кадра привязана к экрану, а не к пропорции: по правке Босса табы
-   типологий и строка с CTA должны попадать в один экран вместе с фото.
-   При 16/9 кадр съедал 757px из 900 и строка уезжала за сгиб. 52vh на
-   ноутбуке даёт ~470, и весь блок от табов до кнопки укладывается. */
-.plans-viewer{height:clamp(340px,62vh,660px); aspect-ratio:auto; border-radius:var(--r-lg);
+/* ---------- планировки: чипы слева, план+рендер отдельным блоком (правка
+   Босса 03.08) ----------
+   Было: горизонтальные табы над одним фото-вьюером «разворот-документ», план
+   и topview жили слайдами внутри той же карусели. Стало: слева вертикальный
+   список типов + карточка характеристик (сайдбар держится sticky — она
+   короче основной колонки), справа — фото-карусель (только интерьер) и
+   статичная пара план+рендер рядом, БЕЗ карусели: реф Figma
+   «studio_plan+render_desktop» (289:98, канал 41fc2tir) — там план и topview
+   стоят двумя кадрами бок о бок, не свайпом. */
+.plans-panel{display:grid; grid-template-columns:260px minmax(0,1fr); gap:48px; align-items:start;
+  border-radius:0; box-shadow:none; overflow:visible}
+.plans-side{display:flex; flex-direction:column; gap:32px; position:sticky; top:120px}
+/* сбрасывает общий `.plans-tabs{margin-top:40px}` (v2.css, список отступов
+   после лида) — здесь табы первый элемент сайдбара, тот отступ сбивал их
+   вертикальное выравнивание с .plans-viewer в соседней колонке */
+.plans-side .plans-tabs{margin-top:0}
+.plans-tabs--vertical{display:flex; flex-direction:column; gap:8px; margin:0}
+.plans-tabs--vertical .plans-tab{width:100%; text-align:left}
+
+.plans-main{display:flex; flex-direction:column; gap:24px; min-width:0}
+/* Высота кадра привязана к экрану, а не к пропорции (правка Босса — секции
+   должны по возможности укладываться в один экран). Ниже, чем раньше: теперь
+   под вьюером ещё и пара план+рендер, суммарная высота блока не должна расти. */
+.plans-viewer{height:clamp(300px,38vh,440px); aspect-ratio:auto; border-radius:var(--r-lg);
   background:var(--ink); box-shadow:var(--shadow-card)}
-.plans-info{
-  /* flex-direction обязателен: в v1 у .plans-info стоит column, и без сброса
-     строка характеристик оставалась колонкой (замер: высота 455px) */
-  display:flex; flex-direction:row; align-items:flex-end; flex-wrap:wrap; gap:40px;
-  background:transparent; padding:32px 0 0; margin-top:0;
-  border-top:1px solid var(--line);
+
+.plans-planrender{display:grid; grid-template-columns:minmax(0,4fr) minmax(0,5fr); gap:24px}
+.plans-plan-box,.plans-render-box{
+  position:relative; height:clamp(260px,30vh,360px); border-radius:var(--r-lg);
+  background:#fff; box-shadow:var(--shadow-card); overflow:hidden;
 }
-/* название виллы оформлено как «Stella Solaris» (правка Босса): Prata,
-   золото, подчёркивание с отбивкой. Толщина линии у обоих сделана тоньше —
-   дефолтная для 32px слишком жирная и спорит с засечками Prata */
-.plans-info h3{font-family:'Prata',Georgia,serif; font-weight:400; font-size:32px;
-  margin:0 40px 0 0; color:var(--clay);
+.plans-plan-box img,.plans-render-box img,
+.plans-plan-box svg,.plans-render-box svg{
+  position:absolute; inset:24px; width:calc(100% - 48px); height:calc(100% - 48px); object-fit:contain;
+}
+
+/* карточка характеристик — в узком сайдбаре колонкой, не строкой, как было
+   в «разворот-документ»; шкала (Prata-значения, капитель подписей) та же */
+.plans-info{display:flex; flex-direction:column; gap:0; background:transparent; padding:0; margin:0; border-top:0}
+.plans-info h3{font-family:'Prata',Georgia,serif; font-weight:400; font-size:28px;
+  margin:0 0 20px; color:var(--clay);
   text-decoration:underline; text-underline-offset:8px; text-decoration-thickness:1px}
 .signature-meta h3{text-decoration-thickness:1px; text-underline-offset:8px}
-.plans-stat{display:block; border-top:0; padding:0; gap:0}
+.plans-stat{display:block; border-top:1px solid var(--line); padding:16px 0; gap:0}
 .plans-stat-ic{display:none}
-.plans-stat .k{font-size:12px; letter-spacing:.12em; text-transform:uppercase;
-  color:rgba(255,255,255,.5)}
-.plans-stat .v{font-family:'Prata',Georgia,serif; font-size:32px; line-height:1.1;
-  margin-top:8px; color:var(--white)}
-/* в колоночной раскладке v1 кнопка растягивалась по ширине панели; в строке
-   ей нужен явный размер по контенту, иначе уезжает на отдельную строку */
-/* ширина как у кнопки в шапке (замер: 200px) — правка Босса */
-.plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
-  width:200px; justify-content:center}
+.plans-stat .k{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:rgba(255,255,255,.5)}
+.plans-stat .v{font-family:'Prata',Georgia,serif; font-size:26px; line-height:1.1; margin-top:6px; color:var(--white)}
+.plans-info .btn-glass{margin-top:20px; width:100%; justify-content:center}
+
+@media (max-width:1024px){
+  /* сайдбар шире экрана — чипы становятся горизонтальной лентой над фото,
+     как было раньше, sticky снимается */
+  .plans-panel{grid-template-columns:1fr; gap:24px}
+  .plans-side{position:static; gap:24px}
+  .plans-tabs--vertical{flex-direction:row; flex-wrap:wrap}
+  .plans-tabs--vertical .plans-tab{width:auto; text-align:center}
+}
 @media (max-width:860px){
   /* width:100%+height:auto обязательны вместе с aspect-ratio: без них
-     наследуемый height:clamp(...) (:219) оставался в силе, и браузер считал
+     наследуемый height:clamp(...) оставался в силе, и браузер считал
      ШИРИНУ из высоты через aspect-ratio (а не наоборот) — на 390px кадр
-     раздувался до 698px в 343px-контейнере и рвал страницу горизонтальным
-     скроллом */
+     раздувался и рвал страницу горизонтальным скроллом (тот же баг, что уже
+     чинили здесь раньше) */
   .plans-viewer{aspect-ratio:4/3; width:100%; height:auto}
-  .plans-info{gap:24px; padding-top:24px}
-  .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
-  .plans-stat .v{font-size:24px; margin-top:4px}
-  .plans-info .btn-glass{margin-left:0; flex:0 0 100%}
+  .plans-planrender{grid-template-columns:1fr; gap:16px}
+  .plans-plan-box,.plans-render-box{height:280px}
+  .plans-info h3{font-size:22px; margin-bottom:12px}
+  .plans-stat{padding:12px 0}
+  .plans-stat .v{font-size:20px}
 }
 
 /* ---------- расстояния до точек: спецификация вместо карточек ----------
@@ -595,6 +614,12 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
    минимализм» (~891px) и тройки «...минимализм и» (~948px), так что перенос
    детерминирован и без text-wrap:balance, а не зависит от эвристики браузера. */
 #architecture .block-head-split h2{max-width:920px}
+
+/* Слайдер фасадов (styles.css:304 — aspect-ratio:16/9, 765px высотой при
+   1360px контейнере) — по правке Босса ниже, ближе к масштабу остальных
+   full-bleed фото на странице (.gal-slide img держит max 560px, см. v2.css
+   выше). 2.4/1 при том же контейнере — 567px. */
+#architecture .min-gallery{aspect-ratio:2.4/1}
 
 /* В v1 стоит `#architecture + .section{padding-top:20px}` — правка Босса, чтобы
    архитектура и шедшая за ней карусель преимуществ читались как ОДНА тема.

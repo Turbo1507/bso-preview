@@ -494,16 +494,60 @@ function renderPlan(planId, lang) {
   planCapEl.textContent = p.cap; planCapEl.dataset.counted = '';
   document.getElementById('planWho').textContent = p.who;
   animateNumberIn(planAreaEl); animateNumberIn(planCapEl);
-  /* число фото разное по типам (5 у большинства, 6 у 4BD). Порядок (правка
-     Босса): сначала интерьерные фото виллы (вставляются ПЕРЕД планом), затем
-     план (фикс. слайд в разметке), затем topview — разрез сверху — ПОСЛЕДНИМ
-     слайдом (добавляется ПОСЛЕ плана, не перед). Точки индикатора не
-     хардкожены в HTML — пересобираются под фактическое число слайдов через
-     plansPhotoSlider.setCount(). */
+  /* число фото разное по типам (5 у большинства, 6 у 4BD). Индексы в p.photos:
+     [0]=план, [1..length-2]=интерьерные фото виллы, [length-1]=topview.
+     Точки индикатора не хардкожены в HTML — пересобираются под фактическое
+     число слайдов через plansPhotoSlider.setCount(). */
   const track = document.getElementById('plansPhotoTrack');
-  const planSlide = track.querySelector('.plans-viewer-slide--plan');
   const planImg = document.getElementById('planImg');
+  const renderImg = document.getElementById('renderImg');
   const floors = FLOOR_LAYOUTS[planId];
+
+  if (renderImg) {
+    /* v2: план и рендер — отдельные статичные боксы (правка Босса 03.08,
+       реф Figma «studio_plan+render_desktop» 289:98 — план и топвид рядом,
+       не карусель). Фото-карусель ниже держит ТОЛЬКО интерьерные кадры. */
+    const planBox = planImg.parentElement;
+    const renderBox = renderImg.parentElement;
+    const oldPlanSvg = planBox.querySelector('svg.plan-floors-svg');
+    if (oldPlanSvg) oldPlanSvg.remove();
+    const oldRenderSvg = renderBox.querySelector('svg.plan-floors-svg');
+    if (oldRenderSvg) oldRenderSvg.remove();
+    if (floors) {
+      planImg.style.display = 'none';
+      renderImg.style.display = 'none';
+      planBox.appendChild(buildFloorsSVG(floors.plan, lang));
+      renderBox.appendChild(buildFloorsSVG(floors.render, lang));
+    } else {
+      planImg.style.display = ''; planImg.src = ASSET(p.photos[0]); planImg.alt = p.photoAlts[0];
+      const last = p.photos.length - 1;
+      renderImg.style.display = ''; renderImg.src = ASSET(p.photos[last]); renderImg.alt = p.photoAlts[last];
+    }
+    track.querySelectorAll('.plans-viewer-slide').forEach(el => el.remove());
+    for (let i = 1; i < p.photos.length - 1; i++) {
+      const slide = document.createElement('div');
+      slide.className = 'plans-viewer-slide';
+      const img = document.createElement('img');
+      img.className = 'plan-photo-img';
+      /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
+         (коммит ca4a0c2): в горизонтальном scroll-snap треке офскрин-кадры
+         не подгружаются браузером вовремя, слайд виснет пустым/долго грузится
+         при переключении таба виллы, пока юзер не подождёт или не проскроллит */
+      img.src = ASSET(p.photos[i]);
+      img.alt = p.photoAlts[i];
+      if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
+      slide.appendChild(img);
+      track.appendChild(slide);
+    }
+    track.scrollLeft = 0;
+    plansPhotoSlider && plansPhotoSlider.setCount(p.photos.length - 2);
+    return;
+  }
+
+  /* v1: план, фото и topview — одна общая карусель (не трогаем, старое
+     поведение). Порядок: интерьерные фото ПЕРЕД планом (фикс. слайд в
+     разметке), topview — ПОСЛЕДНИМ слайдом (после плана). */
+  const planSlide = track.querySelector('.plans-viewer-slide--plan');
   const oldPlanSvg = planSlide.querySelector('svg.plan-floors-svg');
   if (oldPlanSvg) oldPlanSvg.remove();
   if (floors) {
@@ -522,10 +566,6 @@ function renderPlan(planId, lang) {
     } else {
       const img = document.createElement('img');
       img.className = 'plan-photo-img';
-      /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
-         (коммит ca4a0c2): в горизонтальном scroll-snap треке офскрин-кадры
-         не подгружаются браузером вовремя, слайд виснет пустым/долго грузится
-         при переключении таба виллы, пока юзер не подождёт или не проскроллит */
       img.src = ASSET(p.photos[i]);
       img.alt = p.photoAlts[i];
       if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
