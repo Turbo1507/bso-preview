@@ -56,14 +56,7 @@
 body{background:var(--bg); color:var(--graphite)}
 
 /* шапка в «приклеенном» состоянии: была почти белая плашка */
-/* v1 вешает на .is-solid box-shadow:0 8px 30px rgba(0,0,0,.25) (styles.css:164)
-   — на светлой теме это лёгкая тень-приподнятость карточки над контентом, на
-   тёмной v2 та же тень поверх и так тёмного фона читается как непонятная
-   тёмная полоса между хедером и секцией (баг, замечен Боссом при скролле).
-   Замена — тонкая светлая линия-разделитель, обычный приём для sticky-шапок
-   на тёмных темах вместо тени. */
-.site-header.is-solid{background:rgba(24,26,25,.94); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-  box-shadow:none; border-bottom:1px solid rgba(255,255,255,.08)}
+.site-header.is-solid{background:rgba(24,26,25,.94); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px)}
 .site-header.is-solid .logo b{color:var(--white)}
 .site-header.is-solid .burger span{background:var(--white)}
 .site-header.is-solid .lang button.is-active{color:var(--white)}
@@ -939,17 +932,3 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .vcard:hover img,
 .pv-photo:hover img{transform:scale(1.045)}
 
-/* ---------- финальный CTA: про UNIT. как девелопера, не только про BSO ----------
-   Правка Босса 03.08: подчеркнуть, что BSO — флагман группы UNIT., но у неё
-   есть и другие проекты (Space City). .final-lead-wrap занимает ту же
-   grid-area:lead, что раньше была прямо на .final-lead (styles.css:711) —
-   сама .lead больше не грид-айтем, а обычный блок внутри обёртки, вторая
-   строка встаёт под неё естественным flow, без второй grid-area на разметку. */
-.final-kicker{display:block; margin-bottom:16px; color:var(--clay)}
-.final-lead-wrap{grid-area:lead}
-.final-lead{max-width:560px; margin-top:0}
-.final-unit-note{max-width:480px; margin-top:16px; font-size:14px; line-height:1.5; color:rgba(255,255,255,.6)}
-@media (max-width:860px){
-  .final-kicker{margin-bottom:12px}
-  .final-unit-note{margin-top:12px; font-size:13px}
-}
