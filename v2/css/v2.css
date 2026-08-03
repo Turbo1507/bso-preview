@@ -230,22 +230,56 @@ body.menu-open .burger span{background:var(--white)}
 .lead-consent input:checked{background:var(--clay); border-color:var(--clay)}
 
 /* ---------- планировки: разворот-документ вместо карточки товара ----------
-   Было: слева фото-карусель, справа тёмный сайдбар с иконками, значениями и
-   кнопкой — ровно композиция карточки товара, из-за неё блок и читался
-   дёшево. Стало: кадр во всю ширину, как лист из проектной папки, а под ним
-   одна тонкая строка характеристик. Иконки убраны совсем — на трёх строках
-   они работали украшением; значения набраны Prata, как цифры шагов, подписи
-   ушли в капитель. Разметку не трогаем, только раскладку.
-   03.08: пробовали чипы слева + план/рендер отдельным блоком — Босс сказал
-   «выглядит плохо», откат сюда до прихода нормальных PNG рендеров без фона
-   из Figma (см. журнал/чат). Не переделывать по своей инициативе. */
+   Слева от заголовка убраны иконки — на трёх строках они работали
+   украшением; значения набраны Prata, как цифры шагов, подписи ушли
+   в капитель.
+   03.08: фото — 3:4 вместо широкого кадра (растягивало портретные кадры),
+   план вынесен из карусели в раскрывашку «Смотреть планировку» — реф Figma
+   «план1»/«план2» (295:331/332, канал 41fc2tir): кнопка над фото
+   разворачивается в тёмную панель со схемой. */
 .plans-panel{display:block; border-radius:0; box-shadow:none; overflow:visible}
-/* Высота кадра привязана к экрану, а не к пропорции: по правке Босса табы
-   типологий и строка с CTA должны попадать в один экран вместе с фото.
-   При 16/9 кадр съедал 757px из 900 и строка уезжала за сгиб. 52vh на
-   ноутбуке даёт ~470, и весь блок от табов до кнопки укладывается. */
-.plans-viewer{height:clamp(340px,62vh,660px); aspect-ratio:auto; border-radius:var(--r-lg);
-  background:var(--ink); box-shadow:var(--shadow-card)}
+.plans-viewer{display:flex; align-items:flex-start; gap:40px; padding:40px;
+  border-radius:var(--r-lg); background:var(--ink); box-shadow:var(--shadow-card);
+  height:auto; overflow:visible}
+.plans-viewer-media{position:relative; flex:0 0 auto; width:min(340px,42%); aspect-ratio:3/4;
+  border-radius:var(--r-md); overflow:hidden; background:var(--bg-deep)}
+.plans-viewer-media .min-gallery-dots{bottom:14px}
+
+.plans-toggle{flex:1 1 auto; align-self:flex-start; min-width:0}
+.plans-toggle-btn{
+  display:flex; align-items:center; justify-content:space-between; gap:16px; width:100%;
+  padding:18px 24px; border-radius:var(--r-sm); background:rgba(255,255,255,.06);
+  border:1px solid var(--line); color:var(--white); font-size:16px; text-align:left;
+  transition:background .2s var(--ease), border-radius .2s var(--ease);
+}
+.plans-toggle-btn:hover{background:rgba(255,255,255,.1)}
+.plans-toggle-chevron{flex:0 0 auto; width:20px; height:20px; color:var(--clay); transition:transform .3s var(--ease)}
+.plans-toggle.is-open .plans-toggle-btn{border-radius:var(--r-sm) var(--r-sm) 0 0; background:var(--bg-deep); border-color:var(--bg-deep)}
+.plans-toggle.is-open .plans-toggle-chevron{transform:rotate(180deg)}
+/* max-height, не grid-rows: содержимое (картинка) меняет intrinsic-размер
+   при смене таба виллы, аккордеон FAQ этой проблемы не знает (текст) */
+.plans-toggle-panel{max-height:0; overflow:hidden; background:var(--bg-deep);
+  border-radius:0 0 var(--r-sm) var(--r-sm); transition:max-height .35s var(--ease)}
+.plans-toggle.is-open .plans-toggle-panel{max-height:520px}
+/* планы — портретные (497x1112), при width:100% колонки высота уходила за
+   1800px (замер) — панель проматывалась на полэкрана. object-fit:contain
+   в пределах max-height держит кадр в разумных границах вместо растяжения
+   на всю ширину колонки */
+.plans-toggle-panel-in{padding:20px; display:flex; justify-content:center}
+/* белые поля на PNG-планировках (Босс: «лень было убирать») — тёплая светлая
+   «бумага» вместо жёсткого стыка с тёмной панелью: край не бросается в глаза,
+   читается как рамка листа, а не как баг */
+.plans-toggle-panel-in img{display:block; width:auto; height:auto; max-width:100%; max-height:440px;
+  object-fit:contain; border-radius:var(--r-xs); background:#f4f1ea}
+/* двухэтажные типы — buildFloorsSVG вставляет <svg class="plan-floors-svg">
+   вместо img (сама функция общая с v1, там она сидит в position:absolute
+   боксе с фиксированной высотой — тут высота панели автоматическая, поэтому
+   position:absolute+inset сбрасываем, размер держит aspect-ratio 1920:1277 —
+   тот же, что у viewBox функции buildFloorsSVG */
+.plans-toggle-panel-in svg.plan-floors-svg{position:static; inset:auto;
+  width:100%; height:auto; max-width:440px; aspect-ratio:1920/1277;
+  border-radius:var(--r-xs); background:#f4f1ea}
+
 .plans-info{
   /* flex-direction обязателен: в v1 у .plans-info стоит column, и без сброса
      строка характеристик оставалась колонкой (замер: высота 455px) */
@@ -272,12 +306,14 @@ body.menu-open .burger span{background:var(--white)}
 .plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
   width:200px; justify-content:center}
 @media (max-width:860px){
-  /* width:100%+height:auto обязательны вместе с aspect-ratio: без них
-     наследуемый height:clamp(...) (:219) оставался в силе, и браузер считал
-     ШИРИНУ из высоты через aspect-ratio (а не наоборот) — на 390px кадр
-     раздувался до 698px в 343px-контейнере и рвал страницу горизонтальным
-     скроллом */
-  .plans-viewer{aspect-ratio:4/3; width:100%; height:auto}
+  /* aspect-ratio:4/3 наследовался из v1 (styles.css, тот же брейкпоинт) —
+     задуман под старый одиночный фото-бокс, тут форсил высоту контейнера по
+     ширине и обрезал раскрытую панель плана (реальный оверфлоу, замерено
+     getBoundingClientRect: .plans-viewer height=339.75 при контенте на 596) */
+  .plans-viewer{aspect-ratio:auto; flex-direction:column; padding:24px; gap:20px}
+  .plans-viewer-media{width:100%; max-width:280px; margin:0 auto}
+  .plans-toggle{width:100%}
+  .plans-toggle.is-open .plans-toggle-panel{max-height:600px}
   .plans-info{gap:24px; padding-top:24px}
   .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
   .plans-stat .v{font-size:24px; margin-top:4px}

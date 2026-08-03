@@ -175,3 +175,27 @@
     });
   });
 })();
+
+/* Раскрывашка «Смотреть планировку» над фото в блоке планировок — реф Figma
+   «план1»/«план2» (295:331/332, канал 41fc2tir). Высота панели через
+   max-height (не grid-template-rows, как у FAQ выше) — картинка внутри
+   меняет intrinsic-размер при смене таба виллы, а grid 0fr→1fr анимирует
+   ряд, а не контент, и рвано скакал бы при каждом переключении типа. */
+(function () {
+  var toggle = document.getElementById('plansToggle');
+  var btn = document.getElementById('plansToggleBtn');
+  if (!toggle || !btn) return;
+  btn.addEventListener('click', function () {
+    var open = toggle.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  /* смена таба виллы закрывает панель — иначе старая схема висит открытой
+     поверх фото нового типа, пока JS её не перезалил */
+  var tabs = document.getElementById('plansTabs');
+  if (tabs) tabs.addEventListener('click', function (e) {
+    if (e.target.closest('.plans-tab')) {
+      toggle.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+    }
+  });
+})();

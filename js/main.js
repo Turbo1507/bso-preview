@@ -459,7 +459,8 @@ const FLOOR_LABEL_TEXT = {
   ru: { f2: '2-й этаж', f1: '1-й этаж' },
   en: { f2: '2nd floor', f1: '1st floor' }
 };
-function buildFloorsSVG(layout, lang) {
+function buildFloorsSVG(layout, lang, showLabels) {
+  if (showLabels === undefined) showLabels = true;
   const t = FLOOR_LABEL_TEXT[lang] || FLOOR_LABEL_TEXT.ru;
   const svgNS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(svgNS, 'svg');
@@ -473,14 +474,19 @@ function buildFloorsSVG(layout, lang) {
     img.setAttribute('width', part.w); img.setAttribute('height', part.h);
     svg.appendChild(img);
   });
-  [['label2', layout.label2], ['label1', layout.label1]].forEach(([key, pos]) => {
-    if (!pos) return;
-    const text = document.createElementNS(svgNS, 'text');
-    text.setAttribute('x', pos.x); text.setAttribute('y', pos.y + 34);
-    text.setAttribute('font-size', '48'); text.setAttribute('fill', '#3a3a3a');
-    text.textContent = t[key.replace('label', 'f')];
-    svg.appendChild(text);
-  });
+  /* showLabels=false — правка Босса 03.08 (только v2, см. renderPlan):
+     подписи "1-й/2-й этаж" на схемах убраны, план сам по себе достаточно
+     читаем в раскрывашке. v1 продолжает получать true по умолчанию. */
+  if (showLabels) {
+    [['label2', layout.label2], ['label1', layout.label1]].forEach(([key, pos]) => {
+      if (!pos) return;
+      const text = document.createElementNS(svgNS, 'text');
+      text.setAttribute('x', pos.x); text.setAttribute('y', pos.y + 34);
+      text.setAttribute('font-size', '48'); text.setAttribute('fill', '#3a3a3a');
+      text.textContent = t[key.replace('label', 'f')];
+      svg.appendChild(text);
+    });
+  }
   return svg;
 }
 const plansTabs = document.getElementById('plansTabs');
@@ -500,47 +506,46 @@ function renderPlan(planId, lang) {
      число слайдов через plansPhotoSlider.setCount(). */
   const track = document.getElementById('plansPhotoTrack');
   const planImg = document.getElementById('planImg');
-  const renderImg = document.getElementById('renderImg');
+  const planToggleImg = document.getElementById('planToggleImg');
   const floors = FLOOR_LAYOUTS[planId];
 
-  if (renderImg) {
-    /* v2: план и рендер — отдельные статичные боксы (правка Босса 03.08,
-       реф Figma «studio_plan+render_desktop» 289:98 — план и топвид рядом,
-       не карусель). Фото-карусель ниже держит ТОЛЬКО интерьерные кадры. */
-    const planBox = planImg.parentElement;
-    const renderBox = renderImg.parentElement;
+  if (planToggleImg) {
+    /* v2: план вынесен из карусели в раскрывашку «Смотреть планировку» —
+       реф Figma «план1»/«план2» (295:331/332, канал 41fc2tir). Карусель ниже
+       держит интерьерные фото + topview (как в v1), план — отдельно в панели,
+       без подписей этажей (buildFloorsSVG(...,false), см. функцию выше). */
+    const planBox = planToggleImg.parentElement;
     const oldPlanSvg = planBox.querySelector('svg.plan-floors-svg');
     if (oldPlanSvg) oldPlanSvg.remove();
-    const oldRenderSvg = renderBox.querySelector('svg.plan-floors-svg');
-    if (oldRenderSvg) oldRenderSvg.remove();
     if (floors) {
-      planImg.style.display = 'none';
-      renderImg.style.display = 'none';
-      planBox.appendChild(buildFloorsSVG(floors.plan, lang));
-      renderBox.appendChild(buildFloorsSVG(floors.render, lang));
+      planToggleImg.style.display = 'none';
+      planBox.appendChild(buildFloorsSVG(floors.plan, lang, false));
     } else {
-      planImg.style.display = ''; planImg.src = ASSET(p.photos[0]); planImg.alt = p.photoAlts[0];
-      const last = p.photos.length - 1;
-      renderImg.style.display = ''; renderImg.src = ASSET(p.photos[last]); renderImg.alt = p.photoAlts[last];
+      planToggleImg.style.display = ''; planToggleImg.src = ASSET(p.photos[0]); planToggleImg.alt = p.photoAlts[0];
     }
     track.querySelectorAll('.plans-viewer-slide').forEach(el => el.remove());
-    for (let i = 1; i < p.photos.length - 1; i++) {
+    for (let i = 1; i < p.photos.length; i++) {
+      const isTopview = i === p.photos.length - 1;
       const slide = document.createElement('div');
-      slide.className = 'plans-viewer-slide';
-      const img = document.createElement('img');
-      img.className = 'plan-photo-img';
-      /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
-         (коммит ca4a0c2): в горизонтальном scroll-snap треке офскрин-кадры
-         не подгружаются браузером вовремя, слайд виснет пустым/долго грузится
-         при переключении таба виллы, пока юзер не подождёт или не проскроллит */
-      img.src = ASSET(p.photos[i]);
-      img.alt = p.photoAlts[i];
-      if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
-      slide.appendChild(img);
+      slide.className = 'plans-viewer-slide' + (isTopview ? ' plans-viewer-slide--topview' : '');
+      if (isTopview && floors) {
+        slide.appendChild(buildFloorsSVG(floors.render, lang, false));
+      } else {
+        const img = document.createElement('img');
+        img.className = 'plan-photo-img';
+        /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
+           (коммит ca4a0c2): в горизонтальном scroll-snap треке офскрин-кадры
+           не подгружаются браузером вовремя, слайд виснет пустым/долго грузится
+           при переключении таба виллы, пока юзер не подождёт или не проскроллит */
+        img.src = ASSET(p.photos[i]);
+        img.alt = p.photoAlts[i];
+        if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
+        slide.appendChild(img);
+      }
       track.appendChild(slide);
     }
     track.scrollLeft = 0;
-    plansPhotoSlider && plansPhotoSlider.setCount(p.photos.length - 2);
+    plansPhotoSlider && plansPhotoSlider.setCount(p.photos.length - 1);
     return;
   }
 
