@@ -11,8 +11,6 @@
   var ru = {
     "plans.cta.v2": "Узнать подробнее",
     "plans.view_layout": "Смотреть планировку",
-    "arch.lead2": "Редкая форма на западном побережье Бали: панорамные окна и натуральные материалы снаружи, свой сад и бассейн — у каждой виллы",
-    "priv.tag": "Свой сад и бассейн",
     "unitgrp.title": "Работаем как единая система",
     "unitgrp.lead": "Black Sands Oasis строит вся группа UNIT. — стройка, производство, мебель и управление под одной крышей",
     "unitgrp.build": "Строительная компания с лицензией на строительство и получение соответствующей документации (PBG/SLF)",
@@ -80,8 +78,6 @@
   var en = {
     "plans.cta.v2": "Learn more",
     "plans.view_layout": "View floor plan",
-    "arch.lead2": "A rare offering on Bali’s west coast: floor-to-ceiling windows and natural materials outside, a private garden and pool with every villa",
-    "priv.tag": "Own garden and pool",
     "unitgrp.title": "We work as one system",
     "unitgrp.lead": "Black Sands Oasis is built by the full UNIT. group — construction, production, furniture and management under one roof",
     "unitgrp.build": "Construction company licensed to build and obtain the relevant permits (PBG/SLF)",
