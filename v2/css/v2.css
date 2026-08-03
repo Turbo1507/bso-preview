@@ -968,3 +968,18 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .vcard:hover img,
 .pv-photo:hover img{transform:scale(1.045)}
 
+/* ---------- UNIT. как группа компаний — 4 карточки без заливки, как .priv-card ---------- */
+.unitgrp-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:var(--sp-lg)}
+.unitgrp-card{background:transparent; border-radius:var(--r-lg); padding:28px; border:1px solid var(--line)}
+.unitgrp-card h3{font-family:'Prata',Georgia,serif; font-weight:400; font-size:20px; color:var(--clay); margin-bottom:16px}
+.unitgrp-card p{font-size:15px; line-height:1.4; color:rgba(255,255,255,.65)}
+.unitgrp-note{margin-top:var(--sp-lg); max-width:900px; font-size:16px; line-height:1.6; color:rgba(255,255,255,.65)}
+@media (max-width:1024px){
+  .unitgrp-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .unitgrp-grid{grid-template-columns:1fr; gap:16px}
+  .unitgrp-card{padding:22px}
+  .unitgrp-note{font-size:14px}
+}
+
