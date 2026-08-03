@@ -25,8 +25,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="../css/styles.css?v=20260803q">
-<link rel="stylesheet" href="css/v2.css?v=20260803q">
+<link rel="stylesheet" href="../css/styles.css?v=20260803r">
+<link rel="stylesheet" href="css/v2.css?v=20260803r">
 </head>
 <body>
 
@@ -83,23 +83,35 @@
      (лид про "редкую форму на западном побережье") перенесён сюда вторым
      абзацем справа от заголовка. Полный старый блок 02 (с картой/CTA) жив в
      истории git — коммит перед этим удалением, легко вернуть при необходимости. -->
-<!-- ===== 02-03+07 слиты (правка Босса 04.08): вариант 1 — 1 крупное фото
-     (не «много вилл», голосовая заметка) + 4 стеклянных чипа по углам вместо
-     двух похожих блоков (архитектура-слайдер + частная территория-грид).
-     Старые версии обеих секций — в git-истории (см. коммит перед этим). ===== -->
+<!-- ===== 02-03. ЛОКАЦИЯ + АРХИТЕКТУРА (объединены по правке Босса) =====
+     04.08: пробовали слить с «Частной территорией» в 1 фото+4 чипа — Босс
+     сказал откатить, не трогать этот блок. Оставлено как было. -->
 <section class="section" id="architecture">
   <div class="container">
     <div class="block-head-split">
       <h2 class="reveal" data-i18n="arch.title">Modern minimalism and Eastern sensuality</h2>
-      <p class="lead lead-sm reveal" data-i18n="arch.lead2">A rare offering on Bali’s west coast: floor-to-ceiling windows and natural materials outside, a private garden and pool with every villa</p>
+      <p class="lead lead-sm reveal" data-i18n="arch.lead">A rare offering on Bali’s west coast, combining architectural character with location</p>
     </div>
-    <figure class="arch-hero reveal">
-      <img src="../assets/villa-private-pool.jpg" alt="Private villa pool behind the facade screen" data-i18n-alt="priv.photo_alt" loading="lazy">
-      <span class="arch-chip arch-chip--tl" data-i18n="arch.tag1">Floor-to-ceiling windows</span>
-      <span class="arch-chip arch-chip--tr" data-i18n="arch.tag4">Textured façades</span>
-      <span class="arch-chip arch-chip--bl" data-i18n="arch.tag2">Natural materials</span>
-      <span class="arch-chip arch-chip--br" data-i18n="priv.tag">Own garden and pool</span>
-    </figure>
+    <!-- вариант B «спецификация» вместо пилюль: строка с номером и засечкой,
+         как лист характеристик. Пилюли обещали ярлык, а внутри были фразы. -->
+    <ul class="spec-list reveal">
+        <li class="spec-row"><span class="spec-num">01</span><span data-i18n="arch.tag1">Floor-to-ceiling windows</span></li>
+        <li class="spec-row"><span class="spec-num">02</span><span data-i18n="arch.tag2">Natural materials</span></li>
+        <li class="spec-row"><span class="spec-num">03</span><span data-i18n="arch.tag3">Natural tones</span></li>
+        <li class="spec-row"><span class="spec-num">04</span><span data-i18n="arch.tag4">Textured façades</span></li>
+    </ul>
+    <div class="min-gallery reveal">
+      <div class="min-gallery-track" id="minGalleryTrack">
+        <div class="min-gallery-slide"><img src="../assets/minimalism-wide.jpg" alt="Façade of a Black Sands Oasis villa" data-i18n-alt="arch.photo_alt"></div>
+        <div class="min-gallery-slide"><img src="../assets/villa-exterior-pool2.jpg" alt="Black Sands Oasis villa exterior" data-i18n-alt="arch.photo2_alt"></div>
+        <div class="min-gallery-slide"><img src="../assets/villa-exterior-pool1.jpg" alt="Black Sands Oasis villa with pool" data-i18n-alt="arch.photo3_alt"></div>
+        <div class="min-gallery-slide"><img src="../assets/facade-sunset.jpg" alt="Black Sands Oasis villas at sunset" data-i18n-alt="arch.photo4_alt"></div>
+        <div class="min-gallery-slide"><img src="../assets/facade-walkway.jpg" alt="Walkway between Black Sands Oasis villas" data-i18n-alt="arch.photo5_alt"></div>
+      </div>
+      <button class="min-gallery-arrow prev" id="minGalleryPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button class="min-gallery-arrow next" id="minGalleryNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <div class="min-gallery-dots" id="minGalleryDots"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+    </div>
   </div>
 </section>
 
@@ -192,6 +204,42 @@
       <h3>Stella Solaris</h3>
       <p data-i18n="sig.p1">A 15-meter art object created in collaboration with a renowned architecture firm</p>
       <p data-i18n="sig.p2">The project’s visual landmark, reinforcing its status</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 07. ЧАСТНАЯ ТЕРРИТОРИЯ — вариант 3 (выбор Босса) =====
+     Было: фото во всю ширину + три равные карточки с иконками. Тот же
+     паттерн уже трижды на странице, а формулировки абстрактные.
+     Стало: геометрия блока 3 — крупный вертикальный кадр слева, три
+     коротких пункта справа. Иконки убраны: на карточке из трёх строк
+     они работали как украшение, а не как навигация.
+     Вернуть прежний вид: git show 74290ab:v2/index.html, секция 07. -->
+<section class="section">
+  <div class="container">
+    <h2 class="reveal" data-i18n="priv.title">A new level of private territory</h2>
+    <div class="pv-grid reveal">
+      <figure class="pv-photo">
+        <img src="../assets/villa-private-pool.jpg" alt="Private villa pool behind the facade screen" data-i18n-alt="priv.photo_alt" loading="lazy">
+        <figcaption class="pv-photo-text">
+          <h3 data-i18n="priv.photo_title">Your own fence, garden and pool — with every villa</h3>
+        </figcaption>
+      </figure>
+      <div class="pv-card">
+        <span class="kicker" data-i18n="priv.card1.kicker">System</span>
+        <h3 data-i18n="priv.card1.title">A unified architectural logic</h3>
+        <p data-i18n="priv.card1.p">The project reads not as a set of separate objects, but as a whole environment</p>
+      </div>
+      <div class="pv-card">
+        <span class="kicker" data-i18n="priv.card2.kicker">Privacy</span>
+        <h3 data-i18n="priv.card2.title">Comfort without compromise</h3>
+        <p data-i18n="priv.card2.p">The development’s rhythm, sense of space and private territory are all planned in advance</p>
+      </div>
+      <div class="pv-card">
+        <span class="kicker" data-i18n="priv.card3.kicker">Scenarios</span>
+        <h3 data-i18n="priv.card3.title">Different formats within a single complex</h3>
+        <p data-i18n="priv.card3.p">From compact layouts to family residences, all within one shared premium framework</p>
+      </div>
     </div>
   </div>
 </section>
@@ -642,9 +690,9 @@
      из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
      что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="../js/i18n.js?v=20260803q"></script>
-<script src="js/v2-i18n.js?v=20260803q"></script>
-<script src="../js/main.js?v=20260803q"></script>
-<script src="js/v2.js?v=20260803q"></script>
+<script src="../js/i18n.js?v=20260803r"></script>
+<script src="js/v2-i18n.js?v=20260803r"></script>
+<script src="../js/main.js?v=20260803r"></script>
+<script src="js/v2.js?v=20260803r"></script>
 </body>
 </html>
