@@ -25,8 +25,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="../css/styles.css?v=20260803i">
-<link rel="stylesheet" href="css/v2.css?v=20260803i">
+<link rel="stylesheet" href="../css/styles.css?v=20260803j">
+<link rel="stylesheet" href="css/v2.css?v=20260803j">
 </head>
 <body>
 
@@ -241,9 +241,10 @@
   </div>
 </section>
 
-<!-- ===== 08. ПЛАНИРОВКИ (откат к верхним табам + единой карусели — правка
-     Босса 03.08: чипы-слева-версия «выглядела плохо», ждём нормальные PNG
-     рендеров без фона из Figma, потом переверстаем заново) ===== -->
+<!-- ===== 08. ПЛАНИРОВКИ (раскрывашка «смотреть планировку» поверх фото —
+     реф Figma «план1»/«план2» (295:331/332, канал 41fc2tir): кнопка над фото
+     разворачивается в тёмную панель со схемой, план вынесен из карусели.
+     Фото — 3:4 (правка Босса: в широком кадре смотрелись растянутыми). ===== -->
 <section class="section section-gray" style="background:var(--stone)" id="plans">
   <div class="container">
     <h2 class="reveal" data-i18n="plans.title">Layouts for every scenario of life</h2>
@@ -259,15 +260,25 @@
     </div>
     <div class="plans-panel reveal">
       <div class="plans-viewer">
-        <div class="plans-viewer-track" id="plansPhotoTrack">
-          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="1" src="../assets/villa-studio-detail1.jpg" alt="Studio villa interior"></div>
-          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="2" src="../assets/villa-studio-detail2.jpg" alt="Studio villa interior"></div>
-          <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="3" src="../assets/villa-studio-detail3.jpg" alt="Studio villa interior"></div>
-          <div class="plans-viewer-slide plans-viewer-slide--plan"><img id="planImg" class="plan-photo-img" data-idx="0" src="../assets/plan-studio.png" alt="Studio floor plan"></div>
+        <div class="plans-viewer-media">
+          <div class="plans-viewer-track" id="plansPhotoTrack">
+            <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="1" src="../assets/villa-studio-detail1.jpg" alt="Studio villa interior"></div>
+            <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="2" src="../assets/villa-studio-detail2.jpg" alt="Studio villa interior"></div>
+            <div class="plans-viewer-slide"><img class="plan-photo-img" data-idx="3" src="../assets/villa-studio-detail3.jpg" alt="Studio villa interior"></div>
+          </div>
+          <button class="min-gallery-arrow prev" id="plansPhotoPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <button class="min-gallery-arrow next" id="plansPhotoNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+          <div class="min-gallery-dots" id="plansPhotoDots"><span class="on"></span><span></span><span></span></div>
         </div>
-        <button class="min-gallery-arrow prev" id="plansPhotoPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-        <button class="min-gallery-arrow next" id="plansPhotoNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-        <div class="min-gallery-dots" id="plansPhotoDots"><span class="on"></span><span></span><span></span><span></span></div>
+        <div class="plans-toggle" id="plansToggle">
+          <button class="plans-toggle-btn" id="plansToggleBtn" aria-expanded="false">
+            <span data-i18n="plans.view_layout">View floor plan</span>
+            <svg class="plans-toggle-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="plans-toggle-panel" id="plansTogglePanel">
+            <div class="plans-toggle-panel-in"><img id="planToggleImg" src="../assets/plan-studio.png" alt="Studio floor plan"></div>
+          </div>
+        </div>
       </div>
       <div class="plans-info">
         <h3 id="planName">Studio</h3>
@@ -639,9 +650,9 @@
      из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
      что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="../js/i18n.js?v=20260803i"></script>
-<script src="js/v2-i18n.js?v=20260803i"></script>
-<script src="../js/main.js?v=20260803i"></script>
-<script src="js/v2.js?v=20260803i"></script>
+<script src="../js/i18n.js?v=20260803j"></script>
+<script src="js/v2-i18n.js?v=20260803j"></script>
+<script src="../js/main.js?v=20260803j"></script>
+<script src="js/v2.js?v=20260803j"></script>
 </body>
 </html>
