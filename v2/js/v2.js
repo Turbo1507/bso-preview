@@ -1,3 +1,15 @@
+/* Видео-хиро — на мобиле не грузим/не проигрываем тяжёлый mp4 (экономия
+   трафика), остаётся статичный poster-кадр. preload="none" в разметке —
+   догружаем только когда реально решили играть. */
+(function () {
+  var v = document.getElementById('heroVideo');
+  if (!v) return;
+  if (window.matchMedia('(min-width: 821px)').matches) {
+    v.preload = 'auto';
+    v.play().catch(function () {});
+  }
+})();
+
 /* BSO v2 — аккордеон FAQ.
    Поведение как в макете «бсо2»: открыт всегда ровно один пункт, клик по
    открытому его закрывает. Высота анимируется через grid-template-rows 0fr→1fr
