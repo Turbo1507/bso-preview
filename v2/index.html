@@ -98,25 +98,31 @@
       <h2 class="reveal" data-i18n="arch.title">Modern minimalism and Eastern sensuality</h2>
       <p class="lead lead-sm reveal" data-i18n="arch.lead">A rare offering on Bali’s west coast, combining architectural character with location</p>
     </div>
-    <!-- вариант B «спецификация» вместо пилюль: строка с номером и засечкой,
-         как лист характеристик. Пилюли обещали ярлык, а внутри были фразы. -->
-    <ul class="spec-list reveal">
-        <li class="spec-row"><span class="spec-num">01</span><span data-i18n="arch.tag1">Floor-to-ceiling windows</span></li>
-        <li class="spec-row"><span class="spec-num">02</span><span data-i18n="arch.tag2">Natural materials</span></li>
-        <li class="spec-row"><span class="spec-num">03</span><span data-i18n="arch.tag3">Natural tones</span></li>
-        <li class="spec-row"><span class="spec-num">04</span><span data-i18n="arch.tag4">Textured façades</span></li>
-    </ul>
+    <!-- Список характеристик слит со слайдером: 4 фото под 4 атрибута,
+         подпись лежит НА фото слева снизу — тот же приём, что у карточек
+         блока 3 (.vcard-text). Свободная высота отдана фото (выше, до 900px). -->
     <div class="min-gallery reveal">
       <div class="min-gallery-track" id="minGalleryTrack">
-        <div class="min-gallery-slide"><img src="../assets/minimalism-wide.jpg" alt="Façade of a Black Sands Oasis villa" data-i18n-alt="arch.photo_alt"></div>
-        <div class="min-gallery-slide"><img src="../assets/villa-exterior-pool2.jpg" alt="Black Sands Oasis villa exterior" data-i18n-alt="arch.photo2_alt"></div>
-        <div class="min-gallery-slide"><img src="../assets/villa-exterior-pool1.jpg" alt="Black Sands Oasis villa with pool" data-i18n-alt="arch.photo3_alt"></div>
-        <div class="min-gallery-slide"><img src="../assets/facade-sunset.jpg" alt="Black Sands Oasis villas at sunset" data-i18n-alt="arch.photo4_alt"></div>
-        <div class="min-gallery-slide"><img src="../assets/facade-walkway.jpg" alt="Walkway between Black Sands Oasis villas" data-i18n-alt="arch.photo5_alt"></div>
+        <div class="min-gallery-slide">
+          <img src="../assets/villa-exterior-pool1.jpg" alt="Floor-to-ceiling glass doors of a Black Sands Oasis villa" data-i18n-alt="arch.photo_alt">
+          <div class="arch-slide-cap"><span class="spec-num">01</span><h3 data-i18n="arch.tag1">Floor-to-ceiling windows</h3></div>
+        </div>
+        <div class="min-gallery-slide">
+          <img src="../assets/villa-exterior-pool2.jpg" alt="Natural stone and terracotta of a Black Sands Oasis villa" data-i18n-alt="arch.photo2_alt">
+          <div class="arch-slide-cap"><span class="spec-num">02</span><h3 data-i18n="arch.tag2">Natural materials</h3></div>
+        </div>
+        <div class="min-gallery-slide">
+          <img src="../assets/facade-sunset.jpg" alt="Black Sands Oasis villas at sunset" data-i18n-alt="arch.photo3_alt">
+          <div class="arch-slide-cap"><span class="spec-num">03</span><h3 data-i18n="arch.tag3">Natural tones</h3></div>
+        </div>
+        <div class="min-gallery-slide">
+          <img src="../assets/facade-walkway.jpg" alt="Walkway between Black Sands Oasis villas" data-i18n-alt="arch.photo4_alt">
+          <div class="arch-slide-cap"><span class="spec-num">04</span><h3 data-i18n="arch.tag4">Textured façades</h3></div>
+        </div>
       </div>
       <button class="min-gallery-arrow prev" id="minGalleryPrev" aria-label="Previous" data-i18n-aria="carousel.prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
       <button class="min-gallery-arrow next" id="minGalleryNext" aria-label="Next" data-i18n-aria="carousel.next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-      <div class="min-gallery-dots" id="minGalleryDots"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+      <div class="min-gallery-dots" id="minGalleryDots"><span class="on"></span><span></span><span></span><span></span></div>
     </div>
   </div>
 </section>
@@ -390,12 +396,19 @@
   <div class="container">
     <h2 class="reveal" data-i18n="invest.title">Why Bali, why Nuanu</h2>
     <p class="lead lead-wide reveal" data-i18n="invest.lead">Bali ranks among the world’s strongest tourism destinations. Its top areas see property values rising 20% a year, with villa rental yields of up to 16% annually. Nuanu amplifies this momentum through limited supply and a developed urban environment</p>
-    <div class="stat-grid reveal">
-      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6z"/></svg><h3 data-i18n="invest.stat1.v">+20% a year</h3><p data-i18n="invest.stat1.p">benchmark growth in property value across Bali’s top areas</p></div>
-      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm10 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18.7 4.3a1 1 0 0 1 0 1.4l-14 14a1 1 0 0 1-1.4-1.4l14-14a1 1 0 0 1 1.4 0z"/></svg><h3 data-i18n="invest.stat2.v">Up to 16% annually</h3><p data-i18n="invest.stat2.p">from short-term villa rentals in Bali’s established resort areas</p></div>
-      <div class="stat-card"><svg class="card-ic" viewBox="0 0 24 24"><path fill="currentColor" d="M4 21V10l8-6 8 6v11h-6v-7H10v7H4z"/></svg><h3 data-i18n="invest.stat3.v">The city of Nuanu</h3><p data-i18n="invest.stat3.p">A modern oceanfront city with infrastructure for family, work and creativity</p></div>
+    <!-- реф Figma «ТУТСМОТРИ» (6:695, канал pghzhfwu, страница БСО2): вместо
+         карточек над отдельным фото — один крупный кадр, статы стеклянными
+         чипами прямо на фото (нижний край, где на фото ровная гладь бассейна).
+         Заголовок блока НА фото не переносим (в отличие от Figma-примера) —
+         h2/lead остаются обычным текстом над кадром. -->
+    <div class="invest-photo reveal">
+      <img src="../assets/why-bali.jpg" alt="Private pool of a Black Sands Oasis villa" data-i18n-alt="invest.photo_alt" loading="lazy">
+      <div class="invest-chips">
+        <div class="invest-chip invest-chip--wide"><h3 data-i18n="invest.stat1.v">+20% a year</h3><p data-i18n="invest.stat1.p">benchmark growth in property value across Bali’s top areas</p></div>
+        <div class="invest-chip"><h3 data-i18n="invest.stat2.v">Up to 16% annually</h3><p data-i18n="invest.stat2.p">from short-term villa rentals in Bali’s established resort areas</p></div>
+        <div class="invest-chip"><h3 data-i18n="invest.stat3.v">The city of Nuanu</h3><p data-i18n="invest.stat3.p">A modern oceanfront city with infrastructure for family, work and creativity</p></div>
+      </div>
     </div>
-    <div class="why-photo reveal"><img src="../assets/why-bali.jpg" alt="Private pool of a Black Sands Oasis villa" data-i18n-alt="invest.photo_alt" loading="lazy"></div>
   </div>
 </section>
 
