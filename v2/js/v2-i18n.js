@@ -11,6 +11,7 @@
   var ru = {
     "plans.cta.v2": "Узнать подробнее",
     "plans.view_layout": "Смотреть планировку",
+    "plans.back_to_gallery": "Назад к фото",
     "unitgrp.title": "Работаем как единая система",
     "unitgrp.lead": "Black Sands Oasis строит вся группа UNIT. — стройка, производство, мебель и управление под одной крышей",
     "unitgrp.build": "Строительная компания с лицензией на строительство и получение соответствующей документации (PBG/SLF)",
@@ -78,6 +79,7 @@
   var en = {
     "plans.cta.v2": "Learn more",
     "plans.view_layout": "View floor plan",
+    "plans.back_to_gallery": "Back to gallery",
     "unitgrp.title": "We work as one system",
     "unitgrp.lead": "Black Sands Oasis is built by the full UNIT. group — construction, production, furniture and management under one roof",
     "unitgrp.build": "Construction company licensed to build and obtain the relevant permits (PBG/SLF)",
