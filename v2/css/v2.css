@@ -259,14 +259,21 @@ body.menu-open .burger span{background:var(--white)}
    295:331/332, канал 41fc2tir, но без отдельной колонки) — кнопка-чип
    стеклом в углу фото, лишнего места не ест вообще. */
 .plans-panel{display:block; border-radius:0; box-shadow:none; overflow:visible}
+/* Замерено getBoundingClientRect на реальном переходе по якорю (не на глаз):
+   при 900px высоты экрана весь блок (табы+фото+CTA) занимал 995.7px — на
+   95.7px больше экрана. Служебные отступы между табами/фото/CTA (было 40+40
+   по .plans-tabs{margin:var(--sp-lg) 0} + 32 паддинг .plans-info) ужаты —
+   это освобождает место под фото, а не отнимает у него. */
+#plans .plans-tabs{margin:24px 0 12px}
 /* Было width:min(480px,55%) — Босс: «не мельчи», фото должно тянуться во всю
    ширину контента, как остальные full-bleed кадры на странице (.why-photo и
    т.п.). aspect-ratio:3/4 отсюда убран (при 100% ширины контейнера ~1360px
    давал бы ~1813px высоты) — держим комфортную высоту через clamp, кроп
    портретных фото — object-position, уже подобран по-кадрово в JS/HTML.
-   40vh/420px оказалось наоборот слишком низким — на полной ширине кадр
-   читался тонкой полосой. 55vh/600px — заметно выше, полноценное фото. */
-.plans-viewer{position:relative; width:100%; height:clamp(460px,55vh,600px);
+   Высота посчитана от освободившегося после ужатия отступов бюджета: при
+   900px экрана остаётся ~450px на фото — 50vh даёт ровно это, растёт
+   пропорционально на больших мониторах (потолок 640px). */
+.plans-viewer{position:relative; width:100%; height:clamp(440px,50vh,640px);
   border-radius:var(--r-lg); overflow:hidden; background:var(--bg-deep); box-shadow:var(--shadow-card)}
 
 /* чип-кнопка стеклом поверх фото — тот же приём, что у .pp-tags/.nuanu-badge.
@@ -314,9 +321,10 @@ body.menu-open .burger span{background:var(--white)}
 
 .plans-info{
   /* flex-direction обязателен: в v1 у .plans-info стоит column, и без сброса
-     строка характеристик оставалась колонкой (замер: высота 455px) */
+     строка характеристик оставалась колонкой (замер: высота 455px).
+     padding-top 32→24 — часть экономии места под фото, см. .plans-viewer выше */
   display:flex; flex-direction:row; align-items:flex-end; flex-wrap:wrap; gap:40px;
-  background:transparent; padding:32px 0 0; margin-top:0;
+  background:transparent; padding:24px 0 0; margin-top:0;
   border-top:1px solid var(--line);
 }
 /* название виллы оформлено как «Stella Solaris» (правка Босса): Prata,
