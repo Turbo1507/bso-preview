@@ -259,22 +259,34 @@ body.menu-open .burger span{background:var(--white)}
    295:331/332, канал 41fc2tir, но без отдельной колонки) — кнопка-чип
    стеклом в углу фото, лишнего места не ест вообще. */
 .plans-panel{display:block; border-radius:0; box-shadow:none; overflow:visible}
-.plans-viewer{position:relative; width:min(480px,55%); aspect-ratio:3/4;
+/* Было width:min(480px,55%) — Босс: «не мельчи», фото должно тянуться во всю
+   ширину контента, как остальные full-bleed кадры на странице (.why-photo и
+   т.п.). aspect-ratio:3/4 отсюда убран (при 100% ширины контейнера ~1360px
+   давал бы ~1813px высоты) — держим комфортную высоту через clamp, кроп
+   портретных фото — object-position, уже подобран по-кадрово в JS/HTML. */
+.plans-viewer{position:relative; width:100%; height:clamp(420px,56vh,640px);
   border-radius:var(--r-lg); overflow:hidden; background:var(--bg-deep); box-shadow:var(--shadow-card)}
 
-/* чип-кнопка стеклом поверх фото — тот же приём, что у .pp-tags/.nuanu-badge */
+/* чип-кнопка стеклом поверх фото — тот же приём, что у .pp-tags/.nuanu-badge.
+   Два состояния (иконка+текст) внутри одной кнопки — открыл план, кнопка
+   превращается в «Назад к фото» со значком галереи, не просто разворот
+   стрелки (правка Босса). */
 .plans-toggle{position:absolute; top:20px; right:20px; z-index:4; max-width:calc(100% - 40px)}
 .plans-toggle-btn{
-  display:flex; align-items:center; gap:12px; padding:12px 18px; border-radius:var(--r-pill);
+  display:flex; align-items:center; padding:12px 18px; border-radius:var(--r-pill);
   background:rgba(11,12,11,.5); border:1px solid rgba(255,255,255,.24);
   backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
   color:var(--white); font-size:14px; white-space:nowrap;
   transition:background .2s var(--ease);
 }
 .plans-toggle-btn:hover{background:rgba(11,12,11,.7)}
-.plans-toggle-chevron{flex:0 0 auto; width:16px; height:16px; color:var(--clay); transition:transform .3s var(--ease)}
+.plans-toggle-state{display:flex; align-items:center; gap:10px}
+.plans-toggle-state--open{display:none}
+.plans-toggle-ic{flex:0 0 auto; width:18px; height:18px; color:var(--clay)}
 .plans-viewer.is-open .plans-toggle-btn{background:#f4f1ea; color:#1f1f1f; border-color:#f4f1ea}
-.plans-viewer.is-open .plans-toggle-chevron{transform:rotate(180deg); color:#8a6a2a}
+.plans-viewer.is-open .plans-toggle-ic{color:#8a6a2a}
+.plans-viewer.is-open .plans-toggle-state--closed{display:none}
+.plans-viewer.is-open .plans-toggle-state--open{display:flex}
 /* .plans-toggle-panel — СЕСТРА .plans-toggle (не внутри неё): inset:0 должен
    мерить от всего кадра .plans-viewer (position:relative), а не от маленькой
    кнопки — иначе оверлей схлопывается до размера чипа (был баг, экран
@@ -322,10 +334,7 @@ body.menu-open .burger span{background:var(--white)}
 .plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
   width:200px; justify-content:center}
 @media (max-width:860px){
-  /* aspect-ratio:4/3 наследовался из v1 (styles.css, тот же брейкпоинт) —
-     задуман под старый одиночный фото-бокс landscape; явно переопределяем
-     на 3:4, а не оставляем auto — иначе побеждает унаследованное 4/3 */
-  .plans-viewer{aspect-ratio:3/4; width:100%; max-width:320px; margin:0 auto}
+  .plans-viewer{height:clamp(320px,52vh,460px)}
   .plans-info{gap:24px; padding-top:24px}
   .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
   .plans-stat .v{font-size:24px; margin-top:4px}
