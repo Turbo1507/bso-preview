@@ -263,8 +263,10 @@ body.menu-open .burger span{background:var(--white)}
    ширину контента, как остальные full-bleed кадры на странице (.why-photo и
    т.п.). aspect-ratio:3/4 отсюда убран (при 100% ширины контейнера ~1360px
    давал бы ~1813px высоты) — держим комфортную высоту через clamp, кроп
-   портретных фото — object-position, уже подобран по-кадрово в JS/HTML. */
-.plans-viewer{position:relative; width:100%; height:clamp(420px,56vh,640px);
+   портретных фото — object-position, уже подобран по-кадрово в JS/HTML.
+   56vh/640px было слишком вытянуто по пропорции и не давало чипам-табам и
+   строке с CTA поместиться на одном экране вместе с фото — снижено. */
+.plans-viewer{position:relative; width:100%; height:clamp(320px,40vh,420px);
   border-radius:var(--r-lg); overflow:hidden; background:var(--bg-deep); box-shadow:var(--shadow-card)}
 
 /* чип-кнопка стеклом поверх фото — тот же приём, что у .pp-tags/.nuanu-badge.
@@ -283,8 +285,10 @@ body.menu-open .burger span{background:var(--white)}
 .plans-toggle-state{display:flex; align-items:center; gap:10px}
 .plans-toggle-state--open{display:none}
 .plans-toggle-ic{flex:0 0 auto; width:18px; height:18px; color:var(--clay)}
-.plans-viewer.is-open .plans-toggle-btn{background:#f4f1ea; color:#1f1f1f; border-color:#f4f1ea}
-.plans-viewer.is-open .plans-toggle-ic{color:#8a6a2a}
+/* Кнопка «Назад к фото» на светлой панели плана — тёмная, как фон страницы
+   (var(--bg-deep)), не светлая под цвет самой панели (Босс: сливалась) */
+.plans-viewer.is-open .plans-toggle-btn{background:var(--bg-deep); color:var(--white); border-color:var(--bg-deep)}
+.plans-viewer.is-open .plans-toggle-ic{color:var(--clay)}
 .plans-viewer.is-open .plans-toggle-state--closed{display:none}
 .plans-viewer.is-open .plans-toggle-state--open{display:flex}
 /* .plans-toggle-panel — СЕСТРА .plans-toggle (не внутри неё): inset:0 должен
