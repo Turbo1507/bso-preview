@@ -285,7 +285,9 @@ body.menu-open .burger span{background:var(--white)}
    строка может слегка уезжать за экран на низких окнах — это принятый
    компромисс, высота фото приоритетнее полного умещения (прямая правка
    Босса). На больших мониторах растёт через vh до потолка 680px. */
-.plans-viewer{position:relative; width:100%; height:clamp(560px,60vh,680px);
+/* 04.08 правка: ещё выше — floor 560→620, потолок 680→760 (просьба Босса
+   «ещё выше фотографию в блоке с типажом вилл»). */
+.plans-viewer{position:relative; width:100%; height:clamp(620px,64vh,760px);
   border-radius:var(--r-lg); overflow:hidden; background:var(--bg-deep); box-shadow:var(--shadow-card)}
 
 /* чип-кнопка стеклом поверх фото — тот же приём, что у .pp-tags/.nuanu-badge.
@@ -318,9 +320,25 @@ body.menu-open .burger span{background:var(--white)}
    max-height: это оверлей, а не аккордеон, который раздвигает макет. Панель
    — сама светлая «бумага» (у PNG-планов белый фон запечён в файл, Босс не
    обрезал) — фон панели = фон картинки, шва нет физически. */
-.plans-toggle-panel{position:absolute; inset:0; z-index:3; background:#f4f1ea;
-  opacity:0; visibility:hidden; transition:opacity .3s var(--ease)}
-.plans-viewer.is-open .plans-toggle-panel{opacity:1; visibility:visible}
+/* Баг «кнопка назад в галерею без анимации»: transition стоял только на
+   opacity, а visibility:hidden прилетал в тот же тик клика — элемент
+   переставал рендериться раньше, чем успевал начаться fade, поэтому переход
+   выглядел мгновенным переклюением. Чиним transition-delay на visibility:
+   при закрытии она включается ПОСЛЕ фейда (задержка .3s), при открытии —
+   сразу (задержка 0).
+   Заодно: замена белого фона панели (#f4f1ea, «скучно» — правка Босса) на
+   замыленное фото. Явного JS не нужно — .plans-toggle-panel лежит поверх
+   .plans-viewer-track (z-index 3 против авто), backdrop-filter блюрит
+   именно ТЕКУЩИЙ слайд-фото за собой, и слайд меняется вместе с табом
+   виллы сам, без доп. кода. Рендеры планировок (PNG с запечённым белым
+   фоном) не трогаем — они просто лежат поверх этой подложки. */
+.plans-toggle-panel{position:absolute; inset:0; z-index:3;
+  background:rgba(11,12,11,.5); backdrop-filter:blur(60px) saturate(1.15);
+  -webkit-backdrop-filter:blur(60px) saturate(1.15);
+  opacity:0; visibility:hidden;
+  transition:opacity .3s var(--ease), visibility 0s linear .3s}
+.plans-viewer.is-open .plans-toggle-panel{opacity:1; visibility:visible;
+  transition:opacity .3s var(--ease), visibility 0s linear 0s}
 .plans-toggle-panel-in{padding:20px; padding-top:76px; display:flex; justify-content:center; align-items:flex-start; height:100%}
 .plans-toggle-panel-in img{display:block; width:auto; height:auto; max-width:100%; max-height:100%; object-fit:contain}
 /* двухэтажные типы — buildFloorsSVG вставляет <svg class="plan-floors-svg">
@@ -358,29 +376,27 @@ body.menu-open .burger span{background:var(--white)}
 .plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
   width:200px; justify-content:center}
 @media (max-width:860px){
-  .plans-viewer{height:clamp(320px,52vh,460px)}
+  .plans-viewer{height:clamp(360px,55vh,520px)}
   .plans-info{gap:24px; padding-top:24px}
   .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
   .plans-stat .v{font-size:24px; margin-top:4px}
   .plans-info .btn-glass{margin-left:0; flex:0 0 100%}
 }
 
-/* ---------- расстояния до точек: спецификация вместо карточек ----------
-   Четыре плашки в ряд на 390px ужимались до нечитаемого (кегли доходили до
-   10.5px). Здесь тот же язык, что у характеристик планировок и атрибутов
-   архитектуры: тонкая линия, значение Prata, подпись капителью, без плашек.
-   На мобиле строка разворачивается: значение слева, куда — справа. Четыре
-   спокойные строки вместо четырёх сжатых колонок. */
-.stat-grid-4{grid-template-columns:repeat(4,minmax(0,1fr)); gap:0 32px}
+/* ---------- расстояния до точек: микрокарточки (04.08, правка Босса) ----------
+   Была спецификация (тонкая линия + Prata-значение, без карточек) — Босс
+   попросил вернуть карточный вид: та же пара «иконка + значение + подпись»,
+   что у .stat-card в остальных местах сайта, только компактнее — 4 в ряд. */
+.stat-grid-4{grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px}
 .stat-grid-4 .stat-card{
-  background:none; border:0; border-top:1px solid var(--line);
-  border-radius:0; box-shadow:none; padding:24px 0 0;
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--r-sm); box-shadow:var(--shadow-card); padding:22px 20px;
 }
-.stat-grid-4 .card-ic{display:none}
+.stat-grid-4 .card-ic{display:block; width:22px; height:22px; margin-bottom:14px; color:var(--clay)}
 .stat-grid-4 .stat-card h3{font-family:'Prata',Georgia,serif; font-weight:400;
-  font-size:32px; line-height:1.1; color:var(--clay)}
-.stat-grid-4 .stat-card p{margin-top:8px; font-size:12px; letter-spacing:.12em;
-  text-transform:uppercase; color:rgba(255,255,255,.45); line-height:1.4}
+  font-size:26px; line-height:1.1; color:var(--clay)}
+.stat-grid-4 .stat-card p{margin-top:6px; font-size:11px; letter-spacing:.1em;
+  text-transform:uppercase; color:rgba(255,255,255,.55); line-height:1.4}
 
 /* ---------- вариант B: «спецификация» вместо пилюль ---------- */
 /* Пилюля обещает короткий ярлык. Атрибуты архитектуры в неё ещё влезали,
@@ -711,11 +727,51 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
    детерминирован и без text-wrap:balance, а не зависит от эвристики браузера. */
 #architecture .block-head-split h2{max-width:920px}
 
-/* Слайдер фасадов (styles.css:304 — aspect-ratio:16/9, 765px высотой при
-   1360px контейнере) — по правке Босса ниже, ближе к масштабу остальных
-   full-bleed фото на странице (.gal-slide img держит max 560px, см. v2.css
-   выше). 2.4/1 при том же контейнере — 567px. */
-#architecture .min-gallery{aspect-ratio:2.4/1}
+/* 04.08: .spec-list (4 строки характеристик) слит со слайдером — подписи
+   переехали на фото (.arch-slide-cap, как .vcard-text у блока 3). Место,
+   которое раньше занимал список, теперь отдано фото: вместо узкого 2.4/1
+   (567px при 1360px контейнере) — высота под управлением clamp, до 900px. */
+/* .spec-list ушёл из разметки — вместе с ним ушла цепочка отступов
+   `.spec-list + .min-gallery`, спускавшая «заголовок/лид → контент» 40.
+   .min-gallery — теперь прямой сосед .block-head-split, отступ держим сам. */
+#architecture .min-gallery{aspect-ratio:auto; height:clamp(560px,66vh,900px); margin-top:40px}
+#architecture .min-gallery-slide{position:relative}
+/* тот же приём читаемости, что у .vcard::after (:773) — только rgba-градиент,
+   без filter:brightness/saturate (дизайн-система, фото иначе «грязнеет») */
+.arch-slide-cap{position:absolute; left:0; right:0; bottom:0; z-index:2;
+  padding:40px 40px 32px;
+  background:linear-gradient(to top, rgba(11,12,11,.78) 0%, rgba(11,12,11,.4) 45%, rgba(11,12,11,0) 100%)}
+.arch-slide-cap .spec-num{display:block; font-family:'Prata',Georgia,serif;
+  font-size:14px; color:var(--clay); margin-bottom:8px}
+.arch-slide-cap h3{margin:0; font-size:clamp(20px,2.2vw,28px); font-weight:500; color:var(--white)}
+
+/* ---------- #invest: фото с чипами (реф Figma «ТУТСМОТРИ», 6:695,
+   страница БСО2, канал pghzhfwu) ----------
+   Было: 3 карточки статистики отдельно + фото ниже. В референсе — один
+   крупный кадр, стеклянные чипы лежат прямо на фото. Заголовок блока на
+   фото НЕ переносим (в отличие от референса) — h2/lead остаются обычным
+   текстом секции. Чипы посажены к нижнему краю кадра, где на фото ровная
+   гладь бассейна — там же, где чипы сидят на воде в самом референсе. */
+.invest-photo{position:relative; border-radius:var(--r-lg); overflow:hidden;
+  box-shadow:var(--shadow-card); aspect-ratio:16/10}
+.invest-photo img{width:100%; height:100%; object-fit:cover; display:block}
+.invest-photo::after{content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(11,12,11,.7) 0%, rgba(11,12,11,.28) 38%, rgba(11,12,11,0) 65%)}
+.invest-chips{position:absolute; z-index:2; left:28px; right:28px; bottom:28px;
+  display:grid; grid-template-columns:1fr 1fr; gap:14px}
+.invest-chip--wide{grid-column:1 / -1}
+.invest-chip{background:rgba(19,19,19,.4); border:1px solid rgba(255,255,255,.22);
+  border-radius:var(--r-sm); padding:18px 20px;
+  backdrop-filter:blur(24px) saturate(1.1); -webkit-backdrop-filter:blur(24px) saturate(1.1)}
+.invest-chip h3{margin:0; font-size:18px; font-weight:600; color:var(--white)}
+.invest-chip p{margin:6px 0 0; font-size:13px; line-height:1.45; color:rgba(255,255,255,.8)}
+@media (max-width:860px){
+  .invest-photo{aspect-ratio:3/4}
+  .invest-chips{left:16px; right:16px; bottom:16px; grid-template-columns:1fr; gap:10px}
+  .invest-chip{padding:14px 16px}
+  .invest-chip h3{font-size:16px}
+  .invest-chip p{font-size:12.5px}
+}
 
 /* В v1 стоит `#architecture + .section{padding-top:20px}` — правка Босса, чтобы
    архитектура и шедшая за ней карусель преимуществ читались как ОДНА тема.
@@ -838,17 +894,9 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .pv-grid,
 .nuanu-photo,
 .stat-grid,
+.invest-photo,
 .plans-tabs,
 .gal-track{margin-top:40px}
-/* .spec-list — НЕ в общем списке 40px выше: у .spec-row (:284) есть
-   padding-top:16 перед самим текстом чипа, которого нет у остальных
-   элементов того списка (фото/грид садятся вплотную к своему верхнему краю).
-   Раз Боссу важен именно зазор ДО ТЕКСТА чипа, а не до невидимой линии-
-   разделителя строки — margin здесь 24, чтобы 24+16(padding)=40 ровно от
-   текста, как у соседей. Симметрично снизу: последняя строка даёт
-   padding-bottom:16 до текста, плюс 24 margin к галерее = те же 40. */
-.spec-list{margin-top:24px}
-.spec-list + .min-gallery{margin-top:24px}
 .faq-wrap h2{margin-bottom:40px}
 
 /* шкала кеглей 12/14/16/18/20/24/32/40/64 — выпадающие правим поимённо */
@@ -908,25 +956,23 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .pv-grid,
   .nuanu-photo,
   .stat-grid,
+  .invest-photo,
   .priv-grid,
   .plans-tabs{margin-top:24px}
   .faq-wrap h2{margin-bottom:24px}
   .gal-track{margin-top:24px}
-  /* та же компенсация padding-top:16 строки, что на десктопе (:696) — цель
-     24 ровно от текста чипа (внешняя мобильная ступень), значит margin 8,
-     не 24 */
-  .spec-list{margin-top:8px}
-  .spec-list + .min-gallery{margin-top:8px}
+  #architecture .min-gallery{margin-top:24px; height:clamp(380px,58vh,560px)}
+  .arch-slide-cap{padding:20px}
+  .arch-slide-cap h3{font-size:20px}
 
   /* --- шкала кеглей: 12 / 14 / 16 / 20 / 24 / 32 --- */
   .lead{font-size:14px}                                   /* было 12 */
-  /* разворачиваем в строки: значение слева, направление справа — вместо
-     четырёх сжатых колонок четыре спокойные строки */
-  .stat-grid-4{grid-template-columns:1fr; gap:0}
-  .stat-grid-4 .stat-card{display:flex; align-items:baseline; justify-content:space-between;
-    gap:16px; padding:16px 0}
-  .stat-grid-4 .stat-card h3{font-size:24px}
-  .stat-grid-4 .stat-card p{margin-top:0; text-align:right; flex:0 1 auto}
+  /* микрокарточки в 2 колонки — компактнее, чем в 1 ряд на 390px */
+  .stat-grid-4{grid-template-columns:1fr 1fr; gap:10px}
+  .stat-grid-4 .stat-card{padding:16px 14px}
+  .stat-grid-4 .card-ic{width:18px; height:18px; margin-bottom:10px}
+  .stat-grid-4 .stat-card h3{font-size:20px}
+  .stat-grid-4 .stat-card p{margin-top:4px; font-size:10px}
   .team-role{font-size:12px}                              /* было 13 */
   .pv-card p{font-size:14px}                              /* было 15 */
   .gal-cap{font-size:12px}                                /* было 13 */
