@@ -264,9 +264,9 @@ body.menu-open .burger span{background:var(--white)}
    т.п.). aspect-ratio:3/4 отсюда убран (при 100% ширины контейнера ~1360px
    давал бы ~1813px высоты) — держим комфортную высоту через clamp, кроп
    портретных фото — object-position, уже подобран по-кадрово в JS/HTML.
-   56vh/640px было слишком вытянуто по пропорции и не давало чипам-табам и
-   строке с CTA поместиться на одном экране вместе с фото — снижено. */
-.plans-viewer{position:relative; width:100%; height:clamp(320px,40vh,420px);
+   40vh/420px оказалось наоборот слишком низким — на полной ширине кадр
+   читался тонкой полосой. 55vh/600px — заметно выше, полноценное фото. */
+.plans-viewer{position:relative; width:100%; height:clamp(460px,55vh,600px);
   border-radius:var(--r-lg); overflow:hidden; background:var(--bg-deep); box-shadow:var(--shadow-card)}
 
 /* чип-кнопка стеклом поверх фото — тот же приём, что у .pp-tags/.nuanu-badge.
