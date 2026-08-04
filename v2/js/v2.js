@@ -201,3 +201,45 @@
     }
   });
 })();
+
+/* Активный пункт хедер-навигации — подсвечивается секция, которая сейчас
+   в зоне видимости (правка Босса 04.08). Линия отсчёта — верх страницы +
+   высота хедера + небольшой запас, чтобы секция считалась «текущей» сразу
+   как её заголовок скрылся под хедером, а не только когда она заполнила
+   весь экран. */
+(function () {
+  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
+  if (!navLinks.length) return;
+  var sections = navLinks.map(function (a) {
+    return document.querySelector(a.getAttribute('href'));
+  });
+  if (!sections.some(Boolean)) return;
+
+  var header = document.querySelector('.site-header');
+  var ticking = false;
+
+  function update() {
+    ticking = false;
+    var headerH = header ? header.offsetHeight : 0;
+    var line = window.scrollY + headerH + 24;
+    var atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+    var current = null;
+    for (var i = 0; i < sections.length; i++) {
+      if (sections[i] && sections[i].offsetTop <= line) current = sections[i];
+    }
+    if (atBottom) {
+      for (var j = sections.length - 1; j >= 0; j--) {
+        if (sections[j]) { current = sections[j]; break; }
+      }
+    }
+    navLinks.forEach(function (a, i) {
+      a.classList.toggle('is-active', !!current && sections[i] === current);
+    });
+  }
+
+  window.addEventListener('scroll', function () {
+    if (!ticking) { ticking = true; requestAnimationFrame(update); }
+  }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();

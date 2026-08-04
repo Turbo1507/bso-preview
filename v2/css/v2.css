@@ -61,6 +61,10 @@ body{background:var(--bg); color:var(--graphite)}
 .site-header.is-solid .burger span{background:var(--white)}
 .site-header.is-solid .lang button.is-active{color:var(--white)}
 
+/* активный пункт навигации — секция, которая сейчас в зоне видимости (v2.js) */
+.nav a.is-active{color:var(--white)}
+.nav a.is-active::after{right:0}
+
 /* мобильное меню — было белое полотно */
 .menu-overlay{background:var(--bg-deep)}
 .menu-overlay a{color:var(--graphite)}
