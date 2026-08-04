@@ -1,3 +1,73 @@
+/* Лightbox — клик по фото в галерее проекта или в слайдере типов вилл
+   открывает фулл-скрин оверлей с теми же фото (стрелки листают, крестик/
+   Esc/клик по фону закрывают). Список кадров собирается из <img> контейнера
+   В МОМЕНТ клика — у слайдера типов вилл разметка перестраивается JS'ом
+   при смене таба/языка, статичный список сразу бы устарел. */
+(function () {
+  var lb = document.getElementById('lightbox');
+  if (!lb) return;
+  var img = document.getElementById('lightboxImg');
+  var closeBtn = document.getElementById('lightboxClose');
+  var prevBtn = document.getElementById('lightboxPrev');
+  var nextBtn = document.getElementById('lightboxNext');
+  var curEl = document.getElementById('lightboxCountCur');
+  var totalEl = document.getElementById('lightboxCountTotal');
+  var stage = lb.querySelector('.lightbox-stage');
+
+  var frames = [];
+  var idx = 0;
+
+  function show(i) {
+    if (!frames.length) return;
+    idx = (i + frames.length) % frames.length;
+    var f = frames[idx];
+    img.src = f.src;
+    img.alt = f.alt || '';
+    curEl.textContent = idx + 1;
+    totalEl.textContent = frames.length;
+  }
+
+  function open(container, startImg) {
+    var imgs = Array.prototype.slice.call(container.querySelectorAll('img'));
+    if (!imgs.length) return;
+    frames = imgs.map(function (im) { return { src: im.currentSrc || im.src, alt: im.alt }; });
+    var startIdx = imgs.indexOf(startImg);
+    show(startIdx < 0 ? 0 : startIdx);
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lb-lock');
+  }
+  function close() {
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lb-lock');
+  }
+
+  ['galTrack', 'plansPhotoTrack'].forEach(function (id) {
+    var container = document.getElementById(id);
+    if (!container) return;
+    container.style.cursor = 'zoom-in';
+    container.addEventListener('click', function (e) {
+      var im = e.target.closest('img');
+      if (!im) return;
+      open(container, im);
+    });
+  });
+
+  closeBtn.addEventListener('click', close);
+  prevBtn.addEventListener('click', function () { show(idx - 1); });
+  nextBtn.addEventListener('click', function () { show(idx + 1); });
+  lb.addEventListener('click', function (e) {
+    if (e.target === lb || e.target === stage) close();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (!lb.classList.contains('is-open')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') show(idx - 1);
+    if (e.key === 'ArrowRight') show(idx + 1);
+  });
+})();
+
 /* Видео-хиро — на мобиле не грузим/не проигрываем тяжёлый mp4 (экономия
    трафика), остаётся статичный poster-кадр. preload="none" в разметке —
    догружаем только когда реально решили играть. */
