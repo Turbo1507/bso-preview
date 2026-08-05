@@ -154,7 +154,7 @@ window.I18N = {
     "cookie.more": "Подробнее об использовании cookie",
     "cookie.accept": "Понятно",
     "sig.photo_alt": "Арт-объект Stella Solaris",
-    "invest.photo_alt": "Приватный бассейн виллы Black Sands Oasis"
+    "invest.photo_alt": "Закат над побережьем Nuanu, Бали"
   },
   en: {
     "carousel.prev": "Previous",
@@ -248,7 +248,7 @@ window.I18N = {
     "fin.cta": "Get the Financial Model",
     "team.title": "Who’s behind Black Sands Oasis",
     "team.role1": "Founder",
-    "team.name1": "Stepan Fedoseev",
+    "team.name1": "Steven Fedos",
     "team.p1": "Founder of UNIT. and UNIT.BUILD. An expert in systems management and technology implementation in construction",
     "team.role2": "Co-owner",
     "team.name2": "Anna Orlova",
@@ -305,7 +305,7 @@ window.I18N = {
     "cookie.more": "Learn more about cookies",
     "cookie.accept": "Got it",
     "sig.photo_alt": "Stella Solaris art object",
-    "invest.photo_alt": "Private pool of a Black Sands Oasis villa"
+    "invest.photo_alt": "Sunset over the Nuanu coastline, Bali"
   }
 };
 window.setLang = function (lang) {

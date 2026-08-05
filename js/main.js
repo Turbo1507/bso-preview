@@ -528,6 +528,13 @@ function renderPlan(planId, lang) {
       const isTopview = i === p.photos.length - 1;
       const slide = document.createElement('div');
       slide.className = 'plans-viewer-slide' + (isTopview ? ' plans-viewer-slide--topview' : '');
+      if (isTopview) {
+        /* рендер-слайд (последний в галерее виллы) стоит на размытом фото
+           самой виллы, не на белом листе (правка Босса 05.08) — берём
+           предпоследний интерьерный кадр того же типа, CSS блюрит его в
+           ::before (.plans-viewer-slide--topview, v2.css) */
+        slide.style.setProperty('--topview-bg', `url(${ASSET(p.photos[i - 1])})`);
+      }
       if (isTopview && floors) {
         slide.appendChild(buildFloorsSVG(floors.render, lang, false));
       } else {
