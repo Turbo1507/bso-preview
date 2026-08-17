@@ -10,6 +10,10 @@
 (function () {
   var ru = {
     "plans.cta.v2": "Узнать подробнее",
+    /* v2-only: почта обязательна (в v1 поле осталось необязательным,
+       поэтому свой ключ, а не правка "lead.email" в общем словаре) */
+    "lead.email_r": "Email",
+    "invest.photo_alt_v2": "Храм Танах Лот на западном побережье Бали на закате",
     "plans.view_layout": "Смотреть планировку",
     "plans.back_to_gallery": "Назад к фото",
     "unitgrp.title": "Работаем как единая система",
@@ -80,6 +84,8 @@
 
   var en = {
     "plans.cta.v2": "Learn more",
+    "lead.email_r": "Email",
+    "invest.photo_alt_v2": "Tanah Lot temple on the west coast of Bali at sunset",
     "plans.view_layout": "View floor plan",
     "plans.back_to_gallery": "Back to gallery",
     "unitgrp.title": "We work as one system",

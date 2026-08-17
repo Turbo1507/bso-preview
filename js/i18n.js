@@ -135,6 +135,9 @@ window.I18N = {
     "lead.submit": "Отправить заявку",
     "lead.sending": "Отправка…",
     "lead.success": "Спасибо! Мы скоро свяжемся с вами.",
+    /* тексты ошибок формы: проверка required живёт в main.js, форма стоит с novalidate */
+    "lead.err_required": "Заполните обязательные поля",
+    "lead.err_email": "Укажите корректный email",
     "lead.error": "Ошибка отправки, напишите нам в WhatsApp.",
     "theme.color": "Цвет",
     "theme.mono": "Моно",
@@ -286,6 +289,8 @@ window.I18N = {
     "lead.submit": "Send request",
     "lead.sending": "Sending…",
     "lead.success": "Thank you! We’ll be in touch soon.",
+    "lead.err_required": "Please fill in the required fields",
+    "lead.err_email": "Enter a valid email address",
     "lead.error": "Error sending, please message us on WhatsApp.",
     "theme.color": "Color",
     "theme.mono": "Mono",

@@ -4,10 +4,12 @@
 старые файлы к новой разметке. Тот же приём уже применён на unitdeveloper.com.
 
 Версию бампить при каждом деплое (см. v2/README.md)."""
-import io, re, sys
+import io, os, re, sys
 sys.stdout.reconfigure(encoding='utf-8')
-V = "20260804f"
-BASE = r'C:\Users\diman\.claude\агенты\дизайнер\_хранилище\дизайн\bso\site\v2'
+V = "20260817a"
+# путь берём от самого скрипта: раньше здесь был захардкожен windows-путь
+# машины, где скрипт писался, — с мака он не работал вообще
+BASE = os.path.dirname(os.path.abspath(__file__))
 
 TARGETS = {
     'index.html': ['../css/styles.css', 'css/v2.css', '../js/i18n.js',
@@ -17,7 +19,7 @@ TARGETS = {
 }
 
 for fname, assets in TARGETS.items():
-    p = BASE + '\\' + fname
+    p = os.path.join(BASE, fname)
     s = io.open(p, encoding='utf-8').read()
     n = 0
     for a in assets:

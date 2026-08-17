@@ -325,3 +325,91 @@
   window.addEventListener('resize', update);
   update();
 })();
+
+/* ===== Галерея проекта: сделать слайдер слайдером (правка Босса 17.08) =====
+   Жалоба с ноутбука: «не видно слайдера, не получается слайдить». Трек — это
+   нативный overflow-x со спрятанным скроллбаром: на тач-устройстве листается
+   пальцем, а на десктопе взяться не за что (полосы нет, стрелки — в шапке
+   секции). Добавляем протяг мышью прямо за кадры и круглые стрелки на самом
+   треке; листание остаётся тем же scrollLeft, wireCarousel и точки не трогаем. */
+(function () {
+  var track = document.getElementById('galTrack');
+  if (!track) return;
+
+  /* обёртка: краевым стрелкам нужен позиционированный родитель ровно по треку */
+  var shell = document.createElement('div');
+  shell.className = 'gal-shell';
+  track.parentNode.insertBefore(shell, track);
+  shell.appendChild(track);
+
+  var CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
+             'stroke-linecap="round" stroke-linejoin="round"><path d="%D%"/></svg>';
+  function mkBtn(dir) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'gal-edge ' + dir;
+    /* дублируют стрелки в шапке секции — из таб-порядка и скринридера убираем */
+    b.tabIndex = -1;
+    b.setAttribute('aria-hidden', 'true');
+    b.innerHTML = CHEV.replace('%D%', dir === 'prev' ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6');
+    b.addEventListener('click', function () {
+      track.scrollBy({ left: (dir === 'prev' ? -1 : 1) * (track.clientWidth * 0.7), behavior: 'smooth' });
+    });
+    shell.appendChild(b);
+    return b;
+  }
+  var bPrev = mkBtn('prev');
+  var bNext = mkBtn('next');
+  function syncEdges() {
+    var max = track.scrollWidth - track.clientWidth;
+    bPrev.disabled = track.scrollLeft <= 4;
+    bNext.disabled = track.scrollLeft >= max - 4;
+  }
+  track.addEventListener('scroll', syncEdges, { passive: true });
+  window.addEventListener('resize', syncEdges);
+  syncEdges();
+
+  /* --- протяг мышью --- */
+  var down = false, moved = false, suppressClick = false, startX = 0, startScroll = 0;
+  track.addEventListener('pointerdown', function (e) {
+    if (e.pointerType !== 'mouse') return;   /* палец и перо листают нативно */
+    down = true; moved = false; suppressClick = false;
+    startX = e.clientX; startScroll = track.scrollLeft;
+    try { track.setPointerCapture(e.pointerId); } catch (err) {}
+  });
+  track.addEventListener('pointermove', function (e) {
+    if (!down) return;
+    var dx = e.clientX - startX;
+    if (!moved && Math.abs(dx) > 5) { moved = true; track.classList.add('is-drag'); }
+    if (moved) { track.scrollLeft = startScroll - dx; e.preventDefault(); }
+  });
+  function endDrag(e) {
+    if (!down) return;
+    down = false;
+    suppressClick = moved;   /* сбрасывается на следующем pointerdown, поэтому не залипает */
+    track.classList.remove('is-drag');
+    try { track.releasePointerCapture(e.pointerId); } catch (err) {}
+  }
+  track.addEventListener('pointerup', endDrag);
+  track.addEventListener('pointercancel', endDrag);
+  /* после протяга не открываем лайтбокс: гасим клик в фазе перехвата — она
+     проходит раньше, чем всплытие до слушателя лайтбокса на этом же треке */
+  track.addEventListener('click', function (e) {
+    if (!suppressClick) return;
+    suppressClick = false;
+    e.stopPropagation();
+    e.preventDefault();
+  }, true);
+
+  /* --- точки под галереей кликабельны --- */
+  var dots = document.getElementById('galDots');
+  if (dots && dots.children.length > 1) {
+    Array.prototype.forEach.call(dots.children, function (d, i, arr) {
+      d.addEventListener('click', function () {
+        var max = track.scrollWidth - track.clientWidth;
+        /* та же проекция доли прокрутки на индекс, что и в wireCarousel */
+        track.scrollTo({ left: max * (i / (arr.length - 1)), behavior: 'smooth' });
+      });
+    });
+  }
+})();
