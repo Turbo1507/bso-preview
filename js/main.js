@@ -97,6 +97,24 @@ if (leadModal && leadForm) {
     const status = leadForm.querySelector('[data-status]');
     const dict = (window.I18N && window.I18N[window.__bsoLang || 'en']) || {};
     const data = new FormData(leadForm);
+
+    /* Правка Босса 17.08: почта стала обязательной. Форма стоит с novalidate
+       (списки и чекбокс нарисованы свои), поэтому required проверяем руками —
+       и заодно остальные required-поля: до этого заявка уходила бы и с пустым
+       именем. Признак — сам атрибут required в разметке, так что v1, где почта
+       осталась необязательной, ведёт себя как раньше. */
+    const fail = (el, msg) => {
+      if (status) { status.textContent = msg; status.className = 'lead-status is-err'; }
+      if (el && el.focus) el.focus();
+    };
+    const emailEl = leadForm.querySelector('input[name="email"]');
+    const missing = Array.from(leadForm.querySelectorAll('[required]'))
+      .filter(el => el.type !== 'checkbox' && !el.value.trim());   /* согласие держит кнопку disabled */
+    if (missing.length) return fail(missing[0], dict['lead.err_required'] || 'Заполните обязательные поля');
+    if (emailEl && emailEl.required && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailEl.value.trim())) {
+      return fail(emailEl, dict['lead.err_email'] || 'Укажите корректный email');
+    }
+
     const phone = '+' + (ccSelect ? ccSelect.value : '') + ' ' + (phoneLocal ? phoneLocal.value.trim() : '');
     const purposeLabels = {
       own: dict['lead.purpose_own'], invest: dict['lead.purpose_invest'],
