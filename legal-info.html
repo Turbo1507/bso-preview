@@ -1,50 +1,51 @@
 <!DOCTYPE html>
-<html lang="ru">
+<!-- data-title-key: js/legal.js подставит <title> на нужном языке -->
+<html lang="en" data-title-key="legal.title">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Юридическая информация — Black Sands Oasis</title>
-<link rel="stylesheet" href="css/styles.css">
-<style>
-  .legal-page{padding:calc(var(--sp-3xl) + 60px) 0 var(--sp-3xl)}
-  .legal-page h1{font-size:clamp(32px,4vw,48px); font-weight:400; letter-spacing:-.03em; margin-bottom:var(--sp-lg)}
-  .legal-page h2{font-size:22px; font-weight:500; letter-spacing:0; line-height:1.2; margin:var(--sp-xl) 0 var(--sp-sm)}
-  .legal-page p{font-size:16px; line-height:1.6; color:rgba(58,58,58,.8); max-width:72ch; margin-bottom:var(--sp-sm)}
-  .legal-page a.back{display:inline-block; margin-bottom:var(--sp-lg); color:var(--clay); font-size:14px}
-  .legal-page ul{max-width:72ch; margin:0 0 var(--sp-sm); padding-left:20px}
-  .legal-page li{font-size:16px; line-height:1.6; color:rgba(58,58,58,.8); margin-bottom:6px}
-</style>
+<title>Company Legal Information — Black Sands Oasis</title>
+<meta name="robots" content="noindex">
+<!-- v2 лежит на уровень глубже: базовые стили общие, тёмная тема своя -->
+<link rel="stylesheet" href="css/styles.css?v=20260818a">
+<link rel="stylesheet" href="css/v2.css?v=20260818a">
 </head>
 <body>
 <section class="legal-page">
   <div class="container">
-    <a class="back" href="index.html">← Вернуться на сайт Black Sands Oasis</a>
-    <h1>Юридическая информация</h1>
+    <div class="legal-head">
+      <a class="back" href="index.html" data-i18n="legal.back">← Back to the Black Sands Oasis site</a>
+      <div class="lang" role="group" aria-label="language">
+        <button data-lang="ru">RU</button><span>/</span><button data-lang="en" class="is-active">EN</button>
+      </div>
+    </div>
+    <h1 data-i18n="legal.h1">Company Legal Information</h1>
 
-    <h2>Реквизиты компании</h2>
-    <p>PT. UNIT NUANU PROPERTY — компания с ограниченной ответственностью, учреждённая и действующая по законодательству Республики Индонезия.</p>
-    <p>Юридический адрес: Jl Pantai Nyanyi No. 88, Beraban, Tabanan, Bali 80351, Indonesia.</p>
+    <h2 data-i18n="legal.h2_company">Company details</h2>
+    <p data-i18n="legal.company1">PT. UNIT NUANU PROPERTY is a limited liability company incorporated and operating under the laws of the Republic of Indonesia.</p>
+    <p data-i18n="legal.company2">Registered address: Jl Pantai Nyanyi No. 88, Beraban, Tabanan, Bali 80351, Indonesia.</p>
 
-    <h2>Деятельность</h2>
-    <p>Компания специализируется на девелопменте жилой и коммерческой недвижимости на Бали: проектирование, строительство и меблировка объектов, включая бренд UNIT.FURNITURE. Проект Black Sands Oasis реализуется в кластере Nuanu на земле, предоставленной по договору с Wooden Fish Village (Nuanu).</p>
+    <h2 data-i18n="legal.h2_activity">Activities</h2>
+    <p data-i18n="legal.activity">The company develops residential and commercial real estate in Bali: design, construction and furnishing of properties, including the UNIT.FURNITURE brand. Black Sands Oasis is being delivered inside the Nuanu cluster on land provided under an agreement with Wooden Fish Village (Nuanu).</p>
 
-    <h2>Статус материалов сайта</h2>
+    <h2 data-i18n="legal.h2_materials">Status of the site materials</h2>
     <ul>
-      <li>Все материалы на сайте (тексты, визуализации, рендеры, планировки, расчёты доходности) носят исключительно информационный характер и не являются публичной офертой в значении Гражданского кодекса РФ или аналогичных норм иных юрисдикций.</li>
-      <li>Визуализации могут отличаться от итогового результата строительства.</li>
-      <li>Точные характеристики юнита, сроки и условия сделки фиксируются в договоре бронирования/купли-продажи, заключаемом индивидуально.</li>
-      <li>Указанные на сайте цены — ориентировочные (prelaunch), в долларах США для справки; расчёт в конкретной валюте расчётов фиксируется договором.</li>
+      <li data-i18n="legal.mat1">All materials on the site (texts, visualisations, renders, floor plans, yield calculations) are for information only and do not constitute a public offer.</li>
+      <li data-i18n="legal.mat2">Visualisations may differ from the final built result.</li>
+      <li data-i18n="legal.mat3">The exact characteristics of a unit, timelines and terms of the deal are fixed in the reservation / purchase agreement concluded individually.</li>
+      <li data-i18n="legal.mat4">Prices shown on the site are indicative (prelaunch) and quoted in US dollars for reference; the settlement currency is fixed in the contract.</li>
     </ul>
 
-    <h2>Интеллектуальная собственность</h2>
-    <p>Товарные знаки UNIT и UNIT.FURNITURE, структура сайта, тексты, фотографии и визуализации являются интеллектуальной собственностью компании либо используются на основании соответствующих прав/разрешений. Копирование и использование без согласия компании не допускается.</p>
+    <h2 data-i18n="legal.h2_ip">Intellectual property</h2>
+    <p data-i18n="legal.ip">The UNIT and UNIT.FURNITURE trademarks, the structure of the site, texts, photographs and visualisations are the intellectual property of the company or are used under the relevant rights/permissions. Copying and use without the company’s consent is not permitted.</p>
 
-    <h2>Обработка персональных данных</h2>
-    <p>Условия обработки персональных данных посетителей сайта и клиентов описаны отдельно — см. <a href="consent.html" style="color:var(--clay)">Согласие на обработку персональных данных</a>.</p>
+    <h2 data-i18n="legal.h2_pd">Personal data processing</h2>
+    <p><span data-i18n="legal.pd_before">The terms on which the personal data of site visitors and clients is processed are described separately — see </span><a href="consent.html" data-i18n="legal.pd_link">Personal Data Consent</a>.</p>
 
-    <h2>Контакты</h2>
-    <p>По юридическим вопросам и вопросам партнёрства: через форму на сайте или менеджера, указанного при обращении.</p>
+    <h2 data-i18n="legal.h2_contacts">Contacts</h2>
+    <p data-i18n="legal.contacts">For legal and partnership enquiries: through the form on the site or the manager handling your request.</p>
   </div>
 </section>
+<script src="js/legal.js?v=20260818a"></script>
 </body>
 </html>

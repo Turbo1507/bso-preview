@@ -6,16 +6,16 @@
 Версию бампить при каждом деплое (см. v2/README.md)."""
 import io, os, re, sys
 sys.stdout.reconfigure(encoding='utf-8')
-V = "20260817a"
+V = "20260818a"
 # путь берём от самого скрипта: раньше здесь был захардкожен windows-путь
 # машины, где скрипт писался, — с мака он не работал вообще
 BASE = os.path.dirname(os.path.abspath(__file__))
 
 TARGETS = {
-    'index.html': ['../css/styles.css', 'css/v2.css', '../js/i18n.js',
-                   'js/v2-i18n.js', '../js/main.js', 'js/v2.js'],
-    'consent.html': ['../css/styles.css', 'css/v2.css', 'js/legal.js'],
-    'legal-info.html': ['../css/styles.css', 'css/v2.css', 'js/legal.js'],
+    'index.html': ['css/styles.css', 'css/v2.css', 'js/i18n.js',
+                   'js/v2-i18n.js', 'js/main.js', 'js/v2.js'],
+    'consent.html': ['css/styles.css', 'css/v2.css', 'js/legal.js'],
+    'legal-info.html': ['css/styles.css', 'css/v2.css', 'js/legal.js'],
 }
 
 for fname, assets in TARGETS.items():
