@@ -849,6 +849,15 @@ body.lead-lock{overflow:hidden}
 .lead-status.is-err{color:#b3341f}
 
 /* ==================== ADAPTIVE ==================== */
+/* Босс 20.08: на 861–999px («планшет» / узкий старый ноут) горизонтальное меню
+   из 7 пунктов + логотип не помещались в строку — логотип и «How to Buy»
+   ломались на 2 строки, шапка выглядела «планшетно-криво». До 1000px показываем
+   ту же чистую шапку с бургером, что и на телефоне; контент ниже остаётся
+   десктопным (2-колоночные сетки), меняется только навигация в шапке. */
+@media (max-width:999px){
+  .nav, .header-cta .btn-ghost{display:none}
+  .burger{display:flex}
+}
 @media (max-width:1080px){
   .priv-grid, .stat-grid{grid-template-columns:1fr}
   .plans-panel{grid-template-columns:1fr 1fr}
