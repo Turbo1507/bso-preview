@@ -159,10 +159,17 @@ p{margin:0; line-height:1.1}
 /* ---------- header ---------- */
 .site-header{
   position:fixed; top:0; left:0; right:0; z-index:50;
-  padding:22px 0; transition:background .3s, padding .3s, box-shadow .3s;
+  /* Босс 20.08: раньше padding при скролле сжимался 22→14 — шапка «съезжала»
+     на 8px в момент заливки фона. Держим высоту постоянной; при is-solid
+     плавно появляются только фон, блюр и тень, геометрия не двигается. */
+  padding:13px 0; transition:background .3s, box-shadow .3s;
 }
-.site-header.is-solid{background:rgba(23,24,26,.92); backdrop-filter:blur(10px); padding:14px 0; box-shadow:0 8px 30px rgba(0,0,0,.25)}
-.header-in{display:flex; align-items:center; justify-content:space-between; gap:32px}
+.site-header.is-solid{background:rgba(23,24,26,.92); backdrop-filter:blur(10px); box-shadow:0 8px 30px rgba(0,0,0,.25)}
+.header-in{display:flex; align-items:center; justify-content:space-between; gap:32px;
+  /* высота строки под самый высокий элемент (кнопка ≈40px): когда на скролле
+     появляется .btn-ghost, строка уже этой высоты — шапка не растёт, логотип
+     не съезжает вниз */
+  min-height:40px}
 .logo{font-size:20px; font-weight:500; color:var(--white); letter-spacing:.02em}
 /* по правке Босса: название в шапке белое, не акцентное — акцент тут спорит с бургером/CTA */
 .logo b{color:var(--white); font-weight:500}

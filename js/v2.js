@@ -336,38 +336,10 @@
   var track = document.getElementById('galTrack');
   if (!track) return;
 
-  /* обёртка: краевым стрелкам нужен позиционированный родитель ровно по треку */
-  var shell = document.createElement('div');
-  shell.className = 'gal-shell';
-  track.parentNode.insertBefore(shell, track);
-  shell.appendChild(track);
-
-  var CHEV = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" ' +
-             'stroke-linecap="round" stroke-linejoin="round"><path d="%D%"/></svg>';
-  function mkBtn(dir) {
-    var b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'gal-edge ' + dir;
-    /* дублируют стрелки в шапке секции — из таб-порядка и скринридера убираем */
-    b.tabIndex = -1;
-    b.setAttribute('aria-hidden', 'true');
-    b.innerHTML = CHEV.replace('%D%', dir === 'prev' ? 'M15 6l-6 6 6 6' : 'M9 6l6 6-6 6');
-    b.addEventListener('click', function () {
-      track.scrollBy({ left: (dir === 'prev' ? -1 : 1) * (track.clientWidth * 0.7), behavior: 'smooth' });
-    });
-    shell.appendChild(b);
-    return b;
-  }
-  var bPrev = mkBtn('prev');
-  var bNext = mkBtn('next');
-  function syncEdges() {
-    var max = track.scrollWidth - track.clientWidth;
-    bPrev.disabled = track.scrollLeft <= 4;
-    bNext.disabled = track.scrollLeft >= max - 4;
-  }
-  track.addEventListener('scroll', syncEdges, { passive: true });
-  window.addEventListener('resize', syncEdges);
-  syncEdges();
+  /* Боковые круглые стрелки (.gal-edge) убраны по правке Босса 20.08: они
+     дублировали стрелки в шапке секции и «висели по бокам». Листание остаётся
+     двумя способами — стрелки справа от заголовка (wireCarousel) и протяг
+     мышью прямо за кадры (ниже). Тач-устройства листают свайпом. */
 
   /* --- протяг мышью --- */
   var down = false, moved = false, suppressClick = false, startX = 0, startScroll = 0;
