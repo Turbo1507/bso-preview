@@ -206,23 +206,17 @@
 <section class="section signature">
   <div class="container">
     <h2 class="reveal" data-i18n="sig.title">The complex’s architectural signature</h2>
-    <!-- правка Босса: чипы переехали ПРЯМО НА фото Stella Solaris стеклянной
-         строкой, поэтому лежат внутри .signature-photo, а не отдельным блоком
-         под .signature-meta, как в v1. ТОЛЬКО ДЕСКТОП — на мобиле три фразы
-         по 10-12 слов перекрывали кадр целиком (из-за этого их когда-то и
-         убрали совсем, коммит 6785ae5); прячем в @media, а не удаляем. -->
+    <!-- Босс 20.08: чипы с фото убраны. На кадре теперь мета-строка (Stella
+         Solaris + описание), которая раньше лежала ПОД фото; заголовок вынесен
+         плашкой в левый верхний угол, описание — стеклянной строкой у нижнего
+         края. Отдельного блока .signature-meta под фото больше нет. -->
     <div class="signature-photo reveal">
       <img src="assets/stella-solaris.jpg" alt="Stella Solaris art object" data-i18n-alt="sig.photo_alt" loading="lazy">
-      <div class="sig-chips">
-        <span class="sig-chip" data-i18n="sig.chip1">A strong visual gesture that shapes the image of the whole project</span>
-        <span class="sig-chip" data-i18n="sig.chip2">An architectural landmark at the complex’s entrance</span>
-        <span class="sig-chip" data-i18n="sig.chip3">An element of recognition and status</span>
+      <div class="sig-badge"><h3>Stella Solaris</h3></div>
+      <div class="sig-meta">
+        <p data-i18n="sig.p1">A 15-meter art object created in collaboration with a renowned architecture firm</p>
+        <p data-i18n="sig.p2">The project’s visual landmark, reinforcing its status</p>
       </div>
-    </div>
-    <div class="signature-meta reveal">
-      <h3>Stella Solaris</h3>
-      <p data-i18n="sig.p1">A 15-meter art object created in collaboration with a renowned architecture firm</p>
-      <p data-i18n="sig.p2">The project’s visual landmark, reinforcing its status</p>
     </div>
   </div>
 </section>
