@@ -623,6 +623,33 @@ if (plansTabs) {
      сразу при загрузке, чтобы кроп первого таба тоже был по positions, а не
      дефолтным 50/50 */
   renderPlan('studio', window.__bsoLang || 'en');
+
+  /* Фоновый прелоад фото ОСТАЛЬНЫХ планировок. Жалоба Босса 20.08: «в разделе
+     с планировками фото очень долго грузят» — раньше кадры таба тянулись только
+     в момент клика по табу (~2 МБ за раз). Ассеты уже пережаты (−56%), а тут
+     после первого экрана, в простое браузера, тихо кэшируем интерьерные фото,
+     топ-виды и схемы всех типов по одному — переключение таба становится
+     мгновенным, а первый экран не тормозится. */
+  (function preloadPlans() {
+    var urls = [], data = PLANS.en || {};
+    Object.keys(data).forEach(function (k) {
+      (data[k].photos || []).forEach(function (s) { urls.push(ASSET(s)); });
+    });
+    Object.keys(FLOOR_LAYOUTS).forEach(function (k) {
+      ['plan', 'render'].forEach(function (which) {
+        var L = FLOOR_LAYOUTS[k][which];
+        ['f1', 'f2'].forEach(function (f) { if (L && L[f]) urls.push(ASSET(L[f].src)); });
+      });
+    });
+    urls = urls.filter(function (u, i) { return urls.indexOf(u) === i; });
+    var i = 0, idle = window.requestIdleCallback || function (cb) { return setTimeout(cb, 200); };
+    (function next() {
+      if (i >= urls.length) return;
+      var img = new Image();
+      img.onload = img.onerror = function () { idle(next); };
+      img.src = urls[i++];
+    })();
+  })();
 }
 
 /* ---------- заглушки (сертификаты/юр.страницы/соцсети) — реальных страниц ещё нет ---------- */

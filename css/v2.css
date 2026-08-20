@@ -1224,3 +1224,14 @@ body.lb-lock{overflow:hidden}
    в камни; держим храм и линию заката. */
 .invest-photo img{object-position:50% 42%}
 @media (max-width:860px){ .invest-photo img{object-position:58% 38%} }
+
+/* Плавное появление фото планировок при переключении таба (Босс 20.08 — фото
+   «долго грузят»). Основной фикс — пережатие ассетов (−56%) и фоновый прелоад
+   в main.js; здесь косметика: кадр не «моргает» пустым→готовым, а мягко
+   проявляется. animation both фиксирует конечную видимость — даже если фото
+   ещё тянется, слайд в итоге всегда виден (без риска «невидимого» изображения). */
+.plans-viewer-slide .plan-photo-img{animation:bsoPlanFade .4s ease both}
+@keyframes bsoPlanFade{from{opacity:0} to{opacity:1}}
+@media (prefers-reduced-motion:reduce){
+  .plans-viewer-slide .plan-photo-img{animation:none}
+}
