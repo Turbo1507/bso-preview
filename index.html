@@ -25,8 +25,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://turbo1507.github.io/bso-preview/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="css/styles.css?v=20260831081704">
-<link rel="stylesheet" href="css/v2.css?v=20260831081704">
+<link rel="stylesheet" href="css/styles.css?v=20260831103100">
+<link rel="stylesheet" href="css/v2.css?v=20260831103100">
 </head>
 <body>
 
@@ -37,6 +37,7 @@
     <nav class="nav">
       <a href="#architecture" data-i18n="nav.architecture">Architecture</a>
       <a href="#plans" data-i18n="nav.plans">Layouts</a>
+      <a href="#interactive-plan" data-i18n="nav.iplan">Site Plan</a>
       <a href="#steps-sticky" data-i18n="nav.steps">How to Buy</a>
       <a href="#invest" data-i18n="nav.invest">Investment</a>
       <a href="#team" data-i18n="nav.team">Team</a>
@@ -59,6 +60,7 @@
   </div>
   <a href="#architecture" data-i18n="nav.architecture">Architecture</a>
   <a href="#plans" data-i18n="nav.plans">Layouts</a>
+  <a href="#interactive-plan" data-i18n="nav.iplan">Site Plan</a>
   <a href="#steps-sticky" data-i18n="nav.steps">How to Buy</a>
   <a href="#invest" data-i18n="nav.invest">Investment</a>
   <a href="#team" data-i18n="nav.team">Team</a>
@@ -325,6 +327,62 @@
     </div>
   </div>
 </section>
+
+<!-- ===== 08-b. ИНТЕРАКТИВНЫЙ ПЛАН — v1 (черновик, только для GitHub Pages) =====
+     По просьбе Босса: реф andreevskiy.by (виджет Realting) — у них есть
+     полноценная кликабельная схема + шахматка. У нас пока только ВТОРОЕ:
+     честная сортируемая/фильтруемая таблица юнитов (1-103 + P1-P8) из
+     партнёрской шахматки, плюс мастер-план картинкой рядом (НЕ кликабельный
+     по отдельным юнитам — 103 точных полигона на глаз с одной фотографии
+     это гадание, а не инженерия; кликабельные зоны — отдельным шагом, когда
+     будет точный источник координат, напр. Figma-вектор).
+     ВАЖНО перед деплоем на прод: данные (цена/статус BOOKED-PREBOOKED)
+     изначально для закрытого брокерского хаба /for-partners/, не публичные
+     — см. предупреждение в js/units-data.js. Не деплоить на blacksandsoasis.com
+     без явного разрешения Босса. -->
+<section class="section section-gray" style="background:var(--stone)" id="interactive-plan">
+  <div class="container">
+    <h2 class="reveal" data-i18n="iplan.title">Interactive site plan</h2>
+    <p class="lead reveal" data-i18n="iplan.lead">All 111 units of the complex — type, size, price and current availability</p>
+    <div class="iplan-layout reveal">
+      <div class="iplan-map">
+        <img src="assets/bso-masterplan-labeled.jpg" alt="Black Sands Oasis master plan with numbered units" loading="lazy" decoding="async">
+      </div>
+      <div class="iplan-panel">
+        <div class="iplan-legend">
+          <span class="iplan-legend-item"><i class="iplan-dot is-early"></i><span data-i18n="iplan.st.early">Available</span></span>
+          <span class="iplan-legend-item"><i class="iplan-dot is-prebooked"></i><span data-i18n="iplan.st.prebooked">Reserved</span></span>
+          <span class="iplan-legend-item"><i class="iplan-dot is-booked"></i><span data-i18n="iplan.st.booked">Sold</span></span>
+        </div>
+        <div class="iplan-filters" id="iplanTypeFilters">
+          <button class="iplan-chip is-active" data-type="all" data-i18n="iplan.filter.all">All types</button>
+        </div>
+        <div class="iplan-filters iplan-filters-status" id="iplanStatusFilters">
+          <button class="iplan-chip is-active" data-status="all" data-i18n="iplan.filter.allstatus">Any status</button>
+          <button class="iplan-chip" data-status="early" data-i18n="iplan.st.early">Available</button>
+          <button class="iplan-chip" data-status="prebooked" data-i18n="iplan.st.prebooked">Reserved</button>
+          <button class="iplan-chip" data-status="booked" data-i18n="iplan.st.booked">Sold</button>
+        </div>
+        <div class="iplan-table-wrap">
+          <table class="iplan-table">
+            <thead>
+              <tr>
+                <th data-sort="n" data-i18n="iplan.col.unit">Unit</th>
+                <th data-sort="t" data-i18n="iplan.col.type">Type</th>
+                <th data-sort="s" data-i18n="iplan.col.size">m²</th>
+                <th data-sort="c" data-i18n="iplan.col.price">Price</th>
+                <th data-sort="st" data-i18n="iplan.col.status">Status</th>
+              </tr>
+            </thead>
+            <tbody id="iplanTbody"></tbody>
+          </table>
+          <p class="iplan-count" id="iplanCount"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Старый блок «Как купить виллу» (карусель шагов) убран по правке Босса —
      остался только вариант со липким заголовком ниже. Вернуть целиком:
          git show 34cd263:v2/index.html
@@ -621,6 +679,7 @@
       <h4 data-i18n="menu.title">Menu</h4>
       <a href="#architecture" data-i18n="nav.architecture">Architecture</a>
       <a href="#plans" data-i18n="nav.plans">Layouts</a>
+      <a href="#interactive-plan" data-i18n="nav.iplan">Site Plan</a>
       <a href="#steps-sticky" data-i18n="nav.steps">How to Buy</a>
       <a href="#invest" data-i18n="nav.invest">Investment</a>
       <a href="#team" data-i18n="nav.team">Team</a>
@@ -735,9 +794,11 @@
      из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
      что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/i18n.js?v=20260831081704"></script>
-<script src="js/v2-i18n.js?v=20260831081704"></script>
-<script src="js/main.js?v=20260831081704"></script>
-<script src="js/v2.js?v=20260831081704"></script>
+<script src="js/i18n.js?v=20260831103100"></script>
+<script src="js/v2-i18n.js?v=20260831103100"></script>
+<script src="js/main.js?v=20260831103100"></script>
+<script src="js/v2.js?v=20260831103100"></script>
+<script src="js/units-data.js?v=20260831103100"></script>
+<script src="js/units-plan.js?v=20260831103100"></script>
 </body>
 </html>
