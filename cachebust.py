@@ -18,7 +18,8 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 TARGETS = {
     'index.html': ['css/styles.css', 'css/v2.css', 'js/i18n.js',
                    'js/v2-i18n.js', 'js/main.js', 'js/v2.js',
-                   'js/units-data.js', 'js/units-plan.js'],
+                   'js/units-data.js', 'js/units-plan.js',
+                   'js/buildings-data.js', 'js/iplan-map.js'],
     'consent.html': ['css/styles.css', 'css/v2.css', 'js/legal.js'],
     'legal-info.html': ['css/styles.css', 'css/v2.css', 'js/legal.js'],
 }
