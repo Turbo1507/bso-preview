@@ -1,0 +1,1001 @@
+[
+ {
+  "status": "BOOKED",
+  "num": "1",
+  "type": "STUDIO GARDEN",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "2",
+  "type": "STUDIO GARDEN",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "BOOKED",
+  "num": "3",
+  "type": "STUDIO GARDEN",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "BOOKED",
+  "num": "4",
+  "type": "STUDIO GARDEN",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "BOOKED",
+  "num": "5",
+  "type": "STUDIO PALMS+OCEAN",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "6",
+  "type": "STUDIO PALMS+OCEAN",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "7",
+  "type": "STUDIO PALMS+OCEAN",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "BOOKED",
+  "num": "8",
+  "type": "STUDIO PALMS+OCEAN",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "9",
+  "type": "STUDIO VOLCANO VIEW",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "10",
+  "type": "STUDIO VOLCANO VIEW",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "11",
+  "type": "STUDIO VOLCANO VIEW",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "12",
+  "type": "STUDIO VOLCANO VIEW",
+  "cost": "109700",
+  "size": "31,2",
+  "ppm2": "3516",
+  "next": "115185"
+ },
+ {
+  "status": "BOOKED",
+  "num": "13",
+  "type": "STUDIO OCEAN",
+  "cost": "115000",
+  "size": "31,2",
+  "ppm2": "3686",
+  "next": "120750"
+ },
+ {
+  "status": "BOOKED",
+  "num": "14",
+  "type": "STUDIO OCEAN",
+  "cost": "115000",
+  "size": "31,2",
+  "ppm2": "3686",
+  "next": "120750"
+ },
+ {
+  "status": "BOOKED",
+  "num": "15",
+  "type": "STUDIO OCEAN",
+  "cost": "115000",
+  "size": "31,2",
+  "ppm2": "3686",
+  "next": "120750"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "16",
+  "type": "STUDIO OCEAN",
+  "cost": "115000",
+  "size": "31,2",
+  "ppm2": "3686",
+  "next": "120750"
+ },
+ {
+  "status": "BOOKED",
+  "num": "17",
+  "type": "STUDIO VOLCANO VIEW",
+  "cost": "115000",
+  "size": "31,2",
+  "ppm2": "3686",
+  "next": "120750"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "18",
+  "type": "STUDIO VOLCANO VIEW",
+  "cost": "115000",
+  "size": "31,2",
+  "ppm2": "3686",
+  "next": "120750"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "19",
+  "type": "STUDIO VOLCANO VIEW",
+  "cost": "115000",
+  "size": "31,2",
+  "ppm2": "3686",
+  "next": "120750"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "20",
+  "type": "STUDIO VOLCANO VIEW",
+  "cost": "115000",
+  "size": "31,2",
+  "ppm2": "3686",
+  "next": "120750"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "P1",
+  "type": "PENTHOUSE OCEAN VIEW",
+  "cost": "119700",
+  "size": "31,2",
+  "ppm2": "3837",
+  "next": "125685"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "P2",
+  "type": "PENTHOUSE OCEAN VIEW",
+  "cost": "119700",
+  "size": "31,2",
+  "ppm2": "3837",
+  "next": "125685"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "P3",
+  "type": "PENTHOUSE OCEAN VIEW",
+  "cost": "119700",
+  "size": "31,2",
+  "ppm2": "3837",
+  "next": "125685"
+ },
+ {
+  "status": "BOOKED",
+  "num": "P4",
+  "type": "PENTHOUSE OCEAN VIEW",
+  "cost": "119700",
+  "size": "31,2",
+  "ppm2": "3837",
+  "next": "125685"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "P5",
+  "type": "PENTHOUSE VOLCANO VIEW",
+  "cost": "119700",
+  "size": "31,2",
+  "ppm2": "3837",
+  "next": "125685"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "P6",
+  "type": "PENTHOUSE VOLCANO VIEW",
+  "cost": "119700",
+  "size": "31,2",
+  "ppm2": "3837",
+  "next": "125685"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "P7",
+  "type": "PENTHOUSE VOLCANO VIEW",
+  "cost": "119700",
+  "size": "31,2",
+  "ppm2": "3837",
+  "next": "125685"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "P8",
+  "type": "PENTHOUSE VOLCANO VIEW",
+  "cost": "119700",
+  "size": "31,2",
+  "ppm2": "3837",
+  "next": "125685"
+ },
+ {
+  "status": "BOOKED",
+  "num": "21",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "BOOKED",
+  "num": "22",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "BOOKED",
+  "num": "23",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "BOOKED",
+  "num": "24",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "25",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "26",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "BOOKED",
+  "num": "27",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "BOOKED",
+  "num": "28",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "29",
+  "type": "1BD",
+  "cost": "199700",
+  "size": "71,3",
+  "ppm2": "2801",
+  "next": "209685"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "30",
+  "type": "1BD",
+  "cost": "199700",
+  "size": "71,3",
+  "ppm2": "2801",
+  "next": "209685"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "31",
+  "type": "1BD SKY",
+  "cost": "206700",
+  "size": "83,3",
+  "ppm2": "2481",
+  "next": "217035"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "32",
+  "type": "1BD SKY",
+  "cost": "206700",
+  "size": "83,3",
+  "ppm2": "2481",
+  "next": "217035"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "33",
+  "type": "1BD",
+  "cost": "199700",
+  "size": "71,3",
+  "ppm2": "2801",
+  "next": "209685"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "34",
+  "type": "1BD",
+  "cost": "199700",
+  "size": "71,3",
+  "ppm2": "2801",
+  "next": "209685"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "35",
+  "type": "1BD SKY",
+  "cost": "206700",
+  "size": "83,3",
+  "ppm2": "2481",
+  "next": "217035"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "36",
+  "type": "1BD SKY",
+  "cost": "206700",
+  "size": "83,3",
+  "ppm2": "2481",
+  "next": "217035"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "37",
+  "type": "1BD",
+  "cost": "199700",
+  "size": "71,3",
+  "ppm2": "2801",
+  "next": "209685"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "38",
+  "type": "1BD",
+  "cost": "199700",
+  "size": "71,3",
+  "ppm2": "2801",
+  "next": "209685"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "39",
+  "type": "1BD SKY",
+  "cost": "206700",
+  "size": "83,3",
+  "ppm2": "2481",
+  "next": "217035"
+ },
+ {
+  "status": "BOOKED",
+  "num": "40",
+  "type": "1BD SKY",
+  "cost": "206700",
+  "size": "83,3",
+  "ppm2": "2481",
+  "next": "217035"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "41",
+  "type": "1BD",
+  "cost": "199700",
+  "size": "71,3",
+  "ppm2": "2801",
+  "next": "209685"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "42",
+  "type": "1BD",
+  "cost": "199700",
+  "size": "71,3",
+  "ppm2": "2801",
+  "next": "209685"
+ },
+ {
+  "status": "BOOKED",
+  "num": "43",
+  "type": "1BD SKY",
+  "cost": "206700",
+  "size": "83,3",
+  "ppm2": "2481",
+  "next": "217035"
+ },
+ {
+  "status": "BOOKED",
+  "num": "44",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "45",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "46",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "47",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "BOOKED",
+  "num": "48",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "BOOKED",
+  "num": "49",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "BOOKED",
+  "num": "50",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "BOOKED",
+  "num": "51",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "52",
+  "type": "1BD SKY",
+  "cost": "206700",
+  "size": "83,3",
+  "ppm2": "2481",
+  "next": "217035"
+ },
+ {
+  "status": "BOOKED",
+  "num": "53",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "BOOKED",
+  "num": "54",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "55",
+  "type": "4BD SKY",
+  "cost": "469200",
+  "size": "159,8",
+  "ppm2": "2936",
+  "next": "492660"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "56",
+  "type": "4BD SKY",
+  "cost": "469200",
+  "size": "159,8",
+  "ppm2": "2936",
+  "next": "492660"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "57",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "58",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "59",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "60",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "61",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "62",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "63",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "64",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "BOOKED",
+  "num": "65",
+  "type": "1BD",
+  "cost": "199700",
+  "size": "71,3",
+  "ppm2": "2801",
+  "next": "209685"
+ },
+ {
+  "status": "BOOKED",
+  "num": "66",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "BOOKED",
+  "num": "67",
+  "type": "1BD SKY",
+  "cost": "196700",
+  "size": "83,3",
+  "ppm2": "2361",
+  "next": "206535"
+ },
+ {
+  "status": "BOOKED",
+  "num": "68",
+  "type": "1BD",
+  "cost": "189700",
+  "size": "71,3",
+  "ppm2": "2661",
+  "next": "199185"
+ },
+ {
+  "status": "BOOKED",
+  "num": "69",
+  "type": "3BD",
+  "cost": "315000",
+  "size": "127,85",
+  "ppm2": "2464",
+  "next": "330750"
+ },
+ {
+  "status": "BOOKED",
+  "num": "70",
+  "type": "3BD SKY",
+  "cost": "325000",
+  "size": "136,51",
+  "ppm2": "2381",
+  "next": "341250"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "71",
+  "type": "3BD",
+  "cost": "315000",
+  "size": "136,51",
+  "ppm2": "2308",
+  "next": "330750"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "72",
+  "type": "3BD SKY",
+  "cost": "325000",
+  "size": "136,51",
+  "ppm2": "2381",
+  "next": "341250"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "73",
+  "type": "3BD",
+  "cost": "315000",
+  "size": "127,85",
+  "ppm2": "2464",
+  "next": "330750"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "74",
+  "type": "3BD SKY",
+  "cost": "325000",
+  "size": "136,51",
+  "ppm2": "2381",
+  "next": "341250"
+ },
+ {
+  "status": "BOOKED",
+  "num": "75",
+  "type": "3BD",
+  "cost": "315000",
+  "size": "127,85",
+  "ppm2": "2464",
+  "next": "330750"
+ },
+ {
+  "status": "BOOKED",
+  "num": "76",
+  "type": "3BD SKY",
+  "cost": "325000",
+  "size": "136,51",
+  "ppm2": "2381",
+  "next": "341250"
+ },
+ {
+  "status": "BOOKED",
+  "num": "77",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "PRESALE",
+  "num": "78",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "PRESALE",
+  "num": "79",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "PRESALE",
+  "num": "80",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "PRESALE",
+  "num": "81",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "82",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "BOOKED",
+  "num": "83",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "BOOKED",
+  "num": "84",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "BOOKED",
+  "num": "85",
+  "type": "3BD",
+  "cost": "315000",
+  "size": "127,85",
+  "ppm2": "2464",
+  "next": "330750"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "86",
+  "type": "3BD SKY",
+  "cost": "325000",
+  "size": "136,51",
+  "ppm2": "2381",
+  "next": "341250"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "87",
+  "type": "3BD",
+  "cost": "315000",
+  "size": "127,85",
+  "ppm2": "2464",
+  "next": "330750"
+ },
+ {
+  "status": "BOOKED",
+  "num": "88",
+  "type": "3BD SKY",
+  "cost": "325000",
+  "size": "136,51",
+  "ppm2": "2381",
+  "next": "341250"
+ },
+ {
+  "status": "BOOKED",
+  "num": "89",
+  "type": "4BD RIVER",
+  "cost": "475000",
+  "size": "159,8",
+  "ppm2": "2972",
+  "next": "498750"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "90",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "BOOKED",
+  "num": "91",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "BOOKED",
+  "num": "92",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "BOOKED",
+  "num": "93",
+  "type": "2BD",
+  "cost": "253700",
+  "size": "104,61",
+  "ppm2": "2425",
+  "next": "266385"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "94",
+  "type": "3BD",
+  "cost": "315000",
+  "size": "127,85",
+  "ppm2": "2464",
+  "next": "330750"
+ },
+ {
+  "status": "BOOKED",
+  "num": "95",
+  "type": "3BD SKY",
+  "cost": "325000",
+  "size": "136,51",
+  "ppm2": "2381",
+  "next": "341250"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "96",
+  "type": "3BD",
+  "cost": "315000",
+  "size": "127,85",
+  "ppm2": "2464",
+  "next": "330750"
+ },
+ {
+  "status": "BOOKED",
+  "num": "97",
+  "type": "3BD SKY",
+  "cost": "325000",
+  "size": "136,51",
+  "ppm2": "2381",
+  "next": "341250"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "98",
+  "type": "3BD",
+  "cost": "315000",
+  "size": "127,85",
+  "ppm2": "2464",
+  "next": "330750"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "99",
+  "type": "3BD SKY",
+  "cost": "325000",
+  "size": "136,51",
+  "ppm2": "2381",
+  "next": "341250"
+ },
+ {
+  "status": "PREBOOKED",
+  "num": "100",
+  "type": "3BD",
+  "cost": "315000",
+  "size": "127,85",
+  "ppm2": "2464",
+  "next": "330750"
+ },
+ {
+  "status": "BOOKED",
+  "num": "101",
+  "type": "3BD SKY",
+  "cost": "325000",
+  "size": "136,51",
+  "ppm2": "2381",
+  "next": "341250"
+ },
+ {
+  "status": "BOOKED",
+  "num": "102",
+  "type": "4BD RIVER",
+  "cost": "469200",
+  "size": "159,8",
+  "ppm2": "2936",
+  "next": "492660"
+ },
+ {
+  "status": "EARLY STAGE",
+  "num": "103",
+  "type": "4BD RIVER",
+  "cost": "469200",
+  "size": "159,8",
+  "ppm2": "2936",
+  "next": "492660"
+ }
+]

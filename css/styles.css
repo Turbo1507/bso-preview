@@ -1063,3 +1063,55 @@ body.lead-lock{overflow:hidden}
 .plans-viewer-slide:not(.plans-viewer-slide--plan):not(.plans-viewer-slide--topview):hover img{
   transform:scale(1.045);
 }
+
+/* ---------- интерактивный план (v1, черновик) ----------
+   Сайт живёт только в тёмной теме (v1 убран 18.08, см. git log) — токены
+   ниже намеренно "тёмные" напрямую, не через светлые --white/--line-strong
+   из :root (те переопределены в v2.css под тёмный фон и на светлой панели
+   были бы нечитаемы; здесь светлой панели просто нет). */
+.iplan-layout{display:grid; grid-template-columns:1.1fr 1fr; gap:var(--sp-lg); margin-top:var(--sp-lg); align-items:start}
+.iplan-map{border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-card); position:sticky; top:100px}
+.iplan-map img{width:100%; display:block}
+
+.iplan-panel{background:var(--surface); border-radius:var(--r-lg); padding:28px; box-shadow:var(--shadow-card); color:var(--graphite)}
+.iplan-legend{display:flex; flex-wrap:wrap; gap:18px; margin-bottom:20px}
+.iplan-legend-item{display:flex; align-items:center; gap:8px; font-size:14px; color:var(--muted)}
+.iplan-dot{width:9px; height:9px; border-radius:50%; flex:0 0 auto}
+.iplan-dot.is-early{background:#5cb37f}
+.iplan-dot.is-prebooked{background:var(--clay)}
+.iplan-dot.is-booked{background:rgba(255,255,255,.3)}
+
+.iplan-filters{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px}
+.iplan-chip{
+  padding:8px 16px; border-radius:var(--r-xs); border:1px solid rgba(255,255,255,.13);
+  font-size:13px; font-weight:400; color:rgba(255,255,255,.72); transition:all .2s; background:transparent;
+}
+.iplan-chip:not(.is-active):hover{border-color:var(--clay); color:var(--clay)}
+.iplan-chip.is-active{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
+.iplan-filters-status{margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,.13)}
+
+.iplan-table-wrap{overflow-x:auto; overflow-y:auto; max-height:520px; border:1px solid rgba(255,255,255,.13); border-radius:var(--r-sm)}
+.iplan-table{width:100%; border-collapse:collapse; font-size:14px}
+.iplan-table thead{position:sticky; top:0; background:var(--surface); z-index:1}
+.iplan-table th{
+  text-align:left; padding:10px 12px; font-weight:500; color:var(--muted); font-size:12px;
+  text-transform:uppercase; letter-spacing:.02em; border-bottom:1px solid rgba(255,255,255,.13); cursor:pointer; white-space:nowrap;
+}
+.iplan-table th:hover{color:var(--clay)}
+.iplan-table th.is-sorted-asc::after{content:" ↑"}
+.iplan-table th.is-sorted-desc::after{content:" ↓"}
+.iplan-table td{padding:10px 12px; border-bottom:1px solid rgba(255,255,255,.08); white-space:nowrap}
+.iplan-table tbody tr:hover{background:var(--surface-2)}
+.iplan-status{
+  display:inline-block; padding:4px 10px; border-radius:var(--r-pill); font-size:12px; font-weight:500;
+}
+.iplan-status.is-early{background:rgba(92,179,127,.15); color:#7ecb9b}
+.iplan-status.is-prebooked{background:rgba(217,174,69,.15); color:var(--clay-soft)}
+.iplan-status.is-booked{background:rgba(255,255,255,.06); color:var(--muted)}
+.iplan-count{margin-top:14px; font-size:13px; color:var(--muted)}
+
+@media (max-width:860px){
+  .iplan-layout{grid-template-columns:1fr}
+  .iplan-map{position:static}
+  .iplan-panel{padding:20px}
+}
