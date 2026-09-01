@@ -551,7 +551,12 @@ function renderPlan(planId, lang) {
            самой виллы, не на белом листе (правка Босса 05.08) — берём
            предпоследний интерьерный кадр того же типа, CSS блюрит его в
            ::before (.plans-viewer-slide--topview, v2.css) */
-        slide.style.setProperty('--topview-bg', `url(${ASSET(p.photos[i - 1])})`);
+        /* абсолютный URL обязателен: url() внутри custom property резолвится
+           относительно стилшита (css/v2.css), где variable реально используется
+           в background, а не относительно страницы — с относительным путём
+           получался битый css/assets/... (баг, не показывал фото, только тёмный
+           градиент поверх) */
+        slide.style.setProperty('--topview-bg', `url("${new URL(ASSET(p.photos[i - 1]), document.baseURI).href}")`);
       }
       if (isTopview && floors) {
         slide.appendChild(buildFloorsSVG(floors.render, lang, false));
