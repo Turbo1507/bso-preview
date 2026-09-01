@@ -577,7 +577,19 @@ function renderPlan(planId, lang) {
         const card = document.createElement('div');
         card.className = 'plans-collage-topview';
         if (floors) {
-          card.appendChild(buildFloorsSVG(floors.render, lang, false));
+          const svg = buildFloorsSVG(floors.render, lang, false);
+          /* Убрать чёрную "подложку" вокруг рендера в квадратной ячейке
+             (правка Босса 02.09: "уберите эту ебучую подложку"). Общий
+             viewBox 1920×1277 нужен схематичной панели плана (там выравнивание
+             между типами), но сам рендер занимает только часть этого холста —
+             остальное прозрачный отступ. Здесь, в карточке коллажа, обрезаем
+             viewBox по фактической area f1/f2, чтобы preserveAspectRatio="meet"
+             не тратил место на пустоту. */
+          const { f1, f2 } = floors.render;
+          const minX = Math.min(f1.x, f2.x), minY = Math.min(f1.y, f2.y);
+          const maxX = Math.max(f1.x + f1.w, f2.x + f2.w), maxY = Math.max(f1.y + f1.h, f2.y + f2.h);
+          svg.setAttribute('viewBox', `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
+          card.appendChild(svg);
         } else {
           const bg = document.createElement('div');
           bg.className = 'plans-collage-topview-bg';
