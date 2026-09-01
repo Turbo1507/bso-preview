@@ -19,7 +19,7 @@
 
   // presale — тот же смысл, что early stage (доступен), только другая
   // внутренняя стадия продаж; для покупателя разницы нет.
-  const units = BSO_UNITS.map(u => ({ ...u, st: u.st === 'presale' ? 'early' : u.st }));
+  let units = BSO_UNITS.map(u => ({ ...u, st: u.st === 'presale' ? 'early' : u.st }));
 
   const types = Array.from(new Set(units.map(u => u.t)));
   types.forEach(t => {
@@ -124,4 +124,20 @@
       render();
     };
   }
+
+  /* Живая подгрузка из гугл-таблицы (units-live.js) — перезаписывает
+     цену/статус/размер по номеру юнита и перерисовывает таблицу. Список
+     типов/чипов не пересобираем: набор форматов виллы стабилен, меняются
+     только цена/наличие. */
+  window.__bsoRefreshUnits = function (freshUnits) {
+    const byNumber = {};
+    freshUnits.forEach(u => { byNumber[u.n] = u; });
+    units = units.map(u => {
+      const fresh = byNumber[u.n];
+      if (!fresh) return u;
+      const st = fresh.st === 'presale' ? 'early' : fresh.st;
+      return { ...u, ...fresh, st };
+    });
+    render();
+  };
 })();

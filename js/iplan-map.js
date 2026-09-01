@@ -12,7 +12,7 @@
     booked: { ru: 'Продан', en: 'Sold' },
     presale: { ru: 'Доступен', en: 'Available' },
   };
-  const unitsByNumber = {};
+  let unitsByNumber = {};
   BSO_UNITS.forEach(u => { unitsByNumber[u.n] = u; });
 
   BSO_BUILDINGS.forEach(b => {
@@ -101,4 +101,17 @@
       }
     };
   }
+
+  /* Живая подгрузка из гугл-таблицы (units-live.js) — обновляет цену/статус
+     по номеру юнита и, если попап сейчас открыт, перерисовывает его. */
+  window.__bsoRefreshMapUnits = function (freshUnits) {
+    freshUnits.forEach(u => {
+      if (unitsByNumber[u.n]) Object.assign(unitsByNumber[u.n], u);
+    });
+    const active = hotspotsEl.querySelector('.iplan-hotspot.is-active');
+    if (active) {
+      const b = BSO_BUILDINGS[active.dataset.buildingId];
+      if (b) renderPopup(b, active);
+    }
+  };
 })();
