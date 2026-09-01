@@ -324,7 +324,8 @@ function wireSlider(trackId, prevId, nextId, dotsId, autoplayMs, opts) {
   return { sync, setCount };
 }
 wireSlider('minGalleryTrack', 'minGalleryPrev', 'minGalleryNext', 'minGalleryDots', 8000, { loop: true });
-const plansPhotoSlider = wireSlider('plansPhotoTrack', 'plansPhotoPrev', 'plansPhotoNext', 'plansPhotoDots');
+/* plansPhotoTrack — с 01.09 коллаж (CSS grid), не свайп-карусель, wireSlider
+   больше не нужен (правка Босса: "коллаж, не карусель", реф unitdeveloper.com) */
 
 /* ---------- пины инфраструктуры на мастер-плане Nuanu ---------- */
 /* координаты (%) сняты через get_nodes_info с Figma-фреймов "nuanu desk rus"
@@ -554,41 +555,42 @@ function renderPlan(planId, lang) {
     } else {
       planToggleImg.style.display = ''; planToggleImg.src = ASSET(p.photos[0]); planToggleImg.alt = p.photoAlts[0];
     }
-    track.querySelectorAll('.plans-viewer-slide').forEach(el => el.remove());
+    /* Коллаж вместо карусели (правка Босса 01.09, реф unitdeveloper.com/
+       #projects .project-gallery): интерьерные фото — плотной сеткой,
+       топвью — отдельная крупная карточка с кнопкой «Смотреть план».
+       Лайтбокс (v2.js) сам подхватывает любые <img> внутри #plansPhotoTrack —
+       ничего в нём трогать не нужно, только не класть <img> в топвью-карточку
+       (там background-image на div, чтобы лайтбокс её не подхватил). */
+    const toggleBtn = document.getElementById('plansToggleBtn');
+    track.querySelectorAll('.plans-collage-tile, .plans-collage-topview').forEach(el => el.remove());
+    // интерьерных фото 2-4 по типам — под фактическое число (не хардкодить 3)
+    track.style.gridTemplateColumns = `repeat(${p.photos.length - 2}, 1fr)`;
     for (let i = 1; i < p.photos.length; i++) {
       const isTopview = i === p.photos.length - 1;
-      const slide = document.createElement('div');
-      slide.className = 'plans-viewer-slide' + (isTopview ? ' plans-viewer-slide--topview' : '');
       if (isTopview) {
-        /* рендер-слайд (последний в галерее виллы) стоит на размытом фото
-           самой виллы, не на белом листе (правка Босса 05.08) — берём
-           предпоследний интерьерный кадр того же типа, CSS блюрит его в
-           ::before (.plans-viewer-slide--topview, v2.css) */
-        /* абсолютный URL обязателен: url() внутри custom property резолвится
-           относительно стилшита (css/v2.css), где variable реально используется
-           в background, а не относительно страницы — с относительным путём
-           получался битый css/assets/... (баг, не показывал фото, только тёмный
-           градиент поверх) */
-        slide.style.setProperty('--topview-bg', `url("${new URL(ASSET(p.photos[i - 1]), document.baseURI).href}")`);
-      }
-      if (isTopview && floors) {
-        slide.appendChild(buildFloorsSVG(floors.render, lang, false));
+        const card = document.createElement('div');
+        card.className = 'plans-collage-topview';
+        if (floors) {
+          card.appendChild(buildFloorsSVG(floors.render, lang, false));
+        } else {
+          const bg = document.createElement('div');
+          bg.className = 'plans-collage-topview-bg';
+          bg.style.backgroundImage = `url("${new URL(ASSET(p.photos[i]), document.baseURI).href}")`;
+          card.appendChild(bg);
+        }
+        if (toggleBtn) card.appendChild(toggleBtn); // перемещаем, не клонируем — обработчик клика (v2.js) не отвязывается
+        track.appendChild(card);
       } else {
         const img = document.createElement('img');
-        img.className = 'plan-photo-img';
+        img.className = 'plan-photo-img plans-collage-tile';
         /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
-           (коммит ca4a0c2): в горизонтальном scroll-snap треке офскрин-кадры
-           не подгружаются браузером вовремя, слайд виснет пустым/долго грузится
-           при переключении таба виллы, пока юзер не подождёт или не проскроллит */
+           (коммит ca4a0c2): офскрин-кадры не подгружались вовремя */
         img.src = ASSET(p.photos[i]);
         img.alt = p.photoAlts[i];
         if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
-        slide.appendChild(img);
+        track.appendChild(img);
       }
-      track.appendChild(slide);
     }
-    track.scrollLeft = 0;
-    plansPhotoSlider && plansPhotoSlider.setCount(p.photos.length - 1);
     return;
   }
 
