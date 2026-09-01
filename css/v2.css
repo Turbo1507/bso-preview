@@ -312,7 +312,13 @@ body.menu-open .burger span{background:var(--white)}
    справа — квадратный блок из двух ячеек: последнее интерьерное фото
    сверху, топвью снизу (правка Босса: "квадратиком справа снизу"). */
 .plans-collage{display:flex; flex-wrap:wrap; gap:14px; align-items:flex-start}
-.plans-collage-left{flex:1 1 480px; display:flex; flex-wrap:wrap; gap:14px}
+/* БАГ (Босс 02.09, "хуйня с фотками"/"уберите подложку"): flex:1 здесь тянул
+   .plans-collage-left на всю доступную ширину контейнера, а сами фото
+   внутри (height:400px, width:auto) эту ширину не заполняли — между
+   фактическими фото и правой колонкой зияла чёрная пустота (сам flex-item
+   растянут, контент внутри — нет). Никакого flex-grow: контейнер должен
+   быть РОВНО такой ширины, сколько занимают фото внутри, не больше. */
+.plans-collage-left{flex:0 1 auto; display:flex; flex-wrap:wrap; gap:14px}
 .plans-collage-left .plans-collage-tile{height:400px; width:auto; max-width:100%;
   object-fit:contain; border-radius:var(--r-md); cursor:zoom-in; transition:transform .4s var(--ease)}
 @media (hover:hover){.plans-collage-left .plans-collage-tile:hover{transform:scale(1.015)}}
@@ -336,12 +342,14 @@ body.menu-open .burger span{background:var(--white)}
    кнопка "гуляла" непредсказуемо). Только иконка, без текста; два состояния
    (план/крестик) переключаются классом на .plans-viewer, как раньше. */
 .plans-toggle-btn--icon{
-  flex:0 0 auto; width:48px; height:48px; display:flex; align-items:center; justify-content:center;
-  border-radius:50%; border:1px solid var(--line); background:transparent; color:var(--muted);
+  /* квадратная и той же высоты, что .btn-glass рядом (64px, замерено), не
+     кружок на глаз (правка Босса 02.09) */
+  flex:0 0 auto; width:64px; height:64px; display:flex; align-items:center; justify-content:center;
+  border-radius:var(--r-xs); border:1px solid var(--line); background:transparent; color:var(--muted);
   transition:all .2s var(--ease);
 }
 .plans-toggle-btn--icon:hover{border-color:var(--clay); color:var(--clay)}
-.plans-toggle-ic{width:20px; height:20px}
+.plans-toggle-ic{width:26px; height:26px}
 .plans-toggle-ic--open{display:none}
 .plans-viewer.is-open ~ .plans-info .plans-toggle-btn--icon{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
 .plans-viewer.is-open ~ .plans-info .plans-toggle-ic--closed{display:none}
