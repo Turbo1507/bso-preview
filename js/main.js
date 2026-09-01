@@ -63,6 +63,19 @@ if (leadModal && leadForm) {
     setMenuOpen(false);
     openLead();
   }));
+
+  /* CTA «Забронировать» из интерактивного плана (попап/таблица, iplan-map.js
+     и units-plan.js) — открывает ту же форму лида, но подставляет номер
+     юнита в комментарий, чтобы заявка сразу была адресной. */
+  window.openLeadForUnit = function (unitNumber) {
+    const commentEl = leadForm.querySelector('textarea[name="comment"]');
+    const purposeEl = leadForm.querySelector('select[name="purpose"]');
+    const lang = window.__bsoLang || document.documentElement.lang || 'en';
+    if (commentEl) commentEl.value = (lang === 'ru' ? 'Юнит ' : 'Unit ') + unitNumber;
+    if (purposeEl && !purposeEl.value) purposeEl.value = 'own';
+    setMenuOpen(false);
+    openLead();
+  };
   leadModal.querySelectorAll('[data-lead-close]').forEach(el => el.addEventListener('click', closeLead));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLead(); });
 
