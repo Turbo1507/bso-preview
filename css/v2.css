@@ -1159,41 +1159,28 @@ body.lb-lock{overflow:hidden}
    ПРАВКИ БОССА 17.08
    ========================================================================== */
 
-/* ---------- 1. Чипы Stella Solaris — прямо на фото, только десктоп ---------- */
-/* Босс 20.08: чипы с фото убраны совсем. На кадре Stella Solaris теперь два
-   оверлея — плашка-заголовок в левом верхнем углу (.sig-badge) и описание
-   стеклянной строкой у нижнего края (.sig-meta), перенесённое из блока,
-   что раньше стоял ПОД фото. Оба видны на всех ширинах: это одна короткая
-   строка на фразу, кадр не перекрывают. */
+/* ---------- 1. Stella Solaris — подпись как у блока 2 (.arch-slide-cap) ---------- */
+/* Босс 01.09: унифицировать с паттерном блока «Архитектура» (текст на фото —
+   номер/заголовок в градиентном скриме снизу), вместо двух отдельных
+   стеклянных плашек (заголовок сверху + описание снизу). Один кадр, не
+   слайдер (единственное фото Stella Solaris) — .arch-slide-cap переиспользован
+   как есть, .sig-cap только раскладывает заголовок + два абзаца внутри него. */
 .signature-photo{position:relative}
 .sig-chips{display:none}                     /* легаси-узел на случай кеша — не показываем */
 
-/* скрим сверху (под заголовок) и снизу (под описание) — чтобы текст читался */
-.signature-photo::before{content:''; position:absolute; inset:0; pointer-events:none; z-index:1;
-  background:
-    linear-gradient(to bottom, rgba(11,12,11,.55) 0%, rgba(11,12,11,0) 26%),
-    linear-gradient(to top,    rgba(11,12,11,.78) 0%, rgba(11,12,11,.28) 30%, rgba(11,12,11,0) 58%)}
-
-.sig-badge{position:absolute; z-index:2; top:24px; left:24px;
-  background:rgba(19,19,19,.42); border:1px solid rgba(217,174,69,.32);
-  border-radius:var(--r-sm); padding:12px 20px;
-  backdrop-filter:blur(20px) saturate(1.1); -webkit-backdrop-filter:blur(20px) saturate(1.1)}
-.sig-badge h3{margin:0; font-family:'Prata',Georgia,serif; font-size:28px; line-height:1;
-  color:var(--clay); letter-spacing:.01em}
-
-.sig-meta{position:absolute; z-index:2; left:24px; right:24px; bottom:24px;
-  display:flex; flex-wrap:wrap; gap:8px 40px}
-.sig-meta p{margin:0; font-size:16px; line-height:1.45; color:rgba(255,255,255,.9);
+.sig-cap h3{font-family:'Prata',Georgia,serif; font-size:clamp(24px,2.6vw,32px);
+  color:var(--clay); letter-spacing:.01em; margin:0 0 12px}
+.sig-cap p{margin:0; font-size:16px; line-height:1.45; color:rgba(255,255,255,.9);
   max-width:44ch; text-shadow:0 1px 12px rgba(0,0,0,.5)}
+.sig-cap p + p{margin-top:6px}
 
 @media (max-width:860px){
   /* широкий кадр 620/327 на телефоне становится плоской полосой — текст снизу
      не влезает; поднимаем высоту, чтобы описание читалось поверх фото */
   .signature-photo{aspect-ratio:3/2}
-  .sig-badge{top:16px; left:16px; padding:9px 15px}
-  .sig-badge h3{font-size:21px}
-  .sig-meta{left:16px; right:16px; bottom:16px; gap:6px}
-  .sig-meta p{font-size:13px; line-height:1.4; max-width:none}
+  .sig-cap{padding:20px}
+  .sig-cap h3{font-size:21px; margin-bottom:8px}
+  .sig-cap p{font-size:13px; line-height:1.4; max-width:none}
 }
 
 /* ---------- 2. Галерея: слайдер не читался как слайдер ---------- */
