@@ -458,19 +458,19 @@ const FLOOR_LAYOUTS = {
   },
   '2bd': {
     plan:   { f2:{src:'assets/plan-2bd-f2.png', x:203, y:128, w:1030, h:747}, f1:{src:'assets/plan-2bd-f1.png', x:619, y:353, w:1099, h:796}, label2:{x:1313,y:128}, label1:{x:363,y:1115} },
-    render: { f2:{src:'assets/villa-2bd-topview-f2.png', x:128, y:139, w:1151.33, h:717.05}, f1:{src:'assets/villa-2bd-topview-f1.jpg', x:629.79, y:377.73, w:1162.21, h:761.11}, label2:{x:1360,y:139}, label1:{x:373,y:1105} }
+    render: { f2:{src:'assets/villa-2bd-topview-f2.png', x:128, y:139, w:1151.33, h:717.05}, f1:{src:'assets/villa-2bd-topview-f1.png', x:629.79, y:377.73, w:1162.21, h:761.11}, label2:{x:1360,y:139}, label1:{x:373,y:1105} }
   },
   '3bd': {
     plan:   { f2:{src:'assets/plan-3bd-f2.png', x:228, y:128, w:846, h:614}, f1:{src:'assets/plan-3bd-f1.png', x:549, y:293, w:1144, h:856}, label2:{x:1154,y:128}, label1:{x:293,y:1115} },
-    render: { f2:{src:'assets/villa-3bd-topview-f2.png', x:184, y:128, w:986, h:614}, f1:{src:'assets/villa-3bd-topview-f1.jpg', x:588, y:306, w:1149, h:843}, label2:{x:1250,y:128}, label1:{x:332,y:1115} }
+    render: { f2:{src:'assets/villa-3bd-topview-f2.png', x:184, y:128, w:986, h:614}, f1:{src:'assets/villa-3bd-topview-f1.png', x:588, y:306, w:1149, h:843}, label2:{x:1250,y:128}, label1:{x:332,y:1115} }
   },
   '3bdsky': {
     plan:   { f2:{src:'assets/plan-3bdsky-f2.png', x:593, y:128, w:735, h:414}, f1:{src:'assets/plan-3bdsky-f1.png', x:683, y:615, w:555, h:534}, label2:{x:1408,y:128}, label1:{x:427,y:1115} },
-    render: { f2:{src:'assets/villa-3bdsky-topview-f2.png', x:613, y:128, w:695, h:345}, f1:{src:'assets/villa-3bdsky-topview-f1.jpg', x:653, y:547, w:615, h:602} }
+    render: { f2:{src:'assets/villa-3bdsky-topview-f2.png', x:613, y:128, w:695, h:345}, f1:{src:'assets/villa-3bdsky-topview-f1.png', x:653, y:547, w:615, h:602} }
   },
   '4bd': {
     plan:   { f2:{src:'assets/plan-4bd-f2.png', x:597, y:128, w:726.94, h:416.46}, f1:{src:'assets/plan-4bd-f1.png', x:597.18, y:569.70, w:726.76, h:579.30}, label2:{x:1404,y:128}, label1:{x:341,y:1115} },
-    render: { f2:{src:'assets/villa-4bd-topview-f2.png', x:560, y:128, w:800, h:397}, f1:{src:'assets/villa-4bd-topview-f1.jpg', x:560, y:561, w:800, h:588}, label2:{x:1440,y:128}, label1:{x:304,y:1115} }
+    render: { f2:{src:'assets/villa-4bd-topview-f2.png', x:560, y:128, w:800, h:397}, f1:{src:'assets/villa-4bd-topview-f1.png', x:560, y:561, w:800, h:588}, label2:{x:1440,y:128}, label1:{x:304,y:1115} }
   }
 };
 const FLOOR_LABEL_TEXT = {
