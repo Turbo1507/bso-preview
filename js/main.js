@@ -555,16 +555,22 @@ function renderPlan(planId, lang) {
     } else {
       planToggleImg.style.display = ''; planToggleImg.src = ASSET(p.photos[0]); planToggleImg.alt = p.photoAlts[0];
     }
-    /* Коллаж вместо карусели (правка Босса 01.09, реф unitdeveloper.com/
-       #projects .project-gallery): интерьерные фото — плотной сеткой,
-       топвью — отдельная крупная карточка с кнопкой «Смотреть план».
-       Лайтбокс (v2.js) сам подхватывает любые <img> внутри #plansPhotoTrack —
-       ничего в нём трогать не нужно, только не класть <img> в топвью-карточку
-       (там background-image на div, чтобы лайтбокс её не подхватил). */
-    const toggleBtn = document.getElementById('plansToggleBtn');
-    track.querySelectorAll('.plans-collage-tile, .plans-collage-topview').forEach(el => el.remove());
-    // интерьерных фото 2-4 по типам — под фактическое число (не хардкодить 3)
-    track.style.gridTemplateColumns = `repeat(${p.photos.length - 2}, 1fr)`;
+    /* Масонри-коллаж вместо карусели (правка Босса 01.09, доработано 02.09:
+       реф unitdeveloper.com/#projects .project-gallery + просьба сохранять
+       формат каждого фото, а не резать под общую рамку). Интерьеры слева —
+       каждый в своих природных пропорциях (.plans-collage-left, CSS: общая
+       высота строки, width:auto — вертикальное фото уже, горизонтальное шире,
+       без object-fit). Справа — квадратный блок из ДВУХ ячеек: последнее
+       интерьерное фото сверху, топвью снизу. Кнопка «Смотреть план» больше
+       не живёт на фото — она в .plans-info рядом с CTA (плоская иконка,
+       постоянный узел, никуда не перемещается). Лайтбокс (v2.js) сам
+       подхватывает любые <img> внутри #plansPhotoTrack, независимо от
+       вложенности в left/right — трогать его не пришлось. */
+    const left = document.getElementById('plansCollageLeft');
+    const right = track.querySelector('.plans-collage-right');
+    left.innerHTML = '';
+    right.querySelectorAll('.plans-collage-tile, .plans-collage-topview').forEach(el => el.remove());
+    const lastInteriorIdx = p.photos.length - 2; // индекс последнего интерьерного фото (пара топвью)
     for (let i = 1; i < p.photos.length; i++) {
       const isTopview = i === p.photos.length - 1;
       if (isTopview) {
@@ -578,17 +584,17 @@ function renderPlan(planId, lang) {
           bg.style.backgroundImage = `url("${new URL(ASSET(p.photos[i]), document.baseURI).href}")`;
           card.appendChild(bg);
         }
-        if (toggleBtn) card.appendChild(toggleBtn); // перемещаем, не клонируем — обработчик клика (v2.js) не отвязывается
-        track.appendChild(card);
+        right.appendChild(card);
       } else {
         const img = document.createElement('img');
         img.className = 'plan-photo-img plans-collage-tile';
+        if (i === lastInteriorIdx) img.classList.add('plans-collage-tile--sq');
         /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
            (коммит ca4a0c2): офскрин-кадры не подгружались вовремя */
         img.src = ASSET(p.photos[i]);
         img.alt = p.photoAlts[i];
         if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
-        track.appendChild(img);
+        (i === lastInteriorIdx ? right : left).appendChild(img);
       }
     }
     return;
