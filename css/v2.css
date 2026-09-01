@@ -298,57 +298,55 @@ body.menu-open .burger span{background:var(--white)}
    Босса). На больших мониторах растёт через vh до потолка 680px. */
 /* 04.08 правка: ещё выше — floor 560→620, потолок 680→760 (просьба Босса
    «ещё выше фотографию в блоке с типажом вилл»). */
-.plans-viewer{position:relative; width:100%; height:clamp(620px,64vh,760px);
-  border-radius:var(--r-lg); overflow:hidden; background:var(--bg-deep); box-shadow:var(--shadow-card)}
+/* Босс 02.09: убрал фикс. высоту и рамку старого "контейнера карусели" —
+   блок сам не должен диктовать высоту фото, каждая карточка коллажа сама
+   по себе рамка (border-radius на тайлах), .plans-viewer — просто якорь
+   позиционирования для оверлея плана (position:relative, без своего фона/
+   тени/скругления/overflow:hidden). */
+.plans-viewer{position:relative; width:100%}
 
-/* Коллаж вместо карусели (правка Босса 01.09, реф unitdeveloper.com/#projects
-   .project-gallery: крупный кадр + сетка помельче). Топвью — отдельная
-   большая карточка (не в общей сетке интерьеров), кнопка «Смотреть план»
-   сидит НА этой карточке, не поверх всего блока — так понятнее, к какому
-   фото она относится. */
-/* Топвью — цельный композит из f1/f2 своих пропорций (viewBox 1920×1277,
-   ~3:2), плохо ложится в узкую высокую ячейку (пробовали — либо кроп резал
-   мимо виллы у несимметричных типов, либо оставался леттербоксинг). Поэтому
-   топвью — широкая строка НАД интерьерами на всю ширину коллажа, а не
-   колонка сбоку: полностью повторяет его собственные пропорции без обрезки.
-   Число колонок для интерьеров main.js выставляет инлайн (grid-template-
-   columns) под фактическое число фото (3 у большинства типов, 4 у 4BD). */
-.plans-collage{position:relative; height:100%; display:grid;
-  grid-template-rows:1.35fr 1fr; gap:12px}
-.plans-collage-tile{width:100%; height:100%; object-fit:cover; border-radius:var(--r-md);
-  cursor:zoom-in; transition:transform .4s var(--ease); grid-row:2}
-@media (hover:hover){.plans-collage-tile:hover{transform:scale(1.015)}}
-.plans-collage-topview{grid-row:1; grid-column:1/-1; position:relative;
-  border-radius:var(--r-md); overflow:hidden; background:#0b0c0b}
+/* Масонри-коллаж (правка Босса 01.09, доработано 02.09 — реф "поиграй с
+   геометрией", сохраняя пропорции каждого фото вместо единой сетки-кропа):
+   слева интерьерные фото каждое в СВОИХ пропорциях (высота общая, ширина
+   auto — вертикальное фото уже, горизонтальное шире, без обрезки),
+   справа — квадратный блок из двух ячеек: последнее интерьерное фото
+   сверху, топвью снизу (правка Босса: "квадратиком справа снизу"). */
+.plans-collage{display:flex; flex-wrap:wrap; gap:14px; align-items:flex-start}
+.plans-collage-left{flex:1 1 480px; display:flex; flex-wrap:wrap; gap:14px}
+.plans-collage-left .plans-collage-tile{height:400px; width:auto; max-width:100%;
+  object-fit:contain; border-radius:var(--r-md); cursor:zoom-in; transition:transform .4s var(--ease)}
+@media (hover:hover){.plans-collage-left .plans-collage-tile:hover{transform:scale(1.015)}}
+.plans-collage-right{flex:0 0 300px; display:flex; flex-direction:column; gap:14px}
+.plans-collage-right .plans-collage-tile,
+.plans-collage-right .plans-collage-topview{width:100%; aspect-ratio:1/1;
+  border-radius:var(--r-md); overflow:hidden; position:relative}
+.plans-collage-right .plans-collage-tile{object-fit:cover; cursor:zoom-in; transition:transform .4s var(--ease)}
+@media (hover:hover){.plans-collage-right .plans-collage-tile:hover{transform:scale(1.015)}}
+.plans-collage-topview{background:#0b0c0b}
 .plans-collage-topview-bg{position:absolute; inset:0; background-size:cover; background-position:center}
 /* SVG-композит (двухэтажные типы) — НЕ cover: он собран из f1/f2 со своим
    несимметричным прозрачным полем (см. iplan/buildFloorsSVG), центр-кроп
    мог случайно вырезать пустое место вместо виллы. Оставляем contain
-   (preserveAspectRatio="meet", уже задан в самом <svg>) — вся композиция
-   целиком, с леттербоксингом на тёмном фоне карточки, как было в карусели. */
+   (preserveAspectRatio="meet", уже задан в самом <svg>). */
 .plans-collage-topview svg.plan-floors-svg{position:absolute; inset:0; width:100%; height:100%}
 
-/* чип-кнопка стеклом поверх карточки топвью — тот же приём, что у
-   .pp-tags/.nuanu-badge. Два состояния (иконка+текст) внутри одной кнопки —
-   открыл план, кнопка превращается в «Назад к фото» (правка Босса). */
-.plans-toggle-btn{
-  position:absolute; z-index:4; left:16px; bottom:16px; max-width:calc(100% - 32px);
-  display:flex; align-items:center; padding:12px 18px; border-radius:var(--r-pill);
-  background:rgba(11,12,11,.5); border:1px solid rgba(255,255,255,.24);
-  backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-  color:var(--white); font-size:14px; white-space:nowrap;
-  transition:background .2s var(--ease);
+/* Иконка-кнопка «Смотреть план» — постоянный узел в строке CTA (.plans-info),
+   больше не плавает поверх фото (правка Босса 02.09: раньше сидела чипом на
+   карточке топвью, но та в масонри-раскладке разного размера по типам —
+   кнопка "гуляла" непредсказуемо). Только иконка, без текста; два состояния
+   (план/крестик) переключаются классом на .plans-viewer, как раньше. */
+.plans-toggle-btn--icon{
+  flex:0 0 auto; width:48px; height:48px; display:flex; align-items:center; justify-content:center;
+  border-radius:50%; border:1px solid var(--line); background:transparent; color:var(--muted);
+  transition:all .2s var(--ease);
 }
-.plans-toggle-btn:hover{background:rgba(11,12,11,.7)}
-.plans-toggle-state{display:flex; align-items:center; gap:10px}
-.plans-toggle-state--open{display:none}
-.plans-toggle-ic{flex:0 0 auto; width:18px; height:18px; color:var(--clay)}
-/* Кнопка «Назад к фото» на светлой панели плана — тёмная, как фон страницы
-   (var(--bg-deep)), не светлая под цвет самой панели (Босс: сливалась) */
-.plans-viewer.is-open .plans-toggle-btn{background:var(--bg-deep); color:var(--white); border-color:var(--bg-deep)}
-.plans-viewer.is-open .plans-toggle-ic{color:var(--clay)}
-.plans-viewer.is-open .plans-toggle-state--closed{display:none}
-.plans-viewer.is-open .plans-toggle-state--open{display:flex}
+.plans-toggle-btn--icon:hover{border-color:var(--clay); color:var(--clay)}
+.plans-toggle-ic{width:20px; height:20px}
+.plans-toggle-ic--open{display:none}
+.plans-viewer.is-open ~ .plans-info .plans-toggle-btn--icon{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
+.plans-viewer.is-open ~ .plans-info .plans-toggle-ic--closed{display:none}
+.plans-viewer.is-open ~ .plans-info .plans-toggle-ic--open{display:block}
+.plans-cta-row{display:flex; align-items:center; gap:12px; margin-left:auto}
 /* .plans-toggle-panel — СЕСТРА .plans-toggle (не внутри неё): inset:0 должен
    мерить от всего кадра .plans-viewer (position:relative), а не от маленькой
    кнопки — иначе оверлей схлопывается до размера чипа (был баг, экран
@@ -372,7 +370,10 @@ body.menu-open .burger span{background:var(--white)}
   transition:opacity .3s var(--ease), visibility 0s linear .3s}
 .plans-viewer.is-open .plans-toggle-panel{opacity:1; visibility:visible;
   transition:opacity .3s var(--ease), visibility 0s linear 0s}
-.plans-toggle-panel-in{padding:20px; padding-top:76px; display:flex; justify-content:center; align-items:flex-start; height:100%}
+/* padding-top больше не 76px: тот запас был под плавающую кнопку-чип поверх
+   фото, кнопка переехала в .plans-info (правка Босса 02.09), панель плана
+   верхний отступ не тратит */
+.plans-toggle-panel-in{padding:20px; display:flex; justify-content:center; align-items:flex-start; height:100%}
 .plans-toggle-panel-in img{display:block; width:auto; height:auto; max-width:100%; max-height:100%; object-fit:contain}
 /* двухэтажные типы — buildFloorsSVG вставляет <svg class="plan-floors-svg">
    вместо img (сама функция общая с v1, там она сидит в position:absolute
