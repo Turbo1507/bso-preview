@@ -555,58 +555,47 @@ function renderPlan(planId, lang) {
     } else {
       planToggleImg.style.display = ''; planToggleImg.src = ASSET(p.photos[0]); planToggleImg.alt = p.photoAlts[0];
     }
-    /* Масонри-коллаж вместо карусели (правка Босса 01.09, доработано 02.09:
-       реф unitdeveloper.com/#projects .project-gallery + просьба сохранять
-       формат каждого фото, а не резать под общую рамку). Интерьеры слева —
-       каждый в своих природных пропорциях (.plans-collage-left, CSS: общая
-       высота строки, width:auto — вертикальное фото уже, горизонтальное шире,
-       без object-fit). Справа — квадратный блок из ДВУХ ячеек: последнее
-       интерьерное фото сверху, топвью снизу. Кнопка «Смотреть план» больше
-       не живёт на фото — она в .plans-info рядом с CTA (плоская иконка,
-       постоянный узел, никуда не перемещается). Лайтбокс (v2.js) сам
-       подхватывает любые <img> внутри #plansPhotoTrack, независимо от
-       вложенности в left/right — трогать его не пришлось. */
-    const left = document.getElementById('plansCollageLeft');
-    const right = track.querySelector('.plans-collage-right');
-    left.innerHTML = '';
-    right.querySelectorAll('.plans-collage-tile, .plans-collage-topview').forEach(el => el.remove());
-    const lastInteriorIdx = p.photos.length - 2; // индекс последнего интерьерного фото (пара топвью)
-    for (let i = 1; i < p.photos.length; i++) {
-      const isTopview = i === p.photos.length - 1;
-      if (isTopview) {
-        const card = document.createElement('div');
-        card.className = 'plans-collage-topview';
-        if (floors) {
-          const svg = buildFloorsSVG(floors.render, lang, false);
-          /* Убрать чёрную "подложку" вокруг рендера в квадратной ячейке
-             (правка Босса 02.09: "уберите эту ебучую подложку"). Общий
-             viewBox 1920×1277 нужен схематичной панели плана (там выравнивание
-             между типами), но сам рендер занимает только часть этого холста —
-             остальное прозрачный отступ. Здесь, в карточке коллажа, обрезаем
-             viewBox по фактической area f1/f2, чтобы preserveAspectRatio="meet"
-             не тратил место на пустоту. */
-          const { f1, f2 } = floors.render;
-          const minX = Math.min(f1.x, f2.x), minY = Math.min(f1.y, f2.y);
-          const maxX = Math.max(f1.x + f1.w, f2.x + f2.w), maxY = Math.max(f1.y + f1.h, f2.y + f2.h);
-          svg.setAttribute('viewBox', `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
-          card.appendChild(svg);
-        } else {
-          const bg = document.createElement('div');
-          bg.className = 'plans-collage-topview-bg';
-          bg.style.backgroundImage = `url("${new URL(ASSET(p.photos[i]), document.baseURI).href}")`;
-          card.appendChild(bg);
-        }
-        right.appendChild(card);
+    /* Бенто-коллаж (правка Босса 02.09: «красивый коллаж — фотки + топвью,
+       планировка по кнопке»). Фикс. сетка 3 ячейки (A крупная + B/C мелкие)
+       для интерьеров + широкая ячейка D под топвью; геометрия целиком в CSS
+       (.plans-tile--a…d, grid-area), тут только раскладываем контент.
+       p.photos: [0]=план, [1..len-2]=интерьеры, [len-1]=топвью.
+       Лайтбокс (v2.js) слушает #plansPhotoTrack → любые <img>; ячейка D —
+       не <img> (svg/фон), в лайтбокс не попадает, это ОК. */
+    const interiors = [];
+    for (let i = 1; i < p.photos.length - 1; i++) interiors.push(i);
+    ['plansTileA', 'plansTileB', 'plansTileC'].forEach((id, s) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const idx = interiors[s] != null ? interiors[s] : interiors[interiors.length - 1];
+      /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
+         (коммит ca4a0c2): офскрин-кадры не подгружались вовремя */
+      el.src = ASSET(p.photos[idx]);
+      el.alt = p.photoAlts[idx];
+      el.style.objectPosition = (p.positions && p.positions[idx]) || '50% 50%';
+    });
+
+    const dv = document.getElementById('plansTileD');
+    if (dv) {
+      dv.querySelectorAll('.plans-tv-media').forEach(el => el.remove());
+      const tvIdx = p.photos.length - 1;
+      if (floors) {
+        const svg = buildFloorsSVG(floors.render, lang, false);
+        svg.classList.add('plans-tv-media');
+        /* общий viewBox 1920×1277 нужен схематичной панели плана (выравнивание
+           между типами), но рендер занимает только часть холста — здесь
+           обрезаем viewBox по фактической area f1/f2, чтобы contain не тратил
+           место на прозрачную пустоту (правка Босса 02.09 «уберите подложку»). */
+        const { f1, f2 } = floors.render;
+        const minX = Math.min(f1.x, f2.x), minY = Math.min(f1.y, f2.y);
+        const maxX = Math.max(f1.x + f1.w, f2.x + f2.w), maxY = Math.max(f1.y + f1.h, f2.y + f2.h);
+        svg.setAttribute('viewBox', `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
+        dv.insertBefore(svg, dv.firstChild);
       } else {
-        const img = document.createElement('img');
-        img.className = 'plan-photo-img plans-collage-tile';
-        if (i === lastInteriorIdx) img.classList.add('plans-collage-tile--sq');
-        /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
-           (коммит ca4a0c2): офскрин-кадры не подгружались вовремя */
-        img.src = ASSET(p.photos[i]);
-        img.alt = p.photoAlts[i];
-        if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
-        (i === lastInteriorIdx ? right : left).appendChild(img);
+        const bg = document.createElement('div');
+        bg.className = 'plans-collage-topview-bg plans-tv-media';
+        bg.style.backgroundImage = `url("${new URL(ASSET(p.photos[tvIdx]), document.baseURI).href}")`;
+        dv.insertBefore(bg, dv.firstChild);
       }
     }
     return;
