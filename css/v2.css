@@ -303,58 +303,94 @@ body.menu-open .burger span{background:var(--white)}
    по себе рамка (border-radius на тайлах), .plans-viewer — просто якорь
    позиционирования для оверлея плана (position:relative, без своего фона/
    тени/скругления/overflow:hidden). */
-.plans-viewer{position:relative; width:100%}
+/* height:auto + overflow:visible ОБЯЗАТЕЛЬНЫ здесь: styles.css (v1) даёт
+   .plans-viewer{height:100%; overflow:hidden} под карусель — на бенто-гриде
+   это схлопывало вьюер до высоты первой ячейки и обрезало остальные
+   (баг найден замером: grid 752px внутри viewer 269px). Бенто сам держит
+   высоту (.plans-collage). */
+.plans-viewer{position:relative; width:100%; height:auto; aspect-ratio:auto; overflow:visible; background:transparent}
 
-/* Масонри-коллаж (правка Босса 01.09, доработано 02.09 — реф "поиграй с
-   геометрией", сохраняя пропорции каждого фото вместо единой сетки-кропа):
-   слева интерьерные фото каждое в СВОИХ пропорциях (высота общая, ширина
-   auto — вертикальное фото уже, горизонтальное шире, без обрезки),
-   справа — квадратный блок из двух ячеек: последнее интерьерное фото
-   сверху, топвью снизу (правка Босса: "квадратиком справа снизу"). */
-.plans-collage{display:flex; flex-wrap:wrap; gap:14px; align-items:flex-start}
-/* БАГ (Босс 02.09, "хуйня с фотками"/"уберите подложку"): flex:1 здесь тянул
-   .plans-collage-left на всю доступную ширину контейнера, а сами фото
-   внутри (height:400px, width:auto) эту ширину не заполняли — между
-   фактическими фото и правой колонкой зияла чёрная пустота (сам flex-item
-   растянут, контент внутри — нет). Никакого flex-grow: контейнер должен
-   быть РОВНО такой ширины, сколько занимают фото внутри, не больше. */
-.plans-collage-left{flex:0 1 auto; display:flex; flex-wrap:wrap; gap:14px}
-.plans-collage-left .plans-collage-tile{height:400px; width:auto; max-width:100%;
-  object-fit:contain; border-radius:var(--r-md); cursor:zoom-in; transition:transform .4s var(--ease)}
-@media (hover:hover){.plans-collage-left .plans-collage-tile:hover{transform:scale(1.015)}}
-.plans-collage-right{flex:0 0 300px; display:flex; flex-direction:column; gap:14px}
-.plans-collage-right .plans-collage-tile,
-.plans-collage-right .plans-collage-topview{width:100%; aspect-ratio:1/1;
-  border-radius:var(--r-md); overflow:hidden; position:relative}
-.plans-collage-right .plans-collage-tile{object-fit:cover; cursor:zoom-in; transition:transform .4s var(--ease)}
-@media (hover:hover){.plans-collage-right .plans-collage-tile:hover{transform:scale(1.015)}}
-.plans-collage-topview{background:#0b0c0b}
-.plans-collage-topview-bg{position:absolute; inset:0; background-size:cover; background-position:center}
-/* SVG-композит (двухэтажные типы) — НЕ cover: он собран из f1/f2 со своим
-   несимметричным прозрачным полем (см. iplan/buildFloorsSVG), центр-кроп
-   мог случайно вырезать пустое место вместо виллы. Оставляем contain
-   (preserveAspectRatio="meet", уже задан в самом <svg>). */
-.plans-collage-topview svg.plan-floors-svg{position:absolute; inset:0; width:100%; height:100%}
-
-/* Иконка-кнопка «Смотреть план» — постоянный узел в строке CTA (.plans-info),
-   больше не плавает поверх фото (правка Босса 02.09: раньше сидела чипом на
-   карточке топвью, но та в масонри-раскладке разного размера по типам —
-   кнопка "гуляла" непредсказуемо). Только иконка, без текста; два состояния
-   (план/крестик) переключаются классом на .plans-viewer, как раньше. */
-.plans-toggle-btn--icon{
-  /* квадратная и той же высоты, что .btn-glass рядом (64px, замерено), не
-     кружок на глаз (правка Босса 02.09) */
-  flex:0 0 auto; width:64px; height:64px; display:flex; align-items:center; justify-content:center;
-  border-radius:var(--r-xs); border:1px solid var(--line); background:transparent; color:var(--muted);
-  transition:all .2s var(--ease);
+/* ===== Бенто-коллаж (правка Босса 02.09: «придумай красивый коллаж —
+   фотки + топвью, планировка по кнопке, чтоб выглядело пиздато»).
+   Реф — bento-сетка luxury-девелоперов: крупный кадр в приоритетной зоне,
+   опорные мелкие, широкая полоса топвью с кнопкой плана. Отличие от прежней
+   «масонри» версии, которую Босс забраковал: НЕ натуральные пропорции
+   ragged-строкой, а фикс. сетка — каждая ячейка со своей geometry (grid-area),
+   фото object-fit:cover + покадровый object-position (PLANS[].positions). ===== */
+.plans-collage{
+  display:grid;
+  grid-template-columns:1.5fr 1fr 1.15fr;
+  grid-template-rows:1fr 1fr;
+  gap:16px;
+  height:clamp(460px, 56vh, 620px);
 }
-.plans-toggle-btn--icon:hover{border-color:var(--clay); color:var(--clay)}
-.plans-toggle-ic{width:26px; height:26px}
-.plans-toggle-ic--open{display:none}
-.plans-viewer.is-open ~ .plans-info .plans-toggle-btn--icon{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
-.plans-viewer.is-open ~ .plans-info .plans-toggle-ic--closed{display:none}
-.plans-viewer.is-open ~ .plans-info .plans-toggle-ic--open{display:block}
-.plans-cta-row{display:flex; align-items:center; gap:12px; margin-left:auto}
+.plans-tile{border-radius:var(--r-md); overflow:hidden; position:relative; min-width:0; min-height:0}
+img.plans-tile{
+  width:100%; height:100%; object-fit:cover; display:block; cursor:zoom-in;
+  transition:transform .5s var(--ease), filter .4s var(--ease);
+}
+/* ховер — только затемнение соседей + подъём наведённого (цвет/scale, без
+   магнитности, см. дизайн-систему п.4) */
+@media (hover:hover){
+  .plans-collage:hover img.plans-tile{filter:brightness(.82)}
+  .plans-collage img.plans-tile:hover{transform:scale(1.03); filter:brightness(1)}
+}
+/* A — крупный кадр слева на всю высоту; B/C — опорная пара в среднем столбце;
+   D — топвью на всю высоту в правом столбце (портретная ячейка держит и
+   портретные raster-топвью Studio/1BD, и staggered SVG-композиты двухэтажных
+   куда лучше, чем прежняя широкая полоса — там рендер тонул в чёрном). */
+.plans-tile--a{grid-area:1 / 1 / 3 / 2}
+.plans-tile--b{grid-area:1 / 2 / 2 / 3}
+.plans-tile--c{grid-area:2 / 2 / 3 / 3}
+.plans-tile--d{grid-area:1 / 3 / 3 / 4; background:#0b0c0b;
+  display:flex; align-items:center; justify-content:center}
+/* топвью вписан ЦЕЛИКОМ (contain) — cutaway-рендеры f1/f2 с несимметричным
+   прозрачным полем, центр-кроп мог бы срезать угол виллы; тёмный паспарту
+   на #0b0c0b, как у схематичной панели плана */
+.plans-tile--d .plans-collage-topview-bg{position:absolute; inset:0;
+  background-size:contain; background-repeat:no-repeat; background-position:center}
+.plans-tile--d svg.plan-floors-svg{position:absolute; inset:0; width:100%; height:100%}
+.plans-tv-tag{position:absolute; top:14px; left:16px; z-index:2;
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:rgba(255,255,255,.6); font-weight:400}
+
+/* Кнопка «Смотреть планировку» — стеклянный чип в правом нижнем углу кадра
+   (над ячейкой топвью). Позиционируется от .plans-viewer (не от ячейки d):
+   ячейка d в бенто всегда на месте, но так надёжнее и на мобиле. z над
+   .plans-toggle-panel (z3), чтобы служить toggle'ом в обе стороны — два
+   .pfb-face переключаются классом .is-open на .plans-viewer. */
+.plans-frame-btn{
+  position:absolute; right:16px; bottom:16px; z-index:4;
+  display:inline-flex; align-items:center;
+  height:44px; padding:0 18px; border-radius:var(--r-pill);
+  background:rgba(11,12,11,.60); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.22); color:var(--white);
+  font-size:14px; font-weight:400; line-height:1; white-space:nowrap;
+  transition:background .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease);
+}
+@media (hover:hover){.plans-frame-btn:hover{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}}
+.plans-frame-btn:active{transform:scale(.97)}
+.plans-frame-btn .pfb-face{display:inline-flex; align-items:center}
+.plans-frame-btn .pfb-face--open{display:none}
+.plans-frame-btn .pfb-ic{width:18px; height:18px; margin-right:9px; flex:0 0 auto}
+.plans-viewer.is-open .plans-frame-btn{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
+.plans-viewer.is-open .plans-frame-btn .pfb-face--closed{display:none}
+.plans-viewer.is-open .plans-frame-btn .pfb-face--open{display:inline-flex}
+
+/* Мобильный бенто — 2 колонки: A на всю ширину, B/C в ряд, D (топвью) снова
+   на всю ширину. Высота — от aspect-ratio ячеек, не clamp. */
+@media (max-width:720px){
+  .plans-collage{
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:auto;
+    gap:12px;
+    height:auto;
+  }
+  .plans-tile--a{grid-area:auto; grid-column:1 / -1; aspect-ratio:4 / 3}
+  .plans-tile--b,.plans-tile--c{grid-area:auto; aspect-ratio:1 / 1}
+  .plans-tile--d{grid-area:auto; grid-column:1 / -1; aspect-ratio:5 / 4}
+  .plans-frame-btn{right:12px; bottom:12px; height:40px; padding:0 15px; font-size:13px}
+}
 /* .plans-toggle-panel — СЕСТРА .plans-toggle (не внутри неё): inset:0 должен
    мерить от всего кадра .plans-viewer (position:relative), а не от маленькой
    кнопки — иначе оверлей схлопывается до размера чипа (был баг, экран
@@ -418,7 +454,10 @@ body.menu-open .burger span{background:var(--white)}
 .plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
   width:200px; justify-content:center}
 @media (max-width:860px){
-  .plans-viewer{height:clamp(360px,55vh,520px)}
+  /* .plans-viewer больше не диктует высоту — её держит сам бенто-грид
+     (.plans-collage: desktop clamp, ≤720px aspect-ratio ячеек). Старое
+     height:clamp(360…520) осталось от карусельной версии и резало коллаж
+     на 721–860px. */
   .plans-info{gap:24px; padding-top:24px}
   .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
   .plans-stat .v{font-size:24px; margin-top:4px}
