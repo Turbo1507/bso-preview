@@ -310,87 +310,59 @@ body.menu-open .burger span{background:var(--white)}
    высоту (.plans-collage). */
 .plans-viewer{position:relative; width:100%; height:auto; aspect-ratio:auto; overflow:visible; background:transparent}
 
-/* ===== Бенто-коллаж (правка Босса 02.09: «придумай красивый коллаж —
-   фотки + топвью, планировка по кнопке, чтоб выглядело пиздато»).
-   Реф — bento-сетка luxury-девелоперов: крупный кадр в приоритетной зоне,
-   опорные мелкие, широкая полоса топвью с кнопкой плана. Отличие от прежней
-   «масонри» версии, которую Босс забраковал: НЕ натуральные пропорции
-   ragged-строкой, а фикс. сетка — каждая ячейка со своей geometry (grid-area),
-   фото object-fit:cover + покадровый object-position (PLANS[].positions). ===== */
-.plans-collage{
-  display:grid;
-  grid-template-columns:1.5fr 1fr 1.15fr;
-  grid-template-rows:1fr 1fr;
-  gap:16px;
-  height:clamp(460px, 56vh, 620px);
-}
-.plans-tile{border-radius:var(--r-md); overflow:hidden; position:relative; min-width:0; min-height:0}
-img.plans-tile{
-  width:100%; height:100%; object-fit:cover; display:block; cursor:zoom-in;
-  transition:transform .5s var(--ease), filter .4s var(--ease);
-}
-/* ховер — только затемнение соседей + подъём наведённого (цвет/scale, без
-   магнитности, см. дизайн-систему п.4) */
+/* ===== Коллаж-сетка по образцу unitdeveloper.com, блок UNIT SPACE CITY
+   (.usc-gallery / вариант U3), — прямая просьба Босса 02.09 («давай как на
+   юнитдевелопер сетку, проекты из серии юнит спейс»). Крупный кадр сверху +
+   ряд [2 ячейки слева | широкая справа]. Всё object-fit:cover, скруглённые
+   углы, БЕЗ тёмных подложек (предыдущие contain-версии Босс забраковал:
+   «подложка всё равно идиотская»). Топвью — такая же ячейка с cover-кропом,
+   полный кадр по клику в лайтбоксе. ===== */
+.plans-collage{display:grid; gap:20px}
+.plans-gmain{border-radius:var(--r-md); overflow:hidden; aspect-ratio:1060/547; background:var(--surface)}
+.plans-grow{display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px}
+.plans-gcell,.plans-gwide{border-radius:var(--r-md); overflow:hidden; position:relative; background:var(--surface)}
+.plans-gcell{aspect-ratio:340/263}
+.plans-gcell:nth-child(1){grid-column:1; grid-row:1}
+.plans-gcell:nth-child(2){grid-column:1; grid-row:2}
+.plans-gwide{grid-column:2 / 4; grid-row:1 / 3}
+.plans-gimg{width:100%; height:100%; object-fit:cover; display:block; cursor:zoom-in;
+  transition:transform .5s var(--ease), filter .4s var(--ease)}
+/* ховер — цвет/масштаб, без магнитности (дизайн-система п.4) */
 @media (hover:hover){
-  .plans-collage:hover img.plans-tile{filter:brightness(.82)}
-  .plans-collage img.plans-tile:hover{transform:scale(1.03); filter:brightness(1)}
+  .plans-collage:hover .plans-gimg{filter:brightness(.85)}
+  .plans-gimg:hover{transform:scale(1.03); filter:none}
 }
-/* A — крупный кадр слева на всю высоту; B/C — опорная пара в среднем столбце;
-   D — топвью на всю высоту в правом столбце (портретная ячейка держит и
-   портретные raster-топвью Studio/1BD, и staggered SVG-композиты двухэтажных
-   куда лучше, чем прежняя широкая полоса — там рендер тонул в чёрном). */
-.plans-tile--a{grid-area:1 / 1 / 3 / 2}
-.plans-tile--b{grid-area:1 / 2 / 2 / 3}
-.plans-tile--c{grid-area:2 / 2 / 3 / 3}
-.plans-tile--d{grid-area:1 / 3 / 3 / 4; background:#0b0c0b;
-  display:flex; align-items:center; justify-content:center}
-/* топвью вписан ЦЕЛИКОМ (contain) — cutaway-рендеры f1/f2 с несимметричным
-   прозрачным полем, центр-кроп мог бы срезать угол виллы; тёмный паспарту
-   на #0b0c0b, как у схематичной панели плана */
-.plans-tile--d .plans-collage-topview-bg{position:absolute; inset:0;
-  background-size:contain; background-repeat:no-repeat; background-position:center}
-.plans-tile--d svg.plan-floors-svg{position:absolute; inset:0; width:100%; height:100%}
-.plans-tv-tag{position:absolute; top:14px; left:16px; z-index:2;
+.plans-gtv-tag{position:absolute; top:12px; left:14px; z-index:2;
   font-size:11px; letter-spacing:.14em; text-transform:uppercase;
-  color:rgba(255,255,255,.6); font-weight:400}
+  color:#fff; font-weight:400; text-shadow:0 1px 6px rgba(0,0,0,.55)}
 
-/* Кнопка «Смотреть планировку» — стеклянный чип в правом нижнем углу кадра
-   (над ячейкой топвью). Позиционируется от .plans-viewer (не от ячейки d):
-   ячейка d в бенто всегда на месте, но так надёжнее и на мобиле. z над
-   .plans-toggle-panel (z3), чтобы служить toggle'ом в обе стороны — два
-   .pfb-face переключаются классом .is-open на .plans-viewer. */
-.plans-frame-btn{
-  position:absolute; right:16px; bottom:16px; z-index:4;
-  display:inline-flex; align-items:center;
-  height:44px; padding:0 18px; border-radius:var(--r-pill);
-  background:rgba(11,12,11,.60); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-  border:1px solid rgba(255,255,255,.22); color:var(--white);
-  font-size:14px; font-weight:400; line-height:1; white-space:nowrap;
-  transition:background .25s var(--ease), border-color .25s var(--ease), color .25s var(--ease);
-}
-@media (hover:hover){.plans-frame-btn:hover{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}}
-.plans-frame-btn:active{transform:scale(.97)}
-.plans-frame-btn .pfb-face{display:inline-flex; align-items:center}
-.plans-frame-btn .pfb-face--open{display:none}
-.plans-frame-btn .pfb-ic{width:18px; height:18px; margin-right:9px; flex:0 0 auto}
-.plans-viewer.is-open .plans-frame-btn{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
-.plans-viewer.is-open .plans-frame-btn .pfb-face--closed{display:none}
-.plans-viewer.is-open .plans-frame-btn .pfb-face--open{display:inline-flex}
-
-/* Мобильный бенто — 2 колонки: A на всю ширину, B/C в ряд, D (топвью) снова
-   на всю ширину. Высота — от aspect-ratio ячеек, не clamp. */
 @media (max-width:720px){
-  .plans-collage{
-    grid-template-columns:1fr 1fr;
-    grid-template-rows:auto;
-    gap:12px;
-    height:auto;
-  }
-  .plans-tile--a{grid-area:auto; grid-column:1 / -1; aspect-ratio:4 / 3}
-  .plans-tile--b,.plans-tile--c{grid-area:auto; aspect-ratio:1 / 1}
-  .plans-tile--d{grid-area:auto; grid-column:1 / -1; aspect-ratio:5 / 4}
-  .plans-frame-btn{right:12px; bottom:12px; height:40px; padding:0 15px; font-size:13px}
+  .plans-collage{gap:10px}
+  .plans-gmain{aspect-ratio:4/3}
+  .plans-grow{grid-template-columns:1fr 1fr; gap:10px}
+  .plans-gcell{aspect-ratio:1/1}
+  .plans-gcell:nth-child(1){grid-column:1; grid-row:1}
+  .plans-gcell:nth-child(2){grid-column:2; grid-row:1}
+  .plans-gwide{grid-column:1 / -1; grid-row:2; aspect-ratio:16/10}
 }
+
+/* Кнопка «Смотреть планировку» — иконка 64×64 рядом с CTA в .plans-info
+   (откат по просьбе Босса 02.09; финальное место — при доводке коллажа).
+   Живёт ВНЕ .plans-viewer, поэтому оверлей плана её не перекрывает и она
+   работает toggle'ом в обе стороны; два состояния (план/крестик)
+   переключаются селектором-соседом .plans-viewer.is-open ~ .plans-info. */
+.plans-toggle-btn--icon{
+  flex:0 0 auto; width:64px; height:64px; display:flex; align-items:center; justify-content:center;
+  border-radius:var(--r-xs); border:1px solid var(--line); background:transparent; color:var(--muted);
+  transition:all .2s var(--ease);
+}
+.plans-toggle-btn--icon:hover{border-color:var(--clay); color:var(--clay)}
+.plans-toggle-ic{width:26px; height:26px}
+.plans-toggle-ic--open{display:none}
+.plans-viewer.is-open ~ .plans-info .plans-toggle-btn--icon{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
+.plans-viewer.is-open ~ .plans-info .plans-toggle-ic--closed{display:none}
+.plans-viewer.is-open ~ .plans-info .plans-toggle-ic--open{display:block}
+.plans-cta-row{display:flex; align-items:center; gap:12px; margin-left:auto}
 /* .plans-toggle-panel — СЕСТРА .plans-toggle (не внутри неё): inset:0 должен
    мерить от всего кадра .plans-viewer (position:relative), а не от маленькой
    кнопки — иначе оверлей схлопывается до размера чипа (был баг, экран

@@ -555,48 +555,39 @@ function renderPlan(planId, lang) {
     } else {
       planToggleImg.style.display = ''; planToggleImg.src = ASSET(p.photos[0]); planToggleImg.alt = p.photoAlts[0];
     }
-    /* Бенто-коллаж (правка Босса 02.09: «красивый коллаж — фотки + топвью,
-       планировка по кнопке»). Фикс. сетка 3 ячейки (A крупная + B/C мелкие)
-       для интерьеров + широкая ячейка D под топвью; геометрия целиком в CSS
-       (.plans-tile--a…d, grid-area), тут только раскладываем контент.
-       p.photos: [0]=план, [1..len-2]=интерьеры, [len-1]=топвью.
-       Лайтбокс (v2.js) слушает #plansPhotoTrack → любые <img>; ячейка D —
-       не <img> (svg/фон), в лайтбокс не попадает, это ОК. */
+    /* Коллаж по образцу unitdeveloper.com (блок UNIT SPACE CITY, .usc-gallery
+       вариант U3) — правка Босса 02.09. 4 картинки: крупный кадр сверху +
+       ряд [интерьер | топвью | широкий интерьер]. Геометрия в CSS
+       (.plans-gmain / .plans-grow / .plans-gcell / .plans-gwide), тут только
+       раскладываем src. p.photos: [0]=план, [1..len-2]=интерьеры, [len-1]=топвью.
+       Все ячейки — object-fit:cover, без тёмных подложек (Босс: «подложка
+       идиотская»). Лайтбокс (v2.js) слушает #plansPhotoTrack → любые <img>,
+       включая топвью (полный кадр без кропа). */
     const interiors = [];
     for (let i = 1; i < p.photos.length - 1; i++) interiors.push(i);
-    ['plansTileA', 'plansTileB', 'plansTileC'].forEach((id, s) => {
+    const setGImg = (id, idx) => {
       const el = document.getElementById(id);
-      if (!el) return;
-      const idx = interiors[s] != null ? interiors[s] : interiors[interiors.length - 1];
+      if (!el || idx == null) return;
       /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
          (коммит ca4a0c2): офскрин-кадры не подгружались вовремя */
       el.src = ASSET(p.photos[idx]);
       el.alt = p.photoAlts[idx];
       el.style.objectPosition = (p.positions && p.positions[idx]) || '50% 50%';
-    });
+    };
+    setGImg('plansGMain', interiors[0]);
+    setGImg('plansGc1', interiors[1]);
+    setGImg('plansGc2', interiors[2] != null ? interiors[2] : interiors[interiors.length - 1]);
 
-    const dv = document.getElementById('plansTileD');
-    if (dv) {
-      dv.querySelectorAll('.plans-tv-media').forEach(el => el.remove());
+    /* топвью-ячейка: одиночный raster. Studio/1BD — p.photos[len-1];
+       двухэтажные — floors.render.f1 (готовый кадр этажа сверху, без
+       SVG-композита f1/f2 с прозрачностью — он не кропится под cover). */
+    const tv = document.getElementById('plansGtv');
+    if (tv) {
       const tvIdx = p.photos.length - 1;
-      if (floors) {
-        const svg = buildFloorsSVG(floors.render, lang, false);
-        svg.classList.add('plans-tv-media');
-        /* общий viewBox 1920×1277 нужен схематичной панели плана (выравнивание
-           между типами), но рендер занимает только часть холста — здесь
-           обрезаем viewBox по фактической area f1/f2, чтобы contain не тратил
-           место на прозрачную пустоту (правка Босса 02.09 «уберите подложку»). */
-        const { f1, f2 } = floors.render;
-        const minX = Math.min(f1.x, f2.x), minY = Math.min(f1.y, f2.y);
-        const maxX = Math.max(f1.x + f1.w, f2.x + f2.w), maxY = Math.max(f1.y + f1.h, f2.y + f2.h);
-        svg.setAttribute('viewBox', `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
-        dv.insertBefore(svg, dv.firstChild);
-      } else {
-        const bg = document.createElement('div');
-        bg.className = 'plans-collage-topview-bg plans-tv-media';
-        bg.style.backgroundImage = `url("${new URL(ASSET(p.photos[tvIdx]), document.baseURI).href}")`;
-        dv.insertBefore(bg, dv.firstChild);
-      }
+      const tvSrc = (floors && floors.render && floors.render.f1) ? floors.render.f1.src : p.photos[tvIdx];
+      tv.src = ASSET(tvSrc);
+      tv.alt = p.photoAlts[tvIdx] || 'Top view';
+      tv.style.objectPosition = '50% 50%';
     }
     return;
   }

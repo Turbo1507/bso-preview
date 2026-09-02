@@ -25,8 +25,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://blacksandsoasis.com/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="css/styles.css?v=20260902151655">
-<link rel="stylesheet" href="css/v2.css?v=20260902151655">
+<link rel="stylesheet" href="css/styles.css?v=20260902185740">
+<link rel="stylesheet" href="css/v2.css?v=20260902185740">
 </head>
 <body>
 
@@ -279,21 +279,25 @@
     </div>
     <div class="plans-panel reveal">
       <div class="plans-viewer" id="plansViewer">
-        <!-- Бенто-коллаж (правка Босса 02.09: «красивый коллаж — фотки + топвью,
-             планировка по кнопке»). Реф — bento-сетка luxury-девелоперов:
-             крупный кадр в приоритетной зоне (A), два опорных мелких (B/C),
-             широкая полоса топвью снизу-справа (D) с кнопкой плана. Каждая
-             ячейка — фикс. пропорция (CSS grid-area), object-fit:cover +
-             покадровый object-position (PLANS[].positions в main.js). renderPlan()
-             перезаливает src ячеек A/B/C и строит медиа топвью в D под активный
-             таб. Клик по интерьерному фото → лайтбокс (js/v2.js слушает
-             #plansPhotoTrack; топвью-ячейка не <img>, в лайтбокс не попадает). -->
+        <!-- Коллаж по образцу unitdeveloper.com → блок UNIT SPACE CITY
+             (.usc-gallery, вариант U3): крупный кадр сверху + ряд
+             [2 ячейки слева | широкая справа]. Всё object-fit:cover,
+             скруглённые углы, БЕЗ тёмных подложек (правка Босса 02.09:
+             "подложка всё равно идиотская, давай как на юнитдевелопер сетку").
+             Топвью — обычная ячейка с cover-кропом, без спец-фона; полный
+             кадр открывается в лайтбоксе по клику. renderPlan() (main.js)
+             перезаливает src четырёх картинок под активный таб. Кнопка
+             «Смотреть планировку» — обратно иконкой в .plans-info (правка
+             Босса: откатить, финальное место решим позже, когда доведём коллаж). -->
         <div class="plans-collage" id="plansPhotoTrack">
-          <img class="plans-tile plans-tile--a" id="plansTileA" src="assets/villa-studio-detail2.jpg" alt="Studio villa interior">
-          <img class="plans-tile plans-tile--b" id="plansTileB" src="assets/villa-studio-detail3.jpg" alt="Studio villa interior">
-          <img class="plans-tile plans-tile--c" id="plansTileC" src="assets/villa-studio-detail1.jpg" alt="Studio villa interior">
-          <div class="plans-tile plans-tile--d plans-collage-topview" id="plansTileD">
-            <span class="plans-tv-tag" data-i18n="plans.topview_tag">Top view</span>
+          <div class="plans-gmain"><img class="plans-gimg" id="plansGMain" src="assets/villa-studio-detail2.jpg" alt="Studio villa interior"></div>
+          <div class="plans-grow">
+            <div class="plans-gcell"><img class="plans-gimg" id="plansGc1" src="assets/villa-studio-detail3.jpg" alt="Studio villa interior"></div>
+            <div class="plans-gcell plans-gcell--tv">
+              <img class="plans-gimg" id="plansGtv" src="assets/villa-studio-topview.jpg" alt="Studio villa top view">
+              <span class="plans-gtv-tag" data-i18n="plans.topview_tag">Top view</span>
+            </div>
+            <div class="plans-gwide"><img class="plans-gimg" id="plansGc2" src="assets/villa-studio-detail1.jpg" alt="Studio villa interior"></div>
           </div>
         </div>
         <!-- панель плана — сестра .plans-collage, не внутри неё: inset:0 мерит
@@ -301,21 +305,6 @@
         <div class="plans-toggle-panel" id="plansTogglePanel">
           <div class="plans-toggle-panel-in"><img id="planToggleImg" src="assets/plan-studio.png" alt="Studio floor plan"></div>
         </div>
-        <!-- кнопка «Смотреть планировку» — стеклянный чип в углу кадра, z над
-             оверлеем плана, работает как toggle в обе стороны (два .pfb-face
-             переключаются классом .is-open на .plans-viewer, как раньше иконки).
-             data-i18n на внутреннем <span>, не на кнопке — svg-иконка рядом
-             остаётся при смене языка. -->
-        <button class="plans-frame-btn" id="plansToggleBtn" type="button" aria-expanded="false" data-i18n-aria="plans.view_layout">
-          <span class="pfb-face pfb-face--closed">
-            <svg class="pfb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1.5"/><path d="M3 9h18M9 9v12"/></svg>
-            <span class="pfb-lbl" data-i18n="plans.view_layout">View floor plan</span>
-          </span>
-          <span class="pfb-face pfb-face--open">
-            <svg class="pfb-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
-            <span class="pfb-lbl" data-i18n="plans.back_to_gallery">Back to gallery</span>
-          </span>
-        </button>
       </div>
       <div class="plans-info">
         <h3 id="planName">Studio</h3>
@@ -331,7 +320,17 @@
           <svg class="plans-stat-ic" viewBox="0 0 24 24"><circle cx="12" cy="7" r="4" fill="currentColor"/><path fill="currentColor" d="M4 22c0-4.42 3.58-8 8-8s8 3.58 8 8H4z"/></svg>
           <div><div class="k" data-i18n="plans.who_label">Who it’s for</div><div class="v" id="planWho">Single, couples</div></div>
         </div>
-        <a class="btn btn-glass js-lead-open" href="#contacts" data-i18n="plans.cta.v2">Learn more</a>
+        <div class="plans-cta-row">
+          <!-- кнопка «Смотреть планировку» — иконка рядом с CTA (откат по
+               просьбе Босса 02.09; финальное место решим при доводке коллажа).
+               Вешает .is-open на #plansViewer → оверлей .plans-toggle-panel
+               со схемой поверх коллажа. -->
+          <button class="plans-toggle-btn plans-toggle-btn--icon" id="plansToggleBtn" aria-expanded="false" aria-label="View floor plan" data-i18n-aria="plans.view_layout">
+            <svg class="plans-toggle-ic plans-toggle-ic--closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 13h10M13 3v10M13 13v8"/></svg>
+            <svg class="plans-toggle-ic plans-toggle-ic--open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          </button>
+          <a class="btn btn-glass js-lead-open" href="#contacts" data-i18n="plans.cta.v2">Learn more</a>
+        </div>
       </div>
     </div>
   </div>
@@ -806,14 +805,14 @@
      из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
      что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/i18n.js?v=20260902151655"></script>
-<script src="js/v2-i18n.js?v=20260902151655"></script>
-<script src="js/main.js?v=20260902151655"></script>
-<script src="js/v2.js?v=20260902151655"></script>
-<script src="js/units-data.js?v=20260902151655"></script>
-<script src="js/units-plan.js?v=20260902151655"></script>
-<script src="js/buildings-data.js?v=20260902151655"></script>
-<script src="js/iplan-map.js?v=20260902151655"></script>
+<script src="js/i18n.js?v=20260902185740"></script>
+<script src="js/v2-i18n.js?v=20260902185740"></script>
+<script src="js/main.js?v=20260902185740"></script>
+<script src="js/v2.js?v=20260902185740"></script>
+<script src="js/units-data.js?v=20260902185740"></script>
+<script src="js/units-plan.js?v=20260902185740"></script>
+<script src="js/buildings-data.js?v=20260902185740"></script>
+<script src="js/iplan-map.js?v=20260902185740"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>
