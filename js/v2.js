@@ -28,7 +28,10 @@
   }
 
   function open(container, startImg) {
-    var imgs = Array.prototype.slice.call(container.querySelectorAll('img'));
+    var imgs = Array.prototype.slice.call(container.querySelectorAll('img'))
+      /* пропускаем скрытые (напр. #plansGtv display:none, когда топвью
+         двухэтажного типа рисуется SVG-композитом) — иначе фантомный слайд */
+      .filter(function (im) { return im.offsetParent !== null || im === startImg; });
     if (!imgs.length) return;
     frames = imgs.map(function (im) { return { src: im.currentSrc || im.src, alt: im.alt }; });
     var startIdx = imgs.indexOf(startImg);

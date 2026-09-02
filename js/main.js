@@ -555,39 +555,48 @@ function renderPlan(planId, lang) {
     } else {
       planToggleImg.style.display = ''; planToggleImg.src = ASSET(p.photos[0]); planToggleImg.alt = p.photoAlts[0];
     }
-    /* Коллаж по образцу unitdeveloper.com (блок UNIT SPACE CITY, .usc-gallery
-       вариант U3) — правка Босса 02.09. 4 картинки: крупный кадр сверху +
-       ряд [интерьер | топвью | широкий интерьер]. Геометрия в CSS
-       (.plans-gmain / .plans-grow / .plans-gcell / .plans-gwide), тут только
-       раскладываем src. p.photos: [0]=план, [1..len-2]=интерьеры, [len-1]=топвью.
-       Все ячейки — object-fit:cover, без тёмных подложек (Босс: «подложка
-       идиотская»). Лайтбокс (v2.js) слушает #plansPhotoTrack → любые <img>,
-       включая топвью (полный кадр без кропа). */
+    /* Коллаж «Планировки» (правки Босса 03.09). Ряд из 3 портретных ячеек
+       под интерьеры + отдельная плавающая диаграмма топвью. p.photos:
+       [0]=план, [1..len-2]=интерьеры, [len-1]=топвью-raster. */
     const interiors = [];
     for (let i = 1; i < p.photos.length - 1; i++) interiors.push(i);
-    const setGImg = (id, idx) => {
+    ['plansGc1', 'plansGc2', 'plansGc3'].forEach((id, s) => {
       const el = document.getElementById(id);
-      if (!el || idx == null) return;
+      if (!el) return;
+      const idx = interiors[s] != null ? interiors[s] : interiors[interiors.length - 1];
       /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
          (коммит ca4a0c2): офскрин-кадры не подгружались вовремя */
       el.src = ASSET(p.photos[idx]);
       el.alt = p.photoAlts[idx];
       el.style.objectPosition = (p.positions && p.positions[idx]) || '50% 50%';
-    };
-    setGImg('plansGMain', interiors[0]);
-    setGImg('plansGc1', interiors[1]);
-    setGImg('plansGc2', interiors[2] != null ? interiors[2] : interiors[interiors.length - 1]);
+    });
 
-    /* топвью-ячейка: одиночный raster. Studio/1BD — p.photos[len-1];
-       двухэтажные — floors.render.f1 (готовый кадр этажа сверху, без
-       SVG-композита f1/f2 с прозрачностью — он не кропится под cover). */
-    const tv = document.getElementById('plansGtv');
-    if (tv) {
+    /* Топвью — плавающая диаграмма (contain, не кроп). Одноэтажные
+       (Studio/1BD) — обычный <img>. Двухэтажные — SVG-композит ОБОИХ этажей
+       (buildFloorsSVG рисует f2+f1), viewBox обрезан по их общему bbox, чтобы
+       не было широкого прозрачного поля; preserveAspectRatio="meet" (задан
+       в самой функции) вписывает всё целиком — второй этаж больше не
+       теряется (правка Босса 03.09). */
+    const tvWrap = document.getElementById('plansGtvWrap');
+    if (tvWrap) {
       const tvIdx = p.photos.length - 1;
-      const tvSrc = (floors && floors.render && floors.render.f1) ? floors.render.f1.src : p.photos[tvIdx];
-      tv.src = ASSET(tvSrc);
-      tv.alt = p.photoAlts[tvIdx] || 'Top view';
-      tv.style.objectPosition = '50% 50%';
+      tvWrap.querySelectorAll('svg.plan-floors-svg').forEach(el => el.remove());
+      const tvImg = document.getElementById('plansGtv');
+      if (floors && floors.render) {
+        if (tvImg) tvImg.style.display = 'none';
+        const svg = buildFloorsSVG(floors.render, lang, false);
+        const { f1, f2 } = floors.render;
+        const minX = Math.min(f1.x, f2.x), minY = Math.min(f1.y, f2.y);
+        const maxX = Math.max(f1.x + f1.w, f2.x + f2.w), maxY = Math.max(f1.y + f1.h, f2.y + f2.h);
+        svg.setAttribute('viewBox', `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
+        /* размер держит ячейка (.plans-gcell--tv width/height 100%),
+           внутренний preserveAspectRatio="meet" вписывает оба этажа целиком */
+        tvWrap.appendChild(svg);
+      } else if (tvImg) {
+        tvImg.style.display = '';
+        tvImg.src = ASSET(p.photos[tvIdx]);
+        tvImg.alt = p.photoAlts[tvIdx] || 'Top view';
+      }
     }
     return;
   }
