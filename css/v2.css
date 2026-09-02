@@ -303,55 +303,47 @@ body.menu-open .burger span{background:var(--white)}
    по себе рамка (border-radius на тайлах), .plans-viewer — просто якорь
    позиционирования для оверлея плана (position:relative, без своего фона/
    тени/скругления/overflow:hidden). */
-/* height:auto + overflow:visible ОБЯЗАТЕЛЬНЫ здесь: styles.css (v1) даёт
-   .plans-viewer{height:100%; overflow:hidden} под карусель — на бенто-гриде
-   это схлопывало вьюер до высоты первой ячейки и обрезало остальные
-   (баг найден замером: grid 752px внутри viewer 269px). Бенто сам держит
-   высоту (.plans-collage). */
-.plans-viewer{position:relative; width:100%; height:auto; aspect-ratio:auto; overflow:visible; background:transparent}
+.plans-viewer{position:relative; width:100%}
 
-/* ===== Коллаж «Планировки» (правки Босса 03.09: компактнее, формат фото
-   уважать, топвью целиком, убрать линию-контейнер). Ряд из 3 ПОРТРЕТНЫХ
-   ячеек — почти все detail-рендеры BSO портретные/квадратные, горизонтальную
-   рамку под них не делаем. Топвью — плавающая по центру диаграмма (contain),
-   не ячейка: двухэтажные видны целиком (оба этажа), тёмного контейнера нет. ===== */
-.plans-grow{display:grid; grid-template-columns:repeat(4, 1fr); gap:16px}
-.plans-gcell{border-radius:var(--r-md); overflow:hidden; position:relative;
-  background:var(--surface); height:clamp(300px, 38vh, 420px)}
-.plans-gimg{width:100%; height:100%; object-fit:cover; display:block; cursor:zoom-in;
-  transition:transform .5s var(--ease), filter .4s var(--ease)}
-/* ховер — цвет/масштаб, без магнитности (дизайн-система п.4) */
-@media (hover:hover){
-  .plans-grow:hover .plans-gimg{filter:brightness(.85)}
-  .plans-gimg:hover{transform:scale(1.03); filter:none}
-}
-/* Топвью — 4-я ячейка того же ряда (не плавающий элемент в пустоте). Контент
-   вписан ЦЕЛИКОМ (contain) — двухэтажные видны оба этажа (Босс 03.09
-   «проебал второй этаж»); фон ячейки var(--surface), НЕ чёрный
-   прямоугольник. */
-.plans-gcell--tv{display:flex; align-items:center; justify-content:center}
-.plans-gtv-tag{position:absolute; top:12px; left:14px; z-index:2;
-  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
-  color:rgba(255,255,255,.55); font-weight:400}
-.plans-gcell--tv .plans-gtv-img,
-.plans-gcell--tv svg.plan-floors-svg{
-  width:100%; height:100%; object-fit:contain; display:block}
-.plans-gcell--tv svg.plan-floors-svg{position:static; inset:auto; padding:14px}
-.plans-gcell--tv .plans-gtv-img{padding:10px; cursor:zoom-in}
+/* Масонри-коллаж (правка Босса 01.09, доработано 02.09 — реф "поиграй с
+   геометрией", сохраняя пропорции каждого фото вместо единой сетки-кропа):
+   слева интерьерные фото каждое в СВОИХ пропорциях (высота общая, ширина
+   auto — вертикальное фото уже, горизонтальное шире, без обрезки),
+   справа — квадратный блок из двух ячеек: последнее интерьерное фото
+   сверху, топвью снизу (правка Босса: "квадратиком справа снизу"). */
+.plans-collage{display:flex; flex-wrap:wrap; gap:14px; align-items:flex-start}
+/* БАГ (Босс 02.09, "хуйня с фотками"/"уберите подложку"): flex:1 здесь тянул
+   .plans-collage-left на всю доступную ширину контейнера, а сами фото
+   внутри (height:400px, width:auto) эту ширину не заполняли — между
+   фактическими фото и правой колонкой зияла чёрная пустота (сам flex-item
+   растянут, контент внутри — нет). Никакого flex-grow: контейнер должен
+   быть РОВНО такой ширины, сколько занимают фото внутри, не больше. */
+.plans-collage-left{flex:0 1 auto; display:flex; flex-wrap:wrap; gap:14px}
+.plans-collage-left .plans-collage-tile{height:400px; width:auto; max-width:100%;
+  object-fit:contain; border-radius:var(--r-md); cursor:zoom-in; transition:transform .4s var(--ease)}
+@media (hover:hover){.plans-collage-left .plans-collage-tile:hover{transform:scale(1.015)}}
+.plans-collage-right{flex:0 0 300px; display:flex; flex-direction:column; gap:14px}
+.plans-collage-right .plans-collage-tile,
+.plans-collage-right .plans-collage-topview{width:100%; aspect-ratio:1/1;
+  border-radius:var(--r-md); overflow:hidden; position:relative}
+.plans-collage-right .plans-collage-tile{object-fit:cover; cursor:zoom-in; transition:transform .4s var(--ease)}
+@media (hover:hover){.plans-collage-right .plans-collage-tile:hover{transform:scale(1.015)}}
+.plans-collage-topview{background:#0b0c0b}
+.plans-collage-topview-bg{position:absolute; inset:0; background-size:cover; background-position:center}
+/* SVG-композит (двухэтажные типы) — НЕ cover: он собран из f1/f2 со своим
+   несимметричным прозрачным полем (см. iplan/buildFloorsSVG), центр-кроп
+   мог случайно вырезать пустое место вместо виллы. Оставляем contain
+   (preserveAspectRatio="meet", уже задан в самом <svg>). */
+.plans-collage-topview svg.plan-floors-svg{position:absolute; inset:0; width:100%; height:100%}
 
-@media (max-width:720px){
-  .plans-collage{gap:12px}
-  .plans-grow{grid-template-columns:1fr 1fr; gap:10px}
-  .plans-gcell{height:auto; aspect-ratio:4/5}
-  .plans-gcell--tv{aspect-ratio:1/1}
-}
-
-/* Кнопка «Смотреть планировку» — иконка 64×64 рядом с CTA в .plans-info
-   (откат по просьбе Босса 02.09; финальное место — при доводке коллажа).
-   Живёт ВНЕ .plans-viewer, поэтому оверлей плана её не перекрывает и она
-   работает toggle'ом в обе стороны; два состояния (план/крестик)
-   переключаются селектором-соседом .plans-viewer.is-open ~ .plans-info. */
+/* Иконка-кнопка «Смотреть план» — постоянный узел в строке CTA (.plans-info),
+   больше не плавает поверх фото (правка Босса 02.09: раньше сидела чипом на
+   карточке топвью, но та в масонри-раскладке разного размера по типам —
+   кнопка "гуляла" непредсказуемо). Только иконка, без текста; два состояния
+   (план/крестик) переключаются классом на .plans-viewer, как раньше. */
 .plans-toggle-btn--icon{
+  /* квадратная и той же высоты, что .btn-glass рядом (64px, замерено), не
+     кружок на глаз (правка Босса 02.09) */
   flex:0 0 auto; width:64px; height:64px; display:flex; align-items:center; justify-content:center;
   border-radius:var(--r-xs); border:1px solid var(--line); background:transparent; color:var(--muted);
   transition:all .2s var(--ease);
@@ -404,8 +396,8 @@ body.menu-open .burger span{background:var(--white)}
      строка характеристик оставалась колонкой (замер: высота 455px).
      padding-top 32→24 — часть экономии места под фото, см. .plans-viewer выше */
   display:flex; flex-direction:row; align-items:flex-end; flex-wrap:wrap; gap:40px;
-  background:transparent; padding:20px 0 0; margin-top:0;
-  /* border-top убран — Босс 03.09: «по нижней границе фоток линия ебаная» */
+  background:transparent; padding:24px 0 0; margin-top:0;
+  border-top:1px solid var(--line);
 }
 /* название виллы оформлено как «Stella Solaris» (правка Босса): Prata,
    золото, подчёркивание с отбивкой. Толщина линии у обоих сделана тоньше —
@@ -426,10 +418,7 @@ body.menu-open .burger span{background:var(--white)}
 .plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
   width:200px; justify-content:center}
 @media (max-width:860px){
-  /* .plans-viewer больше не диктует высоту — её держит сам бенто-грид
-     (.plans-collage: desktop clamp, ≤720px aspect-ratio ячеек). Старое
-     height:clamp(360…520) осталось от карусельной версии и резало коллаж
-     на 721–860px. */
+  .plans-viewer{height:clamp(360px,55vh,520px)}
   .plans-info{gap:24px; padding-top:24px}
   .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
   .plans-stat .v{font-size:24px; margin-top:4px}
