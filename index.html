@@ -25,8 +25,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://blacksandsoasis.com/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="css/styles.css?v=20260903133304">
-<link rel="stylesheet" href="css/v2.css?v=20260903133304">
+<link rel="stylesheet" href="css/styles.css?v=20260903171122">
+<link rel="stylesheet" href="css/v2.css?v=20260903171122">
 </head>
 <body>
 
@@ -350,42 +350,48 @@
   <div class="container">
     <h2 class="reveal" data-i18n="iplan.title">Interactive site plan</h2>
     <p class="lead reveal" data-i18n="iplan.lead">All 111 units of the complex — type, size, price and current availability</p>
-    <div class="iplan-layout reveal">
-      <div class="iplan-map iplan-map--big" id="iplanMap">
-        <img src="assets/bso-masterplan-colored.jpg" alt="Black Sands Oasis master plan, color-coded by villa type" loading="lazy" decoding="async">
+    <div class="iplan-wrap reveal">
+      <div class="iplan-map iplan-map--full" id="iplanMap">
+        <img src="assets/bso-aerial-plan.jpg" alt="Black Sands Oasis — aerial site plan" loading="lazy" decoding="async">
         <div class="iplan-hotspots" id="iplanHotspots"></div>
         <div class="iplan-popup" id="iplanPopup"></div>
-      </div>
-      <div class="iplan-panel">
         <div class="iplan-legend">
           <span class="iplan-legend-item"><i class="iplan-dot is-early"></i><span data-i18n="iplan.st.early">Available</span></span>
           <span class="iplan-legend-item"><i class="iplan-dot is-prebooked"></i><span data-i18n="iplan.st.prebooked">Reserved</span></span>
           <span class="iplan-legend-item"><i class="iplan-dot is-booked"></i><span data-i18n="iplan.st.booked">Sold</span></span>
         </div>
-        <div class="iplan-filters" id="iplanTypeFilters">
-          <button class="iplan-chip is-active" data-type="all" data-i18n="iplan.filter.all">All types</button>
-        </div>
-        <div class="iplan-filters iplan-filters-status" id="iplanStatusFilters">
-          <button class="iplan-chip is-active" data-status="all" data-i18n="iplan.filter.allstatus">Any status</button>
-          <button class="iplan-chip" data-status="early" data-i18n="iplan.st.early">Available</button>
-          <button class="iplan-chip" data-status="prebooked" data-i18n="iplan.st.prebooked">Reserved</button>
-          <button class="iplan-chip" data-status="booked" data-i18n="iplan.st.booked">Sold</button>
-        </div>
-        <div class="iplan-table-wrap">
-          <table class="iplan-table">
-            <thead>
-              <tr>
-                <th data-sort="n" data-i18n="iplan.col.unit">Unit</th>
-                <th data-sort="t" data-i18n="iplan.col.type">Type</th>
-                <th data-sort="s" data-i18n="iplan.col.size">m²</th>
-                <th data-sort="c" data-i18n="iplan.col.price">Price</th>
-                <th data-sort="st" data-i18n="iplan.col.status">Status</th>
-                <th class="iplan-col-reserve" aria-hidden="true"></th>
-              </tr>
-            </thead>
-            <tbody id="iplanTbody"></tbody>
-          </table>
-          <p class="iplan-count" id="iplanCount"></p>
+        <button type="button" class="iplan-table-toggle" id="iplanTableToggle" aria-expanded="false" aria-controls="iplanDrawer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/></svg>
+          <span data-i18n="iplan.tabletoggle">View unit table</span>
+        </button>
+      </div>
+      <div class="iplan-drawer" id="iplanDrawer" hidden>
+        <div class="iplan-drawer-inner">
+          <div class="iplan-filters" id="iplanTypeFilters">
+            <button class="iplan-chip is-active" data-type="all" data-i18n="iplan.filter.all">All types</button>
+          </div>
+          <div class="iplan-filters iplan-filters-status" id="iplanStatusFilters">
+            <button class="iplan-chip is-active" data-status="all" data-i18n="iplan.filter.allstatus">Any status</button>
+            <button class="iplan-chip" data-status="early" data-i18n="iplan.st.early">Available</button>
+            <button class="iplan-chip" data-status="prebooked" data-i18n="iplan.st.prebooked">Reserved</button>
+            <button class="iplan-chip" data-status="booked" data-i18n="iplan.st.booked">Sold</button>
+          </div>
+          <div class="iplan-table-wrap">
+            <table class="iplan-table">
+              <thead>
+                <tr>
+                  <th data-sort="n" data-i18n="iplan.col.unit">Unit</th>
+                  <th data-sort="t" data-i18n="iplan.col.type">Type</th>
+                  <th data-sort="s" data-i18n="iplan.col.size">m²</th>
+                  <th data-sort="c" data-i18n="iplan.col.price">Price</th>
+                  <th data-sort="st" data-i18n="iplan.col.status">Status</th>
+                  <th class="iplan-col-reserve" aria-hidden="true"></th>
+                </tr>
+              </thead>
+              <tbody id="iplanTbody"></tbody>
+            </table>
+            <p class="iplan-count" id="iplanCount"></p>
+          </div>
         </div>
       </div>
     </div>
@@ -803,14 +809,14 @@
      из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
      что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/i18n.js?v=20260903133304"></script>
-<script src="js/v2-i18n.js?v=20260903133304"></script>
-<script src="js/main.js?v=20260903133304"></script>
-<script src="js/v2.js?v=20260903133304"></script>
-<script src="js/units-data.js?v=20260903133304"></script>
-<script src="js/units-plan.js?v=20260903133304"></script>
-<script src="js/buildings-data.js?v=20260903133304"></script>
-<script src="js/iplan-map.js?v=20260903133304"></script>
+<script src="js/i18n.js?v=20260903171122"></script>
+<script src="js/v2-i18n.js?v=20260903171122"></script>
+<script src="js/main.js?v=20260903171122"></script>
+<script src="js/v2.js?v=20260903171122"></script>
+<script src="js/units-data.js?v=20260903171122"></script>
+<script src="js/units-plan.js?v=20260903171122"></script>
+<script src="js/buildings-data.js?v=20260903171122"></script>
+<script src="js/iplan-map.js?v=20260903171122"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>
