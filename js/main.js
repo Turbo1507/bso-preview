@@ -748,3 +748,30 @@ if (themeSwitch) {
   try { savedTheme = localStorage.getItem('bsoTheme') || 'default'; } catch (e) {}
   applyTheme(savedTheme);
 }
+
+/* ---------- интерактивный план: выпадашка с таблицей юнитов (Босс 03.09) ---------- */
+(function () {
+  var btn = document.getElementById('iplanTableToggle');
+  var drawer = document.getElementById('iplanDrawer');
+  if (!btn || !drawer) return;
+  var label = btn.querySelector('span');
+  function sync() {
+    var open = !drawer.hidden;
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    var key = open ? 'iplan.tablehide' : 'iplan.tabletoggle';
+    if (label) {
+      label.setAttribute('data-i18n', key);
+      var lang = window.__bsoLang || document.documentElement.lang || 'en';
+      var dict = (window.I18N && (window.I18N[lang] || window.I18N.en)) || {};
+      if (dict[key]) label.textContent = dict[key];
+    }
+  }
+  btn.addEventListener('click', function () {
+    drawer.hidden = !drawer.hidden;
+    sync();
+    if (!drawer.hidden) drawer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+  var orig = window.setLang;
+  if (typeof orig === 'function') { window.setLang = function (l) { orig(l); sync(); }; }
+  sync();
+})();
