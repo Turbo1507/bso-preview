@@ -1205,8 +1205,10 @@ body.lb-lock{overflow:hidden}
 
 .sig-cap h3{font-family:'Prata',Georgia,serif; font-size:clamp(24px,2.6vw,32px);
   color:var(--clay); letter-spacing:.01em; margin:0 0 12px}
+/* Босс 03.09: ширину строки подобрали так, чтобы описание ложилось в 3 строки
+   и на RU, и на EN (44ch давало 4 строки на RU; 55ch+ схлопывало EN в 2). */
 .sig-cap p{margin:0; font-size:16px; line-height:1.45; color:rgba(255,255,255,.9);
-  max-width:44ch; text-shadow:0 1px 12px rgba(0,0,0,.5)}
+  max-width:54ch; text-shadow:0 1px 12px rgba(0,0,0,.5)}
 .sig-cap p + p{margin-top:6px}
 
 @media (max-width:860px){

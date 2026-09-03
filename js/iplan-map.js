@@ -15,6 +15,22 @@
   let unitsByNumber = {};
   BSO_UNITS.forEach(u => { unitsByNumber[u.n] = u; });
 
+  // Попап лежит НИЖЕ зоны здания с зазором. Раньше он закрывался сразу на
+  // mouseleave зоны — курсор не успевал доехать до кнопки брони внутри попапа.
+  // Теперь закрытие отложенное (закрываем с задержкой), и пока мышь над самим
+  // попапом — отменяем закрытие. Курсор свободно переходит зона → попап → кнопка.
+  let hideTimer = null;
+  const cancelHide = () => { if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; } };
+  const closePopup = () => {
+    hideTimer = null;
+    hotspotsEl.querySelectorAll('.iplan-hotspot').forEach(z => z.classList.remove('is-active'));
+    popup.classList.remove('is-open');
+  };
+  const scheduleHide = () => { cancelHide(); hideTimer = setTimeout(closePopup, 160); };
+
+  popup.addEventListener('mouseenter', cancelHide);
+  popup.addEventListener('mouseleave', scheduleHide);
+
   BSO_BUILDINGS.forEach(b => {
     const zone = document.createElement('div');
     zone.className = 'iplan-hotspot';
@@ -26,26 +42,20 @@
     hotspotsEl.appendChild(zone);
 
     const show = () => {
+      cancelHide();
       hotspotsEl.querySelectorAll('.iplan-hotspot').forEach(z => z.classList.toggle('is-active', z === zone));
       renderPopup(b, zone);
     };
-    const hide = () => {
-      zone.classList.remove('is-active');
-      popup.classList.remove('is-open');
-    };
     zone.addEventListener('mouseenter', show);
-    zone.addEventListener('mouseleave', hide);
+    zone.addEventListener('mouseleave', scheduleHide);
     zone.addEventListener('click', e => { e.preventDefault(); show(); });
   });
 
-  map.addEventListener('mouseleave', () => {
-    hotspotsEl.querySelectorAll('.iplan-hotspot').forEach(z => z.classList.remove('is-active'));
-    popup.classList.remove('is-open');
-  });
+  map.addEventListener('mouseleave', scheduleHide);
 
   function fmtPrice(n) { return '$' + n.toLocaleString('en-US'); }
 
-  const RESERVE_ICON = '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h10a1 1 0 0 1 1 1v13l-6-3.5L4 17V4a1 1 0 0 1 1-1z"/></svg>';
+  const RESERVE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
   const RESERVE_LABEL = { ru: 'Забронировать', en: 'Reserve' };
   const ALL_SOLD_LABEL = { ru: 'Все юниты этого здания проданы', en: 'All units in this building are sold' };
 
