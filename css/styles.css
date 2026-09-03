@@ -1077,13 +1077,21 @@ body.lead-lock{overflow:hidden}
 .iplan-map img{width:100%; display:block}
 
 .iplan-hotspots{position:absolute; inset:0}
+/* Зоны режутся clip-path'ом по полигону здания. box-shadow при clip-path
+   обрезается — свечение делаем через filter:drop-shadow (идёт по силуэту). */
 .iplan-hotspot{
   position:absolute; border-radius:6px; cursor:pointer;
-  box-shadow:0 0 0 0 rgba(217,174,69,0); background:rgba(217,174,69,0);
-  transition:box-shadow .3s var(--ease), background .3s var(--ease);
+  background:rgba(217,174,69,0);
+  transition:background .3s var(--ease), filter .3s var(--ease);
 }
-@media(hover:hover){.iplan-hotspot:hover{background:rgba(217,174,69,.1); box-shadow:0 0 0 2px var(--clay), 0 0 22px 6px rgba(217,174,69,.65)}}
-.iplan-hotspot.is-active{background:rgba(217,174,69,.14); box-shadow:0 0 0 2px var(--clay), 0 0 26px 8px rgba(217,174,69,.75)}
+@media(hover:hover){.iplan-hotspot:hover{
+  background:rgba(217,174,69,.16);
+  filter:drop-shadow(0 0 3px var(--clay)) drop-shadow(0 0 16px rgba(217,174,69,.7));
+}}
+.iplan-hotspot.is-active{
+  background:rgba(217,174,69,.2);
+  filter:drop-shadow(0 0 3px var(--clay)) drop-shadow(0 0 20px rgba(217,174,69,.8));
+}
 
 .iplan-popup{
   position:absolute; z-index:5; min-width:220px; max-width:280px;

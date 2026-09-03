@@ -34,10 +34,29 @@
   BSO_BUILDINGS.forEach(b => {
     const zone = document.createElement('div');
     zone.className = 'iplan-hotspot';
-    zone.style.left = b.l + '%';
-    zone.style.top = b.t + '%';
-    zone.style.width = b.w + '%';
-    zone.style.height = b.h + '%';
+    // Здания на аэро-подложке стоят не по сетке — зона задаётся полигоном
+    // b.poly (точки в % от картинки). Div кладём по bbox полигона, а видимую
+    // форму (и hit-area) режем clip-path'ом по тому же полигону.
+    if (Array.isArray(b.poly) && b.poly.length >= 3) {
+      const xs = b.poly.map(p => p[0]);
+      const ys = b.poly.map(p => p[1]);
+      const minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
+      const minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
+      const bw = maxX - minX || 0.1;
+      const bh = maxY - minY || 0.1;
+      zone.style.left = minX + '%';
+      zone.style.top = minY + '%';
+      zone.style.width = bw + '%';
+      zone.style.height = bh + '%';
+      const pts = b.poly.map(p => (((p[0] - minX) / bw * 100).toFixed(2) + '% ' + ((p[1] - minY) / bh * 100).toFixed(2) + '%')).join(', ');
+      zone.style.clipPath = 'polygon(' + pts + ')';
+      zone.style.borderRadius = '0';
+    } else {
+      zone.style.left = b.l + '%';
+      zone.style.top = b.t + '%';
+      zone.style.width = b.w + '%';
+      zone.style.height = b.h + '%';
+    }
     zone.dataset.buildingId = b.n;
     hotspotsEl.appendChild(zone);
 
@@ -88,6 +107,9 @@
     if (top + popupRect.height > mapRect.height - 8) {
       top = zoneRect.top - mapRect.top - popupRect.height - 10;
     }
+    // жёсткий клэмп в пределах карты — иначе у зданий у верхнего/нижнего края
+    // попап уезжает за фото (баг: top уходил в минус)
+    top = Math.max(8, Math.min(top, mapRect.height - popupRect.height - 8));
     popup.style.left = left + 'px';
     popup.style.top = top + 'px';
   }
