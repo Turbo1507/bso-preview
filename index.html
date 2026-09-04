@@ -25,8 +25,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://blacksandsoasis.com/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="css/styles.css?v=20260904153952">
-<link rel="stylesheet" href="css/v2.css?v=20260904153952">
+<link rel="stylesheet" href="css/styles.css?v=20260904160308">
+<link rel="stylesheet" href="css/v2.css?v=20260904160308">
 </head>
 <body>
 
@@ -260,11 +260,79 @@
 </section>
 
 
-<!-- ===== 08. ПЛАНИРОВКИ (раскрывашка «смотреть планировку» поверх фото —
+<!-- ===== 08. ИНТЕРАКТИВНЫЙ ПЛАН — v1 (черновик, только для GitHub Pages) =====
+     Порядок с блоком «Планировки» ниже развёрнут (правка Босса 04.09): план
+     комплекса теперь ПЕРЕД планировками типов — карточка юнита на плане ведёт
+     вглубь, к разбору планировки конкретного типа (см. .iplan-reserve-btn в
+     js/iplan-map.js — клик проваливается в #plans на нужный таб).
+     По просьбе Босса: реф andreevskiy.by (виджет Realting) — у них есть
+     полноценная кликабельная схема + шахматка. У нас пока только ВТОРОЕ:
+     честная сортируемая/фильтруемая таблица юнитов (1-103 + P1-P8) из
+     партнёрской шахматки, плюс мастер-план картинкой рядом (НЕ кликабельный
+     по отдельным юнитам — 103 точных полигона на глаз с одной фотографии
+     это гадание, а не инженерия; кликабельные зоны — отдельным шагом, когда
+     будет точный источник координат, напр. Figma-вектор).
+     ВАЖНО перед деплоем на прод: данные (цена/статус BOOKED-PREBOOKED)
+     изначально для закрытого брокерского хаба /for-partners/, не публичные
+     — см. предупреждение в js/units-data.js. Не деплоить на blacksandsoasis.com
+     без явного разрешения Босса. -->
+<section class="section section-gray" style="background:var(--stone)" id="interactive-plan">
+  <div class="container">
+    <h2 class="reveal" data-i18n="iplan.title">Interactive site plan</h2>
+    <p class="lead reveal" data-i18n="iplan.lead">All 111 units of the complex — type, size, price and current availability</p>
+    <div class="iplan-wrap reveal">
+      <div class="iplan-map iplan-map--full" id="iplanMap">
+        <img src="assets/bso-aerial-plan.jpg" alt="Black Sands Oasis — aerial site plan" loading="lazy" decoding="async">
+        <div class="iplan-hotspots" id="iplanHotspots"></div>
+        <div class="iplan-popup" id="iplanPopup"></div>
+        <div class="iplan-legend">
+          <span class="iplan-legend-item"><i class="iplan-dot is-early"></i><span data-i18n="iplan.st.early">Available</span></span>
+          <span class="iplan-legend-item"><i class="iplan-dot is-prebooked"></i><span data-i18n="iplan.st.prebooked">Reserved</span></span>
+          <span class="iplan-legend-item"><i class="iplan-dot is-booked"></i><span data-i18n="iplan.st.booked">Sold</span></span>
+        </div>
+        <button type="button" class="iplan-table-toggle" id="iplanTableToggle" aria-expanded="false" aria-controls="iplanDrawer">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/></svg>
+          <span data-i18n="iplan.tabletoggle">View unit table</span>
+        </button>
+      </div>
+      <div class="iplan-drawer" id="iplanDrawer" hidden>
+        <div class="iplan-drawer-inner">
+          <div class="iplan-filters" id="iplanTypeFilters">
+            <button class="iplan-chip is-active" data-type="all" data-i18n="iplan.filter.all">All types</button>
+          </div>
+          <div class="iplan-filters iplan-filters-status" id="iplanStatusFilters">
+            <button class="iplan-chip is-active" data-status="all" data-i18n="iplan.filter.allstatus">Any status</button>
+            <button class="iplan-chip" data-status="early" data-i18n="iplan.st.early">Available</button>
+            <button class="iplan-chip" data-status="prebooked" data-i18n="iplan.st.prebooked">Reserved</button>
+            <button class="iplan-chip" data-status="booked" data-i18n="iplan.st.booked">Sold</button>
+          </div>
+          <div class="iplan-table-wrap">
+            <table class="iplan-table">
+              <thead>
+                <tr>
+                  <th data-sort="n" data-i18n="iplan.col.unit">Unit</th>
+                  <th data-sort="t" data-i18n="iplan.col.type">Type</th>
+                  <th data-sort="s" data-i18n="iplan.col.size">m²</th>
+                  <th data-sort="c" data-i18n="iplan.col.price">Price</th>
+                  <th data-sort="st" data-i18n="iplan.col.status">Status</th>
+                  <th class="iplan-col-reserve" aria-hidden="true"></th>
+                </tr>
+              </thead>
+              <tbody id="iplanTbody"></tbody>
+            </table>
+            <p class="iplan-count" id="iplanCount"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 08-b. ПЛАНИРОВКИ (раскрывашка «смотреть планировку» поверх фото —
      реф Figma «план1»/«план2» (295:331/332, канал 41fc2tir): кнопка над фото
      разворачивается в тёмную панель со схемой, план вынесен из карусели.
      Фото — 3:4 (правка Босса: в широком кадре смотрелись растянутыми). ===== -->
-<section class="section section-gray" style="background:var(--stone)" id="plans">
+<section class="section section-gray plans-tight-top" style="background:var(--stone)" id="plans">
   <div class="container">
     <h2 class="reveal" data-i18n="plans.title">Layouts for every scenario of life</h2>
     <p class="lead reveal" data-i18n="plans.lead">Every format keeps the project’s shared DNA — expressive architecture, a sense of air, privacy and a premium living scenario — for living, relaxing, workation and investment</p>
@@ -328,70 +396,6 @@
             <svg class="plans-toggle-ic plans-toggle-ic--open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
           </button>
           <a class="btn btn-glass js-lead-open" href="#contacts" data-i18n="plans.cta.v2">Learn more</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== 08-b. ИНТЕРАКТИВНЫЙ ПЛАН — v1 (черновик, только для GitHub Pages) =====
-     По просьбе Босса: реф andreevskiy.by (виджет Realting) — у них есть
-     полноценная кликабельная схема + шахматка. У нас пока только ВТОРОЕ:
-     честная сортируемая/фильтруемая таблица юнитов (1-103 + P1-P8) из
-     партнёрской шахматки, плюс мастер-план картинкой рядом (НЕ кликабельный
-     по отдельным юнитам — 103 точных полигона на глаз с одной фотографии
-     это гадание, а не инженерия; кликабельные зоны — отдельным шагом, когда
-     будет точный источник координат, напр. Figma-вектор).
-     ВАЖНО перед деплоем на прод: данные (цена/статус BOOKED-PREBOOKED)
-     изначально для закрытого брокерского хаба /for-partners/, не публичные
-     — см. предупреждение в js/units-data.js. Не деплоить на blacksandsoasis.com
-     без явного разрешения Босса. -->
-<section class="section section-gray" style="background:var(--stone)" id="interactive-plan">
-  <div class="container">
-    <h2 class="reveal" data-i18n="iplan.title">Interactive site plan</h2>
-    <p class="lead reveal" data-i18n="iplan.lead">All 111 units of the complex — type, size, price and current availability</p>
-    <div class="iplan-wrap reveal">
-      <div class="iplan-map iplan-map--full" id="iplanMap">
-        <img src="assets/bso-aerial-plan.jpg" alt="Black Sands Oasis — aerial site plan" loading="lazy" decoding="async">
-        <div class="iplan-hotspots" id="iplanHotspots"></div>
-        <div class="iplan-popup" id="iplanPopup"></div>
-        <div class="iplan-legend">
-          <span class="iplan-legend-item"><i class="iplan-dot is-early"></i><span data-i18n="iplan.st.early">Available</span></span>
-          <span class="iplan-legend-item"><i class="iplan-dot is-prebooked"></i><span data-i18n="iplan.st.prebooked">Reserved</span></span>
-          <span class="iplan-legend-item"><i class="iplan-dot is-booked"></i><span data-i18n="iplan.st.booked">Sold</span></span>
-        </div>
-        <button type="button" class="iplan-table-toggle" id="iplanTableToggle" aria-expanded="false" aria-controls="iplanDrawer">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/></svg>
-          <span data-i18n="iplan.tabletoggle">View unit table</span>
-        </button>
-      </div>
-      <div class="iplan-drawer" id="iplanDrawer" hidden>
-        <div class="iplan-drawer-inner">
-          <div class="iplan-filters" id="iplanTypeFilters">
-            <button class="iplan-chip is-active" data-type="all" data-i18n="iplan.filter.all">All types</button>
-          </div>
-          <div class="iplan-filters iplan-filters-status" id="iplanStatusFilters">
-            <button class="iplan-chip is-active" data-status="all" data-i18n="iplan.filter.allstatus">Any status</button>
-            <button class="iplan-chip" data-status="early" data-i18n="iplan.st.early">Available</button>
-            <button class="iplan-chip" data-status="prebooked" data-i18n="iplan.st.prebooked">Reserved</button>
-            <button class="iplan-chip" data-status="booked" data-i18n="iplan.st.booked">Sold</button>
-          </div>
-          <div class="iplan-table-wrap">
-            <table class="iplan-table">
-              <thead>
-                <tr>
-                  <th data-sort="n" data-i18n="iplan.col.unit">Unit</th>
-                  <th data-sort="t" data-i18n="iplan.col.type">Type</th>
-                  <th data-sort="s" data-i18n="iplan.col.size">m²</th>
-                  <th data-sort="c" data-i18n="iplan.col.price">Price</th>
-                  <th data-sort="st" data-i18n="iplan.col.status">Status</th>
-                  <th class="iplan-col-reserve" aria-hidden="true"></th>
-                </tr>
-              </thead>
-              <tbody id="iplanTbody"></tbody>
-            </table>
-            <p class="iplan-count" id="iplanCount"></p>
-          </div>
         </div>
       </div>
     </div>
@@ -809,14 +813,14 @@
      из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
      что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/i18n.js?v=20260904153952"></script>
-<script src="js/v2-i18n.js?v=20260904153952"></script>
-<script src="js/main.js?v=20260904153952"></script>
-<script src="js/v2.js?v=20260904153952"></script>
-<script src="js/units-data.js?v=20260904153952"></script>
-<script src="js/units-plan.js?v=20260904153952"></script>
-<script src="js/buildings-data.js?v=20260904153952"></script>
-<script src="js/iplan-map.js?v=20260904153952"></script>
+<script src="js/i18n.js?v=20260904160308"></script>
+<script src="js/v2-i18n.js?v=20260904160308"></script>
+<script src="js/main.js?v=20260904160308"></script>
+<script src="js/v2.js?v=20260904160308"></script>
+<script src="js/units-data.js?v=20260904160308"></script>
+<script src="js/units-plan.js?v=20260904160308"></script>
+<script src="js/buildings-data.js?v=20260904160308"></script>
+<script src="js/iplan-map.js?v=20260904160308"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>
