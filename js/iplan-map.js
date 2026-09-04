@@ -25,6 +25,7 @@
     hideTimer = null;
     hotspotsEl.querySelectorAll('.iplan-hotspot').forEach(z => z.classList.remove('is-active'));
     popup.classList.remove('is-open');
+    if (svg) svg.classList.remove('is-dim');   // снять затемнение фона
   };
   const scheduleHide = () => { cancelHide(); hideTimer = setTimeout(closePopup, 160); };
 
@@ -41,6 +42,16 @@
   svg.setAttribute('viewBox', '0 0 100 100');
   svg.setAttribute('preserveAspectRatio', 'none');
   hotspotsEl.appendChild(svg);
+
+  // Слой затемнения фона: полупрозрачный прямоугольник на всю карту с ДЫРКОЙ
+  // по контуру активной зоны (fill-rule:evenodd). d обновляется на hover.
+  // Откат фичи: удалить этот блок + класс is-dim ниже + CSS .iplan-dim-path.
+  const dimPath = document.createElementNS(SVGNS, 'path');
+  dimPath.setAttribute('class', 'iplan-dim-path');
+  svg.appendChild(dimPath);
+  const zoneSubpath = b => Array.isArray(b.poly) && b.poly.length >= 3
+    ? 'M' + b.poly.map(p => p[0] + ' ' + p[1]).join('L') + 'Z'
+    : `M${b.l} ${b.t}H${b.l + b.w}V${b.t + b.h}H${b.l}Z`;
 
   BSO_BUILDINGS.forEach(b => {
     let zone;
@@ -60,6 +71,8 @@
     const show = () => {
       cancelHide();
       svg.querySelectorAll('.iplan-hotspot').forEach(z => z.classList.toggle('is-active', z === zone));
+      dimPath.setAttribute('d', 'M0 0H100V100H0Z' + zoneSubpath(b));
+      svg.classList.add('is-dim');
       renderPopup(b, zone);
     };
     zone.addEventListener('mouseenter', show);
