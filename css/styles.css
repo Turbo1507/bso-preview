@@ -1118,7 +1118,10 @@ body.lead-lock{overflow:hidden}
 .iplan-popup-row{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--graphite)}
 .iplan-popup-row b{flex:0 0 auto; min-width:24px; color:var(--white)}
 .iplan-popup-row span:nth-child(2){flex:1; color:var(--muted); font-size:12px}
-.iplan-popup-row span:nth-child(3){flex:0 0 auto; font-size:12px}
+/* Порядок в строке (правка Босса): номер, тип, статус-пилюля, цена — цена
+   и статус поменяны местами, статус (3-й span) получает свой размер через
+   .iplan-status ниже, тут только цена (теперь 4-й span). */
+.iplan-popup-row span:nth-child(4){flex:0 0 auto; font-size:12px}
 .iplan-popup .iplan-status{padding:2px 8px; font-size:10px}
 .iplan-popup-empty{margin:0; font-size:13px; color:var(--muted); max-width:22ch}
 
