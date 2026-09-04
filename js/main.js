@@ -491,6 +491,26 @@ const FLOOR_LABEL_TEXT = {
   ru: { f2: '2-й этаж', f1: '1-й этаж' },
   en: { f2: '2nd floor', f1: '1st floor' }
 };
+/* ---------- бенто-коллаж «Layouts» по типам (правка Босса 04.09) ----------
+   Логика: матрица ячеек с общим гэпом 14px, крупные тайлы = несколько ячеек,
+   слитых через grid-row/column span (гэп между ними схлопывается сам, CSS
+   Grid). cols — фр-веса колонок (не обязаны суммироваться в 1360, браузер
+   распределит доступное пространство пропорционально), rows — фикс. высоты.
+   tiles[].photoIdx — индекс в p.photos (см. PLANS), isTopview — рендерить как
+   топвью (SVG-композит для двухэтажных ИЛИ фон-картинка). Собрано в Figma
+   (Боссом), studio — первый тип, остальные добавляются по этой же схеме. */
+const COLLAGE_LAYOUTS = {
+  studio: {
+    cols: '500fr 400fr 352fr',
+    rows: '293px 293px',
+    tiles: [
+      { photoIdx: 1, col: '1', row: '1 / 3' },                  // detail2 — большой слева, портрет
+      { photoIdx: 3, col: '2', row: '1' },                       // detail1 — верх-центр, широкий кадр сюда меньше кропа
+      { photoIdx: 4, col: '2', row: '2', isTopview: true },      // topview — низ-центр
+      { photoIdx: 2, col: '3', row: '1 / 3' }                    // detail3 — узкий-высокий справа, портрет
+    ]
+  }
+};
 function buildFloorsSVG(layout, lang, showLabels) {
   if (showLabels === undefined) showLabels = true;
   const t = FLOOR_LABEL_TEXT[lang] || FLOOR_LABEL_TEXT.ru;
@@ -568,6 +588,47 @@ function renderPlan(planId, lang) {
        вложенности в left/right — трогать его не пришлось. */
     const left = document.getElementById('plansCollageLeft');
     const right = track.querySelector('.plans-collage-right');
+    track.querySelectorAll('.pc-bento-tile').forEach(el => el.remove());
+    const bento = COLLAGE_LAYOUTS[planId];
+    if (bento) {
+      // бенто-грид (см. COLLAGE_LAYOUTS) — track сам становится grid-контейнером,
+      // старые left/right колонки-обёртки прячем, тайлы кладём прямо в track
+      track.classList.add('plans-collage--bento');
+      track.style.gridTemplateColumns = bento.cols;
+      track.style.gridTemplateRows = bento.rows;
+      left.innerHTML = ''; left.style.display = 'none';
+      right.innerHTML = ''; right.style.display = 'none';
+      bento.tiles.forEach(t => {
+        let el;
+        if (t.isTopview) {
+          el = document.createElement('div');
+          el.className = 'plans-collage-topview pc-bento-tile';
+          if (floors) {
+            el.appendChild(buildFloorsSVG(floors.render, lang, false));
+          } else {
+            const bg = document.createElement('div');
+            bg.className = 'plans-collage-topview-bg';
+            bg.style.backgroundImage = `url("${new URL(ASSET(p.photos[t.photoIdx]), document.baseURI).href}")`;
+            el.appendChild(bg);
+          }
+        } else {
+          el = document.createElement('img');
+          el.className = 'plan-photo-img plans-collage-tile pc-bento-tile';
+          el.src = ASSET(p.photos[t.photoIdx]);
+          el.alt = p.photoAlts[t.photoIdx];
+          if (p.positions && p.positions[t.photoIdx]) el.style.objectPosition = p.positions[t.photoIdx];
+        }
+        el.style.gridColumn = t.col;
+        el.style.gridRow = t.row;
+        track.appendChild(el);
+      });
+      return;
+    }
+    // не бенто-тип — старая масонри-раскладка (левая колонка натур. пропорций
+    // + правая квадратная пара), см. комментарий выше
+    track.classList.remove('plans-collage--bento');
+    track.style.gridTemplateColumns = ''; track.style.gridTemplateRows = '';
+    left.style.display = ''; right.style.display = '';
     left.innerHTML = '';
     right.querySelectorAll('.plans-collage-tile, .plans-collage-topview').forEach(el => el.remove());
     const lastInteriorIdx = p.photos.length - 2; // индекс последнего интерьерного фото (пара топвью)
