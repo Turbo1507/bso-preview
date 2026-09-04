@@ -21,6 +21,17 @@
   // попапом — отменяем закрытие. Курсор свободно переходит зона → попап → кнопка.
   let hideTimer = null;
   const cancelHide = () => { if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; } };
+  // Здания у Босса обведены вручную (Pen tool) — контур местами зубчатый
+  // (мелкие насечки по силуэту крыши), у некоторых зданий (напр. n:10,
+  // "102-103") это создавало флики на границе: курсор чуть дрожит на стыке
+  // двух соседних вершин зубца — мышь входит-выходит-входит из полигона за
+  // доли секунды, mouseenter/mouseleave чередуются, и то, что успевает
+  // сработать последним перед проверкой — то и остаётся ("через раз
+  // получается перейти в попап" — Босс 04.09). Небольшая задержка на show
+  // (как в любом hover-меню) гасит это дрожание: попап открывается, только
+  // если курсор реально задержался в зоне, а не мазнул по зубцу.
+  let showTimer = null;
+  const cancelShow = () => { if (showTimer) { clearTimeout(showTimer); showTimer = null; } };
   const closePopup = () => {
     hideTimer = null;
     hotspotsEl.querySelectorAll('.iplan-hotspot').forEach(z => z.classList.remove('is-active'));
@@ -75,9 +86,12 @@
       svg.classList.add('is-dim');
       renderPopup(b, zone);
     };
-    zone.addEventListener('mouseenter', show);
-    zone.addEventListener('mouseleave', scheduleHide);
-    zone.addEventListener('click', e => { e.preventDefault(); show(); });
+    zone.addEventListener('mouseenter', () => {
+      cancelShow();
+      showTimer = setTimeout(() => { showTimer = null; show(); }, 55);
+    });
+    zone.addEventListener('mouseleave', () => { cancelShow(); scheduleHide(); });
+    zone.addEventListener('click', e => { e.preventDefault(); cancelShow(); show(); });
   });
 
   map.addEventListener('mouseleave', scheduleHide);
@@ -168,12 +182,42 @@
     popup.style.top = top + 'px';
   }
 
+  /* u.t ("STUDIO GARDEN", "1BD SKY", "PENTHOUSE OCEAN VIEW"...) -> data-plan
+     таба в блоке #plans ("studio","1bdsky"...). Пентхаусы (P1-P8) своего
+     таба не имеют — для них null, старое поведение (открыть лид-форму). */
+  function unitTypeToPlanId(t) {
+    const s = (t || '').toUpperCase();
+    if (s.includes('STUDIO')) return 'studio';
+    if (s.includes('PENTHOUSE')) return null;
+    if (s.startsWith('1BD SKY')) return '1bdsky';
+    if (s.startsWith('1BD')) return '1bd';
+    if (s.startsWith('2BD')) return '2bd';
+    if (s.startsWith('3BD SKY')) return '3bdsky';
+    if (s.startsWith('3BD')) return '3bd';
+    if (s.startsWith('4BD')) return '4bd';
+    return null;
+  }
+
   popup.addEventListener('click', e => {
     const btn = e.target.closest('.iplan-reserve-btn');
     if (!btn) return;
     e.preventDefault();
     e.stopPropagation();
-    if (typeof window.openLeadForUnit === 'function') window.openLeadForUnit(btn.dataset.unit);
+    // Правка Босса 04.09: кнопка на юните плана теперь "проваливается" в блок
+    // Layouts на подходящий таб (а не сразу открывает лид-форму) — план
+    // виллы важнее увидеть до брони. Резерв конкретного юнита остаётся
+    // доступен через CTA внутри самого блока Layouts (.js-lead-open).
+    // Пентхаусы без своего таба — как раньше, сразу лид-форма.
+    const unit = unitsByNumber[btn.dataset.unit];
+    const planId = unit && unitTypeToPlanId(unit.t);
+    const tabBtn = planId && document.querySelector(`.plans-tab[data-plan="${planId}"]`);
+    if (tabBtn) {
+      closePopup();
+      tabBtn.click();
+      document.getElementById('plans').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (typeof window.openLeadForUnit === 'function') {
+      window.openLeadForUnit(btn.dataset.unit);
+    }
   });
 
   const origSetLang = window.setLang;

@@ -182,6 +182,25 @@ body.menu-open .burger span{background:var(--white)}
    без него при открытии панели плана (.plans-toggle-panel, белая, inset:0)
    торчали прямые углы поверх скруглённых фото-тайлов. */
 .plans-viewer{background:var(--ink); border-radius:var(--r-lg); overflow:hidden}
+/* Порядок секций развёрнут (правка Босса 04.09): План комплекса теперь идёт
+   ПЕРЕД Планировками — они читаются как одна связка (карточка юнита на плане
+   ведёт в Планировки), а не как два несвязанных раздела. Между ними убираем
+   двойной секционный паддинг (100+100=200px читался как разрыв), оставляем
+   компактный технический отступ. .section.* — специфичность выше, чем у
+   одного .section{padding:...}, порядок в каскаде не важен. */
+.section.plans-tight-top{padding-top:32px}
+@media(max-width:860px){.section.plans-tight-top{padding-top:20px}}
+
+/* Кастомный скроллбар таблицы юнитов (правка Босса 04.09: белый системный
+   выбивался из тёмной картины). Firefox — scrollbar-color (тонкий, только
+   2 цвета); WebKit/Blink — псевдоэлементы, трек прозрачный (виден фон
+   .iplan-table-wrap), ползунок золотой полупрозрачный, чуть ярче на hover. */
+.iplan-table-wrap{scrollbar-width:thin; scrollbar-color:rgba(217,174,69,.45) transparent}
+.iplan-table-wrap::-webkit-scrollbar{width:8px; height:8px}
+.iplan-table-wrap::-webkit-scrollbar-track{background:transparent}
+.iplan-table-wrap::-webkit-scrollbar-thumb{background:rgba(217,174,69,.45); border-radius:8px}
+.iplan-table-wrap::-webkit-scrollbar-thumb:hover{background:rgba(217,174,69,.7)}
+.iplan-table-wrap::-webkit-scrollbar-corner{background:transparent}
 /* подчёркивание названия планировки осталось от старого акцента — в v1 оно
    зашито как rgba(156,79,32,.5), то есть терракота #9c4f20; переводим на золото */
 /* подчёркивания заголовков зашиты в v1 старой терракотой rgba(156,79,32,…) —
