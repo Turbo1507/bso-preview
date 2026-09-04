@@ -510,53 +510,75 @@ const COLLAGE_LAYOUTS = {
       { photoIdx: 2, col: '3', row: '1 / 3' }                    // detail3 — узкий-высокий справа, портрет
     ]
   },
-  /* Остальные 6 типов (правка Босса 04.09): у всех вилл одна отделка/мебель,
-     отличаются только планировкой — родных фото на тип 3-4, добавляем общий
-     пул (assets/bso-pool-N.jpg, Google Drive, папка Studio/) до 6 тайлов.
-     Плоская матрица 3×2 без слияния ячеек (каждый тайл — 1 клетка) — ниже
-     риск накосячить со span'ами на 6 типах подряд без визуальной проверки
-     каждого. Разнообразие — через фр-веса колонок (разный порядок/акцент
-     по типам) и то, в какой клетке топвью, а не через фигурные слияния. */
+  /* Остальные 6 типов (правка Босса 04.09→04.09-bis: первая версия была
+     плоским 3×2 без слияний — «скучная идеальная плитка», Боссу нужна та же
+     логика слияния ячеек, что и в studio). База — общая 4-колоночная сетка
+     (все cols:1fr, ровно 4 ячейки в ряд) × 2 строки по 293px — крупные
+     тайлы получаются spans'ом (grid-column/row на 2 ячейки), у каждого типа
+     свой рисунок слияний, не повтор studio. Родных фото на тип 3-4, добор
+     до 5-6 тайлов из общего пула (assets/bso-pool-N.jpg). */
   '1bd': {
-    cols: '480fr 460fr 420fr', rows: '293px 293px',
+    cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 1, col: '1', row: '1' }, { photoIdx: 2, col: '2', row: '1' }, { photoIdx: 4, col: '3', row: '1', isTopview: true },
-      { photoIdx: 3, col: '1', row: '2' }, { src: 'assets/bso-pool-2.jpg', col: '2', row: '2' }, { src: 'assets/bso-pool-3.jpg', col: '3', row: '2' }
+      { photoIdx: 1, col: '1 / 3', row: '1' },                              // detail1 — широкий верх-лево
+      { photoIdx: 2, col: '3', row: '1 / 3' },                              // detail2 — высокий по центру-право
+      { src: 'assets/bso-pool-2.jpg', col: '4', row: '1' },
+      { photoIdx: 3, col: '1', row: '2' },
+      { photoIdx: 4, col: '2', row: '2', isTopview: true },
+      { src: 'assets/bso-pool-3.jpg', col: '4', row: '2' }
     ]
   },
   '1bdsky': {
-    cols: '380fr 480fr 500fr', rows: '293px 293px',
+    cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { src: 'assets/bso-pool-4.jpg', col: '1', row: '1' }, { photoIdx: 1, col: '2', row: '1' }, { photoIdx: 2, col: '3', row: '1' },
-      { photoIdx: 3, col: '1', row: '2' }, { photoIdx: 4, col: '2', row: '2', isTopview: true }, { src: 'assets/bso-pool-5.jpg', col: '3', row: '2' }
+      { photoIdx: 1, col: '1', row: '1 / 3' },                              // detail1 — высокий слева (зеркально 1bd)
+      { photoIdx: 2, col: '2 / 4', row: '1' },                              // detail2 — широкий верх-центр
+      { src: 'assets/bso-pool-4.jpg', col: '4', row: '1' },
+      { photoIdx: 3, col: '2', row: '2' },
+      { photoIdx: 4, col: '3', row: '2', isTopview: true },
+      { src: 'assets/bso-pool-5.jpg', col: '4', row: '2' }
     ]
   },
   '2bd': {
-    cols: '500fr 380fr 480fr', rows: '293px 293px',
+    cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 2, col: '1', row: '1' }, { photoIdx: 4, col: '2', row: '1', isTopview: true }, { photoIdx: 1, col: '3', row: '1' },
-      { src: 'assets/bso-pool-7.jpg', col: '1', row: '2' }, { photoIdx: 3, col: '2', row: '2' }, { src: 'assets/bso-pool-8.jpg', col: '3', row: '2' }
+      { photoIdx: 2, col: '1 / 3', row: '1 / 3' },                          // detail2 — большой квадрат 2×2 слева
+      { photoIdx: 4, col: '3', row: '1', isTopview: true },
+      { photoIdx: 1, col: '4', row: '1' },
+      { src: 'assets/bso-pool-7.jpg', col: '3', row: '2' },
+      { photoIdx: 3, col: '4', row: '2' }
     ]
   },
   '3bd': {
-    cols: '440fr 440fr 480fr', rows: '293px 293px',
+    cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 1, col: '1', row: '1' }, { src: 'assets/bso-pool-9.jpg', col: '2', row: '1' }, { photoIdx: 2, col: '3', row: '1' },
-      { photoIdx: 4, col: '1', row: '2', isTopview: true }, { photoIdx: 3, col: '2', row: '2' }, { src: 'assets/bso-pool-10.jpg', col: '3', row: '2' }
+      { photoIdx: 1, col: '1', row: '1 / 3' },                              // detail1 — высокий слева
+      { src: 'assets/bso-pool-9.jpg', col: '2', row: '1' },
+      { photoIdx: 2, col: '3 / 5', row: '1' },                              // detail2 — широкий верх-право
+      { photoIdx: 4, col: '2 / 4', row: '2', isTopview: true },             // topview — широкий низ-центр
+      { photoIdx: 3, col: '4', row: '2' }
     ]
   },
   '3bdsky': {
-    cols: '460fr 420fr 480fr', rows: '293px 293px',
+    cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 3, col: '1', row: '1' }, { photoIdx: 1, col: '2', row: '1' }, { src: 'assets/bso-pool-11.jpg', col: '3', row: '1' },
-      { src: 'assets/bso-pool-2.jpg', col: '1', row: '2' }, { photoIdx: 4, col: '2', row: '2', isTopview: true }, { photoIdx: 2, col: '3', row: '2' }
+      { photoIdx: 3, col: '1 / 3', row: '1' },                              // detail3 — широкий верх-лево
+      { photoIdx: 1, col: '3', row: '1 / 3' },                              // detail1 — высокий центр-право
+      { src: 'assets/bso-pool-11.jpg', col: '4', row: '1' },
+      { src: 'assets/bso-pool-2.jpg', col: '1', row: '2' },
+      { photoIdx: 4, col: '2', row: '2', isTopview: true },
+      { photoIdx: 2, col: '4', row: '2' }
     ]
   },
   '4bd': {
-    cols: '420fr 460fr 480fr', rows: '293px 293px',
+    // 4 родных детальных фото + topview — пул не нужен
+    cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 1, col: '1', row: '1' }, { photoIdx: 2, col: '2', row: '1' }, { photoIdx: 3, col: '3', row: '1' },
-      { photoIdx: 4, col: '1', row: '2' }, { photoIdx: 5, col: '2', row: '2', isTopview: true }, { src: 'assets/bso-pool-3.jpg', col: '3', row: '2' }
+      { photoIdx: 1, col: '1', row: '1 / 3' },                              // detail1 — высокий слева
+      { photoIdx: 2, col: '2 / 4', row: '1' },                              // detail2 — широкий верх-центр
+      { photoIdx: 3, col: '4', row: '1' },
+      { photoIdx: 4, col: '2', row: '2' },
+      { photoIdx: 5, col: '3 / 5', row: '2', isTopview: true }              // topview — широкий низ-право
     ]
   }
 };
