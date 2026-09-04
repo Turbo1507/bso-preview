@@ -509,6 +509,55 @@ const COLLAGE_LAYOUTS = {
       { photoIdx: 4, col: '2', row: '2', isTopview: true },      // topview — низ-центр
       { photoIdx: 2, col: '3', row: '1 / 3' }                    // detail3 — узкий-высокий справа, портрет
     ]
+  },
+  /* Остальные 6 типов (правка Босса 04.09): у всех вилл одна отделка/мебель,
+     отличаются только планировкой — родных фото на тип 3-4, добавляем общий
+     пул (assets/bso-pool-N.jpg, Google Drive, папка Studio/) до 6 тайлов.
+     Плоская матрица 3×2 без слияния ячеек (каждый тайл — 1 клетка) — ниже
+     риск накосячить со span'ами на 6 типах подряд без визуальной проверки
+     каждого. Разнообразие — через фр-веса колонок (разный порядок/акцент
+     по типам) и то, в какой клетке топвью, а не через фигурные слияния. */
+  '1bd': {
+    cols: '480fr 460fr 420fr', rows: '293px 293px',
+    tiles: [
+      { photoIdx: 1, col: '1', row: '1' }, { photoIdx: 2, col: '2', row: '1' }, { photoIdx: 4, col: '3', row: '1', isTopview: true },
+      { photoIdx: 3, col: '1', row: '2' }, { src: 'assets/bso-pool-2.jpg', col: '2', row: '2' }, { src: 'assets/bso-pool-3.jpg', col: '3', row: '2' }
+    ]
+  },
+  '1bdsky': {
+    cols: '380fr 480fr 500fr', rows: '293px 293px',
+    tiles: [
+      { src: 'assets/bso-pool-4.jpg', col: '1', row: '1' }, { photoIdx: 1, col: '2', row: '1' }, { photoIdx: 2, col: '3', row: '1' },
+      { photoIdx: 3, col: '1', row: '2' }, { photoIdx: 4, col: '2', row: '2', isTopview: true }, { src: 'assets/bso-pool-5.jpg', col: '3', row: '2' }
+    ]
+  },
+  '2bd': {
+    cols: '500fr 380fr 480fr', rows: '293px 293px',
+    tiles: [
+      { photoIdx: 2, col: '1', row: '1' }, { photoIdx: 4, col: '2', row: '1', isTopview: true }, { photoIdx: 1, col: '3', row: '1' },
+      { src: 'assets/bso-pool-7.jpg', col: '1', row: '2' }, { photoIdx: 3, col: '2', row: '2' }, { src: 'assets/bso-pool-8.jpg', col: '3', row: '2' }
+    ]
+  },
+  '3bd': {
+    cols: '440fr 440fr 480fr', rows: '293px 293px',
+    tiles: [
+      { photoIdx: 1, col: '1', row: '1' }, { src: 'assets/bso-pool-9.jpg', col: '2', row: '1' }, { photoIdx: 2, col: '3', row: '1' },
+      { photoIdx: 4, col: '1', row: '2', isTopview: true }, { photoIdx: 3, col: '2', row: '2' }, { src: 'assets/bso-pool-10.jpg', col: '3', row: '2' }
+    ]
+  },
+  '3bdsky': {
+    cols: '460fr 420fr 480fr', rows: '293px 293px',
+    tiles: [
+      { photoIdx: 3, col: '1', row: '1' }, { photoIdx: 1, col: '2', row: '1' }, { src: 'assets/bso-pool-11.jpg', col: '3', row: '1' },
+      { src: 'assets/bso-pool-2.jpg', col: '1', row: '2' }, { photoIdx: 4, col: '2', row: '2', isTopview: true }, { photoIdx: 2, col: '3', row: '2' }
+    ]
+  },
+  '4bd': {
+    cols: '420fr 460fr 480fr', rows: '293px 293px',
+    tiles: [
+      { photoIdx: 1, col: '1', row: '1' }, { photoIdx: 2, col: '2', row: '1' }, { photoIdx: 3, col: '3', row: '1' },
+      { photoIdx: 4, col: '1', row: '2' }, { photoIdx: 5, col: '2', row: '2', isTopview: true }, { src: 'assets/bso-pool-3.jpg', col: '3', row: '2' }
+    ]
   }
 };
 function buildFloorsSVG(layout, lang, showLabels) {
@@ -598,7 +647,9 @@ function renderPlan(planId, lang) {
       track.style.gridTemplateRows = bento.rows;
       left.innerHTML = ''; left.style.display = 'none';
       right.innerHTML = ''; right.style.display = 'none';
-      const lastInteriorIdx = p.photos.length - 2; // предпоследнее интерьерное — как блюр-подложка топвью
+      // предпоследнее интерьерное — как блюр-подложка топвью, если в конфиге
+      // не указан свой (bento.blurIdx — на случай если p.photos[length-2] не подходит)
+      const lastInteriorIdx = bento.blurIdx != null ? bento.blurIdx : p.photos.length - 2;
       bento.tiles.forEach(t => {
         let el;
         if (t.isTopview) {
@@ -627,11 +678,16 @@ function renderPlan(planId, lang) {
           }
           el.appendChild(fg);
         } else {
+          // t.src — фото из общего пула (assets/bso-pool-N.jpg, все виллы делят
+          // одну и ту же отделку/мебель, отличаются только планировкой — правка
+          // Босса 04.09: можно свободно подмешивать чужие интерьерные кадры,
+          // если на них не написано явно, что это другой тип). t.photoIdx —
+          // родное фото именно этого типа из p.photos, как раньше.
           el = document.createElement('img');
           el.className = 'plan-photo-img plans-collage-tile pc-bento-tile';
-          el.src = ASSET(p.photos[t.photoIdx]);
-          el.alt = p.photoAlts[t.photoIdx];
-          if (p.positions && p.positions[t.photoIdx]) el.style.objectPosition = p.positions[t.photoIdx];
+          el.src = t.src ? ASSET(t.src) : ASSET(p.photos[t.photoIdx]);
+          el.alt = t.src ? p.name + ' villa interior' : p.photoAlts[t.photoIdx];
+          if (!t.src && p.positions && p.positions[t.photoIdx]) el.style.objectPosition = p.positions[t.photoIdx];
         }
         el.style.gridColumn = t.col;
         el.style.gridRow = t.row;
