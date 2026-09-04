@@ -25,8 +25,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://blacksandsoasis.com/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="css/styles.css?v=20260904162319">
-<link rel="stylesheet" href="css/v2.css?v=20260904162319">
+<link rel="stylesheet" href="css/styles.css?v=20260904185455">
+<link rel="stylesheet" href="css/v2.css?v=20260904185455">
 </head>
 <body>
 
@@ -282,8 +282,18 @@
     <p class="lead reveal" data-i18n="iplan.lead">All 111 units of the complex — type, size, price and current availability</p>
     <div class="iplan-wrap reveal">
       <div class="iplan-map iplan-map--full" id="iplanMap">
-        <img src="assets/bso-aerial-plan.jpg" alt="Black Sands Oasis — aerial site plan" loading="lazy" decoding="async">
-        <div class="iplan-hotspots" id="iplanHotspots"></div>
+        <!-- .iplan-pan — картинку теперь показываем крупнее контейнера по
+             высоте (см. css/styles.css), поэтому по ширине она вылезает за
+             край и её нужно слайдить (правка Босса 05.09, реф andreevskiy.by:
+             стрелки + свайп вместо одного статичного кадра). Попап/легенда/
+             кнопка таблицы — СНАРУЖИ .iplan-pan, остаются на месте при
+             прокрутке; масштабируются только картинка+зоны внутри. -->
+        <div class="iplan-pan" id="iplanPan">
+          <div class="iplan-pan-inner">
+            <img src="assets/bso-aerial-plan.jpg" alt="Black Sands Oasis — aerial site plan" loading="lazy" decoding="async">
+            <div class="iplan-hotspots" id="iplanHotspots"></div>
+          </div>
+        </div>
         <div class="iplan-popup" id="iplanPopup"></div>
         <div class="iplan-legend">
           <span class="iplan-legend-item"><i class="iplan-dot is-early"></i><span data-i18n="iplan.st.early">Available</span></span>
@@ -294,6 +304,14 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/></svg>
           <span data-i18n="iplan.tabletoggle">View unit table</span>
         </button>
+        <div class="iplan-pan-arrows">
+          <button type="button" class="iplan-pan-arrow" id="iplanPanPrev" aria-label="Scroll left" data-i18n-aria="iplan.pan.prev">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+          </button>
+          <button type="button" class="iplan-pan-arrow" id="iplanPanNext" aria-label="Scroll right" data-i18n-aria="iplan.pan.next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+          </button>
+        </div>
       </div>
       <div class="iplan-drawer" id="iplanDrawer" hidden>
         <div class="iplan-drawer-inner">
@@ -813,14 +831,14 @@
      из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
      что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/i18n.js?v=20260904162319"></script>
-<script src="js/v2-i18n.js?v=20260904162319"></script>
-<script src="js/main.js?v=20260904162319"></script>
-<script src="js/v2.js?v=20260904162319"></script>
-<script src="js/units-data.js?v=20260904162319"></script>
-<script src="js/units-plan.js?v=20260904162319"></script>
-<script src="js/buildings-data.js?v=20260904162319"></script>
-<script src="js/iplan-map.js?v=20260904162319"></script>
+<script src="js/i18n.js?v=20260904185455"></script>
+<script src="js/v2-i18n.js?v=20260904185455"></script>
+<script src="js/main.js?v=20260904185455"></script>
+<script src="js/v2.js?v=20260904185455"></script>
+<script src="js/units-data.js?v=20260904185455"></script>
+<script src="js/units-plan.js?v=20260904185455"></script>
+<script src="js/buildings-data.js?v=20260904185455"></script>
+<script src="js/iplan-map.js?v=20260904185455"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>

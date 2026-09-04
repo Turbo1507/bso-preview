@@ -390,6 +390,35 @@ body.menu-open .burger span{background:var(--white)}
 .plans-collage--bento .plans-collage-topview-fg img,
 .plans-collage--bento .plans-collage-topview-fg svg{width:100%; height:100%; object-fit:contain; display:block}
 
+/* Мобилка: бенто-матрица (4×2 ячейки) на узком экране нечитаема — Босс
+   05.09: "в мобильной версии блок лэйаутс надо просто слайдером не
+   коллажом". Трек становится нативным scroll-snap-рядом (тот же приём,
+   что .gal-track/.min-gallery-track), тайлы — просто карточки друг за
+   другом. gridColumn/gridRow тайлам выставлены inline из main.js — в
+   display:flex эти свойства ничего не значат (работают только в grid),
+   поэтому JS трогать не пришлось. Порядок DOM уже верный: main.js кладёт
+   тайлы в порядке конфига COLLAGE_LAYOUTS (крупные интерьерные — раньше,
+   топвью — всегда последним слайдом), то есть ровно та же лево-направо
+   логика важности фото, что и в самой сетке. */
+@media (max-width:860px){
+  .plans-viewer{height:auto}
+  .plans-collage--bento{
+    /* flex-wrap:nowrap ЯВНО: элемент несёт оба класса разом (.plans-collage
+       .plans-collage--bento, см. main.js), а .plans-collage сам по себе
+       задаёт flex-wrap:wrap (базовый класс, выше по файлу) — без явного
+       nowrap тайлы переносились на новую "строку" каждый по одному вместо
+       ряда, скролл не появлялся (scrollWidth==clientWidth, некуда ехать). */
+    display:flex; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; touch-action:pan-x;
+    scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
+    scrollbar-width:none; gap:12px;
+  }
+  .plans-collage--bento::-webkit-scrollbar{display:none}
+  .plans-collage--bento .pc-bento-tile{
+    flex:0 0 84%; width:84%; height:auto; aspect-ratio:4/5;
+    scroll-snap-align:center;
+  }
+}
+
 /* Иконка-кнопка «Смотреть план» — постоянный узел в строке CTA (.plans-info),
    больше не плавает поверх фото (правка Босса 02.09: раньше сидела чипом на
    карточке топвью, но та в масонри-раскладке разного размера по типам —
@@ -693,7 +722,8 @@ body{overflow-x:clip}
    только на v2-страницах), styles.css и v1 не трогаем. */
 .plans-viewer-slide img,
 .gal-slide img,
-.min-gallery-slide img{
+.min-gallery-slide img,
+.pc-bento-tile{
   -webkit-user-drag:none; user-drag:none; user-select:none; -webkit-user-select:none;
 }
 

@@ -6,6 +6,42 @@
   const popup = document.getElementById('iplanPopup');
   if (!map || !hotspotsEl || typeof BSO_BUILDINGS === 'undefined' || typeof BSO_UNITS === 'undefined') return;
 
+  /* Протяг мышью по плану (правка Босса 05.09, реф andreevskiy.by) — тот же
+     приём, что у .gal-track в v2.js. Отдельно: пока идёт протяг, гасим
+     pointer-events у слоя зон — иначе курсор при перетаскивании проходит
+     через несколько зданий подряд и открывает/закрывает попапы вперемешку
+     со скроллом (mouseenter не знает про drag, он не нативный browser-drag). */
+  const panTrack = document.getElementById('iplanPan');
+  if (panTrack) {
+    let down = false, moved = false, startX = 0, startScroll = 0;
+    panTrack.addEventListener('pointerdown', e => {
+      if (e.pointerType !== 'mouse') return; // палец/перо листают нативно
+      down = true; moved = false;
+      startX = e.clientX; startScroll = panTrack.scrollLeft;
+      try { panTrack.setPointerCapture(e.pointerId); } catch (err) {}
+    });
+    panTrack.addEventListener('pointermove', e => {
+      if (!down) return;
+      const dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) > 5) {
+        moved = true;
+        panTrack.classList.add('is-drag');
+        hotspotsEl.style.pointerEvents = 'none';
+        cancelShow(); scheduleHide();
+      }
+      if (moved) { panTrack.scrollLeft = startScroll - dx; e.preventDefault(); }
+    });
+    const endDrag = e => {
+      if (!down) return;
+      down = false;
+      panTrack.classList.remove('is-drag');
+      hotspotsEl.style.pointerEvents = '';
+      try { panTrack.releasePointerCapture(e.pointerId); } catch (err) {}
+    };
+    panTrack.addEventListener('pointerup', endDrag);
+    panTrack.addEventListener('pointercancel', endDrag);
+  }
+
   const STATUS_LABEL = {
     early: { ru: 'Доступен', en: 'Available' },
     prebooked: { ru: 'Забронирован', en: 'Reserved' },
