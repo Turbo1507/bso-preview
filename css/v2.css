@@ -383,7 +383,10 @@ body.menu-open .burger span{background:var(--white)}
   background-size:cover; background-position:center;
   filter:blur(28px) saturate(1.15); transform:scale(1.05)}
 .plans-collage--bento .plans-collage-topview-scrim{position:absolute; inset:0; background:rgba(11,12,11,.42)}
-.plans-collage--bento .plans-collage-topview-fg{position:absolute; inset:9%}
+/* inset был 9% (18% съедено с каждой оси) — план внутри тайла читался
+   мелким, хотя сам тайл стоял нормально (Босс 04.09: "контейнеры хорошо
+   стояли", маленькая была именно картинка). Прижимаем ближе к краям. */
+.plans-collage--bento .plans-collage-topview-fg{position:absolute; inset:3%}
 .plans-collage--bento .plans-collage-topview-fg img,
 .plans-collage--bento .plans-collage-topview-fg svg{width:100%; height:100%; object-fit:contain; display:block}
 
