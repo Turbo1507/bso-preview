@@ -425,11 +425,13 @@ body.menu-open .burger span{background:var(--white)}
 
 .plans-info{
   /* flex-direction обязателен: в v1 у .plans-info стоит column, и без сброса
-     строка характеристик оставалась колонкой (замер: высота 455px).
-     padding-top 32→24 — часть экономии места под фото, см. .plans-viewer выше */
+     строка характеристик оставалась колонкой (замер: высота 455px). */
   display:flex; flex-direction:row; align-items:flex-end; flex-wrap:wrap; gap:40px;
-  background:transparent; padding:24px 0 0; margin-top:0;
-  border-top:1px solid var(--line);
+  background:transparent; padding:0;
+  /* border-top вплотную к .plans-viewer (margin-top:0) читался как чужая
+     линия прямо на нижнем крае фото-коллажа (правка Босса 04.09: "какого
+     хуя там линия"). Убрал линию, вместо неё — просто отступ. */
+  margin-top:24px;
 }
 /* название виллы оформлено как «Stella Solaris» (правка Босса): Prata,
    золото, подчёркивание с отбивкой. Толщина линии у обоих сделана тоньше —

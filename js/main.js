@@ -635,18 +635,23 @@ function renderPlan(planId, lang) {
        постоянный узел, никуда не перемещается). Лайтбокс (v2.js) сам
        подхватывает любые <img> внутри #plansPhotoTrack, независимо от
        вложенности в left/right — трогать его не пришлось. */
-    const left = document.getElementById('plansCollageLeft');
-    const right = track.querySelector('.plans-collage-right');
+    // .plansCollageLeft/.plans-collage-right — обёртки старого масонри-режима.
+    // Все 7 типов сейчас в COLLAGE_LAYOUTS (бенто), эти div'ы больше никогда
+    // не используются — держать их в DOM пустыми под display:none Босс
+    // справедливо назвал мусором. Удаляем физически (один раз — на повторных
+    // рендерах их уже нет, поэтому querySelector, не getElementById + guard).
+    let left = document.getElementById('plansCollageLeft');
+    let right = track.querySelector('.plans-collage-right');
     track.querySelectorAll('.pc-bento-tile').forEach(el => el.remove());
     const bento = COLLAGE_LAYOUTS[planId];
     if (bento) {
       // бенто-грид (см. COLLAGE_LAYOUTS) — track сам становится grid-контейнером,
-      // старые left/right колонки-обёртки прячем, тайлы кладём прямо в track
+      // тайлы кладутся прямо в него, без left/right-обёрток
       track.classList.add('plans-collage--bento');
       track.style.gridTemplateColumns = bento.cols;
       track.style.gridTemplateRows = bento.rows;
-      left.innerHTML = ''; left.style.display = 'none';
-      right.innerHTML = ''; right.style.display = 'none';
+      if (left) { left.remove(); left = null; }
+      if (right) { right.remove(); right = null; }
       // предпоследнее интерьерное — как блюр-подложка топвью, если в конфиге
       // не указан свой (bento.blurIdx — на случай если p.photos[length-2] не подходит)
       const lastInteriorIdx = bento.blurIdx != null ? bento.blurIdx : p.photos.length - 2;
@@ -695,52 +700,12 @@ function renderPlan(planId, lang) {
       });
       return;
     }
-    // не бенто-тип — старая масонри-раскладка (левая колонка натур. пропорций
-    // + правая квадратная пара), см. комментарий выше
-    track.classList.remove('plans-collage--bento');
-    track.style.gridTemplateColumns = ''; track.style.gridTemplateRows = '';
-    left.style.display = ''; right.style.display = '';
-    left.innerHTML = '';
-    right.querySelectorAll('.plans-collage-tile, .plans-collage-topview').forEach(el => el.remove());
-    const lastInteriorIdx = p.photos.length - 2; // индекс последнего интерьерного фото (пара топвью)
-    for (let i = 1; i < p.photos.length; i++) {
-      const isTopview = i === p.photos.length - 1;
-      if (isTopview) {
-        const card = document.createElement('div');
-        card.className = 'plans-collage-topview';
-        if (floors) {
-          const svg = buildFloorsSVG(floors.render, lang, false);
-          /* Убрать чёрную "подложку" вокруг рендера в квадратной ячейке
-             (правка Босса 02.09: "уберите эту ебучую подложку"). Общий
-             viewBox 1920×1277 нужен схематичной панели плана (там выравнивание
-             между типами), но сам рендер занимает только часть этого холста —
-             остальное прозрачный отступ. Здесь, в карточке коллажа, обрезаем
-             viewBox по фактической area f1/f2, чтобы preserveAspectRatio="meet"
-             не тратил место на пустоту. */
-          const { f1, f2 } = floors.render;
-          const minX = Math.min(f1.x, f2.x), minY = Math.min(f1.y, f2.y);
-          const maxX = Math.max(f1.x + f1.w, f2.x + f2.w), maxY = Math.max(f1.y + f1.h, f2.y + f2.h);
-          svg.setAttribute('viewBox', `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
-          card.appendChild(svg);
-        } else {
-          const bg = document.createElement('div');
-          bg.className = 'plans-collage-topview-bg';
-          bg.style.backgroundImage = `url("${new URL(ASSET(p.photos[i]), document.baseURI).href}")`;
-          card.appendChild(bg);
-        }
-        right.appendChild(card);
-      } else {
-        const img = document.createElement('img');
-        img.className = 'plan-photo-img plans-collage-tile';
-        if (i === lastInteriorIdx) img.classList.add('plans-collage-tile--sq');
-        /* НЕ loading="lazy" — тот же баг, что чинили в min-gallery/feat-track
-           (коммит ca4a0c2): офскрин-кадры не подгружались вовремя */
-        img.src = ASSET(p.photos[i]);
-        img.alt = p.photoAlts[i];
-        if (p.positions && p.positions[i]) img.style.objectPosition = p.positions[i];
-        (i === lastInteriorIdx ? right : left).appendChild(img);
-      }
-    }
+    // Масонри-фолбэк (левая колонка натур. пропорций + правая квадратная
+    // пара) убран целиком 04.09 — ВСЕ 7 типов теперь в COLLAGE_LAYOUTS
+    // (бенто), эта ветка была недостижима и держала мёртвый код, ссылавшийся
+    // на left/right — а их сами же удаляем строчкой выше. Если появится тип
+    // без записи в COLLAGE_LAYOUTS, `bento` будет undefined и функция здесь
+    // молча завершится — придётся сразу завести ему бенто-конфиг.
     return;
   }
 
