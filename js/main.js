@@ -598,19 +598,34 @@ function renderPlan(planId, lang) {
       track.style.gridTemplateRows = bento.rows;
       left.innerHTML = ''; left.style.display = 'none';
       right.innerHTML = ''; right.style.display = 'none';
+      const lastInteriorIdx = p.photos.length - 2; // предпоследнее интерьерное — как блюр-подложка топвью
       bento.tiles.forEach(t => {
         let el;
         if (t.isTopview) {
+          // Топвью-тайл = блюрд-фон (интерьерное фото виллы, замыленное+
+          // затемнённое) + сам топвью-рендер СВЕРХУ в object-fit:contain —
+          // он влезает в тайл целиком, не режется. Раньше топвью просто
+          // растягивался cover'ом на весь тайл и терялись края рендера.
           el = document.createElement('div');
           el.className = 'plans-collage-topview pc-bento-tile';
+          const blurBg = document.createElement('div');
+          blurBg.className = 'plans-collage-topview-blurbg';
+          blurBg.style.backgroundImage = `url("${new URL(ASSET(p.photos[lastInteriorIdx]), document.baseURI).href}")`;
+          el.appendChild(blurBg);
+          const scrim = document.createElement('div');
+          scrim.className = 'plans-collage-topview-scrim';
+          el.appendChild(scrim);
+          const fg = document.createElement('div');
+          fg.className = 'plans-collage-topview-fg';
           if (floors) {
-            el.appendChild(buildFloorsSVG(floors.render, lang, false));
+            fg.appendChild(buildFloorsSVG(floors.render, lang, false));
           } else {
-            const bg = document.createElement('div');
-            bg.className = 'plans-collage-topview-bg';
-            bg.style.backgroundImage = `url("${new URL(ASSET(p.photos[t.photoIdx]), document.baseURI).href}")`;
-            el.appendChild(bg);
+            const img = document.createElement('img');
+            img.src = ASSET(p.photos[t.photoIdx]);
+            img.alt = p.photoAlts[t.photoIdx];
+            fg.appendChild(img);
           }
+          el.appendChild(fg);
         } else {
           el = document.createElement('img');
           el.className = 'plan-photo-img plans-collage-tile pc-bento-tile';
