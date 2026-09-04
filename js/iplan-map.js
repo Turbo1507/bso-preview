@@ -142,7 +142,7 @@
       const rows = units.map(u => {
         const st = u.st === 'presale' ? 'early' : u.st;
         const label = STATUS_LABEL[st][lang];
-        return `<li class="iplan-popup-row is-${st}"><b>${u.n}</b><span>${u.t}</span><span>${fmtPrice(u.c)}</span><span class="iplan-status is-${st}">${label}</span><button type="button" class="iplan-reserve-btn" data-unit="${u.n}" aria-label="${RESERVE_LABEL[lang]}" title="${RESERVE_LABEL[lang]}">${RESERVE_ICON}</button></li>`;
+        return `<li class="iplan-popup-row is-${st}"><b>${u.n}</b><span>${u.t}</span><span class="iplan-status is-${st}">${label}</span><span>${fmtPrice(u.c)}</span><button type="button" class="iplan-reserve-btn" data-unit="${u.n}" aria-label="${RESERVE_LABEL[lang]}" title="${RESERVE_LABEL[lang]}">${RESERVE_ICON}</button></li>`;
       }).join('');
       popup.innerHTML = `<div class="iplan-popup-title">${title}</div><ul class="iplan-popup-list">${rows}</ul>`;
     }

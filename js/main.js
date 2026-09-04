@@ -604,7 +604,9 @@ const COLLAGE_LAYOUTS = {
       { photoIdx: 4, col: '2 / 4', row: '1' },                              // detail4 — спальня+бассейн, широкий верх-центр
       { photoIdx: 3, col: '4', row: '1' },                                  // detail3 — кабинет, мелкий справа
       { photoIdx: 2, col: '2', row: '2' },                                  // detail2 — дуплекс/лестница, мелкий центр
-      { photoIdx: 5, col: '3', row: '2', isTopview: true }                  // topview — одна клетка, не широкий-плоский
+      { photoIdx: 5, col: '3', row: '2', isTopview: true },                 // topview — одна клетка, не широкий-плоский
+      { src: 'assets/bso-pool-8.jpg', col: '4', row: '2' }                  // коридор (пул) — мелкий справа; без него col4/row2
+      // пустовал (дыра в сетке — "4bd коллаж сломался", Босс 04.09)
     ]
   }
 };
@@ -728,7 +730,20 @@ function renderPlan(planId, lang) {
           const fg = document.createElement('div');
           fg.className = 'plans-collage-topview-fg';
           if (floors) {
-            fg.appendChild(buildFloorsSVG(floors.render, lang, false));
+            const svg = buildFloorsSVG(floors.render, lang, false);
+            // Общий viewBox buildFloorsSVG (0 0 1920 1277) — под схематичную
+            // панель плана, где важно выравнивание между типами. Сам план
+            // f1/f2 занимает только ЧАСТЬ этого холста — остальное прозрачный
+            // отступ. preserveAspectRatio="meet" тянет ВЕСЬ холст целиком, из-
+            // за этого план выглядел мелким в тайле независимо от размера
+            // самого тайла ("размер топвью не увеличился" — Босс 04.09, эту
+            // обрезку раньше делала только старая масонри-ветка, в бенто её
+            // не перенёс). Обрезаем viewBox по фактическому bbox f1+f2.
+            const { f1, f2 } = floors.render;
+            const minX = Math.min(f1.x, f2.x), minY = Math.min(f1.y, f2.y);
+            const maxX = Math.max(f1.x + f1.w, f2.x + f2.w), maxY = Math.max(f1.y + f1.h, f2.y + f2.h);
+            svg.setAttribute('viewBox', `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
+            fg.appendChild(svg);
             // SVG не подхватывается лайтбоксом (тот берёт только <img>) —
             // добавляем скрытые <img> на оба этажа, чтобы топвью тоже попадал
             // в галерею оверлея (правка Босса 04.09).
