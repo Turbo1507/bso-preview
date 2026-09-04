@@ -500,85 +500,98 @@ const FLOOR_LABEL_TEXT = {
    топвью (SVG-композит для двухэтажных ИЛИ фон-картинка). Собрано в Figma
    (Боссом), studio — первый тип, остальные добавляются по этой же схеме. */
 const COLLAGE_LAYOUTS = {
+  /* Порядок содержимого (правка Босса 04.09-ter): чем ЛЕВЕЕ и БОЛЬШЕ тайл,
+     тем «интерьернее»/эффектнее должно быть фото — спальни и гостиные с
+     видом в крупные и левые тайлы, санузлы НИКОГДА не в большие (только
+     самые мелкие одноклеточные, независимо от того, где физически стоит
+     клетка), нейтральное (кухня/коридор/техника) — в оставшиеся мелкие
+     клетки. Не супер строго (сам Босс: "не придерживайся на 100%"), просто
+     общий вектор. */
   studio: {
+    // и A(col1), и D(col3) тут двухклеточные (row:'1/3') — единственный
+    // некрупный слот во всём макете это B (col2,row1), поэтому санузел ТУДА,
+    // а не в A/D, даже если по факту D физически справа. Кухня (нейтральное)
+    // занимает освободившийся большой D — это ок, не запрещено, только не СУ.
     cols: '500fr 400fr 352fr',
     rows: '293px 293px',
     tiles: [
-      { photoIdx: 1, col: '1', row: '1 / 3' },                  // detail2 — большой слева, портрет
-      { photoIdx: 3, col: '2', row: '1' },                       // detail1 — верх-центр, широкий кадр сюда меньше кропа
+      { photoIdx: 3, col: '1', row: '1 / 3' },                  // detail1 — спальня, большой слева
+      { photoIdx: 1, col: '2', row: '1' },                       // detail2 — санузел, единственный мелкий слот
       { photoIdx: 4, col: '2', row: '2', isTopview: true },      // topview — низ-центр
-      { photoIdx: 2, col: '3', row: '1 / 3' }                    // detail3 — узкий-высокий справа, портрет
+      { photoIdx: 2, col: '3', row: '1 / 3' }                    // detail3 — кухня, большой справа
     ]
   },
-  /* Остальные 6 типов (правка Босса 04.09→04.09-bis: первая версия была
-     плоским 3×2 без слияний — «скучная идеальная плитка», Боссу нужна та же
-     логика слияния ячеек, что и в studio). База — общая 4-колоночная сетка
-     (все cols:1fr, ровно 4 ячейки в ряд) × 2 строки по 293px — крупные
-     тайлы получаются spans'ом (grid-column/row на 2 ячейки), у каждого типа
-     свой рисунок слияний, не повтор studio. Родных фото на тип 3-4, добор
-     до 5-6 тайлов из общего пула (assets/bso-pool-N.jpg). */
+  /* Остальные 6 типов — общая 4-колоночная сетка (cols:1fr) × 2 строки
+     293px, крупные тайлы = span. У каждого типа свой рисунок слияний.
+     Родных фото на тип 3-4, добор до 5-6 тайлов из общего пула
+     (assets/bso-pool-N.jpg). */
   '1bd': {
     cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 1, col: '1 / 3', row: '1' },                              // detail1 — широкий верх-лево
-      { photoIdx: 2, col: '3', row: '1 / 3' },                              // detail2 — высокий по центру-право
-      { src: 'assets/bso-pool-2.jpg', col: '4', row: '1' },
-      { photoIdx: 3, col: '1', row: '2' },
+      { photoIdx: 1, col: '1 / 3', row: '1' },                              // detail1 — спальня, широкий верх-лево
+      { photoIdx: 2, col: '3', row: '1 / 3' },                              // detail2 — гостиная+бассейн, высокий центр-право
+      { photoIdx: 3, col: '4', row: '1' },                                  // detail3 — санузел, мелкий справа
+      { src: 'assets/bso-pool-2.jpg', col: '1', row: '2' },                 // спальня (пул) — мелкий, но слева
       { photoIdx: 4, col: '2', row: '2', isTopview: true },
-      { src: 'assets/bso-pool-3.jpg', col: '4', row: '2' }
+      { src: 'assets/bso-pool-3.jpg', col: '4', row: '2' }                  // кухня (пул) — мелкий справа
     ]
   },
   '1bdsky': {
     cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 1, col: '1', row: '1 / 3' },                              // detail1 — высокий слева (зеркально 1bd)
-      { photoIdx: 2, col: '2 / 4', row: '1' },                              // detail2 — широкий верх-центр
-      { src: 'assets/bso-pool-4.jpg', col: '4', row: '1' },
-      { photoIdx: 3, col: '2', row: '2' },
+      { photoIdx: 1, col: '1', row: '1 / 3' },                              // detail1 — спальня, высокий слева
+      { photoIdx: 3, col: '2 / 4', row: '1' },                              // detail3 — бассейн, широкий верх-центр
+      { src: 'assets/bso-pool-4.jpg', col: '4', row: '1' },                 // коридор (пул) — мелкий справа
+      { photoIdx: 2, col: '2', row: '2' },                                  // detail2 — столовая, мелкий центр
       { photoIdx: 4, col: '3', row: '2', isTopview: true },
-      { src: 'assets/bso-pool-5.jpg', col: '4', row: '2' }
+      { src: 'assets/bso-pool-5.jpg', col: '4', row: '2' }                  // коридор (пул) — мелкий справа
     ]
   },
   '2bd': {
     cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 2, col: '1 / 3', row: '1 / 3' },                          // detail2 — большой квадрат 2×2 слева
-      { photoIdx: 4, col: '3', row: '1', isTopview: true },
-      { photoIdx: 1, col: '4', row: '1' },
-      { src: 'assets/bso-pool-7.jpg', col: '3', row: '2' },
-      { photoIdx: 3, col: '4', row: '2' }
+      { photoIdx: 1, col: '1 / 3', row: '1 / 3' },                          // detail1 — спальня, большой квадрат 2×2 слева
+      { photoIdx: 3, col: '3', row: '1' },                                  // detail3 — бассейн, мелкий центр
+      { photoIdx: 2, col: '4', row: '1' },                                  // detail2 — санузел, мелкий справа
+      { src: 'assets/bso-pool-7.jpg', col: '3', row: '2' },                 // спальня (пул) — мелкий центр
+      { photoIdx: 4, col: '4', row: '2', isTopview: true }
     ]
   },
   '3bd': {
     cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 1, col: '1', row: '1 / 3' },                              // detail1 — высокий слева
-      { src: 'assets/bso-pool-9.jpg', col: '2', row: '1' },
-      { photoIdx: 2, col: '3 / 5', row: '1' },                              // detail2 — широкий верх-право
-      { photoIdx: 4, col: '2 / 4', row: '2', isTopview: true },             // topview — широкий низ-центр
-      { photoIdx: 3, col: '4', row: '2' }
+      { photoIdx: 1, col: '1', row: '1 / 3' },                              // detail1 — спальня+лестница, высокий слева
+      { src: 'assets/bso-pool-9.jpg', col: '2', row: '1' },                 // коридор (пул) — мелкий центр
+      { photoIdx: 2, col: '3 / 5', row: '1' },                              // detail2 — гостиная, широкий верх-право
+      // topview — ОДНА клетка (не широкий-плоский, как было): план виллы сам
+      // по себе почти квадратный, в широком-низком тайле оставлял пустые
+      // размытые поля по бокам ("топвьюшки не везде кайфово" — Босс 04.09)
+      { photoIdx: 4, col: '2', row: '2', isTopview: true },
+      { src: 'assets/bso-pool-10.jpg', col: '3', row: '2' },                // кухня (пул) — мелкий центр
+      { photoIdx: 3, col: '4', row: '2' }                                   // detail3 — бассейн, мелкий справа
     ]
   },
   '3bdsky': {
     cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 3, col: '1 / 3', row: '1' },                              // detail3 — широкий верх-лево
-      { photoIdx: 1, col: '3', row: '1 / 3' },                              // detail1 — высокий центр-право
-      { src: 'assets/bso-pool-11.jpg', col: '4', row: '1' },
-      { src: 'assets/bso-pool-2.jpg', col: '1', row: '2' },
+      { photoIdx: 1, col: '1 / 3', row: '1' },                              // detail1 — спальня, широкий верх-лево
+      { photoIdx: 2, col: '3', row: '1 / 3' },                              // detail2 — бассейн сверху, высокий центр-право
+      { photoIdx: 3, col: '4', row: '1' },                                  // detail3 — санузел, мелкий справа
+      { src: 'assets/bso-pool-2.jpg', col: '1', row: '2' },                 // спальня (пул) — мелкий слева
       { photoIdx: 4, col: '2', row: '2', isTopview: true },
-      { photoIdx: 2, col: '4', row: '2' }
+      { src: 'assets/bso-pool-5.jpg', col: '4', row: '2' }                  // коридор (пул) — мелкий справа
     ]
   },
   '4bd': {
-    // 4 родных детальных фото + topview — пул не нужен
+    // 4 родных детальных фото + topview — пул не нужен, санузла в наборе нет
     cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
-      { photoIdx: 1, col: '1', row: '1 / 3' },                              // detail1 — высокий слева
-      { photoIdx: 2, col: '2 / 4', row: '1' },                              // detail2 — широкий верх-центр
-      { photoIdx: 3, col: '4', row: '1' },
-      { photoIdx: 4, col: '2', row: '2' },
-      { photoIdx: 5, col: '3 / 5', row: '2', isTopview: true }              // topview — широкий низ-право
+      { photoIdx: 1, col: '1', row: '1 / 3' },                              // detail1 — спальня, высокий слева
+      { photoIdx: 4, col: '2 / 4', row: '1' },                              // detail4 — спальня+бассейн, широкий верх-центр
+      { photoIdx: 3, col: '4', row: '1' },                                  // detail3 — кабинет, мелкий справа
+      { photoIdx: 2, col: '2', row: '2' },                                  // detail2 — дуплекс/лестница, мелкий центр
+      { photoIdx: 5, col: '3', row: '2', isTopview: true },                 // topview — одна клетка, не широкий-плоский
+      { src: 'assets/bso-pool-8.jpg', col: '4', row: '2' }                  // коридор (пул) — мелкий справа
     ]
   }
 };
@@ -677,6 +690,12 @@ function renderPlan(planId, lang) {
       // предпоследнее интерьерное — как блюр-подложка топвью, если в конфиге
       // не указан свой (bento.blurIdx — на случай если p.photos[length-2] не подходит)
       const lastInteriorIdx = bento.blurIdx != null ? bento.blurIdx : p.photos.length - 2;
+      // Топвью-тайл добавляется в DOM ПОСЛЕДНИМ (правка Босса: "топвью всегда
+      // последним кадром" в лайтбоксе) — лайтбокс (v2.js) собирает кадры по
+      // порядку <img> в DOM, а не по визуальной grid-позиции, поэтому
+      // визуальное место тайла (t.col/t.row) и порядок добавления в DOM —
+      // независимы друг от друга (grid-column/row решает раскладку).
+      let topviewEl = null;
       bento.tiles.forEach(t => {
         let el;
         if (t.isTopview) {
@@ -697,6 +716,16 @@ function renderPlan(planId, lang) {
           fg.className = 'plans-collage-topview-fg';
           if (floors) {
             fg.appendChild(buildFloorsSVG(floors.render, lang, false));
+            // SVG не подхватывается лайтбоксом (тот берёт только <img>) —
+            // добавляем скрытые <img> на оба этажа, чтобы топвью тоже попадал
+            // в галерею оверлея (правка Босса 04.09).
+            [floors.render.f1, floors.render.f2].forEach((part, i) => {
+              const hImg = document.createElement('img');
+              hImg.src = ASSET(part.src);
+              hImg.alt = p.photoAlts[t.photoIdx] + (i === 0 ? ' — 1-й этаж' : ' — 2-й этаж');
+              hImg.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none';
+              fg.appendChild(hImg);
+            });
           } else {
             const img = document.createElement('img');
             img.src = ASSET(p.photos[t.photoIdx]);
@@ -704,6 +733,7 @@ function renderPlan(planId, lang) {
             fg.appendChild(img);
           }
           el.appendChild(fg);
+          topviewEl = el;
         } else {
           // t.src — фото из общего пула (assets/bso-pool-N.jpg, все виллы делят
           // одну и ту же отделку/мебель, отличаются только планировкой — правка
@@ -718,8 +748,9 @@ function renderPlan(planId, lang) {
         }
         el.style.gridColumn = t.col;
         el.style.gridRow = t.row;
-        track.appendChild(el);
+        if (!t.isTopview) track.appendChild(el);
       });
+      if (topviewEl) track.appendChild(topviewEl);
       return;
     }
     // Масонри-фолбэк (левая колонка натур. пропорций + правая квадратная
