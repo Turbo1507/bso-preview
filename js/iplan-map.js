@@ -214,7 +214,13 @@
     if (tabBtn) {
       closePopup();
       tabBtn.click();
-      document.getElementById('plans').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // block:'start' на всей секции прятал CTA «Узнать подробнее» под
+      // фолдом (заголовок+лид+вкладки съедают верх экрана, фото-коллаж
+      // 600px высотой — кнопка внизу панели не влезала). Правка Босса:
+      // скроллим на саму CTA-строку по центру экрана — гарантированно видно
+      // и кнопку, и коллаж/статы над ней, независимо от высоты вьюпорта.
+      const ctaRow = document.querySelector('.plans-cta-row');
+      (ctaRow || document.getElementById('plans')).scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else if (typeof window.openLeadForUnit === 'function') {
       window.openLeadForUnit(btn.dataset.unit);
     }
