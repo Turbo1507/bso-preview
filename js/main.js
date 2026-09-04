@@ -44,7 +44,13 @@ if (menuOverlay) menuOverlay.querySelectorAll('a').forEach(a => a.addEventListen
 const leadModal = document.getElementById('leadModal');
 const leadForm = document.getElementById('leadForm');
 if (leadModal && leadForm) {
+  /* лок скролла фона под position:fixed (см. styles.css body.lead-lock) —
+     сохраняем scrollY перед локом и возвращаемся туда же при закрытии,
+     иначе body визуально прыгает наверх страницы */
+  let leadScrollY = 0;
   const openLead = () => {
+    leadScrollY = window.scrollY;
+    document.body.style.top = `-${leadScrollY}px`;
     leadModal.classList.add('is-open');
     leadModal.setAttribute('aria-hidden', 'false');
     leadModal.removeAttribute('inert');
@@ -55,6 +61,11 @@ if (leadModal && leadForm) {
     leadModal.setAttribute('aria-hidden', 'true');
     leadModal.setAttribute('inert', '');
     document.body.classList.remove('lead-lock');
+    document.body.style.top = '';
+    // behavior:'instant' обязателен — на сайте глобальный html{scroll-behavior:
+    // smooth} (styles.css), обычный scrollTo(x,y) укатил бы страницу назад
+    // плавной анимацией вместо мгновенного возврата на то же место
+    window.scrollTo({ top: leadScrollY, left: 0, behavior: 'instant' });
   };
   leadModal.setAttribute('aria-hidden', 'true');
   leadModal.setAttribute('inert', '');
@@ -255,9 +266,22 @@ function wireCarousel(trackId, prevId, nextId, dotsId, step) {
   track.addEventListener('scroll', sync, { passive: true });
   window.addEventListener('resize', sync);
   sync();
+  return { sync };
 }
 wireCarousel('featTrack', 'featPrev', 'featNext', 'featDots', 400);
 wireCarousel('stepsTrack', 'stepsPrev', 'stepsNext', 'stepsDots', 300);
+/* стрелки прокрутки интерактивного плана (без точек — один длинный кадр,
+   не набор карточек, см. css/styles.css .iplan-pan). Картинка плана грузится
+   loading="lazy" — в момент wireCarousel() её реальной ширины ещё нет
+   (scrollWidth==clientWidth), стрелки сразу гасли навсегда (scroll/resize
+   потом не стреляют сами по себе от одной только загрузки картинки).
+   Пересчитываем sync() вручную по факту загрузки. */
+const iplanPanCarousel = wireCarousel('iplanPan', 'iplanPanPrev', 'iplanPanNext', '', 400);
+const iplanPanImg = document.querySelector('#iplanPan img');
+if (iplanPanImg && iplanPanCarousel) {
+  if (iplanPanImg.complete) iplanPanCarousel.sync();
+  else iplanPanImg.addEventListener('load', () => iplanPanCarousel.sync());
+}
 
 /* ---------- галерея фасада (блок 03): нативный scroll-snap (не transform по
    индексу) — один слайд = 100% ширины трека, стрелки листают через scrollBy,
