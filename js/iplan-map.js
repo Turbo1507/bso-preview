@@ -31,38 +31,35 @@
   popup.addEventListener('mouseenter', cancelHide);
   popup.addEventListener('mouseleave', scheduleHide);
 
+  // Зоны — SVG-полигоны поверх карты: только золотой контур по силуэту здания
+  // + свечение, БЕЗ заливки (правка Босса). viewBox 0..100 + preserveAspectRatio
+  // none → точки b.poly (в % от картинки) ложатся 1:1 на бокс карты.
+  // non-scaling-stroke — чтобы линия не растягивалась анизотропно.
+  const SVGNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(SVGNS, 'svg');
+  svg.setAttribute('class', 'iplan-hotspots-svg');
+  svg.setAttribute('viewBox', '0 0 100 100');
+  svg.setAttribute('preserveAspectRatio', 'none');
+  hotspotsEl.appendChild(svg);
+
   BSO_BUILDINGS.forEach(b => {
-    const zone = document.createElement('div');
-    zone.className = 'iplan-hotspot';
-    // Здания на аэро-подложке стоят не по сетке — зона задаётся полигоном
-    // b.poly (точки в % от картинки). Div кладём по bbox полигона, а видимую
-    // форму (и hit-area) режем clip-path'ом по тому же полигону.
+    let zone;
     if (Array.isArray(b.poly) && b.poly.length >= 3) {
-      const xs = b.poly.map(p => p[0]);
-      const ys = b.poly.map(p => p[1]);
-      const minX = Math.min.apply(null, xs), maxX = Math.max.apply(null, xs);
-      const minY = Math.min.apply(null, ys), maxY = Math.max.apply(null, ys);
-      const bw = maxX - minX || 0.1;
-      const bh = maxY - minY || 0.1;
-      zone.style.left = minX + '%';
-      zone.style.top = minY + '%';
-      zone.style.width = bw + '%';
-      zone.style.height = bh + '%';
-      const pts = b.poly.map(p => (((p[0] - minX) / bw * 100).toFixed(2) + '% ' + ((p[1] - minY) / bh * 100).toFixed(2) + '%')).join(', ');
-      zone.style.clipPath = 'polygon(' + pts + ')';
-      zone.style.borderRadius = '0';
+      zone = document.createElementNS(SVGNS, 'polygon');
+      zone.setAttribute('points', b.poly.map(p => p[0] + ',' + p[1]).join(' '));
     } else {
-      zone.style.left = b.l + '%';
-      zone.style.top = b.t + '%';
-      zone.style.width = b.w + '%';
-      zone.style.height = b.h + '%';
+      zone = document.createElementNS(SVGNS, 'rect');
+      zone.setAttribute('x', b.l); zone.setAttribute('y', b.t);
+      zone.setAttribute('width', b.w); zone.setAttribute('height', b.h);
     }
+    zone.setAttribute('class', 'iplan-hotspot');
+    zone.setAttribute('vector-effect', 'non-scaling-stroke');
     zone.dataset.buildingId = b.n;
-    hotspotsEl.appendChild(zone);
+    svg.appendChild(zone);
 
     const show = () => {
       cancelHide();
-      hotspotsEl.querySelectorAll('.iplan-hotspot').forEach(z => z.classList.toggle('is-active', z === zone));
+      svg.querySelectorAll('.iplan-hotspot').forEach(z => z.classList.toggle('is-active', z === zone));
       renderPopup(b, zone);
     };
     zone.addEventListener('mouseenter', show);
@@ -123,20 +120,37 @@
       popup.innerHTML = `<div class="iplan-popup-title">${title}</div><ul class="iplan-popup-list">${rows}</ul>`;
     }
 
-    // позиционируем попап рядом со зданием, не давая уехать за край карты
+    // Попап уезжает В БОК от зоны (не поверх неё): вправо если есть место,
+    // иначе влево; на узкой карте (моб.) — снизу/сверху как раньше.
     const mapRect = map.getBoundingClientRect();
     const zoneRect = zone.getBoundingClientRect();
     popup.classList.add('is-open');
     const popupRect = popup.getBoundingClientRect();
-    let left = zoneRect.left - mapRect.left + zoneRect.width / 2 - popupRect.width / 2;
-    left = Math.max(8, Math.min(left, mapRect.width - popupRect.width - 8));
-    let top = zoneRect.top - mapRect.top + zoneRect.height + 10;
-    if (top + popupRect.height > mapRect.height - 8) {
-      top = zoneRect.top - mapRect.top - popupRect.height - 10;
+    const GAP = 14;
+    const pw = popupRect.width, ph = popupRect.height;
+    const zL = zoneRect.left - mapRect.left;
+    const zR = zoneRect.right - mapRect.left;
+    const zT = zoneRect.top - mapRect.top;
+    const zCy = zT + zoneRect.height / 2;
+    let left, top;
+
+    if (mapRect.width < 560) {
+      // мобилка: снизу зоны, при нехватке — сверху
+      left = zL + zoneRect.width / 2 - pw / 2;
+      top = zT + zoneRect.height + 10;
+      if (top + ph > mapRect.height - 8) top = zT - ph - 10;
+    } else {
+      const roomRight = mapRect.width - zR - GAP;
+      const roomLeft = zL - GAP;
+      if (roomRight >= pw) left = zR + GAP;            // вправо
+      else if (roomLeft >= pw) left = zL - GAP - pw;   // влево
+      else left = roomRight >= roomLeft ? mapRect.width - pw - 8 : 8; // куда больше места
+      // по вертикали — по центру зоны
+      top = zCy - ph / 2;
     }
-    // жёсткий клэмп в пределах карты — иначе у зданий у верхнего/нижнего края
-    // попап уезжает за фото (баг: top уходил в минус)
-    top = Math.max(8, Math.min(top, mapRect.height - popupRect.height - 8));
+    // жёсткий клэмп в пределах карты
+    left = Math.max(8, Math.min(left, mapRect.width - pw - 8));
+    top = Math.max(8, Math.min(top, mapRect.height - ph - 8));
     popup.style.left = left + 'px';
     popup.style.top = top + 'px';
   }
