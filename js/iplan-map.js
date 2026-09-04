@@ -78,13 +78,40 @@
   const RESERVE_LABEL = { ru: 'Забронировать', en: 'Reserve' };
   const ALL_SOLD_LABEL = { ru: 'Все юниты этого здания проданы', en: 'All units in this building are sold' };
 
+  /* Зоны укрупнённые (одна масса рендера = много юнитов) — в заголовке попапа
+     сворачиваем подряд идущие номера в диапазоны: 1,2,3,...,20,P1,...,P8 →
+     «1–20, P1–P8». Числовые и P-юниты нумеруются отдельными сериями. */
+  function fmtUnitList(list) {
+    const groups = { num: [], P: [], other: [] };
+    list.forEach(u => {
+      const s = String(u);
+      if (/^\d+$/.test(s)) groups.num.push(+s);
+      else if (/^P\d+$/i.test(s)) groups.P.push(+s.slice(1));
+      else groups.other.push(s);
+    });
+    const runs = arr => {
+      arr.sort((a, b) => a - b);
+      const out = [];
+      let i = 0;
+      while (i < arr.length) {
+        let j = i;
+        while (j + 1 < arr.length && arr[j + 1] === arr[j] + 1) j++;
+        out.push(j > i ? `${arr[i]}–${arr[j]}` : `${arr[i]}`);
+        i = j + 1;
+      }
+      return out;
+    };
+    const pRuns = runs(groups.P).map(r => r.includes('–') ? 'P' + r.split('–').join('–P') : 'P' + r);
+    return [...runs(groups.num), ...pRuns, ...groups.other].join(', ');
+  }
+
   function renderPopup(building, zone) {
     const lang = (window.__bsoLang || document.documentElement.lang || 'en') === 'ru' ? 'ru' : 'en';
     // проданные юниты в попапе НЕ показываем (правка Босса 01.09) — только
     // в развёрнутой таблице сбоку, там статус "Продан" остаётся как есть
     const allUnits = building.units.map(n => unitsByNumber[n]).filter(Boolean);
     const units = allUnits.filter(u => u.st !== 'booked');
-    const title = lang === 'ru' ? `Юниты: ${building.units.join(', ')}` : `Units: ${building.units.join(', ')}`;
+    const title = lang === 'ru' ? `Юниты: ${fmtUnitList(building.units)}` : `Units: ${fmtUnitList(building.units)}`;
     if (units.length === 0) {
       popup.innerHTML = `<div class="iplan-popup-title">${title}</div><p class="iplan-popup-empty">${ALL_SOLD_LABEL[lang]}</p>`;
     } else {
