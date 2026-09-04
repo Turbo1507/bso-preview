@@ -336,6 +336,20 @@ body.menu-open .burger span{background:var(--white)}
    (preserveAspectRatio="meet", уже задан в самом <svg>). */
 .plans-collage-topview svg.plan-floors-svg{position:absolute; inset:0; width:100%; height:100%}
 
+/* Бенто-грид коллаж (правка Босса 04.09, взамен масонри для типов из
+   COLLAGE_LAYOUTS в main.js) — матрица ячеек с общим гэпом, крупные тайлы
+   получаются слиянием ячеек через grid-row/column span (никаких дублей
+   гэпа). track сам становится grid-контейнером, .plans-collage-left/right
+   на время бенто-режима спрятаны (display:none из main.js). Заполняет ВСЮ
+   ширину контейнера — раньше масонри-версия не дотягивала до края (замер
+   на живом сайте: 966 из 1360px, 394px пустоты). */
+.plans-collage--bento{display:grid; gap:14px}
+.plans-collage--bento .pc-bento-tile{width:100%; height:100%; border-radius:var(--r-md);
+  overflow:hidden; position:relative; margin:0}
+.plans-collage--bento img.pc-bento-tile{object-fit:cover; cursor:zoom-in; transition:transform .4s var(--ease)}
+@media (hover:hover){.plans-collage--bento img.pc-bento-tile:hover{transform:scale(1.015)}}
+.plans-collage--bento .plans-collage-topview{background:#0b0c0b}
+
 /* Иконка-кнопка «Смотреть план» — постоянный узел в строке CTA (.plans-info),
    больше не плавает поверх фото (правка Босса 02.09: раньше сидела чипом на
    карточке топвью, но та в масонри-раскладке разного размера по типам —
