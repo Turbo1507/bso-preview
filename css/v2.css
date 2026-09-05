@@ -463,6 +463,13 @@ body.menu-open .burger span{background:var(--white)}
 .plans-viewer.is-open ~ .plans-info .plans-toggle-ic--closed{display:none}
 .plans-viewer.is-open ~ .plans-info .plans-toggle-ic--open{display:block}
 .plans-cta-row{display:flex; align-items:center; gap:12px; margin-left:auto}
+/* Порядок в разметке (index.html) — Learn-more, потом иконка (правка Босса
+   05.09 "поменяй местами", была изначально применена и к десктопу).
+   05.09 (2): "местами надо было поменять ТОЛЬКО в мобильной версии, на пк
+   верни как было" — визуальный порядок теперь разводим через CSS order,
+   не трогая DOM: order:-1 возвращает иконку на первое место на десктопе,
+   мобильный override ниже (@media 860px) её обратно ставит второй. */
+.plans-toggle-btn--icon{order:-1}
 /* .plans-toggle-panel — СЕСТРА .plans-toggle (не внутри неё): inset:0 должен
    мерить от всего кадра .plans-viewer (position:relative), а не от маленькой
    кнопки — иначе оверлей схлопывается до размера чипа (был баг, экран
@@ -540,6 +547,9 @@ body.menu-open .burger span{background:var(--white)}
   .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
   .plans-stat .v{font-size:24px; margin-top:4px}
   .plans-info .btn-glass{margin-left:0; flex:0 0 100%}
+  /* order:1 отменяет десктопный order:-1 — на мобиле иконка снова ВТОРАЯ,
+     Learn-more первая (Босс 05.09: свап нужен только тут) */
+  .plans-toggle-btn--icon{order:1}
 }
 
 /* ---------- расстояния до точек: микрокарточки (04.08, правка Босса) ----------
@@ -664,22 +674,27 @@ body{overflow-x:clip}
    складывались с зазором 48 в визуальные 176. Дыру создавала незаполненная
    колонка, а не гэп. 352 = ближайшее кратное 8 к фактической ширине набора,
    так что объявленный зазор теперь равен видимому. */
-.ss-grid{display:grid; grid-template-columns:352px minmax(0,1fr); gap:48px; align-items:start}
+/* Кнопка изначально жила ВНУТРИ .ss-head (под лидом) — Босс 05.09 попросил
+   перенести под карточки шагов, затем уточнил: свап был нужен ТОЛЬКО для
+   мобилки, на десктопе верни как было. .ss-cta теперь всегда отдельный
+   grid-item .ss-grid (сестра .ss-head/.ss-list в DOM, после .ss-list) — но
+   визуальное место держат именованные grid-area, разные на десктопе/мобиле,
+   а не порядок в разметке. На десктопе "cta" — та же узкая колонка, что и
+   "head", строкой ниже (визуально там же, где была вложенная кнопка).
+   list растягивается на обе строки в своей колонке (тот же список во всю
+   высоту, что и раньше). */
+.ss-grid{display:grid; grid-template-columns:352px minmax(0,1fr); gap:48px;
+  grid-template-areas:"head list" "cta list"; align-items:start}
 /* align-self:start обязателен: иначе элемент растягивается по высоте колонки
    и «липнуть» ему уже некуда. top — высота приклеенной шапки плюс воздух */
-.ss-head{position:sticky; top:120px; align-self:start}
+.ss-head{grid-area:head; position:sticky; top:120px; align-self:start}
 .ss-head h2{margin:0}
 /* без max-width: колонка уже задана в пикселях, и ограничивать строку ещё
    раз значит снова недозаполнить колонку — ровно та дыра, которую чиним */
 .ss-head .lead{margin-top:24px; max-width:none}
-/* Кнопка была в .ss-head (правило со стрелкой к CTA "сверху вниз") — Босс
-   05.09 попросил перенести её ПОД карточки шагов, а не под заголовок.
-   Теперь .ss-cta — отдельный grid-item .ss-grid (после .ss-list в DOM),
-   на десктопе явно кладём во вторую колонку (туда же, где сами карточки),
-   не в первую (туда попал бы по авто-раскладке следующим за .ss-head). */
-.ss-cta{grid-column:2; justify-self:start; margin-top:40px}
+.ss-cta{grid-area:cta; justify-self:start; align-self:start; margin-top:40px}
 
-.ss-list{display:flex; flex-direction:column; gap:24px; margin:0; padding:0; list-style:none}
+.ss-list{grid-area:list; display:flex; flex-direction:column; gap:24px; margin:0; padding:0; list-style:none}
 /* Под эту раскладку карточка перестроена горизонтально: крупная цифра слева,
    текст справа. Столбиком (цифра над заголовком) карточки выходили высокими
    и пустыми, а цифра терялась. Цифра — шрифтом заголовков (Prata), по правке
@@ -704,11 +719,14 @@ body{overflow-x:clip}
 .ss-card p{margin:0; font-size:16px; line-height:1.5; color:rgba(255,255,255,.7)}
 
 @media (max-width:1024px){
-  .ss-grid{grid-template-columns:1fr; gap:40px}
+  /* Одна колонка — карточки под шапкой; area "cta" теперь ПОСЛЕДНЯЯ строка
+     (Босс 05.09: свап "кнопка под чипами" остаётся только тут, на мобиле;
+     см. десктопный template ("head list"/"cta list") — там cta сразу под
+     шапкой в её же узкой колонке). */
+  .ss-grid{grid-template-columns:1fr; grid-template-areas:"head" "list" "cta"; gap:40px}
   /* на узком экране липкая колонка съедала бы пол-экрана — отключаем */
   .ss-head{position:static}
   .ss-head .lead{max-width:none}
-  .ss-cta{grid-column:1}
 }
 @media (max-width:860px){
   /* на мобиле фиксированная высота только раздувала бы список */
@@ -797,11 +815,14 @@ body.menu-open .cookie-note{opacity:0; visibility:hidden; pointer-events:none}
    поэтому переключение RU/EN работает без перезагрузки. Оставшаяся карточка
    центрируется и не растягивается на всю ширину блока. */
 html[lang="en"] .team-card--anna{display:none}
-html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(560px,100%)); justify-content:center}
-/* Оставшаяся в одиночестве карточка вертикальной колонкой смотрелась сиротливо
-   (правка Босса). На десктопе разворачиваем её горизонтально: фото слева,
-   текст справа — раскладка делается сеткой по четырём плоским детям карточки,
-   разметку трогать не нужно. На мобиле остаётся вертикальной. */
+/* Босс 05.09: EN-карточка была особым горизонтальным форматом (фото 320px
+   слева, текст справа) — "маленько и уныло" рядом с тем, что реально стоит
+   на RU (крупное вертикальное фото на всю ширину карточки, текст под ним).
+   Спецраскладку убрали целиком — EN теперь получает ТОТ ЖЕ .team-card, что
+   и RU, просто в сетке одна карточка вместо двух. Ширина — как у одной
+   карточки в паре на RU (замер: ~660px при 1440px вьюпорте), не 560 (было)
+   и не 864 (было на десктопе для старой раскладки). */
+html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(660px,100%)); justify-content:center}
 /* Сама карточка команды в v1 стоит вне сетки 8px: паддинг 35, отступы
    заголовка 6/12, подпись 13px. Приводим компонент к шкале — по правилу
    переноса правок это касается обеих карточек и обоих языков, не только
@@ -810,27 +831,6 @@ html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(560px,100%)); just
 .team-role{font-size:16px}
 .team-card h3{font-size:24px; margin:8px 0 16px}
 .team-card p{font-size:16px; line-height:1.5}
-
-@media (min-width:861px){
-  html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(864px,100%))}
-  /* :not(.team-card--anna) обязателен: без него `display:grid` имел ту же
-     специфичность, что и `display:none` выше, стоял ниже по файлу и
-     перебивал скрытие — Анна возвращалась на EN */
-  html[lang="en"] .team-card:not(.team-card--anna){
-    display:grid; grid-template-columns:320px minmax(0,1fr);
-    grid-template-rows:auto auto auto; column-gap:40px; row-gap:0; padding:40px;
-    /* без align-content строки растягивались по высоте фото и текст
-       расползался — группируем его в один блок по центру */
-    align-content:center;
-  }
-  html[lang="en"] .team-card:not(.team-card--anna) .team-photo{grid-column:1; grid-row:1 / 4; align-self:center; margin-bottom:0}
-  /* карточка тут вдвое крупнее — и шкала на ступень выше. Отступы задаём
-     не общим row-gap, а по близости: должность и имя — одна группа (8px),
-     описание отделено (24px) */
-  html[lang="en"] .team-card:not(.team-card--anna) .team-role{grid-column:2; grid-row:1; align-self:end; margin-bottom:8px}
-  html[lang="en"] .team-card:not(.team-card--anna) h3{grid-column:2; grid-row:2; font-size:32px; margin:0 0 24px}
-  html[lang="en"] .team-card:not(.team-card--anna) p{grid-column:2; grid-row:3; align-self:start; font-size:18px; line-height:1.5; margin:0}
-}
 @media (max-width:860px){
   /* 20px в v1 тоже вне сетки */
   .team-card{padding:24px}
@@ -929,15 +929,22 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
    (см. feedback в памяти): верхняя треть кадра — почти пустое закатное
    небо, застройка/берег/скалы держатся в нижних 2/3 */
 .invest-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 62%; display:block}
-/* Чипы больше не лежат НА фото (Босс 05.09: "чипы закрывают фулл фотку") —
-   обычный ряд карточек под кадром, margin-top как у .plans-info (24px,
-   тот же паттерн "фото сверху, инфо-блок снизу"). Стиль — сплошная
-   поверхность .ss-card (блок "Как купить виллу"), а не стекло: там чипы
-   стоят не на фото, а на обычном фоне секции, прозрачность им не нужна. */
-.invest-chips{margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:16px}
+/* Затемнение низа фото — под чипами читаемость текста, у самого верха
+   фото остаётся чистым. Только десктоп: на мобиле чипы больше не лежат на
+   фото (см. @media 860px), градиент там не нужен. */
+.invest-photo::after{content:''; position:absolute; inset:0; pointer-events:none;
+  background:linear-gradient(to top, rgba(11,12,11,.7) 0%, rgba(11,12,11,.28) 38%, rgba(11,12,11,0) 65%)}
+/* Чипы стеклянными плашками ПРЯМО на фото (реф Figma «ТУТСМОТРИ», 6:695,
+   канал pghzhfwu) — десктопная раскладка, оригинал. Босс 05.09 сначала
+   попросил убрать оверлей целиком, затем уточнил: это касалось только
+   мобилки ("чипы закрывают фулл фотку" было про узкий экран, где кадр и
+   так невысокий) — на десктопе возвращаем как было. */
+.invest-chips{position:absolute; z-index:2; left:32px; right:32px; bottom:32px;
+  display:grid; grid-template-columns:1fr 1fr; gap:16px}
 .invest-chip--wide{grid-column:1 / -1}
-.invest-chip{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-sm);
-  padding:26px 28px; box-shadow:var(--shadow-card)}
+.invest-chip{background:rgba(19,19,19,.45); border:1px solid rgba(255,255,255,.22);
+  border-radius:var(--r-sm); padding:26px 28px;
+  backdrop-filter:blur(24px) saturate(1.1); -webkit-backdrop-filter:blur(24px) saturate(1.1)}
 /* акцентнее (правка Босса 05.08): значение — Prata золотом, как остальные
    цифры-статы на сайте (.stat-card h3 и т.п.), крупнее прежнего 18px белого */
 .invest-chip h3{margin:0; font-family:'Prata',Georgia,serif; font-weight:400;
@@ -945,8 +952,15 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .invest-chip p{margin:8px 0 0; font-size:14px; line-height:1.5; color:rgba(255,255,255,.85)}
 @media (max-width:860px){
   .invest-photo{aspect-ratio:3/4}
-  .invest-chips{margin-top:16px; grid-template-columns:1fr; gap:10px}
-  .invest-chip{padding:18px 20px}
+  .invest-photo::after{display:none}
+  /* Только тут (Босс 05.09): невысокий мобильный кадр (3:4) не оставлял чипам
+     места, стеклянные плашки перекрывали почти всё фото. Уводим их из
+     абсолюта в обычный поток под кадром, стиль — сплошная поверхность
+     .ss-card (блок "Как купить виллу"), не стекло: тут они на обычном фоне
+     секции, прозрачность больше не нужна. */
+  .invest-chips{position:static; margin-top:16px; grid-template-columns:1fr; gap:10px}
+  .invest-chip{background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow-card);
+    backdrop-filter:none; -webkit-backdrop-filter:none; padding:18px 20px}
   .invest-chip h3{font-size:23px}
   .invest-chip p{font-size:13px}
 }
@@ -1119,6 +1133,11 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 @media (max-width:860px){
   /* --- лестница отступов --- */
   .container{padding:0 16px}          /* жёлоб: 20 (вне сетки) → 16, как у Burton */
+  /* .hero-scroll (styles.css) — left:40px зашит намертво, не через переменную
+     контейнера, и не переопределялся на мобиле вовсе. Тут .container ужимает
+     паддинг до 16px, а подпись оставалась на 40px — 24px мимо левого края
+     заголовка/кнопки над ней (Босс 05.09: "выровнен странно"). */
+  .hero-scroll{left:16px}
   .section{padding:48px 0}            /* единственная ступень ритма секций */
   /* v1 просаживает верхний отступ у соседа #architecture селектором с ID,
      и он перебивал .section.villas по специфичности — блок липнул к
@@ -1340,10 +1359,11 @@ body.lb-lock{overflow:hidden}
 
 .sig-cap h3{font-family:'Prata',Georgia,serif; font-size:clamp(24px,2.6vw,32px);
   color:var(--clay); letter-spacing:.01em; margin:0 0 12px}
-/* Босс 03.09: ширину строки подобрали так, чтобы описание ложилось в 3 строки
-   и на RU, и на EN (44ch давало 4 строки на RU; 55ch+ схлопывало EN в 2). */
+/* Босс 05.09: теперь нужно РОВНО 2 строки на десктопе (было 3, см. историю
+   ниже — тогда специально ужимали до 3). Расширяем max-width, чтобы то же
+   предложение ложилось в 2 более длинные строки вместо 3 коротких. */
 .sig-cap p{margin:0; font-size:16px; line-height:1.45; color:rgba(255,255,255,.9);
-  max-width:54ch; text-shadow:0 1px 12px rgba(0,0,0,.5)}
+  max-width:78ch; text-shadow:0 1px 12px rgba(0,0,0,.5)}
 .sig-cap p + p{margin-top:6px}
 
 @media (max-width:860px){
@@ -1352,7 +1372,8 @@ body.lb-lock{overflow:hidden}
   .signature-photo{aspect-ratio:3/2}
   .sig-cap{padding:20px}
   .sig-cap h3{font-size:21px; margin-bottom:8px}
-  .sig-cap p{font-size:13px; line-height:1.4; max-width:none}
+  /* Босс 05.09: "слишком много места занимает" на мобиле — было 13px */
+  .sig-cap p{font-size:12px; line-height:1.35; max-width:none}
 }
 
 /* ---------- 2. Галерея: слайдер не читался как слайдер ---------- */
