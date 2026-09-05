@@ -270,6 +270,49 @@ function wireCarousel(trackId, prevId, nextId, dotsId, step) {
 }
 wireCarousel('featTrack', 'featPrev', 'featNext', 'featDots', 400);
 wireCarousel('stepsTrack', 'stepsPrev', 'stepsNext', 'stepsDots', 300);
+
+/* Прогресс-бар прокрутки таблицы юнитов (мобилка, Босс 05.09) — тот же
+   приём, что .pp-table-track/main.js на unitdeveloper.com: нативный
+   скроллбар на тачах авто-прячется вне скролла, CSS это не отменяет,
+   поэтому отдельная полоска — обычный DOM-элемент, её ширину/позицию
+   двигает скролл. Два трека (гор.+верт.) — таблица юнитов скроллится в
+   обе стороны, в отличие от той, где взят приём. */
+(function () {
+  const wrap = document.querySelector('.iplan-table-wrap');
+  const outer = wrap && wrap.closest('.iplan-table-outer');
+  if (!outer) return;
+  const trackX = outer.querySelector('.iplan-table-track--x');
+  const thumbX = trackX && trackX.querySelector('.iplan-table-thumb');
+  const trackY = outer.querySelector('.iplan-table-track--y');
+  const thumbY = trackY && trackY.querySelector('.iplan-table-thumb');
+  const update = () => {
+    if (thumbX) {
+      const tw = trackX.clientWidth;
+      const ratio = wrap.scrollWidth ? Math.min(1, wrap.clientWidth / wrap.scrollWidth) : 1;
+      const thumbW = Math.max(24, tw * ratio);
+      thumbX.style.width = thumbW + 'px';
+      const max = wrap.scrollWidth - wrap.clientWidth;
+      const pos = max > 0 ? wrap.scrollLeft / max : 0;
+      thumbX.style.transform = `translateX(${pos * (tw - thumbW)}px)`;
+    }
+    if (thumbY) {
+      const th = trackY.clientHeight;
+      const ratio = wrap.scrollHeight ? Math.min(1, wrap.clientHeight / wrap.scrollHeight) : 1;
+      const thumbH = Math.max(24, th * ratio);
+      thumbY.style.height = thumbH + 'px';
+      const max = wrap.scrollHeight - wrap.clientHeight;
+      const pos = max > 0 ? wrap.scrollTop / max : 0;
+      thumbY.style.transform = `translateY(${pos * (th - thumbH)}px)`;
+    }
+  };
+  wrap.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  // таблица заполняется динамически (units-plan.js) — размеры меняются
+  // при рендере/фильтрации, обычный MutationObserver надёжнее одного update()
+  new MutationObserver(update).observe(wrap, { childList: true, subtree: true });
+  update();
+})();
+
 /* стрелки прокрутки интерактивного плана (без точек — один длинный кадр,
    не набор карточек, см. css/styles.css .iplan-pan). Картинка плана грузится
    loading="lazy" — в момент wireCarousel() её реальной ширины ещё нет
@@ -803,6 +846,11 @@ function renderPlan(planId, lang) {
         if (!t.isTopview) track.appendChild(el);
       });
       if (topviewEl) track.appendChild(topviewEl);
+      // На мобиле трек — свайп-слайдер (см. v2.css @media 860px); при
+      // переключении таба он раньше сохранял scrollLeft предыдущего типа —
+      // открывался не с первого кадра, а с той же позиции прокрутки, где
+      // остался прошлый таб (правка Босса 05.09).
+      track.scrollLeft = 0;
       return;
     }
     // Масонри-фолбэк (левая колонка натур. пропорций + правая квадратная
