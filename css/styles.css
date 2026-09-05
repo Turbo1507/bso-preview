@@ -1158,7 +1158,16 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 }
 .iplan-popup.is-open{opacity:1; visibility:visible; transform:translateY(0); pointer-events:auto}
 .iplan-popup-title{flex:0 0 auto; font-size:12px; font-weight:500; color:var(--muted); text-transform:uppercase; letter-spacing:.02em; margin-bottom:8px}
-.iplan-popup-list{flex:1 1 auto; min-height:0; overflow-y:auto; list-style:none; margin:0 -6px 0 0; padding:0 6px 0 0; display:flex; flex-direction:column; gap:6px; scrollbar-width:thin}
+/* Босс 05.09: "слайд бары в попап таблицах... стандартные белые, а я просил
+   кастомные под наш дизайн" — scrollbar-width:thin убирал только ШИРИНУ
+   нативного скролла, цвет оставался системным. Тот же приём и цвет, что
+   уже стоит на .iplan-table-wrap (золото на прозрачном треке). */
+.iplan-popup-list{flex:1 1 auto; min-height:0; overflow-y:auto; list-style:none; margin:0 -6px 0 0; padding:0 6px 0 0; display:flex; flex-direction:column; gap:6px;
+  scrollbar-width:thin; scrollbar-color:rgba(217,174,69,.55) transparent}
+.iplan-popup-list::-webkit-scrollbar{width:6px}
+.iplan-popup-list::-webkit-scrollbar-track{background:transparent}
+.iplan-popup-list::-webkit-scrollbar-thumb{background:rgba(217,174,69,.55); border-radius:6px}
+.iplan-popup-list::-webkit-scrollbar-thumb:hover{background:rgba(217,174,69,.8)}
 /* cursor:pointer на всей строке — вся она кликабельна (Босс 05.09: "по
    иконке можно смазать", клик теперь ловится на .iplan-popup-row целиком,
    см. iplan-map.js), не только на самой кнопке */

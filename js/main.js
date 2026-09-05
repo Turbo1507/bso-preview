@@ -162,11 +162,28 @@ if (leadModal && leadForm) {
 }
 
 /* ---------- мобильный CTA снизу: скрыт пока мы на хиро, появляется после ---------- */
+/* Босс 05.09: "СТА-кнопка появляется ДО начала скролла, в верхней части,
+   поверх шапки" — сама кнопка position:fixed;bottom:0 и transform:translateY
+   (100%) по умолчанию, наверху появиться физически не может; но
+   IntersectionObserver гарантированно стреляет первым колбэком СРАЗУ на
+   .observe(), ещё до того, как layout (особенно у героя с video/фоном)
+   реально устаканился — известный класс бага, когда самый первый repor
+   мимолётно врёт про intersectionRatio. На секунду .show успевал
+   включиться и тут же погаснуть — глазами это читалось как вспышка кнопки
+   "сверху" в самый момент загрузки. Первый колбэк просто игнорируем —
+   стартовое состояние (герой на экране, кнопка скрыта) и так верное по
+   умолчанию из CSS, отвечать на него незачем; реагируем только на
+   реальные последующие пересечения (то есть на фактический скролл). */
 const heroSection = document.querySelector('.hero');
 const mobCta = document.querySelector('.mob-cta');
 if (heroSection && mobCta) {
+  let ctaFirstCheck = true;
   const ctaIO = new IntersectionObserver(entries => {
-    entries.forEach(e => mobCta.classList.toggle('show', !e.isIntersecting));
+    entries.forEach(e => {
+      if (ctaFirstCheck) return;
+      mobCta.classList.toggle('show', !e.isIntersecting);
+    });
+    ctaFirstCheck = false;
   }, { threshold: 0 });
   ctaIO.observe(heroSection);
 }
@@ -534,15 +551,22 @@ const PLANS = {
    двухэтажных форматов; Studio/1BD — один этаж, обычная картинка. */
 const FLOOR_LAYOUTS = {
   '1bdsky': {
-    plan:   { f2:{src:'assets/plan-1bdsky-f2.png', x:365, y:128, w:846.58, h:601.26}, f1:{src:'assets/plan-1bdsky-f1.png', x:710.67, y:316.93, w:844.07, h:832.07}, label2:{x:1292,y:128}, label1:{x:454,y:1115} },
+    /* x/y ниже пересчитаны (Босс 05.09: "планировки криво показываются") —
+       f1/f2 стояли внахлёст (общий диапазон и по x, и по y), на схематичном
+       плане (плоская заливка, не фотореал с прозрачными полями как в render)
+       это давало видимое наложение картинок друг на друга. Развели по
+       вертикали без пересечения: f2 сверху, f1 снизу, зазор ~57px, высота
+       каждого этажа — 550 под свою реальную пропорцию файла (см. py/PIL
+       замер размеров assets/plan-*-f*.png), по центру канваса 1920 по x. */
+    plan:   { f2:{src:'assets/plan-1bdsky-f2.png', x:573.08, y:60, w:773.84, h:550}, f1:{src:'assets/plan-1bdsky-f1.png', x:681.04, y:667, w:557.92, h:550}, label2:{x:960,y:20}, label1:{x:960,y:1227} },
     render: { f2:{src:'assets/villa-1bdsky-topview-f2.png', x:302, y:128, w:1084, h:675}, f1:{src:'assets/villa-1bdsky-topview-f1.jpg', x:774.68, y:353, w:844.18, h:796}, label2:{x:1466,y:128}, label1:{x:518,y:1115} }
   },
   '2bd': {
-    plan:   { f2:{src:'assets/plan-2bd-f2.png', x:203, y:128, w:1030, h:747}, f1:{src:'assets/plan-2bd-f1.png', x:619, y:353, w:1099, h:796}, label2:{x:1313,y:128}, label1:{x:363,y:1115} },
+    plan:   { f2:{src:'assets/plan-2bd-f2.png', x:580.82, y:60, w:758.37, h:550}, f1:{src:'assets/plan-2bd-f1.png', x:580.32, y:667, w:759.36, h:550}, label2:{x:960,y:20}, label1:{x:960,y:1227} },
     render: { f2:{src:'assets/villa-2bd-topview-f2.png', x:128, y:139, w:1151.33, h:717.05}, f1:{src:'assets/villa-2bd-topview-f1.png', x:629.79, y:377.73, w:1162.21, h:761.11}, label2:{x:1360,y:139}, label1:{x:373,y:1105} }
   },
   '3bd': {
-    plan:   { f2:{src:'assets/plan-3bd-f2.png', x:228, y:128, w:846, h:614}, f1:{src:'assets/plan-3bd-f1.png', x:549, y:293, w:1144, h:856}, label2:{x:1154,y:128}, label1:{x:293,y:1115} },
+    plan:   { f2:{src:'assets/plan-3bd-f2.png', x:581.09, y:60, w:757.82, h:550}, f1:{src:'assets/plan-3bd-f1.png', x:592.48, y:667, w:735.05, h:550}, label2:{x:960,y:20}, label1:{x:960,y:1227} },
     render: { f2:{src:'assets/villa-3bd-topview-f2.png', x:184, y:128, w:986, h:614}, f1:{src:'assets/villa-3bd-topview-f1.png', x:588, y:306, w:1149, h:843}, label2:{x:1250,y:128}, label1:{x:332,y:1115} }
   },
   '3bdsky': {
