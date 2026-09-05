@@ -132,6 +132,44 @@
 
   map.addEventListener('mouseleave', scheduleHide);
 
+  /* ---------- однократная подсказка кликабельности (Босс 05-06.09) ----------
+     Показываем плашку «Нажмите на здание», когда карта впервые попадает в
+     поле зрения; гасим после первого взаимодействия (клик/тап по зоне,
+     свайп/протяг плана) или спустя 7 c. Факт показа кладём в localStorage,
+     чтобы на повторных визитах не мозолить глаза. */
+  (function () {
+    const hintEl = document.getElementById('iplanHint');
+    if (!hintEl) return;
+    let seen = false;
+    try { seen = localStorage.getItem('bso_iplan_hint') === '1'; } catch (e) {}
+    if (seen) return;
+    let dismissed = false;
+    const dismiss = () => {
+      if (dismissed) return;
+      dismissed = true;
+      hintEl.classList.remove('is-visible');
+      try { localStorage.setItem('bso_iplan_hint', '1'); } catch (e) {}
+    };
+    const reveal = () => {
+      if (dismissed) return;
+      hintEl.classList.add('is-visible');
+      setTimeout(dismiss, 10000);
+    };
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (en.isIntersecting) { io.disconnect(); reveal(); }
+        });
+      }, { threshold: 0.4 });
+      io.observe(map);
+    } else {
+      reveal();
+    }
+    // первое же взаимодействие с картой убирает подсказку
+    hotspotsEl.addEventListener('pointerdown', dismiss, { once: true, capture: true });
+    if (panTrack) panTrack.addEventListener('scroll', dismiss, { once: true, passive: true });
+  })();
+
   function fmtPrice(n) { return '$' + n.toLocaleString('en-US'); }
 
   const RESERVE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';

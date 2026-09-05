@@ -6,6 +6,22 @@
    файла. Для v1 переменной нет → префикс пустой, поведение прежнее. */
 const ASSET = s => (window.BSO_ASSET_PREFIX || '') + s;
 
+/* ---------- прогрузка картинок: «shine»-скелет (Босс 05-06.09) ----------
+   На каждой контентной <img class="ph">, которая ещё НЕ в кэше, включаем
+   .is-loading (бегущий блик, стиль в styles.css) и снимаем по load/error.
+   Закешированные (img.complete && naturalWidth) пропускаем — иначе на
+   повторном визите мелькал бы лишний кадр. Скрипт внизу body, DOM уже
+   разобран, так что querySelectorAll видит все картинки. */
+(function () {
+  document.querySelectorAll('img.ph').forEach(function (img) {
+    if (img.complete && img.naturalWidth > 0) return;
+    img.classList.add('is-loading');
+    var done = function () { img.classList.remove('is-loading'); };
+    img.addEventListener('load', done, { once: true });
+    img.addEventListener('error', done, { once: true });
+  });
+})();
+
 /* ---------- header solid on scroll ---------- */
 const header = document.getElementById('header');
 function syncHeader() { header.classList.toggle('is-solid', window.scrollY > 40); }

@@ -68,13 +68,42 @@ html[data-theme="mono"] .signature-meta h3{text-decoration-color:rgba(255,255,25
 *{box-sizing:border-box}
 /* без этого переход по якорю (напр. #contacts) прижимал секцию впритык к
    верху, и фиксированная шапка перекрывала первую строку заголовка */
-html{scroll-behavior:smooth; scroll-padding-top:100px}
+html{scroll-behavior:smooth; scroll-padding-top:100px; overscroll-behavior-x:none}
+/* мобильный "воббл" влево-вправо при вертикальном скролле — iOS/Android
+   резинят страницу по X при чуть заметном диагональном движении пальца;
+   touch-action ограничивает жест боку до вертикали (pinch-zoom сохранён),
+   overscroll-behavior-x глушит резину на границах. У внутренних слайдеров
+   (.feat-track и т.п.) свой touch-action:pan-x — он локально перебивает это
+   для тач-старта внутри них, горизонтальный свайп там не ломается. */
 body{
   margin:0; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
   color:var(--graphite); background:var(--white); -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  overflow-x:hidden; touch-action:pan-y pinch-zoom; overscroll-behavior-x:none;
 }
 img{max-width:100%; display:block}
+/* ---------- прогрузка картинок: градиентный «shine»-скелет ----------
+   Босс 05-06.09: пока фото грузится — на его месте тёмный плейсхолдер с
+   бегущим световым бликом (graphite → тёплый блик → graphite), снимается
+   по событию load. Класс-маркер .ph висит в разметке на всех контентных
+   <img>; сам визуал несёт .is-loading, который навешивает main.js ТОЛЬКО
+   если картинка ещё не в кэше (img.complete === false) — иначе на уже
+   закешированных фото при повторном визите мелькал бы лишний кадр блика.
+   Габариты берутся от контейнера (у обёрток фото задан aspect-ratio),
+   поэтому скелет виден в полную величину кадра ещё до пикселей. */
+img.is-loading{
+  background:
+    linear-gradient(100deg,
+      rgba(240,225,197,0) 38%,
+      rgba(240,225,197,.10) 50%,
+      rgba(240,225,197,0) 62%)
+    #23211d;
+  background-size:220% 100%;
+  background-repeat:no-repeat;
+  background-position:170% 0;
+  animation:img-shine 1.5s ease-in-out infinite;
+}
+@keyframes img-shine{ to{ background-position:-40% 0 } }
+@media (prefers-reduced-motion: reduce){ img.is-loading{ animation:none } }
 a{color:inherit; text-decoration:none}
 button{font-family:inherit; cursor:pointer}
 .container{max-width:var(--container); margin:0 auto; padding:0 40px}
@@ -227,13 +256,25 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45
    сверху (188px) и слипшуюся группу «ссылки+язык+кнопка» внизу. 96px сверху =
    высота .menu-head (76) + воздух, 40px снизу — как у остальных мобильных
    нижних отступов */
+/* Босс 05.09(4): тот же баг, что у .mob-cta (см. её комментарий) — в
+   Telegram/Instagram-браузере на видео поверх шапки протекал "© 2026
+   unit.now" (подвал ЭТОГО закрытого меню, .menu-legal ниже): inset:0 держит
+   высоту оверлея РОВНО по текущему вьюпорту, а translateY(-100%) сдвигает
+   его на 100% ЭТОЙ ЖЕ высоты — низ контента (тут это .menu-legal) при этом
+   оказывается всего в ~40-54px НАД видимым краем экрана (padding-bottom 40px
+   + строка текста), то есть почти на грани. Во время анимации схлопывания
+   адресной строки в таких вебвью высота на кадр-другой рассинхронизируется
+   с моментом вычисления transform — этого небольшого зазора достаточно,
+   чтобы подвал меню высунулся в кадр. visibility:hidden — страховка
+   независимо от transform: закрытое меню невидимо и некликабельно, даже
+   если translate на мгновение промахнётся мимо края. */
 .menu-overlay{
   position:fixed; inset:0; z-index:90; background:var(--white);
-  transform:translateY(-100%); transition:transform .5s var(--ease);
+  transform:translateY(-100%); visibility:hidden; transition:transform .5s var(--ease), visibility 0s .5s;
   display:flex; flex-direction:column; justify-content:flex-start; padding:96px 24px 40px; gap:2px;
 }
 .menu-overlay .menu-lang{margin-top:auto; padding-top:32px}
-body.menu-open .menu-overlay{transform:translateY(0)}
+body.menu-open .menu-overlay{transform:translateY(0); visibility:visible; transition:transform .5s var(--ease), visibility 0s}
 body.menu-open{overflow:hidden}
 .menu-head{position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:22px 24px; z-index:1}
 .menu-title{font-size:16px; line-height:1; color:var(--graphite); display:flex; align-items:center}
@@ -784,13 +825,22 @@ html.js .reveal.in{opacity:1; transform:none}
 
 /* ---------- mobile CTA bar ---------- */
 /* по умолчанию уехала за нижний край — появляется через .show,
-   когда хиро полностью прокручен (см. IntersectionObserver в main.js) */
+   когда хиро полностью прокручен (см. IntersectionObserver в main.js).
+   Босс 05.09(4): в Telegram/Instagram-браузере (свой WebView, своя анимация
+   схлопывания адресной строки) кнопка на видео ловилась ДУБЛЕМ вверху экрана
+   поверх шапки — чистый transform:translateY(100%) держит элемент "за
+   нижним краем" только пока box-height/viewport совпадают с моментом
+   вычисления; во время resize-анимации адресной строки в таких вебвью
+   высота на кадр-другой рассинхронизируется, и transform временно промахивается
+   мимо реального края экрана. visibility:hidden — доп. страховка НЕЗАВИСИМО
+   от transform-математики: даже если translate промахнётся, элемент всё
+   равно не будет ни виден, ни кликабелен, пока не открыт .show. */
 .mob-cta{
   display:none; position:fixed; bottom:0; left:0; right:0; z-index:40;
   background:var(--white); padding:12px 16px; box-shadow:0 -8px 24px rgba(0,0,0,.12); gap:10px;
-  transform:translateY(100%); transition:transform .3s var(--ease);
+  transform:translateY(100%); visibility:hidden; transition:transform .3s var(--ease), visibility 0s .3s;
 }
-.mob-cta.show{transform:translateY(0)}
+.mob-cta.show{transform:translateY(0); visibility:visible; transition:transform .3s var(--ease), visibility 0s}
 .mob-cta .btn{flex:1; justify-content:center; padding:14px 20px; font-size:16px}
 @media (prefers-reduced-motion: reduce){.mob-cta{transition:none}}
 
@@ -1080,8 +1130,28 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
    были бы нечитаемы; здесь светлой панели просто нет). */
 /* Босс 03.09: аэро-план во всю ширину контейнера, таблица юнитов — в выпадашке
    под кнопкой в правом верхнем углу карты. */
-.iplan-wrap{margin-top:var(--sp-lg)}
+.iplan-wrap{margin-top:var(--sp-md)}
 .iplan-map{position:relative; border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-card)}
+/* однократная подсказка «нажмите на здание» — плашка по центру сверху карты,
+   графит + золотой контур, палец легонько «тапает». Управление классом
+   .is-visible и localStorage — в js/iplan-map.js. */
+.iplan-hint{
+  position:absolute; top:16px; left:50%; z-index:6;
+  display:flex; align-items:center; gap:8px;
+  padding:9px 15px; border-radius:999px; white-space:nowrap;
+  background:rgba(20,18,15,.82); border:1px solid rgba(217,174,69,.55);
+  color:#f2e6cf; font-size:13px; line-height:1; font-weight:400;
+  -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
+  box-shadow:0 10px 30px -12px rgba(0,0,0,.7);
+  pointer-events:none;
+  opacity:0; transform:translateX(-50%) translateY(-6px);
+  transition:opacity .4s var(--ease), transform .4s var(--ease);
+}
+.iplan-hint.is-visible{ opacity:1; transform:translateX(-50%) translateY(0) }
+.iplan-hint-ic{ width:16px; height:16px; color:#d9ae45; flex:0 0 auto;
+  animation:iplan-hint-tap 1.5s ease-in-out infinite }
+@keyframes iplan-hint-tap{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(2px) } }
+@media (prefers-reduced-motion: reduce){ .iplan-hint-ic{ animation:none } }
 /* Правка Босса 05.09 (реф andreevskiy.by/#rpt/.../interactive): картинку
    плана делаем КРУПНЕЕ контейнера по высоте — раньше img шёл width:100%,
    т.е. всегда ровно по ширине блока и без остатка, слайдить было нечего.
@@ -1284,6 +1354,9 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .iplan-table-toggle svg{width:15px; height:15px}
   .iplan-legend{left:10px; bottom:10px; padding:9px 11px; gap:6px}
   .iplan-legend-item{font-size:11px}
+  /* стрелки пана на мобиле в правом верхнем углу (top:10px, ~58px в ширину) —
+     короткая плашка по центру сверху с ними не пересекается; чуть ужимаем */
+  .iplan-hint{top:10px; font-size:12px; padding:8px 13px}
   /* короче: мобильные экраны и так узкие, высокий кадр ушёл бы за экран
      по вертикали ещё до того, как пользователь долистает до плана.
      Именно тут, а не на десктопе (Босс 05.09), картинка становится ВЫШЕ
@@ -1294,8 +1367,16 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
      широкой) ширине картинки — на десктопе .iplan-pan-inner нарочно
      width:100% (см. выше), но здесь картинка снова шире контейнера, и
      .iplan-hotspots должен мериться по НЕЙ, а не по вьюпорту */
-  .iplan-pan-inner{width:auto}
-  .iplan-pan-inner img{width:auto; height:100%}
+  /* Босс 05.09(3): "фото плана зашакаленное" — глобальный сброс img{max-width:100%}
+     (см. выше) резал ширину картинки до ширины контейнера ДАЖЕ при
+     width:auto, а .iplan-pan-inner держал height:auto (не 100%), из-за чего
+     height:100% на img не резолвился (проценты от auto — невалидны, браузер
+     падал на натуральный размер) — картинка сначала обрезалась по ширине
+     max-width, потом высота пересчитывалась по этой урезанной ширине через
+     aspect-ratio: реальный рендер был ~306×171 вместо задуманных ~930×520,
+     фото выглядело мелким/нечётким. Оба свойства нужно явно перебить. */
+  .iplan-pan-inner{width:auto; height:100%}
+  .iplan-pan-inner img{width:auto; height:100%; max-width:none}
   .iplan-pan{cursor:grab}
   .iplan-pan-arrows{display:flex; right:10px; top:10px; bottom:auto; gap:6px}
   .iplan-pan-arrow{width:34px; height:34px}
