@@ -1161,6 +1161,12 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   #architecture .min-gallery{margin-top:24px; height:clamp(380px,58vh,560px)}
   .arch-slide-cap{padding:20px}
   .arch-slide-cap h3{font-size:20px}
+  /* Босс 05.09: "конфликтует текст и прогресс бар слайдера фоток" — точки
+     (.min-gallery-dots, bottom:16px от края слайда) садились почти впритык
+     к подписи (.arch-slide-cap, bottom:0, замер реальной высоты — 89px на
+     мобиле) вместо того, чтобы стоять отдельно НАД ней. Поднимаем точки
+     выше всего блока подписи. */
+  #architecture .min-gallery-dots{bottom:112px}
 
   /* --- шкала кеглей: 12 / 14 / 16 / 20 / 24 / 32 --- */
   .lead{font-size:14px}                                   /* было 12 */
