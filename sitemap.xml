@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- BSO — статический одностраничный лендинг, отдаётся плагином bso-site
+     напрямую (см. bso-site.php: bso_site_router), в обход WP/Yoast — тот
+     сайтмап был общий на весь WP-инстанс и вёл на unitdeveloper.com
+     (Sitemap-строка в robots.txt указывала на чужой домен, у самой BSO
+     sitemap_index.xml/sitemap.xml отдавали 404 — Босс 05.09, "через Yoast
+     посмотри SEO BSO"). consent.html/legal-info.html сюда не входят — у
+     обеих meta name="robots" content="noindex" в шаблоне. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://blacksandsoasis.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>
