@@ -235,7 +235,13 @@
   }
 
   popup.addEventListener('click', e => {
-    const btn = e.target.closest('.iplan-reserve-btn');
+    // Босс 05.09: кликабельна вся строка юнита, не только иконка корзины —
+    // по маленькой иконке легко промазать. Иконка-кнопка остаётся в
+    // разметке как визуальная подсказка "тут действие", но клик ловим на
+    // всей строке; если клик пришёл именно по кнопке — dataset берём с неё
+    // же (простое совпадение путей, не два разных источника данных).
+    const row = e.target.closest('.iplan-popup-row');
+    const btn = row && row.querySelector('.iplan-reserve-btn');
     if (!btn) return;
     e.preventDefault();
     e.stopPropagation();

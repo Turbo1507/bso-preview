@@ -1083,31 +1083,34 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 /* Правка Босса 05.09 (реф andreevskiy.by/#rpt/.../interactive): картинку
    плана делаем КРУПНЕЕ контейнера по высоте — раньше img шёл width:100%,
    т.е. всегда ровно по ширине блока и без остатка, слайдить было нечего.
-   Теперь высота задаётся самому .iplan-map (вместо ширины картинки), а
-   .iplan-pan — прокручиваемый вьюпорт под неё: картинка внутри растёт от
-   height:100%, ширина уезжает за край контейнера пропорционально — то, что
-   не влезло, открывается свайпом/стрелками. Попап/легенда/кнопка таблицы
-   остаются СНАРУЖИ .iplan-pan (см. index.html) — не едут при прокрутке. */
-/* vw, не vh: высота от высоты окна давала на распространённых ноутбучных
-   пропорциях (1366×768 и т.п.) кадр ПРАКТИЧЕСКИ той же высоты, что раньше
-   (width:100% на контейнер ~1345px и так давал ~751px auto-высоты от
-   пропорций самой картинки) — слайдить было почти нечего (замер: 9px
-   переполнения). vw жёстко больше ширины контейнера при любой высоте окна. */
-.iplan-map--full{height:clamp(520px, 66vw, 880px)}
+   05.09 (2): "на пк то не надо слайдить... он и так хорошо вмещался" —
+   на десктопе width:100% ЖИВЁТ как раньше (см. .iplan-pan-inner img ниже),
+   слайд/стрелки/протяг остаются ТОЛЬКО в мобильном media query — там
+   картинка была мелкой и от увеличения+пана реально выигрывает, десктопу
+   это увеличение не нужно было вовсе. .iplan-map--full без явной высоты на
+   десктопе — высоту как раньше держит сама картинка (width:100%, auto). */
 .iplan-pan{
   position:relative; height:100%; overflow-x:auto; overflow-y:hidden;
   touch-action:pan-x; -webkit-overflow-scrolling:touch; scrollbar-width:none;
-  cursor:grab;
+  /* Босс 05.09: "фотка плана слишком сильно уезжает вправо или влево" —
+     это iOS-резинка (rubber-band): тач-скролл на границах утаскивает
+     контент ЗА пределы 0..max с упругим отскоком, за краем картинки видно
+     пустоту/фон карты. overscroll-behavior-x:contain не даёт границе
+     "пружинить" за пределы своего скролла. */
+  overscroll-behavior-x:contain;
 }
 .iplan-pan::-webkit-scrollbar{display:none}
 .iplan-pan.is-drag{cursor:grabbing}
 /* inline-block — коробка сама сжимается по ширине картинки (а не тянется на
-   100% вьюпорта), иначе .iplan-hotspots (inset:0 от этого блока) лёг бы по
-   ширине КОНТЕЙНЕРА, а не фактической (более широкой) картинки — зоны
-   разъехались бы с силуэтами зданий на прокрученной части. */
-.iplan-pan-inner{position:relative; display:inline-block; height:100%; vertical-align:top}
+   100% вьюпорта); на десктопе картинка width:100% (см. ниже) — коробка и так
+   ровно по ширине контейнера, inline-block здесь просто не мешает. На мобиле
+   (где картинка становится шире контейнера) это уже критично: иначе
+   .iplan-hotspots (inset:0 от этого блока) лёг бы по ширине КОНТЕЙНЕРА, а не
+   фактической (более широкой) картинки — зоны разъехались бы с силуэтами
+   зданий на прокрученной части. */
+.iplan-pan-inner{position:relative; display:inline-block; height:auto; width:100%; vertical-align:top}
 .iplan-pan-inner img{
-  height:100%; width:auto; max-width:none; display:block;
+  width:100%; height:auto; display:block;
   -webkit-user-drag:none; user-drag:none; user-select:none; -webkit-user-select:none;
 }
 
@@ -1156,7 +1159,11 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .iplan-popup.is-open{opacity:1; visibility:visible; transform:translateY(0); pointer-events:auto}
 .iplan-popup-title{flex:0 0 auto; font-size:12px; font-weight:500; color:var(--muted); text-transform:uppercase; letter-spacing:.02em; margin-bottom:8px}
 .iplan-popup-list{flex:1 1 auto; min-height:0; overflow-y:auto; list-style:none; margin:0 -6px 0 0; padding:0 6px 0 0; display:flex; flex-direction:column; gap:6px; scrollbar-width:thin}
-.iplan-popup-row{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--graphite)}
+/* cursor:pointer на всей строке — вся она кликабельна (Босс 05.09: "по
+   иконке можно смазать", клик теперь ловится на .iplan-popup-row целиком,
+   см. iplan-map.js), не только на самой кнопке */
+.iplan-popup-row{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--graphite); cursor:pointer}
+@media(hover:hover){.iplan-popup-row:hover{background:rgba(255,255,255,.04)}}
 .iplan-popup-row b{flex:0 0 auto; min-width:24px; color:var(--white)}
 .iplan-popup-row span:nth-child(2){flex:1; color:var(--muted); font-size:12px}
 /* Порядок в строке (правка Босса): номер, тип, статус-пилюля, цена — цена
@@ -1179,8 +1186,11 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .iplan-reserve-cell:empty::after{content:'—'; color:rgba(255,255,255,.15)}
 
 /* стрелки прокрутки плана — правый нижний угол карты (реф andreevskiy.by),
-   свободный от легенды (слева-снизу) и кнопки таблицы (справа-сверху) */
-.iplan-pan-arrows{position:absolute; right:16px; bottom:16px; z-index:5; display:flex; gap:8px}
+   свободный от легенды (слева-снизу) и кнопки таблицы (справа-сверху).
+   Скрыты по умолчанию — Босс 05.09: "на пк не надо слайдить, он и так
+   хорошо вмещался", слайд/стрелки актуальны только в мобильном media
+   query ниже, где картинка реально становится шире контейнера. */
+.iplan-pan-arrows{display:none; position:absolute; right:16px; bottom:16px; z-index:5; gap:8px}
 .iplan-pan-arrow{
   width:40px; height:40px; display:flex; align-items:center; justify-content:center;
   border:1px solid rgba(255,255,255,.16); border-radius:50%; cursor:pointer; padding:0;
@@ -1217,13 +1227,20 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .iplan-dot.is-prebooked{background:var(--clay)}
 .iplan-dot.is-booked{background:rgba(255,255,255,.3)}
 
+/* эйбран над каждой группой чипов — Босс 05.09, см. index.html */
+.iplan-filters-label{font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em;
+  color:rgba(255,255,255,.4); margin-bottom:8px}
 .iplan-filters{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px}
 .iplan-chip{
+  display:inline-flex; align-items:center; gap:6px;
   padding:8px 16px; border-radius:var(--r-xs); border:1px solid rgba(255,255,255,.13);
   font-size:13px; font-weight:400; color:rgba(255,255,255,.72); transition:all .2s; background:transparent;
 }
 .iplan-chip:not(.is-active):hover{border-color:var(--clay); color:var(--clay)}
 .iplan-chip.is-active{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
+/* точка статуса внутри чипа — свой цвет виден и на активном (золотом) фоне,
+   и на неактивном (прозрачном), поэтому не наследует currentColor */
+.iplan-chip .iplan-dot{width:7px; height:7px}
 .iplan-filters-status{margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,.13)}
 
 .iplan-table-wrap{overflow-x:auto; overflow-y:auto; max-height:520px; border:1px solid rgba(255,255,255,.13); border-radius:var(--r-sm)}
@@ -1248,14 +1265,28 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 
 @media (max-width:860px){
   .iplan-drawer-inner{padding:18px}
-  .iplan-table-toggle{right:10px; top:10px; padding:9px 13px; font-size:12px; gap:7px}
+  /* Босс 05.09: кнопка "смотреть таблицу" на мобиле переезжает в правый
+     нижний угол (туда, где раньше сидели стрелки листания плана) — стрелки
+     уступают ей место и переезжают в правый ВЕРХНИЙ угол (там, где раньше
+     была сама кнопка таблицы). Просто зеркальная рокировка позиций. */
+  .iplan-table-toggle{right:10px; bottom:10px; top:auto; padding:9px 13px; font-size:12px; gap:7px}
   .iplan-table-toggle svg{width:15px; height:15px}
   .iplan-legend{left:10px; bottom:10px; padding:9px 11px; gap:6px}
   .iplan-legend-item{font-size:11px}
   /* короче: мобильные экраны и так узкие, высокий кадр ушёл бы за экран
-     по вертикали ещё до того, как пользователь долистает до плана */
+     по вертикали ещё до того, как пользователь долистает до плана.
+     Именно тут, а не на десктопе (Босс 05.09), картинка становится ВЫШЕ
+     контейнера и уезжает за край по ширине — width:100%/height:auto
+     десктопа сюда не годится, картинка была бы мелкой на узком экране. */
   .iplan-map--full{height:clamp(360px, 62vh, 520px)}
-  .iplan-pan-arrows{right:10px; bottom:10px; gap:6px}
+  /* width:auto возвращает inline-block к сжатию по фактической (более
+     широкой) ширине картинки — на десктопе .iplan-pan-inner нарочно
+     width:100% (см. выше), но здесь картинка снова шире контейнера, и
+     .iplan-hotspots должен мериться по НЕЙ, а не по вьюпорту */
+  .iplan-pan-inner{width:auto}
+  .iplan-pan-inner img{width:auto; height:100%}
+  .iplan-pan{cursor:grab}
+  .iplan-pan-arrows{display:flex; right:10px; top:10px; bottom:auto; gap:6px}
   .iplan-pan-arrow{width:34px; height:34px}
   .iplan-pan-arrow svg{width:15px; height:15px}
 }

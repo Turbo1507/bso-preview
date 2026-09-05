@@ -134,10 +134,14 @@ body.menu-open .burger span{background:var(--white)}
 /* .fin-card-text (styles.css:651-653) больше не в разметке — класс
    переименован в .fin-card-copy для абсолютного позиционирования, поэтому
    базовые цвет/кегль/отступ переносим сюда явно, а не полагаемся на v1-правило */
-.fin-card-copy{position:absolute; left:60px; bottom:40px; z-index:1; max-width:440px}
+/* left:40px — Босс 05.09 ("выравнивание по левому краю"): было 60px,
+   т.е. текст внутри карточки сидел на 20px правее заголовка блока над ней
+   (h2 идёт обычным текстом в .container, паддинг контейнера — стандартные
+   40px, см. styles.css .container). 40px — тот же самый левый край. */
+.fin-card-copy{position:absolute; left:40px; bottom:40px; z-index:1; max-width:440px}
 .fin-card-copy h3{font-size:32px; color:var(--white); font-weight:500; margin:0}
 .fin-card-copy p{font-size:16px; line-height:1.35; color:rgba(255,255,255,.65); margin-top:16px}
-.fin-card-cta{position:absolute; right:60px; bottom:40px; z-index:1}
+.fin-card-cta{position:absolute; right:40px; bottom:40px; z-index:1}
 @media (max-width:860px){
   .fin-card{min-height:460px}
   .fin-card-photo--sheet::after{background:linear-gradient(180deg, rgba(24,24,23,.1) 0%, rgba(24,24,23,.4) 45%, rgba(24,24,23,.94) 85%)}
@@ -200,6 +204,27 @@ body.menu-open .burger span{background:var(--white)}
 .iplan-table-wrap::-webkit-scrollbar-track{background:transparent}
 .iplan-table-wrap::-webkit-scrollbar-thumb{background:rgba(217,174,69,.45); border-radius:8px}
 .iplan-table-wrap::-webkit-scrollbar-thumb:hover{background:rgba(217,174,69,.7)}
+
+/* Прогресс-бар прокрутки таблицы — ТОЛЬКО мобилка (Босс 05.09: "чел может
+   не понять что можно скроллить"). Нативный скроллбар выше остаётся для
+   десктопа (мышь/трекпад показывают его нормально); на тачах браузер
+   авто-прячет ЛЮБОЙ нативный скроллбар вне момента скролла, никакой CSS
+   это не переопределяет — тот же вывод уже сделан на unitdeveloper.com
+   (.pp-table-track/main.js) для похожей таблицы, здесь тот же приём,
+   только на оба направления (таблица юнитов скроллится и вбок, и вниз). */
+.iplan-table-outer{position:relative}
+.iplan-table-track{display:none}
+@media (max-width:860px){
+  .iplan-table-track{display:block}
+  .iplan-table-track--x{position:relative; height:3px; margin-top:8px;
+    background:rgba(255,255,255,.13); border-radius:2px; overflow:hidden}
+  .iplan-table-track--x .iplan-table-thumb{position:absolute; left:0; top:0; height:100%;
+    background:rgba(217,174,69,.7); border-radius:inherit}
+  .iplan-table-track--y{position:absolute; right:2px; top:0; bottom:11px; width:3px;
+    background:rgba(255,255,255,.13); border-radius:2px; overflow:hidden}
+  .iplan-table-track--y .iplan-table-thumb{position:absolute; left:0; top:0; width:100%;
+    background:rgba(217,174,69,.7); border-radius:inherit}
+}
 .iplan-table-wrap::-webkit-scrollbar-corner{background:transparent}
 /* подчёркивание названия планировки осталось от старого акцента — в v1 оно
    зашито как rgba(156,79,32,.5), то есть терракота #9c4f20; переводим на золото */
@@ -500,8 +525,15 @@ body.menu-open .burger span{background:var(--white)}
 /* в колоночной раскладке v1 кнопка растягивалась по ширине панели; в строке
    ей нужен явный размер по контенту, иначе уезжает на отдельную строку */
 /* ширина как у кнопки в шапке (замер: 200px) — правка Босса */
+/* height:64px ЯВНО — базовый .btn (padding:20px 32px; font-size:24px)
+   давал реальную высоту ~70-72px против 64px квадратной иконки-плана рядом
+   (комментарий у .plans-toggle-btn--icon "той же высоты" был верен на
+   момент написания, но с тех пор разъехались — правка Босса 05.09,
+   "иконка съехала с CTA-кнопкой"). padding:0 — высоту теперь держит
+   height, не вертикальный паддинг, иначе так же разъедутся снова при любой
+   правке font-size. */
 .plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
-  width:200px; justify-content:center}
+  width:200px; height:64px; padding:0 32px; font-size:16px; justify-content:center}
 @media (max-width:860px){
   .plans-viewer{height:clamp(360px,55vh,520px)}
   .plans-info{gap:24px; padding-top:24px}
@@ -640,7 +672,12 @@ body{overflow-x:clip}
 /* без max-width: колонка уже задана в пикселях, и ограничивать строку ещё
    раз значит снова недозаполнить колонку — ровно та дыра, которую чиним */
 .ss-head .lead{margin-top:24px; max-width:none}
-.ss-cta{margin-top:40px}
+/* Кнопка была в .ss-head (правило со стрелкой к CTA "сверху вниз") — Босс
+   05.09 попросил перенести её ПОД карточки шагов, а не под заголовок.
+   Теперь .ss-cta — отдельный grid-item .ss-grid (после .ss-list в DOM),
+   на десктопе явно кладём во вторую колонку (туда же, где сами карточки),
+   не в первую (туда попал бы по авто-раскладке следующим за .ss-head). */
+.ss-cta{grid-column:2; justify-self:start; margin-top:40px}
 
 .ss-list{display:flex; flex-direction:column; gap:24px; margin:0; padding:0; list-style:none}
 /* Под эту раскладку карточка перестроена горизонтально: крупная цифра слева,
@@ -671,6 +708,7 @@ body{overflow-x:clip}
   /* на узком экране липкая колонка съедала бы пол-экрана — отключаем */
   .ss-head{position:static}
   .ss-head .lead{max-width:none}
+  .ss-cta{grid-column:1}
 }
 @media (max-width:860px){
   /* на мобиле фиксированная высота только раздувала бы список */
@@ -891,14 +929,15 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
    (см. feedback в памяти): верхняя треть кадра — почти пустое закатное
    небо, застройка/берег/скалы держатся в нижних 2/3 */
 .invest-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 62%; display:block}
-.invest-photo::after{content:''; position:absolute; inset:0; pointer-events:none;
-  background:linear-gradient(to top, rgba(11,12,11,.7) 0%, rgba(11,12,11,.28) 38%, rgba(11,12,11,0) 65%)}
-.invest-chips{position:absolute; z-index:2; left:32px; right:32px; bottom:32px;
-  display:grid; grid-template-columns:1fr 1fr; gap:16px}
+/* Чипы больше не лежат НА фото (Босс 05.09: "чипы закрывают фулл фотку") —
+   обычный ряд карточек под кадром, margin-top как у .plans-info (24px,
+   тот же паттерн "фото сверху, инфо-блок снизу"). Стиль — сплошная
+   поверхность .ss-card (блок "Как купить виллу"), а не стекло: там чипы
+   стоят не на фото, а на обычном фоне секции, прозрачность им не нужна. */
+.invest-chips{margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:16px}
 .invest-chip--wide{grid-column:1 / -1}
-.invest-chip{background:rgba(19,19,19,.45); border:1px solid rgba(255,255,255,.22);
-  border-radius:var(--r-sm); padding:26px 28px;
-  backdrop-filter:blur(24px) saturate(1.1); -webkit-backdrop-filter:blur(24px) saturate(1.1)}
+.invest-chip{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-sm);
+  padding:26px 28px; box-shadow:var(--shadow-card)}
 /* акцентнее (правка Босса 05.08): значение — Prata золотом, как остальные
    цифры-статы на сайте (.stat-card h3 и т.п.), крупнее прежнего 18px белого */
 .invest-chip h3{margin:0; font-family:'Prata',Georgia,serif; font-weight:400;
@@ -906,7 +945,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 .invest-chip p{margin:8px 0 0; font-size:14px; line-height:1.5; color:rgba(255,255,255,.85)}
 @media (max-width:860px){
   .invest-photo{aspect-ratio:3/4}
-  .invest-chips{left:16px; right:16px; bottom:16px; grid-template-columns:1fr; gap:10px}
+  .invest-chips{margin-top:16px; grid-template-columns:1fr; gap:10px}
   .invest-chip{padding:18px 20px}
   .invest-chip h3{font-size:23px}
   .invest-chip p{font-size:13px}
@@ -1180,6 +1219,16 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .section.villas{padding-top:48px}   /* тот же ритм, что у остальных секций на мобиле */
   /* кадр выше — двум карточкам-подписям нужно место, иначе они съедают фото */
   .gal-track{gap:12px; padding:0 20px}
+  /* Босс 05.09: "первая фотка выравнивается где-то за экраном, не по
+     границе" — floor 300px в .gal-slide img (выше в этом же файле) держал слайд
+     ШИРЕ вьюпорта на узких телефонах (при height:300px и родной пропорции
+     кадра ~1.5:1 ширина слайда — 450px против 390px экрана). scroll-snap-
+     align:center пытался центрировать слайд ШИРЕ контейнера и на загрузке
+     сам утаскивал scrollLeft ровно на величину padding-left (замер: 20px
+     паддинг, 20px авто-скролл — итого 0 видимого отступа). Ниже floor —
+     слайд помещается с паддингом по обе стороны, центрировать больше
+     нечего, авто-скролл на загрузке не возникает. */
+  .gal-slide img{height:clamp(200px, 40vw, 520px)}
 
   .villas-grid{gap:16px; margin-top:var(--sp-xl); grid-auto-rows:minmax(300px,auto)}
   .vcard-text{padding:20px}

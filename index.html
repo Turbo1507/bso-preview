@@ -25,8 +25,8 @@
 <meta name="twitter:title" content="Black Sands Oasis — UNIT’s Flagship Project in Nuanu, Bali">
 <meta name="twitter:description" content="Intimate Desert Modernism villas by UNIT inside Nuanu, the city of the future on Bali’s west coast.">
 <meta name="twitter:image" content="https://blacksandsoasis.com/assets/facade-sunset.jpg">
-<link rel="stylesheet" href="css/styles.css?v=20260905001234">
-<link rel="stylesheet" href="css/v2.css?v=20260905001234">
+<link rel="stylesheet" href="css/styles.css?v=20260905005005">
+<link rel="stylesheet" href="css/v2.css?v=20260905005005">
 </head>
 <body>
 
@@ -315,31 +315,49 @@
       </div>
       <div class="iplan-drawer" id="iplanDrawer" hidden>
         <div class="iplan-drawer-inner">
+          <!-- Босс 05.09: "фильтры сливаются" — два ряда чипов (тип/статус)
+               отличались только тонкой линией-разделителем. Добавили
+               подписи-эйбраны над каждой группой + цветную точку статуса на
+               статусных чипах (переиспользует .iplan-dot — тот же цвет, что
+               в легенде карты и в самой таблице), чтобы группа "Статус"
+               считывалась по цвету, а не только по тексту. -->
+          <div class="iplan-filters-label" data-i18n="iplan.filter.type_label">Type</div>
           <div class="iplan-filters" id="iplanTypeFilters">
             <button class="iplan-chip is-active" data-type="all" data-i18n="iplan.filter.all">All types</button>
           </div>
+          <div class="iplan-filters-label" data-i18n="iplan.filter.status_label">Status</div>
           <div class="iplan-filters iplan-filters-status" id="iplanStatusFilters">
             <button class="iplan-chip is-active" data-status="all" data-i18n="iplan.filter.allstatus">Any status</button>
-            <button class="iplan-chip" data-status="early" data-i18n="iplan.st.early">Available</button>
-            <button class="iplan-chip" data-status="prebooked" data-i18n="iplan.st.prebooked">Reserved</button>
-            <button class="iplan-chip" data-status="booked" data-i18n="iplan.st.booked">Sold</button>
+            <button class="iplan-chip" data-status="early"><i class="iplan-dot is-early"></i><span data-i18n="iplan.st.early">Available</span></button>
+            <button class="iplan-chip" data-status="prebooked"><i class="iplan-dot is-prebooked"></i><span data-i18n="iplan.st.prebooked">Reserved</span></button>
+            <button class="iplan-chip" data-status="booked"><i class="iplan-dot is-booked"></i><span data-i18n="iplan.st.booked">Sold</span></button>
           </div>
-          <div class="iplan-table-wrap">
-            <table class="iplan-table">
-              <thead>
-                <tr>
-                  <th data-sort="n" data-i18n="iplan.col.unit">Unit</th>
-                  <th data-sort="t" data-i18n="iplan.col.type">Type</th>
-                  <th data-sort="s" data-i18n="iplan.col.size">m²</th>
-                  <th data-sort="c" data-i18n="iplan.col.price">Price</th>
-                  <th data-sort="st" data-i18n="iplan.col.status">Status</th>
-                  <th class="iplan-col-reserve" aria-hidden="true"></th>
-                </tr>
-              </thead>
-              <tbody id="iplanTbody"></tbody>
-            </table>
-            <p class="iplan-count" id="iplanCount"></p>
+          <!-- Босс 05.09: "прогресс бары по скроллу таблицы должны быть
+               видны всегда" — нативный скроллбар (даже кастомно стилизованный
+               через ::-webkit-scrollbar) на тачах авто-скрывается вне
+               скролла, CSS это не отменить (тот же вывод уже был сделан на
+               unitdeveloper.com/.pp-table-track — переносим тот же приём:
+               отдельный DOM-элемент-полоска, ширину/позицию двигает JS). -->
+          <div class="iplan-table-outer">
+            <div class="iplan-table-wrap">
+              <table class="iplan-table">
+                <thead>
+                  <tr>
+                    <th data-sort="n" data-i18n="iplan.col.unit">Unit</th>
+                    <th data-sort="t" data-i18n="iplan.col.type">Type</th>
+                    <th data-sort="s" data-i18n="iplan.col.size">m²</th>
+                    <th data-sort="c" data-i18n="iplan.col.price">Price</th>
+                    <th data-sort="st" data-i18n="iplan.col.status">Status</th>
+                    <th class="iplan-col-reserve" aria-hidden="true"></th>
+                  </tr>
+                </thead>
+                <tbody id="iplanTbody"></tbody>
+              </table>
+            </div>
+            <div class="iplan-table-track iplan-table-track--x"><div class="iplan-table-thumb"></div></div>
+            <div class="iplan-table-track iplan-table-track--y"><div class="iplan-table-thumb"></div></div>
           </div>
+          <p class="iplan-count" id="iplanCount"></p>
         </div>
       </div>
     </div>
@@ -405,15 +423,17 @@
           <div><div class="k" data-i18n="plans.who_label">Who it’s for</div><div class="v" id="planWho">Single, couples</div></div>
         </div>
         <div class="plans-cta-row">
+          <!-- Порядок поменян местами (правка Босса 05.09: "поменяй их еще
+               местами") — раньше иконка стояла первой. -->
+          <a class="btn btn-glass js-lead-open" href="#contacts" data-i18n="plans.cta.v2">Learn more</a>
           <!-- иконка-план встала рядом с CTA (правка Босса 02.09) — раньше
                была стеклянным чипом поверх фото карточки топвью, но топвью
                в масонри-раскладке разного размера по типам, и кнопка на ней
                плавала непредсказуемо. Только иконка, без текста. -->
           <button class="plans-toggle-btn plans-toggle-btn--icon" id="plansToggleBtn" aria-expanded="false" aria-label="View floor plan" data-i18n-aria="plans.view_layout">
-            <svg class="plans-toggle-ic plans-toggle-ic--closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="1"/><path d="M3 13h10M13 3v10M13 13v8"/></svg>
+            <svg class="plans-toggle-ic plans-toggle-ic--closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18M12 3v18"/></svg>
             <svg class="plans-toggle-ic plans-toggle-ic--open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
           </button>
-          <a class="btn btn-glass js-lead-open" href="#contacts" data-i18n="plans.cta.v2">Learn more</a>
         </div>
       </div>
     </div>
@@ -444,7 +464,6 @@
       <div class="ss-head">
         <h2 class="reveal" data-i18n="steps.title">How to buy a villa</h2>
         <p class="lead reveal" data-i18n="stepsSticky.lead">From choosing a unit to the keys — five steps, each fixed in the contract.</p>
-        <a class="btn btn-clay ss-cta reveal js-lead-open" href="#contacts" data-i18n="nav.cta">Get the Presentation</a>
       </div>
       <ol class="ss-list reveal">
         <li class="ss-card">
@@ -483,6 +502,7 @@
           </div>
         </li>
       </ol>
+      <a class="btn btn-clay ss-cta reveal js-lead-open" href="#contacts" data-i18n="nav.cta">Get the Presentation</a>
     </div>
   </div>
 </section>
@@ -492,21 +512,21 @@
   <div class="container">
     <h2 class="reveal" data-i18n="invest.title">Why Bali, why Nuanu</h2>
     <p class="lead lead-wide reveal" data-i18n="invest.lead">Bali ranks among the world’s strongest tourism destinations. Its top areas see property values rising 20% a year, with villa rental yields of up to 16% annually. Nuanu amplifies this momentum through limited supply and a developed urban environment</p>
-    <!-- реф Figma «ТУТСМОТРИ» (6:695, канал pghzhfwu, страница БСО2): вместо
-         карточек над отдельным фото — один крупный кадр, статы стеклянными
-         чипами прямо на фото (нижний край, где на фото ровная гладь бассейна).
-         Заголовок блока НА фото не переносим (в отличие от Figma-примера) —
-         h2/lead остаются обычным текстом над кадром. -->
+    <!-- Было: статы стеклянными чипами ПРЯМО на фото (реф Figma «ТУТСМОТРИ»,
+         6:695, канал pghzhfwu, страница БСО2). Босс 05.09: чипы закрывали
+         фулл-фотку — фото теперь отдельным кадром, статы под ним, стиль —
+         по аналогии с .ss-card из блока "Как купить виллу" (сплошная
+         поверхность, не стекло поверх картинки). -->
     <div class="invest-photo reveal">
       <!-- правка Босса: вместо рендера комплекса — реальный кадр Бали из той же
            части побережья, что и проект (Танах Лот, ~15 минут от Nuanu вдоль
            берега). Unsplash, лицензия свободная для коммерческого использования. -->
       <img src="assets/why-bali-tanahlot.jpg" alt="Tanah Lot temple on the west coast of Bali at sunset" data-i18n-alt="invest.photo_alt_v2" loading="lazy">
-      <div class="invest-chips">
-        <div class="invest-chip invest-chip--wide"><h3 data-i18n="invest.stat1.v">+20% a year</h3><p data-i18n="invest.stat1.p">benchmark growth in property value across Bali’s top areas</p></div>
-        <div class="invest-chip"><h3 data-i18n="invest.stat2.v">Up to 16% annually</h3><p data-i18n="invest.stat2.p">from short-term villa rentals in Bali’s established resort areas</p></div>
-        <div class="invest-chip"><h3 data-i18n="invest.stat3.v">The city of Nuanu</h3><p data-i18n="invest.stat3.p">A modern oceanfront city with infrastructure for family, work and creativity</p></div>
-      </div>
+    </div>
+    <div class="invest-chips reveal">
+      <div class="invest-chip invest-chip--wide"><h3 data-i18n="invest.stat1.v">+20% a year</h3><p data-i18n="invest.stat1.p">benchmark growth in property value across Bali’s top areas</p></div>
+      <div class="invest-chip"><h3 data-i18n="invest.stat2.v">Up to 16% annually</h3><p data-i18n="invest.stat2.p">from short-term villa rentals in Bali’s established resort areas</p></div>
+      <div class="invest-chip"><h3 data-i18n="invest.stat3.v">The city of Nuanu</h3><p data-i18n="invest.stat3.p">A modern oceanfront city with infrastructure for family, work and creativity</p></div>
     </div>
   </div>
 </section>
@@ -831,14 +851,14 @@
      из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
      что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/i18n.js?v=20260905001234"></script>
-<script src="js/v2-i18n.js?v=20260905001234"></script>
-<script src="js/main.js?v=20260905001234"></script>
-<script src="js/v2.js?v=20260905001234"></script>
-<script src="js/units-data.js?v=20260905001234"></script>
-<script src="js/units-plan.js?v=20260905001234"></script>
-<script src="js/buildings-data.js?v=20260905001234"></script>
-<script src="js/iplan-map.js?v=20260905001234"></script>
+<script src="js/i18n.js?v=20260905005005"></script>
+<script src="js/v2-i18n.js?v=20260905005005"></script>
+<script src="js/main.js?v=20260905005005"></script>
+<script src="js/v2.js?v=20260905005005"></script>
+<script src="js/units-data.js?v=20260905005005"></script>
+<script src="js/units-plan.js?v=20260905005005"></script>
+<script src="js/buildings-data.js?v=20260905005005"></script>
+<script src="js/iplan-map.js?v=20260905005005"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>
