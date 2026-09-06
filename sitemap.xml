@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- BSO — статический одностраничный лендинг, отдаётся плагином bso-site
-     напрямую (см. bso-site.php: bso_site_router), в обход WP/Yoast — тот
-     сайтмап был общий на весь WP-инстанс и вёл на unitdeveloper.com
-     (Sitemap-строка в robots.txt указывала на чужой домен, у самой BSO
-     sitemap_index.xml/sitemap.xml отдавали 404 — Босс 05.09, "через Yoast
-     посмотри SEO BSO"). consent.html/legal-info.html сюда не входят — у
-     обеих meta name="robots" content="noindex" в шаблоне. -->
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<!-- BSO — статический лендинг, отдаётся плагином bso-site напрямую (bso-site.php:
+     bso_site_router), в обход WP/Yoast. Две языковые версии: / (EN, x-default)
+     и /ru/ (RU, server-rendered из index.html + переводов, генератор build-ru.mjs).
+     Взаимные hreflang продублированы и в <head> каждой страницы.
+     consent.html/legal-info.html не входят — обе noindex в шаблоне. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://blacksandsoasis.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://blacksandsoasis.com/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://blacksandsoasis.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://blacksandsoasis.com/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://blacksandsoasis.com/ru/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://blacksandsoasis.com/"/>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://blacksandsoasis.com/ru/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://blacksandsoasis.com/"/>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 </urlset>

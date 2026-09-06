@@ -8,7 +8,7 @@ window.I18N = {
   ru: {
     "carousel.prev": "Предыдущее",
     "carousel.next": "Следующее",
-    "meta.title": "Black Sands Oasis — флагманский проект UNIT в Nuanu, Бали",
+    "meta.title": "Black Sands Oasis (БСО) — виллы в Нуану, Бали | UNIT",
     "nav.architecture": "Архитектура",
     "nav.plans": "Планировки",
     "nav.iplan": "План комплекса",
@@ -150,7 +150,7 @@ window.I18N = {
     "lead.error": "Ошибка отправки, напишите нам в WhatsApp.",
     "theme.color": "Цвет",
     "theme.mono": "Моно",
-    "meta.desc": "Black Sands Oasis — камерные виллы в стиле Desert Modernism внутри города будущего Nuanu на западном побережье Бали.",
+    "meta.desc": "Black Sands Oasis (БСО) — камерные виллы в стиле Desert Modernism внутри города будущего Nuanu на западном побережье Бали.",
     "hero.alt": "Приватная терраса виллы Black Sands Oasis",
     "arch.photo_alt": "Окна в пол виллы Black Sands Oasis у бассейна",
     "arch.photo2_alt": "Терракотовый фасад и натуральный камень виллы Black Sands Oasis",
