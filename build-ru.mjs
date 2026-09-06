@@ -101,7 +101,7 @@ const faqRu = [1,2,3,4,5].map(i => ({
 const graph = [
   { '@type':'Organization','@id':`${O}/#org`, name:'Black Sands Oasis',
     alternateName:['BSO','БСО','Блэк Сэндс Оазис'], url:`${O}/`,
-    logo:`${O}/assets/favicon.svg`, image:`${O}/assets/facade-sunset.jpg`,
+    logo:`${O}/assets/favicon-512.png`, image:`${O}/assets/facade-sunset.jpg`,
     description:'Девелопер Black Sands Oasis (БСО) — камерных вилл в стиле Desert Modernism в кластере Нуану, Бали. Проект UNIT.',
     parentOrganization:{ '@type':'Organization', name:'UNIT', url:'https://unitdeveloper.com/' },
     sameAs:['https://unitdeveloper.com/'],
