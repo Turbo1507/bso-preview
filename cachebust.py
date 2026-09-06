@@ -16,6 +16,9 @@ V = time.strftime('%Y%m%d%H%M%S', time.gmtime())
 BASE = os.path.dirname(os.path.abspath(__file__))
 
 TARGETS = {
+    'ru/index.html': ['css/styles.css', 'css/v2.css', 'js/i18n.js',
+                      'js/v2-i18n.js', 'js/main.js', 'js/v2.js',
+                      'js/units-data.js', 'js/units-plan.js', 'js/buildings-data.js', 'js/iplan-map.js'],
     'index.html': ['css/styles.css', 'css/v2.css', 'js/i18n.js',
                    'js/v2-i18n.js', 'js/main.js', 'js/v2.js',
                    'js/units-data.js', 'js/units-plan.js', 'js/buildings-data.js', 'js/iplan-map.js'],

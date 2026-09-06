@@ -90,8 +90,8 @@ html = html
   .replace(/(<meta property="og:locale" content=")[^"]*(")/, `$1ru_RU$2`)
   .replace(/(<meta property="og:locale:alternate" content=")[^"]*(")/, `$1en_US$2`);
 
-// ---- 8. ассеты -> абсолютные (/css /js /assets), т.к. страница на /ru/ ----
-html = html.replace(/\b(src|href)="(css|js|assets)\//g, '$1="/$2/');
+// ---- 8. ассеты оставляем относительными: <base href="/"> (см. п.4b) уже
+//         резолвит css/ js/ assets/ от корня и в разметке, и из JS ----
 
 // ---- 9. JSON-LD -> RU ----
 const faqRu = [1,2,3,4,5].map(i => ({
@@ -150,7 +150,7 @@ const checks = {
   'canonical /ru/': html.includes(`<link rel="canonical" href="${O}/ru/">`),
   'hreflang en': html.includes(`hreflang="en" href="${O}/"`),
   'hreflang x-default': html.includes('hreflang="x-default"'),
-  'assets absolute': !/\b(src|href)="(css|js|assets)\//.test(html),
+  'base href="/" present': /<base href="\/">/.test(html),
   'no untranslated data-i18n visible': (html.match(/data-i18n="[^"]+">\s*<\/[a-z]/g)||[]).length === 0,
   'JSON-LD ru faq': html.includes('"inLanguage": "ru"') && html.includes('Нуану'),
   'RU title has БСО+виллы': /<title>[^<]*(БСО)[^<]*<\/title>/.test(html) || RU['meta.title'].includes('БСО'),
