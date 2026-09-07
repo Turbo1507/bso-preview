@@ -209,6 +209,36 @@
     return [...runs(groups.num), ...pRuns, ...groups.other].join(', ');
   }
 
+  /* Босс 07.09: нативный скроллбар списка юнитов в попапе на тачах
+     авто-скрывается — юзер не понимает, что список длинный и его надо
+     листать. Рисуем свой постоянный индикатор прогресса скролла (золотой
+     трек+ползунок справа), видимый всё время, пока список не влезает. */
+  function mountPopupScrollbar() {
+    const list = popup.querySelector('.iplan-popup-list');
+    if (!list) return;
+    let bar = popup.querySelector('.iplan-pl-scroll');
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.className = 'iplan-pl-scroll';
+      bar.innerHTML = '<div class="iplan-pl-thumb"></div>';
+      popup.appendChild(bar);
+    }
+    const thumb = bar.querySelector('.iplan-pl-thumb');
+    const sync = () => {
+      const over = list.scrollHeight - list.clientHeight;
+      if (over <= 2) { bar.classList.remove('on'); return; }
+      bar.classList.add('on');
+      const trackH = bar.clientHeight;
+      const th = Math.max(20, trackH * (list.clientHeight / list.scrollHeight));
+      const ty = (trackH - th) * (list.scrollTop / over);
+      thumb.style.height = th + 'px';
+      thumb.style.transform = 'translateY(' + ty + 'px)';
+    };
+    list.addEventListener('scroll', sync, { passive: true });
+    requestAnimationFrame(sync);
+    requestAnimationFrame(() => requestAnimationFrame(sync));
+  }
+
   function renderPopup(building, zone) {
     const lang = (window.__bsoLang || document.documentElement.lang || 'en') === 'ru' ? 'ru' : 'en';
     // проданные юниты в попапе НЕ показываем (правка Босса 01.09) — только
@@ -226,6 +256,7 @@
       }).join('');
       popup.innerHTML = `<div class="iplan-popup-title">${title}</div><ul class="iplan-popup-list">${rows}</ul>`;
     }
+    mountPopupScrollbar();
 
     // Попап уезжает В БОК от зоны (не поверх неё): вправо если есть место,
     // иначе влево; на узкой карте (моб.) — снизу/сверху как раньше.
