@@ -1353,7 +1353,10 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
    не число). Убран Prata/золото — обычный сан-сериф h3, как везде;
    padding/отступ h3→p приведены к .priv-card (32px, margin-bottom 24px —
    было 28/16, теснее, чем у соседей). */
-.unitgrp-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:var(--sp-lg)}
+/* 07.09 (аудит отступов): был margin-top:var(--sp-lg) (40px) — единственный
+   .lead→блок отступ на странице, выбивавшийся из общесайтового var(--sp-md)
+   (24px). Тот же баг-класс, что чинили у .iplan-wrap 05.09. Приведён к 24px. */
+.unitgrp-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:var(--sp-md)}
 .unitgrp-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-sm);
   box-shadow:var(--shadow-card); padding:32px}
 .unitgrp-card h3{font-size:20px; margin-bottom:24px}
