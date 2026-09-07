@@ -1232,12 +1232,47 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
      привязаны к кадру; на общей текстовой шкале им делать нечего.
      Всё равно требуют пересборки, когда придёт мастер-план в высоком
      разрешении, — тогда и пересчитаю. */
-  /* пин бейджа BSO на мобиле: 1.8 (десктопное значение, styles.css v2.css:458)
-     на маленьком кадре читался как толстая чёрная палка с еле заметной точкой
-     на конце — обычные пины тоньше (.8, styles.css:870) и то на белом фоне,
-     не тёмном. Тоньше линии и крупнее точка — читается как аккуратный пин,
-     не как царапина. */
-  .nuanu-pins-svg line.badge-pin{stroke-width:.9}
+  /* Босс 07.09: «чип БСО на мобиле стрёмный, возьми вид с unitdeveloper».
+     Порт .mp-flag: тёмная плашка + таб «Флагманский проект» сверху + тонкий
+     указатель-палочка с точкой (вместо жирной SVG-капли). SVG-указатель
+     бейджа на мобиле гасим — теперь его роль у ::after/::before. */
+  .nuanu-pins-svg .badge-pin{display:none}
+  .nuanu-badge--bso{
+    left:15%; top:11%; transform:none;
+    background:#131313; border:0; border-radius:0 6px 6px 6px;
+    padding:6px 9px; font-size:9px; letter-spacing:-.01em;
+    text-transform:uppercase; line-height:1; color:#fff; overflow:visible;
+  }
+  .nuanu-badge--bso small{
+    position:absolute; left:0; bottom:100%; margin:0;
+    background:#3a3a3a; color:#fff; font-size:7px; font-weight:400;
+    letter-spacing:0; text-transform:none; line-height:1;
+    padding:3px 8px; border-radius:2px 2px 0 0; white-space:nowrap;
+  }
+  .nuanu-badge--bso i{
+    position:absolute; left:14px; bottom:-13px; width:1px; height:13px;
+    background:#131313; pointer-events:none;
+  }
+  .nuanu-badge--bso i::before{
+    content:""; position:absolute; left:50%; bottom:-3px;
+    transform:translateX(-50%); width:5px; height:5px;
+    border-radius:50%; background:#131313;
+  }
+  /* инфраструктурные подписи — прямой дроплайн вниз + точка, как .mp-pin */
+  .nuanu-pin-label::after{
+    content:""; display:block; width:1px; height:9px;
+    margin:3px auto 0; background:rgba(255,255,255,.85);
+  }
+  .nuanu-pin-label::before{
+    content:""; position:absolute; left:50%; bottom:-3px;
+    transform:translateX(-50%); width:4px; height:4px;
+    border-radius:50%; background:#fff;
+  }
+  .nuanu-pin-label.is-left::after{margin-left:0}
+  .nuanu-pin-label.is-left::before{left:0; transform:none}
+  /* SVG-линии инфраструктурных пинов на мобиле больше не нужны (дроплайн у
+     самой подписи) — оставляем только слой (может нести badge-svg, скрытый) */
+  .nuanu-pins-svg line:not(.badge-pin){display:none}
   .nuanu-pins-svg ellipse.badge-pin{rx:.7; ry:1.4}
 }
 
