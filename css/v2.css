@@ -1183,7 +1183,16 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .plans-tabs{margin-top:24px}
   .faq-wrap h2{margin-bottom:24px}
   .gal-track{margin-top:24px}
-  #architecture .min-gallery{margin-top:24px; height:clamp(380px,58vh,560px); height:clamp(380px,58svh,560px)}
+  /* 07.09 (Босс: «контейнер слишком пережимает фото»): было
+     height:clamp(380px,58svh,560px) → на 358px ширины давало бокс ~358×490
+     (портрет 0.73), а все 4 кадра слайдера — ландшафт (1.40–1.75). object-fit
+     cover показывал 42–52% кадра: у facade-sunset半 экрана пустое небо,
+     здание — полоской. Фикс: бокс 4:3 (358×269) — ближе к пропорции самих
+     кадров, видно 76–95%. aspect-ratio от фикс. ширины = стабильно, без
+     прыжков высоты в Telegram WebView (тот же смысл, что был у svh).
+     ОТКАТ: вернуть строку
+       margin-top:24px; height:clamp(380px,58vh,560px); height:clamp(380px,58svh,560px) */
+  #architecture .min-gallery{margin-top:24px; aspect-ratio:4/3; height:auto}
   .arch-slide-cap{padding:20px}
   .arch-slide-cap h3{font-size:20px}
   /* Босс 05.09: точки слайдера конфликтовали с подписью (.arch-slide-cap,
