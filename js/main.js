@@ -156,24 +156,39 @@ if (leadModal && leadForm) {
     }
 
     const phone = '+' + (ccSelect ? ccSelect.value : '') + ' ' + (phoneLocal ? phoneLocal.value.trim() : '');
-    const purposeLabels = {
-      own: dict['lead.purpose_own'], invest: dict['lead.purpose_invest'],
-      rent: dict['lead.purpose_rent'], other: dict['lead.purpose_other']
-    };
-    const lines = [
-      'Black Sands Oasis — заявка с сайта',
-      'Имя: ' + (data.get('name') || ''),
-      'Телефон: ' + phone,
-      'Email: ' + (data.get('email') || '—'),
-      'Интерес: ' + (purposeLabels[data.get('purpose')] || data.get('purpose') || '—'),
-      'Комментарий: ' + (data.get('comment') || '—')
-    ];
-    const mailto = 'mailto:hello@unit.now?subject=' + encodeURIComponent('BSO: заявка от ' + (data.get('name') || '')) + '&body=' + encodeURIComponent(lines.join('\n'));
-    window.location.href = mailto;
-    if (status) { status.textContent = dict['lead.success'] || 'Спасибо! Мы скоро свяжемся с вами.'; status.className = 'lead-status is-ok'; }
-    leadForm.reset();
-    syncSubmitState();
-    setTimeout(closeLead, 2200);
+
+    /* Босс 07.09: BSO живёт как плагин в той же WP-инсталляции, что
+       unitdeveloper.com — шлём заявку в тот же обработчик (wp_ajax
+       unit_lead_submit), он по хосту роутит в отдельную Telegram-группу BSO.
+       Nonce подставляет роутер плагина (bso-site.php, __BSO_LEAD_NONCE__). */
+    const nonce = (document.querySelector('meta[name="bso-lead-nonce"]') || {}).content || '';
+    const fd = new FormData();
+    fd.append('action', 'unit_lead_submit');
+    fd.append('nonce', nonce);
+    fd.append('name', data.get('name') || '');
+    fd.append('phone', phone);
+    fd.append('email', data.get('email') || '');
+    fd.append('purpose', data.get('purpose') || '');
+    fd.append('project', 'Black Sands Oasis');
+    fd.append('comment', data.get('comment') || '');
+    fd.append('lang', window.__bsoLang || document.documentElement.lang || 'en');
+
+    if (status) { status.textContent = dict['lead.sending'] || 'Отправляем…'; status.className = 'lead-status'; }
+    if (submitBtn) submitBtn.disabled = true;
+
+    fetch('/wp-admin/admin-ajax.php', { method: 'POST', body: fd })
+      .then(r => r.json())
+      .then(res => {
+        if (!res || !res.success) throw new Error('bad');
+        if (status) { status.textContent = dict['lead.success'] || 'Спасибо! Мы скоро свяжемся с вами.'; status.className = 'lead-status is-ok'; }
+        leadForm.reset();
+        syncSubmitState();
+        setTimeout(closeLead, 2200);
+      })
+      .catch(() => {
+        if (status) { status.textContent = dict['lead.error'] || 'Ошибка отправки, напишите нам в WhatsApp.'; status.className = 'lead-status is-err'; }
+        syncSubmitState();
+      });
   });
 }
 
