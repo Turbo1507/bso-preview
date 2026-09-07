@@ -1136,7 +1136,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
    графит + золотой контур, палец легонько «тапает». Управление классом
    .is-visible и localStorage — в js/iplan-map.js. */
 .iplan-hint{
-  position:absolute; top:16px; left:50%; z-index:6;
+  position:absolute; top:16px; left:16px; z-index:6;
   display:flex; align-items:center; gap:8px;
   padding:9px 15px; border-radius:999px; white-space:nowrap;
   background:rgba(20,18,15,.82); border:1px solid rgba(217,174,69,.55);
@@ -1144,10 +1144,10 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
   box-shadow:0 10px 30px -12px rgba(0,0,0,.7);
   pointer-events:none;
-  opacity:0; transform:translateX(-50%) translateY(-6px);
+  opacity:0; transform:translateY(-6px);
   transition:opacity .4s var(--ease), transform .4s var(--ease);
 }
-.iplan-hint.is-visible{ opacity:1; transform:translateX(-50%) translateY(0) }
+.iplan-hint.is-visible{ opacity:1; transform:translateY(0) }
 .iplan-hint-ic{ width:16px; height:16px; color:#d9ae45; flex:0 0 auto;
   animation:iplan-hint-tap 1.5s ease-in-out infinite }
 @keyframes iplan-hint-tap{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(2px) } }
@@ -1356,7 +1356,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .iplan-legend-item{font-size:11px}
   /* стрелки пана на мобиле в правом верхнем углу (top:10px, ~58px в ширину) —
      короткая плашка по центру сверху с ними не пересекается; чуть ужимаем */
-  .iplan-hint{top:10px; font-size:12px; padding:8px 13px}
+  .iplan-hint{top:10px; left:10px; font-size:12px; padding:8px 13px}
   /* короче: мобильные экраны и так узкие, высокий кадр ушёл бы за экран
      по вертикали ещё до того, как пользователь долистает до плана.
      Именно тут, а не на десктопе (Босс 05.09), картинка становится ВЫШЕ
