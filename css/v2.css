@@ -433,7 +433,7 @@ body.menu-open .burger span{background:var(--white)}
        задаёт flex-wrap:wrap (базовый класс, выше по файлу) — без явного
        nowrap тайлы переносились на новую "строку" каждый по одному вместо
        ряда, скролл не появлялся (scrollWidth==clientWidth, некуда ехать). */
-    display:flex; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; touch-action:pan-x;
+    display:flex; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y;
     scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
     scrollbar-width:none; gap:12px;
   }
@@ -751,7 +751,7 @@ body{overflow-x:clip}
   display:flex; gap:20px; margin-top:var(--sp-lg);
   --edge: max(40px, calc((100% - var(--container)) / 2 + 40px));
   padding:0 40px; padding-left:var(--edge);
-  overflow-x:auto; overflow-y:hidden; touch-action:pan-x; scroll-snap-type:x mandatory;
+  overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y; scroll-snap-type:x mandatory;
   scrollbar-width:none; -webkit-overflow-scrolling:touch;
 }
 .gal-track::-webkit-scrollbar{display:none}
@@ -958,11 +958,15 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
      абсолюта в обычный поток под кадром, стиль — сплошная поверхность
      .ss-card (блок "Как купить виллу"), не стекло: тут они на обычном фоне
      секции, прозрачность больше не нужна. */
-  .invest-chips{position:static; margin-top:16px; grid-template-columns:1fr; gap:10px}
+  /* Босс 07.09: «чипы Why Bali сделать как в блоке "A new level of private
+     territory"» (.pv-card). Тот же surface/border/shadow уже был — приводим
+     ТИПОГРАФИКУ: гасим крупный золотой Prata-заголовок, ставим сдержанный
+     белый sans 18px + p 14px muted, паддинг 24px, как у .pv-card на мобиле. */
+  .invest-chips{position:static; margin-top:16px; grid-template-columns:1fr; gap:16px}
   .invest-chip{background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow-card);
-    backdrop-filter:none; -webkit-backdrop-filter:none; padding:18px 20px}
-  .invest-chip h3{font-size:23px}
-  .invest-chip p{font-size:13px}
+    backdrop-filter:none; -webkit-backdrop-filter:none; padding:24px}
+  .invest-chip h3{font-family:inherit; font-weight:500; font-size:18px; color:var(--white); margin:0 0 8px; line-height:1.2}
+  .invest-chip p{font-size:14px; line-height:1.5; color:rgba(255,255,255,.7)}
 }
 
 /* В v1 стоит `#architecture + .section{padding-top:20px}` — правка Босса, чтобы
@@ -1385,6 +1389,9 @@ body.lb-lock{overflow:hidden}
   .sig-cap h3{font-size:21px; margin-bottom:8px}
   /* Босс 05.09: "слишком много места занимает" на мобиле — было 13px */
   .sig-cap p{font-size:12px; line-height:1.35; max-width:none}
+  /* Босс 07.09: на фото Stella (светлый арт-объект) базового скрима .78
+     не хватало — текст сливался. Усиливаем затемнение снизу, только мобилка. */
+  .sig-cap{background:linear-gradient(to top, rgba(11,12,11,.94) 0%, rgba(11,12,11,.72) 38%, rgba(11,12,11,.28) 72%, rgba(11,12,11,0) 100%)}
 }
 
 /* ---------- 2. Галерея: слайдер не читался как слайдер ---------- */

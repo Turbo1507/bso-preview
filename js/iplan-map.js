@@ -67,6 +67,11 @@
   // (как в любом hover-меню) гасит это дрожание: попап открывается, только
   // если курсор реально задержался в зоне, а не мазнул по зубцу.
   let showTimer = null;
+  /* Босс 07.09: на мобиле тап по зданию открывает попап, а браузер потом
+     синтезирует click по элементу под пальцем в момент отпускания — если
+     там оказалась строка попапа, срабатывал drill в Layouts. Гасим click
+     по попапу в первые 450мс после его показа. */
+  let lastShowTs = 0;
   const cancelShow = () => { if (showTimer) { clearTimeout(showTimer); showTimer = null; } };
   const closePopup = () => {
     hideTimer = null;
@@ -117,6 +122,7 @@
 
     const show = () => {
       cancelHide();
+      lastShowTs = Date.now();
       svg.querySelectorAll('.iplan-hotspot').forEach(z => z.classList.toggle('is-active', z === zone));
       dimPath.setAttribute('d', 'M0 0H100V100H0Z' + zoneSubpath(b));
       svg.classList.add('is-dim');
@@ -278,6 +284,7 @@
     // разметке как визуальная подсказка "тут действие", но клик ловим на
     // всей строке; если клик пришёл именно по кнопке — dataset берём с неё
     // же (простое совпадение путей, не два разных источника данных).
+    if (Date.now() - lastShowTs < 450) return;   // тот же тап, что открыл попап
     const row = e.target.closest('.iplan-popup-row');
     const btn = row && row.querySelector('.iplan-reserve-btn');
     if (!btn) return;

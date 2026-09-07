@@ -358,7 +358,7 @@ body.menu-open{overflow:hidden}
 /* нативный scroll-snap вместо transform по индексу — стрелки листают через
    scrollBy (работает везде), а на мобиле то же самое доступно свайпом,
    когда стрелки спрятаны (см. mobile media query) */
-.min-gallery-track{display:flex; height:100%; overflow-x:auto; overflow-y:hidden; touch-action:pan-x; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.min-gallery-track{display:flex; height:100%; overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch}
 .min-gallery-track::-webkit-scrollbar{display:none}
 .min-gallery-slide{flex:0 0 100%; height:100%; scroll-snap-align:start}
 .min-gallery-slide img{width:100%; height:100%; object-fit:cover; display:block}
@@ -395,7 +395,7 @@ body.menu-open{overflow:hidden}
    margin:auto, и плоские 40px перестают совпадать с реальным левым краем
    текста/сетки (карточки "прилипали" к краю экрана вместо грида). */
 .feat-track{
-  display:flex; gap:20px; overflow-x:auto; overflow-y:hidden; touch-action:pan-x; scroll-snap-type:x mandatory;
+  display:flex; gap:20px; overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y; scroll-snap-type:x mandatory;
   --edge: max(40px, calc((100% - var(--container)) / 2 + 40px));
   scroll-padding-left:var(--edge); padding:0 40px 4px; padding-left:var(--edge);
   scrollbar-width:none;
@@ -596,7 +596,7 @@ body.menu-open{overflow:hidden}
    contain, не обрезается), дальше реальные интерьерные фото (тёмный фон,
    cover) — единый свайп/стрелки на всё */
 .plans-viewer{position:relative; height:100%; min-width:0; min-height:0; overflow:hidden; background:var(--ink)}
-.plans-viewer-track{display:flex; height:100%; min-height:0; overflow-x:auto; overflow-y:hidden; touch-action:pan-x; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.plans-viewer-track{display:flex; height:100%; min-height:0; overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch}
 .plans-viewer-track::-webkit-scrollbar{display:none}
 /* img — position:absolute, а не просто height:100% — картинки (особенно
    портретные detail-кадры 704x1188) иначе тянули intrinsic-размер через всю
@@ -1163,7 +1163,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
    десктопе — высоту как раньше держит сама картинка (width:100%, auto). */
 .iplan-pan{
   position:relative; height:100%; overflow-x:auto; overflow-y:hidden;
-  touch-action:pan-x; -webkit-overflow-scrolling:touch; scrollbar-width:none;
+  touch-action:pan-x pan-y; -webkit-overflow-scrolling:touch; scrollbar-width:none;
   /* Босс 05.09: "фотка плана слишком сильно уезжает вправо или влево" —
      это iOS-резинка (rubber-band): тач-скролл на границах утаскивает
      контент ЗА пределы 0..max с упругим отскоком, за краем картинки видно
