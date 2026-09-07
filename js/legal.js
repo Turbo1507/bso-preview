@@ -129,4 +129,16 @@
   document.querySelectorAll('[data-lang]').forEach(function (b) {
     b.addEventListener('click', function () { apply(b.dataset.lang); });
   });
+
+  /* Кнопка "← назад на сайт": если на юрстраницу пришли ИЗ самого BSO
+     (по ссылке из футера/куки-баннера), возвращаемся history.back() — это
+     восстанавливает точную позицию скролла, т.е. к футеру. Иначе (прямой
+     заход, закладка, из поиска) — обычный переход по href на #footer. */
+  var back = document.getElementById('legalBack');
+  if (back) {
+    back.addEventListener('click', function (e) {
+      var sameSite = document.referrer && document.referrer.indexOf(location.host) !== -1;
+      if (sameSite && history.length > 1) { e.preventDefault(); history.back(); }
+    });
+  }
 })();
