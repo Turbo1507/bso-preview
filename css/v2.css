@@ -542,6 +542,11 @@ body.menu-open .burger span{background:var(--white)}
 .plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
   width:200px; height:64px; padding:0 32px; font-size:16px; justify-content:center}
 @media (max-width:860px){
+  /* Босс 07.09 (аудит отступов): #plans{padding-top:72px} — десктопный приём
+     (ужать верх секции, чтобы табы+фото+CTA влезли в один экран при переходе
+     по якорю). На мобиле этой задачи нет, а 72 против 48 у всех остальных
+     секций даёт заметный лишний зазор перед «Layouts...». Возвращаем 48. */
+  #plans{padding-top:48px}
   .plans-viewer{height:clamp(360px,55vh,520px); height:clamp(360px,55svh,520px)}
   .plans-info{gap:24px; padding-top:24px}
   .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
@@ -958,7 +963,16 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   font-size:30px; line-height:1.15; color:var(--clay)}
 .invest-chip p{margin:8px 0 0; font-size:14px; line-height:1.5; color:rgba(255,255,255,.85)}
 @media (max-width:860px){
-  .invest-photo{aspect-ratio:3/4}
+  /* Босс 07.09 (аудит отступов): чипы уходят в обычный поток ВНУТРИ
+     .invest-photo, а у той был overflow:hidden + aspect-ratio:3/4 — рамка
+     держала высоту строго по картинке (~477px) и обрезала чипы, те налезали
+     на следующую секцию («финмодель»). На мобиле рамка больше не кадрирует
+     оверлей — распускаем её (высота по контенту), скругление/тень/кроп
+     переносим на саму <img>. */
+  .invest-photo{aspect-ratio:auto; overflow:visible; border-radius:0;
+    box-shadow:none; background:none}
+  .invest-photo img{height:auto; aspect-ratio:3/4; border-radius:var(--r-lg);
+    box-shadow:var(--shadow-card)}
   .invest-photo::after{display:none}
   /* Только тут (Босс 05.09): невысокий мобильный кадр (3:4) не оставлял чипам
      места, стеклянные плашки перекрывали почти всё фото. Уводим их из
