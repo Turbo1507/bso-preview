@@ -1173,7 +1173,11 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .lead{font-size:14px}                                   /* было 12 */
   /* микрокарточки в 2 колонки — компактнее, чем в 1 ряд на 390px */
   .stat-grid-4{grid-template-columns:1fr 1fr; gap:10px}
-  .stat-grid-4 .stat-card{padding:16px 14px}
+  /* Босс 07.09: в сетке 2×2 карточки тянутся до высоты самой длинной
+     ("…до Аэропорта (Ngurah Rai)" — 2 строки), а базовый
+     justify-content:flex-end прижимал контент коротких карточек ("20 мин /
+     до Чангу") к низу — большой пустой зазор сверху. Выравниваем по ВЕРХУ. */
+  .stat-grid-4 .stat-card{padding:16px 14px; justify-content:flex-start}
   .stat-grid-4 .stat-card h3{font-size:20px}
   .stat-grid-4 .stat-card p{margin-top:4px; font-size:10px}
   .team-role{font-size:12px}                              /* было 13 */
