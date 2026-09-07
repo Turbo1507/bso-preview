@@ -25,9 +25,14 @@ html = html.replace(/(<([a-zA-Z0-9]+)\b[^>]*\bdata-i18n="([^"]+)"[^>]*>)([\s\S]*
   (m, open, tag, key, _inner, close) => (key in RU) ? open + RU[key] + close : m);
 
 // ---- 2. data-i18n-content (meta content=) ----
+// ВНИМАНИЕ: регэксп должен бить именно настоящий ` content="..."` (с пробелом
+// перед), а НЕ `data-i18n-content="..."` — тот тоже содержит `content="`, но
+// предваряется дефисом. Раньше `/\bcontent="/` цеплял значение data-i18n-content
+// (оно идёт первым в теге) и подменял КЛЮЧ, а не сам мета-контент — /ru/ уезжал
+// с английским <meta name="description">.
 html = html.replace(/<meta\b[^>]*\bdata-i18n-content="([^"]+)"[^>]*>/g, (m, key) => {
   if (!(key in RU)) return m;
-  return m.replace(/\bcontent="[^"]*"/, `content="${RU[key].replace(/"/g,'&quot;')}"`);
+  return m.replace(/(\s)content="[^"]*"/, `$1content="${RU[key].replace(/"/g,'&quot;')}"`);
 });
 
 // ---- 3. data-i18n-alt / data-i18n-aria ----
