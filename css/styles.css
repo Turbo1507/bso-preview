@@ -1362,7 +1362,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
      Именно тут, а не на десктопе (Босс 05.09), картинка становится ВЫШЕ
      контейнера и уезжает за край по ширине — width:100%/height:auto
      десктопа сюда не годится, картинка была бы мелкой на узком экране. */
-  .iplan-map--full{height:clamp(360px, 62vh, 520px)}
+  .iplan-map--full{height:clamp(360px, 62vh, 520px); height:clamp(360px, 62svh, 520px)}
   /* width:auto возвращает inline-block к сжатию по фактической (более
      широкой) ширине картинки — на десктопе .iplan-pan-inner нарочно
      width:100% (см. выше), но здесь картинка снова шире контейнера, и

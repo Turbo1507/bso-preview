@@ -542,11 +542,17 @@ body.menu-open .burger span{background:var(--white)}
 .plans-info .btn-glass{margin-left:auto; align-self:center; flex:0 0 auto;
   width:200px; height:64px; padding:0 32px; font-size:16px; justify-content:center}
 @media (max-width:860px){
-  .plans-viewer{height:clamp(360px,55vh,520px)}
+  .plans-viewer{height:clamp(360px,55vh,520px); height:clamp(360px,55svh,520px)}
   .plans-info{gap:24px; padding-top:24px}
   .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
   .plans-stat .v{font-size:24px; margin-top:4px}
-  .plans-info .btn-glass{margin-left:0; flex:0 0 100%}
+  /* Босс 07.09: строка CTA была сломана — .plans-cta-row{margin-left:auto}
+     сдвигал её вправо, а .btn-glass{flex:0 0 100%} внутри flex-nowrap ряда
+     не оставлял места иконке «Смотреть план» — та уезжала за правый край
+     экрана. Ряд на всю ширину, Learn-more тянется/сжимается, иконка 64px
+     фиксирована — обе умещаются в строку. */
+  .plans-cta-row{margin-left:0; width:100%}
+  .plans-cta-row .btn-glass{margin-left:0; flex:1 1 auto; min-width:0}
   /* order:1 отменяет десктопный order:-1 — на мобиле иконка снова ВТОРАЯ,
      Learn-more первая (Босс 05.09: свап нужен только тут) */
   .plans-toggle-btn--icon{order:1}
@@ -761,7 +767,8 @@ body{overflow-x:clip}
   /* Босс 20.08: фото + стрелки над заголовком должны помещаться на один экран.
      Высоту ограничиваем и долей вьюпорта (56vh) — на невысоких/планшетных
      экранах кадр не выпихивает подпись и точки за пределы вида. */
-  height:clamp(300px, min(40vw, 56vh), 520px); border-radius:var(--r-lg);
+  height:clamp(300px, min(40vw, 56vh), 520px);
+  height:clamp(300px, min(40vw, 56svh), 520px); border-radius:var(--r-lg);
   background:var(--surface); box-shadow:var(--shadow-card);
 }
 /* НЕ loading="lazy" внутри горизонтального трека офскрин — тот же баг, что
@@ -1162,7 +1169,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .plans-tabs{margin-top:24px}
   .faq-wrap h2{margin-bottom:24px}
   .gal-track{margin-top:24px}
-  #architecture .min-gallery{margin-top:24px; height:clamp(380px,58vh,560px)}
+  #architecture .min-gallery{margin-top:24px; height:clamp(380px,58vh,560px); height:clamp(380px,58svh,560px)}
   .arch-slide-cap{padding:20px}
   .arch-slide-cap h3{font-size:20px}
   /* Босс 05.09: точки слайдера конфликтовали с подписью (.arch-slide-cap,
