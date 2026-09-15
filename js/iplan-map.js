@@ -72,6 +72,12 @@
      там оказалась строка попапа, срабатывал drill в Layouts. Гасим click
      по попапу в первые 450мс после его показа. */
   let lastShowTs = 0;
+  // code-review 15.09: гейт ниже придуман конкретно под мобильный
+  // синтетический click (см. комментарий выше), но раньше срабатывал и на
+  // десктопе — там show() тоже перевзводится на mouseenter, и обычный
+  // быстрый клик по строке попапа (после наведения) молча проглатывался.
+  // Ограничиваем 450мс-гейт устройствами без реального hover.
+  const isTouchLike = () => matchMedia('(hover: none)').matches;
   const cancelShow = () => { if (showTimer) { clearTimeout(showTimer); showTimer = null; } };
   const closePopup = () => {
     hideTimer = null;
@@ -315,7 +321,7 @@
     // разметке как визуальная подсказка "тут действие", но клик ловим на
     // всей строке; если клик пришёл именно по кнопке — dataset берём с неё
     // же (простое совпадение путей, не два разных источника данных).
-    if (Date.now() - lastShowTs < 450) return;   // тот же тап, что открыл попап
+    if (isTouchLike() && Date.now() - lastShowTs < 450) return;   // тот же тап, что открыл попап
     const row = e.target.closest('.iplan-popup-row');
     const btn = row && row.querySelector('.iplan-reserve-btn');
     if (!btn) return;

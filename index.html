@@ -178,8 +178,8 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20260907150242">
-<link rel="stylesheet" href="css/v2.css?v=20260907150242">
+<link rel="stylesheet" href="css/styles.css?v=20260915110721">
+<link rel="stylesheet" href="css/v2.css?v=20260915110721">
 </head>
 <body>
 
@@ -261,19 +261,19 @@
     <div class="min-gallery reveal">
       <div class="min-gallery-track" id="minGalleryTrack">
         <div class="min-gallery-slide">
-          <img decoding="async" class="ph" src="assets/villa-exterior-pool1.jpg" alt="Floor-to-ceiling glass doors of a Black Sands Oasis villa" data-i18n-alt="arch.photo_alt">
+          <picture><source srcset="assets/villa-exterior-pool1.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/villa-exterior-pool1.jpg" alt="Floor-to-ceiling glass doors of a Black Sands Oasis villa" data-i18n-alt="arch.photo_alt"></picture>
           <div class="arch-slide-cap"><span class="spec-num">01</span><h3 data-i18n="arch.tag1">Floor-to-ceiling windows</h3></div>
         </div>
         <div class="min-gallery-slide">
-          <img decoding="async" class="ph" src="assets/villa-exterior-pool2.jpg" alt="Natural stone and terracotta of a Black Sands Oasis villa" data-i18n-alt="arch.photo2_alt">
+          <picture><source srcset="assets/villa-exterior-pool2.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/villa-exterior-pool2.jpg" alt="Natural stone and terracotta of a Black Sands Oasis villa" data-i18n-alt="arch.photo2_alt"></picture>
           <div class="arch-slide-cap"><span class="spec-num">02</span><h3 data-i18n="arch.tag2">Natural materials</h3></div>
         </div>
         <div class="min-gallery-slide">
-          <img decoding="async" class="ph" src="assets/facade-sunset.jpg" alt="Black Sands Oasis villas at sunset" data-i18n-alt="arch.photo3_alt">
+          <picture><source srcset="assets/facade-sunset.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/facade-sunset.jpg" alt="Black Sands Oasis villas at sunset" data-i18n-alt="arch.photo3_alt"></picture>
           <div class="arch-slide-cap"><span class="spec-num">03</span><h3 data-i18n="arch.tag3">Natural tones</h3></div>
         </div>
         <div class="min-gallery-slide">
-          <img decoding="async" class="ph" src="assets/facade-walkway.jpg" alt="Walkway between Black Sands Oasis villas" data-i18n-alt="arch.photo4_alt">
+          <picture><source srcset="assets/facade-walkway.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/facade-walkway.jpg" alt="Walkway between Black Sands Oasis villas" data-i18n-alt="arch.photo4_alt"></picture>
           <div class="arch-slide-cap"><span class="spec-num">04</span><h3 data-i18n="arch.tag4">Textured façades</h3></div>
         </div>
       </div>
@@ -301,7 +301,10 @@
     </div>
     <div class="villas-grid reveal">
       <article class="vcard vcard--tall">
-        <img decoding="async" class="ph" src="assets/villas-ceilings.jpg" alt="Dining area under a six-metre ceiling with woven pendant lamps" data-i18n-alt="villas.card3.alt" loading="lazy">
+        <picture>
+          <source type="image/webp" srcset="assets/villas-ceilings.webp">
+          <img decoding="async" width="1080" height="1505" class="ph" src="assets/villas-ceilings.jpg" alt="Dining area under a six-metre ceiling with woven pendant lamps" data-i18n-alt="villas.card3.alt" loading="lazy">
+        </picture>
         <div class="vcard-text">
           <h3 data-i18n="villas.card3.t">Six-meter ceilings</h3>
           <p data-i18n="villas.card3.p">Plenty of light and air</p>
@@ -558,10 +561,10 @@
              работать с #plansPhotoTrack — ничего в нём менять не пришлось). -->
         <div class="plans-collage" id="plansPhotoTrack">
           <div class="plans-collage-left" id="plansCollageLeft">
-            <img decoding="async" class="plan-photo-img plans-collage-tile ph" src="assets/villa-studio-detail1.jpg" alt="Studio villa interior">
+            <picture><source srcset="assets/villa-studio-detail1.webp" type="image/webp"><img decoding="async" loading="lazy" class="plan-photo-img plans-collage-tile ph" src="assets/villa-studio-detail1.jpg" alt="Studio villa interior"></picture>
           </div>
           <div class="plans-collage-right">
-            <img decoding="async" class="plan-photo-img plans-collage-tile plans-collage-tile--sq ph" src="assets/villa-studio-detail2.jpg" alt="Studio villa interior">
+            <picture><source srcset="assets/villa-studio-detail2.webp" type="image/webp"><img decoding="async" loading="lazy" class="plan-photo-img plans-collage-tile plans-collage-tile--sq ph" src="assets/villa-studio-detail2.jpg" alt="Studio villa interior"></picture>
             <!-- топвью-карточка строится в main.js (renderPlan) -->
           </div>
         </div>
@@ -627,6 +630,9 @@
       <div class="ss-head">
         <h2 class="reveal" data-i18n="steps.title">How to buy a villa</h2>
         <p class="lead reveal" data-i18n="stepsSticky.lead">From choosing a unit to the keys — five steps, each fixed in the contract.</p>
+        <!-- Кнопка живёт ВНУТРИ .ss-head, чтобы липнуть вместе с шапкой при
+             скролле (Босс 09.09). На десктопе показана эта, ss-cta--mob скрыта. -->
+        <a class="btn btn-clay ss-cta ss-cta--desk reveal js-lead-open" href="#contacts" data-i18n="nav.cta">Get the Presentation</a>
       </div>
       <ol class="ss-list reveal">
         <li class="ss-card">
@@ -665,7 +671,9 @@
           </div>
         </li>
       </ol>
-      <a class="btn btn-clay ss-cta reveal js-lead-open" href="#contacts" data-i18n="nav.cta">Get the Presentation</a>
+      <!-- Мобильный экземпляр: липкость отключена, кнопка стоит под шагами
+           (правка Босса 05.09). На десктопе скрыт — см. css/v2.css .ss-cta--mob. -->
+      <a class="btn btn-clay ss-cta ss-cta--mob reveal js-lead-open" href="#contacts" data-i18n="nav.cta">Get the Presentation</a>
     </div>
   </div>
 </section>
@@ -787,18 +795,18 @@
     </div>
   </div>
   <div class="gal-track reveal" id="galTrack">
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-clubhouse.jpg" alt="Clubhouse of the complex among palms" data-i18n-alt="gallery.alt1"><figcaption class="gal-cap" data-i18n="gallery.cap1">Clubhouse</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-evening-living.jpg" alt="Villa living room in the evening light" data-i18n-alt="gallery.alt2"><figcaption class="gal-cap" data-i18n="gallery.cap2">Living room at dusk</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-living-room.jpg" alt="Living room under a pitched six-metre ceiling" data-i18n-alt="gallery.alt3"><figcaption class="gal-cap" data-i18n="gallery.cap3">Six-metre ceiling</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-bedroom-garden.jpg" alt="Bedroom opening onto a private garden" data-i18n-alt="gallery.alt4"><figcaption class="gal-cap" data-i18n="gallery.cap4">Bedroom onto the garden</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-bath-detail.jpg" alt="Travertine washbasin against a planted wall" data-i18n-alt="gallery.alt5"><figcaption class="gal-cap" data-i18n="gallery.cap5">Travertine and greenery</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-penthouse-view.jpg" alt="Penthouse bedroom with a panoramic view" data-i18n-alt="gallery.alt6"><figcaption class="gal-cap" data-i18n="gallery.cap6">Penthouse, panoramic view</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-night-dining.jpg" alt="Dining area of a villa after dark" data-i18n-alt="gallery.alt7"><figcaption class="gal-cap" data-i18n="gallery.cap7">Dining after dark</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-interior-wall.jpg" alt="Interior with a full-height textured wall" data-i18n-alt="gallery.alt8"><figcaption class="gal-cap" data-i18n="gallery.cap8">Textured wall</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-living-curtains.jpg" alt="Living room behind sheer floor-to-ceiling curtains" data-i18n-alt="gallery.alt9"><figcaption class="gal-cap" data-i18n="gallery.cap9">Floor-to-ceiling curtains</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-bedroom-table.jpg" alt="Bedroom with a bedside working corner" data-i18n-alt="gallery.alt10"><figcaption class="gal-cap" data-i18n="gallery.cap10">Bedside working corner</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-shower.jpg" alt="Shower room finished in terrazzo" data-i18n-alt="gallery.alt11"><figcaption class="gal-cap" data-i18n="gallery.cap11">Shower in terrazzo</figcaption></figure>
-      <figure class="gal-slide"><img decoding="async" class="ph" src="assets/gal-studio.jpg" alt="Studio with a bed facing the garden" data-i18n-alt="gallery.alt12"><figcaption class="gal-cap" data-i18n="gallery.cap12">Studio facing the garden</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-clubhouse.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-clubhouse.jpg" alt="Clubhouse of the complex among palms" data-i18n-alt="gallery.alt1"></picture><figcaption class="gal-cap" data-i18n="gallery.cap1">Clubhouse</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-evening-living.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-evening-living.jpg" alt="Villa living room in the evening light" data-i18n-alt="gallery.alt2"></picture><figcaption class="gal-cap" data-i18n="gallery.cap2">Living room at dusk</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-living-room.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-living-room.jpg" alt="Living room under a pitched six-metre ceiling" data-i18n-alt="gallery.alt3"></picture><figcaption class="gal-cap" data-i18n="gallery.cap3">Six-metre ceiling</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-bedroom-garden.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-bedroom-garden.jpg" alt="Bedroom opening onto a private garden" data-i18n-alt="gallery.alt4"></picture><figcaption class="gal-cap" data-i18n="gallery.cap4">Bedroom onto the garden</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-bath-detail.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-bath-detail.jpg" alt="Travertine washbasin against a planted wall" data-i18n-alt="gallery.alt5"></picture><figcaption class="gal-cap" data-i18n="gallery.cap5">Travertine and greenery</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-penthouse-view.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-penthouse-view.jpg" alt="Penthouse bedroom with a panoramic view" data-i18n-alt="gallery.alt6"></picture><figcaption class="gal-cap" data-i18n="gallery.cap6">Penthouse, panoramic view</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-night-dining.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-night-dining.jpg" alt="Dining area of a villa after dark" data-i18n-alt="gallery.alt7"></picture><figcaption class="gal-cap" data-i18n="gallery.cap7">Dining after dark</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-interior-wall.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-interior-wall.jpg" alt="Interior with a full-height textured wall" data-i18n-alt="gallery.alt8"></picture><figcaption class="gal-cap" data-i18n="gallery.cap8">Textured wall</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-living-curtains.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-living-curtains.jpg" alt="Living room behind sheer floor-to-ceiling curtains" data-i18n-alt="gallery.alt9"></picture><figcaption class="gal-cap" data-i18n="gallery.cap9">Floor-to-ceiling curtains</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-bedroom-table.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-bedroom-table.jpg" alt="Bedroom with a bedside working corner" data-i18n-alt="gallery.alt10"></picture><figcaption class="gal-cap" data-i18n="gallery.cap10">Bedside working corner</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-shower.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-shower.jpg" alt="Shower room finished in terrazzo" data-i18n-alt="gallery.alt11"></picture><figcaption class="gal-cap" data-i18n="gallery.cap11">Shower in terrazzo</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-studio.webp" type="image/webp"><img decoding="async" loading="lazy" class="ph" src="assets/gal-studio.jpg" alt="Studio with a bed facing the garden" data-i18n-alt="gallery.alt12"></picture><figcaption class="gal-cap" data-i18n="gallery.cap12">Studio facing the garden</figcaption></figure>
   </div>
   <div class="container">
     <div class="carousel-dots" id="galDots"><span class="on"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -1015,14 +1023,14 @@
      из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
      что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/i18n.js?v=20260907150242"></script>
-<script src="js/v2-i18n.js?v=20260907150242"></script>
-<script src="js/main.js?v=20260907150242"></script>
-<script src="js/v2.js?v=20260907150242"></script>
-<script src="js/units-data.js?v=20260907150242"></script>
-<script src="js/units-plan.js?v=20260907150242"></script>
-<script src="js/buildings-data.js?v=20260907150242"></script>
-<script src="js/iplan-map.js?v=20260907150242"></script>
+<script src="js/i18n.js?v=20260915110721"></script>
+<script src="js/v2-i18n.js?v=20260915110721"></script>
+<script src="js/main.js?v=20260915110721"></script>
+<script src="js/v2.js?v=20260915110721"></script>
+<script src="js/units-data.js?v=20260915110721"></script>
+<script src="js/units-plan.js?v=20260915110721"></script>
+<script src="js/buildings-data.js?v=20260915110721"></script>
+<script src="js/iplan-map.js?v=20260915110721"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 <script>
 /* EN-страница: кнопка RU уводит на /ru/ (server-rendered RU), а не просто

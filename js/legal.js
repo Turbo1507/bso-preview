@@ -130,15 +130,10 @@
     b.addEventListener('click', function () { apply(b.dataset.lang); });
   });
 
-  /* Кнопка "← назад на сайт": если на юрстраницу пришли ИЗ самого BSO
-     (по ссылке из футера/куки-баннера), возвращаемся history.back() — это
-     восстанавливает точную позицию скролла, т.е. к футеру. Иначе (прямой
-     заход, закладка, из поиска) — обычный переход по href на #footer. */
-  var back = document.getElementById('legalBack');
-  if (back) {
-    back.addEventListener('click', function (e) {
-      var sameSite = document.referrer && document.referrer.indexOf(location.host) !== -1;
-      if (sameSite && history.length > 1) { e.preventDefault(); history.back(); }
-    });
-  }
+  /* Кнопка "← назад на сайт": раньше при заходе с того же хоста делали
+     history.back() вместо перехода по href — расчёт был на восстановление
+     позиции скролла у футера. code-review 15.09: ломается на цепочке из
+     двух переходов внутри сайта (consent.html → ссылка на legal-info.html
+     → «на сайт» уводит на consent.html, не на index.html). href у ссылки
+     и так ведёт на index.html#footer — просто не мешаем нативной навигации. */
 })();

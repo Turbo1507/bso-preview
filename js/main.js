@@ -14,7 +14,13 @@ const ASSET = s => (window.BSO_ASSET_PREFIX || '') + s;
    разобран, так что querySelectorAll видит все картинки. */
 (function () {
   document.querySelectorAll('img.ph').forEach(function (img) {
-    if (img.complete && img.naturalWidth > 0) return;
+    // code-review 15.09: было `complete && naturalWidth>0` — картинка,
+    // которая к этому моменту уже ЗАВЕРШИЛАСЬ ошибкой (complete=true,
+    // naturalWidth=0), проходила мимо этой проверки, получала .is-loading
+    // и вешала load/error listeners на событие, которое уже отстрелялось
+    // в прошлом — .is-loading оставался бегать вечно. complete=true значит
+    // финальное состояние (успех ИЛИ ошибка) уже известно в любом случае.
+    if (img.complete) return;
     img.classList.add('is-loading');
     var done = function () { img.classList.remove('is-loading'); };
     img.addEventListener('load', done, { once: true });
@@ -99,18 +105,29 @@ if (leadModal && leadForm) {
     const purposeEl = leadForm.querySelector('select[name="purpose"]');
     const lang = window.__bsoLang || document.documentElement.lang || 'en';
     if (commentEl) commentEl.value = (lang === 'ru' ? 'Юнит ' : 'Unit ') + unitNumber;
-    if (purposeEl && !purposeEl.value) purposeEl.value = 'own';
+    // code-review 15.09: .value= напрямую не бьёт нативный 'change' —
+    // кастомная кнопка-подмена select'а (v2.js .csel) оставалась со старым
+    // текстом («Select what interests you»), хотя реальное значение уже
+    // 'own'. Диспатчим change, чтобы v2.js перерисовал кнопку.
+    if (purposeEl && !purposeEl.value) { purposeEl.value = 'own'; purposeEl.dispatchEvent(new Event('change', { bubbles: true })); }
     setMenuOpen(false);
     openLead();
   };
   leadModal.querySelectorAll('[data-lead-close]').forEach(el => el.addEventListener('click', closeLead));
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLead(); });
+  // code-review 15.09: раньше Esc закрывал форму заявки ВСЕГДА, даже если
+  // она не открыта — совпадает с Esc в лайтбоксе галереи (v2.js) и дёргает
+  // страницу scrollTo(leadScrollY), хотя лид ни разу не открывали или
+  // открывали давно в другом месте. Закрываем только когда реально открыта.
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && leadModal.classList.contains('is-open')) closeLead(); });
 
   /* телефон: код страны + автоформат по региональному шаблону (как на unit-wp) */
   const ccSelect = leadForm.querySelector('#leadCc');
   const phoneLocal = leadForm.querySelector('#leadPhoneLocal');
   function formatPhoneDigits(digits, pattern) {
-    const groups = (pattern || '3-3-3').split('-').map(n => parseInt(n, 10));
+    /* пустой pattern (страна без известной маски — их большинство в полном
+       списке) → не группируем, отдаём цифры как есть */
+    if (!pattern) return digits;
+    const groups = pattern.split('-').map(n => parseInt(n, 10));
     const out = []; let i = 0;
     for (const g of groups) { if (i >= digits.length) break; out.push(digits.slice(i, i + g)); i += g; }
     if (i < digits.length) out.push(digits.slice(i));
@@ -947,7 +964,11 @@ function renderPlan(planId, lang) {
     if (isTopview) track.appendChild(slide); else track.insertBefore(slide, planSlide);
   }
   track.scrollLeft = 0;
-  plansPhotoSlider && plansPhotoSlider.setCount(p.photos.length);
+  // code-review 15.09: plansPhotoSlider нигде в проекте не объявлен (грепнул
+  // весь js/) — простое чтение необъявленного идентификатора всегда кидает
+  // ReferenceError (не спасает даже && слева), и роняет весь оставшийся код
+  // main.js на любой странице, где достижима эта v1-ветка (palette-preview.html).
+  typeof plansPhotoSlider !== 'undefined' && plansPhotoSlider && plansPhotoSlider.setCount(p.photos.length);
 }
 if (plansTabs) {
   plansTabs.addEventListener('click', e => {

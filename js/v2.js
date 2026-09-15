@@ -107,6 +107,143 @@
              'stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>';
   var widgets = [];
 
+  /* ---- полный справочник телефонных кодов стран (Босс 10.09: иностранный
+     номер нельзя было ввести — в списке было 13 стран). [iso2, ru, en, dial,
+     маска локального номера или '' = свободный ввод, см. formatPhoneDigits] ---- */
+  var COUNTRY_CODES = [
+    ['AU','Австралия','Australia','61','3-3-3'],['AT','Австрия','Austria','43',''],
+    ['AZ','Азербайджан','Azerbaijan','994','2-3-2-2'],['AL','Албания','Albania','355',''],
+    ['DZ','Алжир','Algeria','213',''],['AO','Ангола','Angola','244',''],
+    ['AD','Андорра','Andorra','376',''],['AG','Антигуа и Барбуда','Antigua & Barbuda','1',''],
+    ['AR','Аргентина','Argentina','54',''],['AM','Армения','Armenia','374','2-2-2-2'],
+    ['AF','Афганистан','Afghanistan','93',''],['BS','Багамы','Bahamas','1',''],
+    ['BD','Бангладеш','Bangladesh','880',''],['BB','Барбадос','Barbados','1',''],
+    ['BH','Бахрейн','Bahrain','973',''],['BY','Беларусь','Belarus','375','2-3-2-2'],
+    ['BZ','Белиз','Belize','501',''],['BE','Бельгия','Belgium','32',''],
+    ['BJ','Бенин','Benin','229',''],['BG','Болгария','Bulgaria','359',''],
+    ['BO','Боливия','Bolivia','591',''],['BA','Босния и Герцеговина','Bosnia & Herzegovina','387',''],
+    ['BW','Ботсвана','Botswana','267',''],['BR','Бразилия','Brazil','55','2-5-4'],
+    ['BN','Бруней','Brunei','673',''],['BF','Буркина-Фасо','Burkina Faso','226',''],
+    ['BI','Бурунди','Burundi','257',''],['BT','Бутан','Bhutan','975',''],
+    ['VU','Вануату','Vanuatu','678',''],['GB','Великобритания','United Kingdom','44','4-3-3'],
+    ['HU','Венгрия','Hungary','36',''],['VE','Венесуэла','Venezuela','58',''],
+    ['TL','Восточный Тимор','Timor-Leste','670',''],['VN','Вьетнам','Vietnam','84',''],
+    ['GA','Габон','Gabon','241',''],['HT','Гаити','Haiti','509',''],
+    ['GY','Гайана','Guyana','592',''],['GM','Гамбия','Gambia','220',''],
+    ['GH','Гана','Ghana','233',''],['GP','Гваделупа','Guadeloupe','590',''],
+    ['GT','Гватемала','Guatemala','502',''],['GN','Гвинея','Guinea','224',''],
+    ['GW','Гвинея-Бисау','Guinea-Bissau','245',''],['DE','Германия','Germany','49','3-4-4'],
+    ['HN','Гондурас','Honduras','504',''],['HK','Гонконг','Hong Kong','852','4-4'],
+    ['GD','Гренада','Grenada','1',''],['GR','Греция','Greece','30',''],
+    ['GE','Грузия','Georgia','995','3-2-2-2'],['DK','Дания','Denmark','45','2-2-2-2'],
+    ['DJ','Джибути','Djibouti','253',''],['DM','Доминика','Dominica','1',''],
+    ['DO','Доминиканская Республика','Dominican Republic','1',''],['EG','Египет','Egypt','20',''],
+    ['ZM','Замбия','Zambia','260',''],['ZW','Зимбабве','Zimbabwe','263',''],
+    ['IL','Израиль','Israel','972','2-3-4'],['IN','Индия','India','91','5-5'],
+    ['ID','Индонезия','Indonesia','62','3-4-4'],['JO','Иордания','Jordan','962',''],
+    ['IQ','Ирак','Iraq','964',''],['IR','Иран','Iran','98',''],
+    ['IE','Ирландия','Ireland','353',''],['IS','Исландия','Iceland','354',''],
+    ['ES','Испания','Spain','34','3-3-3'],['IT','Италия','Italy','39','3-4-4'],
+    ['YE','Йемен','Yemen','967',''],['CV','Кабо-Верде','Cape Verde','238',''],
+    ['KZ','Казахстан','Kazakhstan','7','3-3-2-2'],['KH','Камбоджа','Cambodia','855',''],
+    ['CM','Камерун','Cameroon','237',''],['CA','Канада','Canada','1','3-3-4'],
+    ['QA','Катар','Qatar','974',''],['KE','Кения','Kenya','254',''],
+    ['CY','Кипр','Cyprus','357',''],['KG','Киргизия','Kyrgyzstan','996',''],
+    ['CN','Китай','China','86','3-4-4'],['CO','Колумбия','Colombia','57',''],
+    ['KM','Коморы','Comoros','269',''],['CG','Конго','Congo','242',''],
+    ['CD','Конго (ДРК)','Congo (DRC)','243',''],['CR','Коста-Рика','Costa Rica','506',''],
+    ['CI','Кот-д’Ивуар','Côte d’Ivoire','225',''],['CU','Куба','Cuba','53',''],
+    ['KW','Кувейт','Kuwait','965',''],['LA','Лаос','Laos','856',''],
+    ['LV','Латвия','Latvia','371',''],['LS','Лесото','Lesotho','266',''],
+    ['LR','Либерия','Liberia','231',''],['LB','Ливан','Lebanon','961',''],
+    ['LY','Ливия','Libya','218',''],['LT','Литва','Lithuania','370',''],
+    ['LI','Лихтенштейн','Liechtenstein','423',''],['LU','Люксембург','Luxembourg','352',''],
+    ['MU','Маврикий','Mauritius','230',''],['MR','Мавритания','Mauritania','222',''],
+    ['MG','Мадагаскар','Madagascar','261',''],['MO','Макао','Macau','853',''],
+    ['MK','Северная Македония','North Macedonia','389',''],['MW','Малави','Malawi','265',''],
+    ['MY','Малайзия','Malaysia','60','2-3-4'],['ML','Мали','Mali','223',''],
+    ['MV','Мальдивы','Maldives','960',''],['MT','Мальта','Malta','356',''],
+    ['MA','Марокко','Morocco','212',''],['MX','Мексика','Mexico','52','2-4-4'],
+    ['MZ','Мозамбик','Mozambique','258',''],['MD','Молдова','Moldova','373',''],
+    ['MC','Монако','Monaco','377',''],['MN','Монголия','Mongolia','976',''],
+    ['MM','Мьянма','Myanmar','95',''],['NA','Намибия','Namibia','264',''],
+    ['NP','Непал','Nepal','977',''],['NE','Нигер','Niger','227',''],
+    ['NG','Нигерия','Nigeria','234',''],['NL','Нидерланды','Netherlands','31',''],
+    ['NI','Никарагуа','Nicaragua','505',''],['NZ','Новая Зеландия','New Zealand','64',''],
+    ['NO','Норвегия','Norway','47','3-2-3'],['AE','ОАЭ','United Arab Emirates','971','2-3-4'],
+    ['OM','Оман','Oman','968',''],['PK','Пакистан','Pakistan','92',''],
+    ['PA','Панама','Panama','507',''],['PG','Папуа — Новая Гвинея','Papua New Guinea','675',''],
+    ['PY','Парагвай','Paraguay','595',''],['PE','Перу','Peru','51',''],
+    ['PL','Польша','Poland','48','3-3-3'],['PT','Португалия','Portugal','351','3-3-3'],
+    ['PR','Пуэрто-Рико','Puerto Rico','1',''],['RU','Россия','Russia','7','3-3-2-2'],
+    ['RW','Руанда','Rwanda','250',''],['RO','Румыния','Romania','40','3-3-3'],
+    ['SV','Сальвадор','El Salvador','503',''],['WS','Самоа','Samoa','685',''],
+    ['SM','Сан-Марино','San Marino','378',''],['ST','Сан-Томе и Принсипи','São Tomé & Príncipe','239',''],
+    ['SA','Саудовская Аравия','Saudi Arabia','966',''],['SZ','Эсватини','Eswatini','268',''],
+    ['SC','Сейшелы','Seychelles','248',''],['SN','Сенегал','Senegal','221',''],
+    ['RS','Сербия','Serbia','381',''],['SG','Сингапур','Singapore','65','4-4'],
+    ['SY','Сирия','Syria','963',''],['SK','Словакия','Slovakia','421',''],
+    ['SI','Словения','Slovenia','386',''],['SB','Соломоновы Острова','Solomon Islands','677',''],
+    ['SO','Сомали','Somalia','252',''],['SD','Судан','Sudan','249',''],
+    ['SR','Суринам','Suriname','597',''],['US','США','United States','1','3-3-4'],
+    ['SL','Сьерра-Леоне','Sierra Leone','232',''],['TJ','Таджикистан','Tajikistan','992',''],
+    ['TH','Таиланд','Thailand','66',''],['TZ','Танзания','Tanzania','255',''],
+    ['TG','Того','Togo','228',''],['TO','Тонга','Tonga','676',''],
+    ['TT','Тринидад и Тобаго','Trinidad & Tobago','1',''],['TN','Тунис','Tunisia','216',''],
+    ['TM','Туркмения','Turkmenistan','993',''],['TR','Турция','Türkiye','90','3-3-2-2'],
+    ['UG','Уганда','Uganda','256',''],['UZ','Узбекистан','Uzbekistan','998','2-3-2-2'],
+    ['UA','Украина','Ukraine','380','2-3-2-2'],['UY','Уругвай','Uruguay','598',''],
+    ['PH','Филиппины','Philippines','63',''],['FI','Финляндия','Finland','358',''],
+    ['FR','Франция','France','33','1-2-2-2-2'],['HR','Хорватия','Croatia','385',''],
+    ['CF','ЦАР','Central African Republic','236',''],['TD','Чад','Chad','235',''],
+    ['ME','Черногория','Montenegro','382',''],['CZ','Чехия','Czechia','420','3-3-3'],
+    ['CL','Чили','Chile','56',''],['CH','Швейцария','Switzerland','41','2-3-2-2'],
+    ['SE','Швеция','Sweden','46','2-3-2-2'],['LK','Шри-Ланка','Sri Lanka','94',''],
+    ['EC','Эквадор','Ecuador','593',''],['GQ','Экваториальная Гвинея','Equatorial Guinea','240',''],
+    ['ER','Эритрея','Eritrea','291',''],['EE','Эстония','Estonia','372',''],
+    ['ET','Эфиопия','Ethiopia','251',''],['ZA','ЮАР','South Africa','27',''],
+    ['KR','Южная Корея','South Korea','82','2-4-4'],['SS','Южный Судан','South Sudan','211',''],
+    ['JM','Ямайка','Jamaica','1',''],['JP','Япония','Japan','81','2-4-4']
+  ];
+
+  function ccLang() {
+    var l = (window.__bsoLang || document.documentElement.lang || 'en').toLowerCase();
+    return l.indexOf('ru') === 0 ? 'ru' : 'en';
+  }
+
+  /* Дозаполняет <select id="leadCc"> полным списком стран. Сохраняет текущий
+     выбор (по data-iso, иначе по коду). Список сортируется по названию на
+     текущем языке. На каждом option: data-format (маска), data-iso,
+     data-label (полное «Страна +код» для строки списка); сам textContent —
+     короткий «RU +7» для узкой кнопки. */
+  function fillCountrySelect(select) {
+    if (!select) return;
+    var lg = ccLang();
+    var prevIso = select.selectedOptions[0] && select.selectedOptions[0].getAttribute('data-iso');
+    var prevVal = select.value;
+    var rows = COUNTRY_CODES.slice().sort(function (a, b) {
+      return (lg === 'ru' ? a[1] : a[2]).localeCompare(lg === 'ru' ? b[1] : b[2], lg);
+    });
+    select.innerHTML = '';
+    rows.forEach(function (r) {
+      var o = document.createElement('option');
+      o.value = r[3];
+      o.textContent = r[0] + ' +' + r[3];
+      o.setAttribute('data-iso', r[0]);
+      o.setAttribute('data-format', r[4] || '');
+      o.setAttribute('data-label', (lg === 'ru' ? r[1] : r[2]) + '  +' + r[3]);
+      o.setAttribute('data-search', (r[1] + ' ' + r[2] + ' ' + r[0] + ' ' + r[3]).toLowerCase());
+      select.appendChild(o);
+    });
+    var pick = null;
+    if (prevIso) pick = select.querySelector('option[data-iso="' + prevIso + '"]');
+    if (!pick && prevVal) pick = Array.prototype.find.call(select.options, function (o) { return o.value === prevVal; });
+    if (!pick) pick = select.querySelector('option[data-iso="ID"]');
+    if (pick) pick.selected = true;
+  }
+
+  fillCountrySelect(document.getElementById('leadCc'));
+
   function build(select) {
     var wrap = document.createElement('div');
     wrap.className = 'csel';
@@ -123,49 +260,121 @@
     if (select.getAttribute('aria-label')) btn.setAttribute('aria-label', select.getAttribute('aria-label'));
     btn.innerHTML = '<span class="csel-val"></span>' + CHEV;
 
+    /* #leadCc после fillCountrySelect содержит ~190 стран — добавляем поиск */
+    var searchable = select.id === 'leadCc';
+
+    var pop = document.createElement('div');
+    pop.className = 'csel-pop';
+    pop.hidden = true;
+
+    var search = null;
+    if (searchable) {
+      search = document.createElement('input');
+      search.type = 'text';
+      search.className = 'csel-search';
+      search.autocomplete = 'off';
+      search.spellcheck = false;
+      search.placeholder = ccLang() === 'ru' ? 'Поиск страны или кода' : 'Search country or code';
+      search.setAttribute('aria-label', search.placeholder);
+      pop.appendChild(search);
+    }
+
     var list = document.createElement('ul');
     list.className = 'csel-list';
     list.setAttribute('role', 'listbox');
-    list.hidden = true;
+    pop.appendChild(list);
 
     wrap.appendChild(btn);
-    wrap.appendChild(list);
+    wrap.appendChild(pop);
 
-    var w = { select: select, wrap: wrap, btn: btn, list: list, active: -1 };
+    var w = { select: select, wrap: wrap, btn: btn, list: list, pop: pop, active: -1 };
+
+    function visibleItems() {
+      return Array.prototype.filter.call(list.children, function (li) { return !li.hidden; });
+    }
 
     function render() {
       var opts = Array.prototype.filter.call(select.options, function (o) { return !o.disabled; });
       list.innerHTML = '';
       opts.forEach(function (o) {
         var li = document.createElement('li');
-        li.className = 'csel-opt' + (o.value === select.value ? ' is-sel' : '');
+        var isSel = o.getAttribute('data-iso')
+          ? o.getAttribute('data-iso') === (select.selectedOptions[0] && select.selectedOptions[0].getAttribute('data-iso'))
+          : o.value === select.value;
+        li.className = 'csel-opt' + (isSel ? ' is-sel' : '');
         li.setAttribute('role', 'option');
-        li.setAttribute('aria-selected', o.value === select.value ? 'true' : 'false');
+        li.setAttribute('aria-selected', isSel ? 'true' : 'false');
         li.dataset.value = o.value;
-        li.textContent = o.textContent;
+        if (o.getAttribute('data-iso')) li.dataset.iso = o.getAttribute('data-iso');
+        if (o.getAttribute('data-search')) li.dataset.search = o.getAttribute('data-search');
+        li.textContent = o.getAttribute('data-label') || o.textContent;
         list.appendChild(li);
       });
       var cur = select.selectedOptions[0];
       var isPlaceholder = !cur || cur.disabled;
       btn.querySelector('.csel-val').textContent = cur ? cur.textContent : '';
       btn.dataset.placeholder = isPlaceholder ? 'true' : 'false';
+      syncScrollbar();
     }
     w.render = render;
 
+    /* кастомный индикатор прокрутки — тот же паттерн, что для попапа юнитов
+       на карте (iplan-map.js mountPopupScrollbar): тонкий трек + ползунок
+       справа, виден всё время, пока список не влезает. */
+    var sbBar = document.createElement('div');
+    sbBar.className = 'csel-sb';
+    sbBar.innerHTML = '<div class="csel-sb-thumb"></div>';
+    pop.appendChild(sbBar);
+    var sbThumb = sbBar.firstChild;
+    function syncScrollbar() {
+      requestAnimationFrame(function () {
+        var over = list.scrollHeight - list.clientHeight;
+        if (over <= 2) { sbBar.classList.remove('on'); return; }
+        sbBar.classList.add('on');
+        var trackH = sbBar.clientHeight;
+        var th = Math.max(24, trackH * (list.clientHeight / list.scrollHeight));
+        var ty = (trackH - th) * (list.scrollTop / over);
+        sbThumb.style.height = th + 'px';
+        sbThumb.style.transform = 'translateY(' + ty + 'px)';
+      });
+    }
+    list.addEventListener('scroll', syncScrollbar, { passive: true });
+
+    function applyFilter() {
+      var q = (search ? search.value : '').trim().toLowerCase().replace(/^\+/, '');
+      Array.prototype.forEach.call(list.children, function (li) {
+        li.hidden = q ? (li.dataset.search || li.textContent.toLowerCase()).indexOf(q) === -1 : false;
+      });
+      var vis = visibleItems();
+      w.active = vis.length ? 0 : -1;
+      list.scrollTop = 0;
+      highlight();
+      syncScrollbar();
+    }
+
     function open() {
       close(true);                      // одновременно открыт только один
-      list.hidden = false;
+      pop.hidden = false;
       wrap.classList.add('is-open');
       btn.setAttribute('aria-expanded', 'true');
+      if (search) { search.value = ''; applyFilter(); }
       var sel = list.querySelector('.is-sel');
-      w.active = sel ? Array.prototype.indexOf.call(list.children, sel) : 0;
+      /* с поиском список всегда открывается СВЕРХУ (Босс 10.09), без
+         подскролла к выбранному — иначе кажется, что попап открылся
+         где-то в середине */
+      if (search) { list.scrollTop = 0; w.active = 0; }
+      else {
+        w.active = sel ? Array.prototype.indexOf.call(visibleItems(), sel) : 0;
+        if (sel) sel.scrollIntoView({ block: 'nearest' });
+      }
       highlight();
-      if (sel) sel.scrollIntoView({ block: 'nearest' });
+      if (search) setTimeout(function () { search.focus(); }, 0);
+      syncScrollbar();
     }
     function close(silent) {
       widgets.forEach(function (other) {
         if (silent && other === w) return;
-        other.list.hidden = true;
+        other.pop.hidden = true;
         other.wrap.classList.remove('is-open');
         other.btn.setAttribute('aria-expanded', 'false');
       });
@@ -173,13 +382,22 @@
     w.close = function () { close(false); };
 
     function highlight() {
-      Array.prototype.forEach.call(list.children, function (li, i) {
-        li.classList.toggle('is-active', i === w.active);
-      });
+      var vis = visibleItems();
+      Array.prototype.forEach.call(list.children, function (li) { li.classList.remove('is-active'); });
+      if (w.active >= 0 && vis[w.active]) {
+        vis[w.active].classList.add('is-active');
+        vis[w.active].scrollIntoView({ block: 'nearest' });
+      }
     }
     function pick(li) {
       if (!li) return;
-      select.value = li.dataset.value;
+      /* коды не уникальны (напр. +1 у США/Канады) — выбираем по iso, если есть */
+      if (li.dataset.iso) {
+        var byIso = select.querySelector('option[data-iso="' + li.dataset.iso + '"]');
+        if (byIso) byIso.selected = true;
+      } else {
+        select.value = li.dataset.value;
+      }
       /* change нужен именно на нативном элементе — на него подписан
          автоформат телефона в main.js */
       select.dispatchEvent(new Event('change', { bubbles: true }));
@@ -189,28 +407,48 @@
     }
 
     btn.addEventListener('click', function () {
-      if (list.hidden) open(); else close(false);
+      if (pop.hidden) open(); else close(false);
     });
     list.addEventListener('click', function (e) {
       var li = e.target.closest('.csel-opt');
       if (li) pick(li);
     });
+    if (search) {
+      search.addEventListener('input', applyFilter);
+      search.addEventListener('keydown', function (e) {
+        var vis = visibleItems();
+        if (e.key === 'ArrowDown') { e.preventDefault(); w.active = Math.min(w.active + 1, vis.length - 1); highlight(); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); w.active = Math.max(w.active - 1, 0); highlight(); }
+        else if (e.key === 'Enter') { e.preventDefault(); pick(vis[w.active]); }
+        // code-review 15.09: без stopPropagation Esc всплывал до document и
+        // закрывал ВСЮ модалку заявки (main.js слушает Escape на document) —
+        // пользователь хотел просто закрыть выпадашку поиска страны.
+        else if (e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); close(false); btn.focus(); }
+      });
+    }
     btn.addEventListener('keydown', function (e) {
       if (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        if (list.hidden) open(); else pick(list.children[w.active]);
+        if (pop.hidden) open(); else pick(visibleItems()[w.active]);
       } else if (e.key === 'Escape') {
         close(false);
-      } else if (!list.hidden && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
-        e.preventDefault();
       }
     });
     wrap.addEventListener('keydown', function (e) {
-      if (list.hidden) return;
-      if (e.key === 'ArrowDown') { e.preventDefault(); w.active = Math.min(w.active + 1, list.children.length - 1); highlight(); list.children[w.active].scrollIntoView({ block: 'nearest' }); }
-      if (e.key === 'ArrowUp') { e.preventDefault(); w.active = Math.max(w.active - 1, 0); highlight(); list.children[w.active].scrollIntoView({ block: 'nearest' }); }
+      if (pop.hidden || search) return;   // при поиске стрелки слушает сам input
+      var vis = visibleItems();
+      if (e.key === 'ArrowDown') { e.preventDefault(); w.active = Math.min(w.active + 1, vis.length - 1); highlight(); }
+      if (e.key === 'ArrowUp') { e.preventDefault(); w.active = Math.max(w.active - 1, 0); highlight(); }
       if (e.key === 'Escape') { e.preventDefault(); close(false); btn.focus(); }
     });
+
+    // code-review 15.09: openLeadForUnit() в main.js ставит
+    // purposeEl.value='own' напрямую (без выбора через кастомный список),
+    // кнопка .csel-btn оставалась со старой подписью-плейсхолдером, хотя
+    // реальный select уже был на 'own'. pick() дальше сам дёргает 'change',
+    // так что здесь просто держим кнопку в синхроне с любым внешним
+    // изменением select.value, откуда бы оно ни пришло.
+    select.addEventListener('change', function () { render(); });
 
     render();
     widgets.push(w);
@@ -222,13 +460,48 @@
     if (!e.target.closest('.csel')) widgets.forEach(function (w) { w.close(); });
   });
 
+  /* code-review 15.09: после успешной отправки main.js вызывает leadForm.reset().
+     Нативный reset() у #leadCc возвращает selectedness на первый вариант в
+     ТЕКУЩЕМ порядке DOM (алфавитная сортировка fillCountrySelect), а не на
+     дефолт ID +62 — потому что fillCountrySelect() перестраивает <option>
+     через .selected (IDL-свойство), а не через атрибут selected (только он
+     учитывается алгоритмом сброса формы). Кнопка .csel-btn при этом вообще
+     не перерисовывается — показывает старое значение, реальный select уже
+     на другой стране. Слушаем 'reset' с setTimeout(0): событие reset
+     диспатчится ДО фактического сброса полей, ждём тик, чтобы native reset
+     уже отработал, затем возвращаем leadCc на ID и перерисовываем все csel
+     (заодно чинит и .lead-field select[name=purpose] — у него в разметке
+     есть атрибут selected на плейсхолдере, reset() и так вернёт правильно,
+     не хватало только render()). */
+  var leadFormEl = document.getElementById('leadForm');
+  if (leadFormEl) {
+    leadFormEl.addEventListener('reset', function () {
+      setTimeout(function () {
+        var cc = document.getElementById('leadCc');
+        if (cc) {
+          var idOpt = cc.querySelector('option[data-iso="ID"]');
+          if (idOpt) idOpt.selected = true;
+        }
+        widgets.forEach(function (w) { w.render(); });
+      }, 0);
+    });
+  }
+
   /* смена языка переписывает текст <option> через data-i18n — списки надо
      перерисовать, иначе останутся подписи на прежнем языке */
   var origSetLang = window.setLang;
   if (typeof origSetLang === 'function') {
     window.setLang = function () {
       var r = origSetLang.apply(this, arguments);
-      widgets.forEach(function (w) { w.render(); });
+      fillCountrySelect(document.getElementById('leadCc'));
+      widgets.forEach(function (w) {
+        if (w.select.id === 'leadCc') {
+          var ph = ccLang() === 'ru' ? 'Поиск страны или кода' : 'Search country or code';
+          var s = w.pop.querySelector('.csel-search');
+          if (s) { s.placeholder = ph; s.setAttribute('aria-label', ph); }
+        }
+        w.render();
+      });
       return r;
     };
   }
