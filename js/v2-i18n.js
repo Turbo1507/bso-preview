@@ -79,7 +79,7 @@
     "faq.q4": "Какие гарантии для инвестора",
     "faq.a4": "Полный возврат всех внесённых платежей, если не получена лицензия PBG. Гарантия 25 лет на конструктив, 5 лет на внутренние инженерные сети и 1 год на отделку и технику. Leasehold 35 лет плюс гарантированное продление на 20 лет.",
     "faq.q5": "Как устроена покупка и оплата",
-    "faq.a5": "Депозит бронирования — $1 500 (условно невозвратный): он закрепляет юнит и фиксирует цену на 14 дней. Далее 30% после подписания договоров и платежи по этапам стройки. Старт строительства — февраль 2026, срок — 24 месяца по договору: передача студий в апреле 2028, вилл — в октябре 2028."
+    "faq.a5": "Возвратный депозит бронирования $1 500 закрепляет юнит и фиксирует цену на 14 дней. Далее 30% после подписания договоров и платежи по этапам стройки. Старт строительства — февраль 2026, срок — 24 месяца по договору: передача студий в апреле 2028, вилл — в октябре 2028."
   };
 
   var en = {
@@ -151,7 +151,7 @@
     "faq.q4": "What guarantees does an investor get",
     "faq.a4": "A full refund of all payments made if the PBG permit is not obtained. A 25-year structural warranty, 5 years on internal engineering systems and 1 year on finishes and appliances. Leasehold of 35 years plus a guaranteed 20-year extension.",
     "faq.q5": "How does the purchase and payment work",
-    "faq.a5": "A $1,500 booking deposit (conditionally non-refundable) secures the unit and locks the price for 14 days. Then 30% after signing the agreements and payments tied to construction stages. Construction starts in February 2026 and runs 24 months under the agreement: studios handed over in April 2028, villas in October 2028."
+    "faq.a5": "A refundable $1,500 booking deposit secures the unit and locks the price for 14 days. Then 30% after signing the agreements and payments tied to construction stages. Construction starts in February 2026 and runs 24 months under the agreement: studios handed over in April 2028, villas in October 2028."
   };
 
   if (!window.I18N) return;
