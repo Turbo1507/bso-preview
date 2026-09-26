@@ -70,6 +70,9 @@ body{background:var(--bg); color:var(--graphite)}
 .menu-overlay a{color:var(--graphite)}
 .menu-title{color:var(--muted)}
 .menu-close{color:var(--graphite)}
+/* sticky-шапка меню (Босс 10.09) непрозрачна в тон полотну, чтобы пункты
+   чисто уходили под неё при скролле */
+.menu-head{background:var(--bg-deep)}
 /* переключатель языка в оверлее был тёмным (rgba(28,24,21,.45)) под белое
    меню v1 — на тёмном полотне v2 «RU / EN» пропадали полностью */
 .menu-lang button{color:rgba(255,255,255,.55)}
@@ -152,12 +155,18 @@ body.menu-open .burger span{background:var(--white)}
 .feat-filters .tag-pill{border-color:var(--line-strong); color:var(--muted)}
 
 /* ---------- кнопки: основной CTA — золотой градиент с тёмным текстом ---------- */
+/* background-color сплошным золотом ПЕРЕД градиентом-картинкой — обязательный
+   фолбэк: Safari (macOS/iOS) не рендерит `background: var(--x)`, когда var()
+   разворачивается в linear-gradient с вложенными var() внутри. Без него на маке
+   кнопка выходила прозрачной, а тёмный --on-gold-текст пропадал на тёмном фоне
+   (баг был виден на попапе куки — .cookie-note на --surface #1e1e1e).
+   Даём background-color:var(--gold-1) + background-image раздельно. */
 .btn-clay,
-.btn-white{background:var(--grad-gold); color:var(--on-gold); border-color:transparent}
+.btn-white{background-color:var(--gold-1); background-image:var(--grad-gold); color:var(--on-gold); border-color:transparent}
 .btn-clay:hover,
-.btn-white:hover{background:linear-gradient(90deg,#d8a941,#f5db72); color:var(--on-gold); border-color:transparent}
+.btn-white:hover{background-color:#d8a941; background-image:linear-gradient(90deg,#d8a941,#f5db72); color:var(--on-gold); border-color:transparent}
 .btn-clay:active,
-.btn-white:active{background:linear-gradient(90deg,#b8892c,#d9b944); color:var(--on-gold); border-color:transparent}
+.btn-white:active{background-color:#b8892c; background-image:linear-gradient(90deg,#b8892c,#d9b944); color:var(--on-gold); border-color:transparent}
 .btn-white svg{color:var(--on-gold)}
 /* `.menu-overlay .menu-cta{color:var(--white)}` в v1 специфичнее, чем .btn-clay,
    и перебивал тёмный текст — белым по золоту получалось 1.9:1 */
@@ -195,15 +204,32 @@ body.menu-open .burger span{background:var(--white)}
 .section.plans-tight-top{padding-top:32px}
 @media(max-width:860px){.section.plans-tight-top{padding-top:20px}}
 
+/* Общее правило межсекционного ритма (Босс 09.09): две соседние секции на ОДНОМ
+   фоне — короткий отступ между ними (полный 100+100=200 на одном цвете читается
+   как случайный разрыв). Режем ОБА паддинга на стыке: 32 снизу у первой + 32
+   сверху у второй = 64px зазора вместо 200. Меняется фон от секции к секции —
+   отступ прежний, граница цветов сама держит паузу. «Один фон» здесь == обе
+   секции .section-gray (все на --stone). :has() — Chrome/Edge 105+, Safari 15.4+,
+   FF 121+; в старых браузерах деградирует до 32+100=132 (тоже меньше прежних 200).
+   Покрывает #team→#unit-group; #interactive-plan→#plans тоже, но у #plans свой
+   ID-оверрайд padding-top (см. ниже) — там стык выходит чуть больше. */
+.section-gray + .section-gray{padding-top:32px}
+.section-gray:has(+ .section-gray){padding-bottom:32px}
+@media(max-width:860px){
+  .section-gray + .section-gray{padding-top:20px}
+  .section-gray:has(+ .section-gray){padding-bottom:20px}
+}
+
 /* Кастомный скроллбар таблицы юнитов (правка Босса 04.09: белый системный
    выбивался из тёмной картины). Firefox — scrollbar-color (тонкий, только
    2 цвета); WebKit/Blink — псевдоэлементы, трек прозрачный (виден фон
    .iplan-table-wrap), ползунок золотой полупрозрачный, чуть ярче на hover. */
 .iplan-table-wrap{scrollbar-width:thin; scrollbar-color:rgba(217,174,69,.45) transparent}
-.iplan-table-wrap::-webkit-scrollbar{width:8px; height:8px}
-.iplan-table-wrap::-webkit-scrollbar-track{background:transparent}
-.iplan-table-wrap::-webkit-scrollbar-thumb{background:rgba(217,174,69,.45); border-radius:8px}
-.iplan-table-wrap::-webkit-scrollbar-thumb:hover{background:rgba(217,174,69,.7)}
+.iplan-table-wrap{scrollbar-color:rgba(217,174,69,.9) rgba(255,255,255,.13)}
+.iplan-table-wrap::-webkit-scrollbar{width:6px; height:6px}
+.iplan-table-wrap::-webkit-scrollbar-track{background:rgba(255,255,255,.13); border-radius:3px}
+.iplan-table-wrap::-webkit-scrollbar-thumb{background:rgba(217,174,69,.9); border-radius:3px}
+.iplan-table-wrap::-webkit-scrollbar-thumb:hover{background:rgba(217,174,69,1)}
 
 /* Прогресс-бар прокрутки таблицы — ТОЛЬКО мобилка (Босс 05.09: "чел может
    не понять что можно скроллить"). Нативный скроллбар выше остаётся для
@@ -235,10 +261,11 @@ body.menu-open .burger span{background:var(--white)}
 /* правка Босса: кнопка «Приобрести» — фирменным золотым градиентом.
    Метрики кнопки не трогаем: пропорции фото-карточки виллы в соседней
    колонке от этого не должны поехать. */
-.plans-info .btn-glass{background:var(--grad-gold); color:var(--on-gold); border-color:transparent}
-.plans-info .btn-glass:hover{background:linear-gradient(90deg,#d8a941,#f5db72); color:var(--on-gold); border-color:transparent}
-.plans-info .btn-glass:active{background:linear-gradient(90deg,#b8892c,#d9b944); color:var(--on-gold); border-color:transparent}
-.plans-tab.is-active{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
+/* тот же Safari-фолбэк, что и у .btn-clay выше: сплошной background-color перед градиентом */
+.plans-info .btn-glass{background-color:var(--gold-1); background-image:var(--grad-gold); color:var(--on-gold); border-color:transparent}
+.plans-info .btn-glass:hover{background-color:#d8a941; background-image:linear-gradient(90deg,#d8a941,#f5db72); color:var(--on-gold); border-color:transparent}
+.plans-info .btn-glass:active{background-color:#b8892c; background-image:linear-gradient(90deg,#b8892c,#d9b944); color:var(--on-gold); border-color:transparent}
+.plans-tab.is-active{background-color:var(--gold-1); background-image:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
 .plans-tab:not(.is-active):hover{border-color:var(--clay); color:var(--clay)}
 /* планы (не используются в v2 — план ушёл в раскрывашку, см. ниже) —
    документы на белом листе, так и остаются листом */
@@ -284,25 +311,50 @@ body.menu-open .burger span{background:var(--white)}
 .csel.is-open .csel-chev{transform:rotate(180deg)}
 /* min-width по кнопке, но панель может быть шире: колонка кода страны узкая,
    и «UA +380» в ней ломалось на две строки */
-.csel-list{
-  position:absolute; left:0; right:auto; min-width:100%; width:max-content; max-width:min(320px, 80vw);
+.csel-pop{
+  position:absolute; left:0; right:auto; min-width:100%; width:max-content; max-width:min(340px, 82vw);
   top:calc(100% + 8px); z-index:20; margin:0;
-  max-height:240px; overflow-y:auto; padding:8px; list-style:none;
+  display:flex; flex-direction:column; overflow:hidden; padding:8px;
   background:var(--surface-2); border:1px solid var(--line-strong);
   border-radius:var(--r-sm); box-shadow:var(--shadow-card);
 }
-.csel-list[hidden]{display:none}
+.csel-pop[hidden]{display:none}
+/* поиск по странам (Босс 10.09) — только у попапа кода страны. Ровный
+   внутренний отступ по всем краям (padding у .csel-pop), поиск не липнет
+   к краям контейнера. */
+.csel-search{
+  flex:0 0 auto; margin:0 0 8px; padding:10px 12px; box-sizing:border-box; width:100%;
+  border:1px solid var(--line-strong); border-radius:var(--r-xs);
+  background:rgba(255,255,255,.05); color:var(--graphite); font:inherit; font-size:14px;
+}
+.csel-search::placeholder{color:var(--muted)}
+.csel-search:focus{outline:none; border-color:var(--clay)}
+.csel-list{
+  margin:0; max-height:236px; overflow-y:auto; padding:0 6px 0 0; list-style:none;
+  scrollbar-width:none;
+}
+.csel-list::-webkit-scrollbar{display:none}
 .csel-opt{
   padding:10px 12px; border-radius:var(--r-xs); font-size:15px;
   color:var(--graphite); cursor:pointer; transition:background .15s, color .15s;
 }
+.csel-opt[hidden]{display:none}
 .csel-opt:hover,
 .csel-opt.is-active{background:rgba(255,255,255,.07)}
 .csel-opt.is-sel{color:var(--clay)}
-/* полоса прокрутки списка — в тон панели, а не системная светлая */
-.csel-list{scrollbar-width:thin; scrollbar-color:rgba(255,255,255,.22) transparent}
-.csel-list::-webkit-scrollbar{width:8px}
-.csel-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.22); border-radius:99px}
+/* индикатор прокрутки — ЕДИНЫЙ для всего сайта, 1-в-1 как у попапа юнитов на
+   карте (.iplan-pl-scroll / .iplan-pl-thumb, styles.css). Босс 10.09: «не хочу
+   разные индикаторы скролла в разных блоках». Менять только парой с iplan. */
+.csel-sb{
+  position:absolute; right:4px; top:52px; bottom:8px; width:3px;
+  border-radius:3px; background:rgba(255,255,255,.13);
+  opacity:0; transition:opacity .2s var(--ease); pointer-events:none;
+}
+.csel-sb.on{opacity:1}
+.csel-sb-thumb{position:absolute; left:0; right:0; top:0; min-height:20px;
+  border-radius:3px; background:rgba(217,174,69,.9)}
+/* попап без поиска (выбор цели заявки) — трек от верхнего края паддинга */
+.csel-pop:not(:has(.csel-search)) .csel-sb{top:8px}
 /* Чекбокс согласия и подпись не совпадали по базовой линии: бокс 18px, а
    строка текста при 12px и дефолтном line-height ≈14px, плюс ручной сдвиг
    margin-top:1px. Задаём строке ровно ту же высоту, что у бокса, — тогда
@@ -435,7 +487,7 @@ body.menu-open .burger span{background:var(--white)}
        ряда, скролл не появлялся (scrollWidth==clientWidth, некуда ехать). */
     display:flex; flex-wrap:nowrap; overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y;
     scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch;
-    scrollbar-width:none; gap:12px;
+    scrollbar-width:none; gap:12px; overscroll-behavior-x:contain;
   }
   .plans-collage--bento::-webkit-scrollbar{display:none}
   .plans-collage--bento .pc-bento-tile{
@@ -459,7 +511,7 @@ body.menu-open .burger span{background:var(--white)}
 .plans-toggle-btn--icon:hover{border-color:var(--clay); color:var(--clay)}
 .plans-toggle-ic{width:26px; height:26px}
 .plans-toggle-ic--open{display:none}
-.plans-viewer.is-open ~ .plans-info .plans-toggle-btn--icon{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
+.plans-viewer.is-open ~ .plans-info .plans-toggle-btn--icon{background-color:var(--gold-1); background-image:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
 .plans-viewer.is-open ~ .plans-info .plans-toggle-ic--closed{display:none}
 .plans-viewer.is-open ~ .plans-info .plans-toggle-ic--open{display:block}
 .plans-cta-row{display:flex; align-items:center; gap:12px; margin-left:auto}
@@ -685,15 +737,14 @@ body{overflow-x:clip}
    складывались с зазором 48 в визуальные 176. Дыру создавала незаполненная
    колонка, а не гэп. 352 = ближайшее кратное 8 к фактической ширине набора,
    так что объявленный зазор теперь равен видимому. */
-/* Кнопка изначально жила ВНУТРИ .ss-head (под лидом) — Босс 05.09 попросил
-   перенести под карточки шагов, затем уточнил: свап был нужен ТОЛЬКО для
-   мобилки, на десктопе верни как было. .ss-cta теперь всегда отдельный
-   grid-item .ss-grid (сестра .ss-head/.ss-list в DOM, после .ss-list) — но
-   визуальное место держат именованные grid-area, разные на десктопе/мобиле,
-   а не порядок в разметке. На десктопе "cta" — та же узкая колонка, что и
-   "head", строкой ниже (визуально там же, где была вложенная кнопка).
-   list растягивается на обе строки в своей колонке (тот же список во всю
-   высоту, что и раньше). */
+/* История кнопки: жила внутри .ss-head → Босс 05.09 перенёс под карточки →
+   уточнил «свап только для мобилки» → 09.09: на десктопе кнопка ДОЛЖНА липнуть
+   вместе с шапкой, а как отдельный grid-item она стояла в своей строке и не
+   двигалась при скролле. Решение — два экземпляра:
+   • .ss-cta--desk — ребёнок .ss-head, едет со sticky-шапкой (десктоп);
+   • .ss-cta--mob  — grid-item в area "cta" под списком (мобилка, липкость off).
+   Виден всегда ровно один (переключение по 1024px). Оба — .js-lead-open,
+   main.js вешает обработчик на все такие через querySelectorAll. */
 .ss-grid{display:grid; grid-template-columns:352px minmax(0,1fr); gap:48px;
   grid-template-areas:"head list" "cta list"; align-items:start}
 /* align-self:start обязателен: иначе элемент растягивается по высоте колонки
@@ -703,7 +754,10 @@ body{overflow-x:clip}
 /* без max-width: колонка уже задана в пикселях, и ограничивать строку ещё
    раз значит снова недозаполнить колонку — ровно та дыра, которую чиним */
 .ss-head .lead{margin-top:24px; max-width:none}
+/* grid-area/justify-self инертны для .ss-cta--desk (она не grid-item .ss-grid,
+   а ребёнок .ss-head) — работает только margin-top как отступ от лида. */
 .ss-cta{grid-area:cta; justify-self:start; align-self:start; margin-top:40px}
+.ss-cta--mob{display:none}
 
 .ss-list{grid-area:list; display:flex; flex-direction:column; gap:24px; margin:0; padding:0; list-style:none}
 /* Под эту раскладку карточка перестроена горизонтально: крупная цифра слева,
@@ -738,6 +792,9 @@ body{overflow-x:clip}
   /* на узком экране липкая колонка съедала бы пол-экрана — отключаем */
   .ss-head{position:static}
   .ss-head .lead{max-width:none}
+  /* переключение экземпляров кнопки: на мобиле — та, что под списком */
+  .ss-cta--desk{display:none}
+  .ss-cta--mob{display:inline-flex}
 }
 @media (max-width:860px){
   /* на мобиле фиксированная высота только раздувала бы список */
@@ -763,7 +820,7 @@ body{overflow-x:clip}
   --edge: max(40px, calc((100% - var(--container)) / 2 + 40px));
   padding:0 40px; padding-left:var(--edge);
   overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y; scroll-snap-type:x mandatory;
-  scrollbar-width:none; -webkit-overflow-scrolling:touch;
+  scrollbar-width:none; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain;
 }
 .gal-track::-webkit-scrollbar{display:none}
 /* высота задана картинке, а не слайду: под кадром теперь живёт подпись */
@@ -1119,7 +1176,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 /* шкала кеглей 12/14/16/18/20/24/32/40/64 — выпадающие правим поимённо */
 .gal-cap{font-size:14px}                       /* было 13 */
 .lang button, .lang span{font-size:14px}       /* было 13/12 */
-.csel-btn, .csel-opt, .csel-val{font-size:16px}/* было 15 */
+.csel-btn, .csel-opt, .csel-val, .csel-search{font-size:16px}/* было 15 */
 .stat-grid .stat-card p,
 .villas-intro p,
 .signature-meta p{font-size:16px}              /* было 15 */
@@ -1226,7 +1283,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .faq-q{font-size:16px}                                  /* нижняя граница clamp была 15 */
 
   /* остальные выпадающие из шкалы — поимённо, по факту замера страницы */
-  .csel-btn, .csel-opt, .csel-val{font-size:16px}         /* было 15 */
+  .csel-btn, .csel-opt, .csel-val, .csel-search{font-size:16px} /* было 15; 16 = без iOS-зума */
   .footer-col a, .footer-brand p, .placeholder-link{font-size:14px}  /* было 13/11 */
   .footer-col h4{font-size:16px}                          /* было 15 */
   .menu-overlay a{font-size:20px}                         /* было 19 */
@@ -1260,8 +1317,13 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
      указатель-палочка с точкой (вместо жирной SVG-капли). SVG-указатель
      бейджа на мобиле гасим — теперь его роль у ::after/::before. */
   .nuanu-pins-svg .badge-pin{display:none}
+  /* 17.09.2026: координаты пересчитаны — прежние (19.13/19.30) достались от
+     Figma-фрейма, не совпавшего с кадром рендера: плашка стояла правее и выше
+     застройки BSO, её указатель втыкался в небо. Считано от точки объекта
+     (11.75%/31.44% кадра) назад через геометрию указателя: ножка i отходит на
+     14px от левого края плашки, её точка — на ~12.5px ниже низа плашки. */
   .nuanu-badge--bso{
-    left:15%; top:11%; transform:none;
+    left:7.84%; top:22.38%; transform:none;
     background:#131313; border:0; border-radius:0 6px 6px 6px;
     padding:6px 9px; font-size:9px; letter-spacing:-.01em;
     text-transform:uppercase; line-height:1; color:#fff; overflow:visible;
@@ -1293,6 +1355,24 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   }
   .nuanu-pin-label.is-left::after{margin-left:0}
   .nuanu-pin-label.is-left::before{left:0; transform:none}
+  /* 17.09.2026: подпись цепляется к точке на объекте, а не центрируется на
+     ней. Раньше координата была центром текстового блока, поэтому точка
+     дроплайна уезжала тем сильнее, чем длиннее подпись — а в RU их до четырёх
+     строк, и EN/RU указывали в разные места одной координатой. Теперь
+     left/top = сама точка: блок висит над ней, а с is-below — под ней,
+     дроплайном вверх (так разведены подписи, которые иначе наезжают). */
+  .nuanu-pin-label{transform:translate(-50%,-100%)}
+  .nuanu-pin-label.is-left{transform:translate(0,-100%)}
+  .nuanu-pin-label.is-right{transform:translate(-100%,-100%); text-align:right}
+  .nuanu-pin-label.is-right::after{margin-left:auto; margin-right:0}
+  .nuanu-pin-label.is-right::before{left:auto; right:0; transform:none}
+  .nuanu-pin-label.is-below{transform:translate(-50%,0); padding-top:12px}
+  .nuanu-pin-label.is-below.is-left{transform:translate(0,0)}
+  .nuanu-pin-label.is-below.is-right{transform:translate(-100%,0)}
+  .nuanu-pin-label.is-below::after{position:absolute; left:50%; top:3px; margin:0; transform:translateX(-50%)}
+  .nuanu-pin-label.is-below.is-left::after{left:0; transform:none}
+  .nuanu-pin-label.is-below.is-right::after{left:auto; right:0; transform:none}
+  .nuanu-pin-label.is-below::before{top:0; bottom:auto}
   /* SVG-линии инфраструктурных пинов на мобиле больше не нужны (дроплайн у
      самой подписи) — оставляем только слой (может нести badge-svg, скрытый) */
   .nuanu-pins-svg line:not(.badge-pin){display:none}

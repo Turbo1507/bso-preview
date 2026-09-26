@@ -1,9 +1,5 @@
-/* BLACK SANDS OASIS — флагманский проект UNIT.
-   Палитра: тёплый чёрный (черный песок) + песочный + терракота — цвет
-   акцента сэмплирован с реальных фото фасада (ржавый corten, см. hero-villa-intimate.jpg
-   область фасада ≈ #b48056), не золото/не синий — привязано к материалам
-   проекта Desert Modernism, а не к шаблону "люкс-недвижимость".
-   Шрифт: Helvetica Neue (те же woff, что на unitdeveloper.com). */
+/* BSO. палитра теплый черный + песок + теракота, акцент взят с фото фасада
+   (corten, hero-villa-intimate.jpg). шрифт Helvetica Neue, тот же что на юните */
 
 @font-face{font-family:'Helvetica Neue';font-weight:200;font-style:normal;font-display:swap;src:url('../assets/fonts/HelveticaNeue-Thin.woff') format('woff')}
 @font-face{font-family:'Helvetica Neue';font-weight:300;font-style:normal;font-display:swap;src:url('../assets/fonts/HelveticaNeue-Light.woff') format('woff')}
@@ -12,36 +8,31 @@
 @font-face{font-family:'Helvetica Neue';font-weight:700;font-style:normal;font-display:swap;src:url('../assets/fonts/HelveticaNeue-Bold.woff') format('woff')}
 
 :root{
-  /* тёплый графит вместо нейтрального чёрного — перекликается с "чёрным песком" */
+  /* графит а не чистый черный, переклекается с черным песком */
   --ink: #1c1815;
   --ink-soft: #29241f;
   --graphite: #3a352f;     /* текст на светлом фоне */
-  --stone: #efe9df;        /* песочный вместо холодного серого — светлые секции */
+  --stone: #efe9df;        /* песочный, не серый */
   --line: #e3ddd0;
-  --line-strong: #b9b1a1;  /* обводки тегов/кнопок-стрелок — замерено в Figma, темнее общей --line */
+  --line-strong: #b9b1a1;  /* обводка тегов и кнопок, темнее чем --line */
   --white: #ffffff;
-  --clay: #9c4f20;         /* акцент — по прямому запросу Босса (было #ab6a41) */
-  --clay-soft: #ba8463;    /* светлее — hover */
-  --clay-active: #7d3f1a;  /* темнее — pressed/active, вместо серого/чёрного */
-  /* было #948c7d — контраст ~3.3:1 на белом, ниже WCAG AA (4.5:1) почти на
-     всём второстепенном тексте сайта; затемнено в том же оттенке до ~4.8:1 */
+  --clay: #9c4f20;         /* акцент, просил Босс, было #ab6a41 */
+  --clay-soft: #ba8463;    /* hover */
+  --clay-active: #7d3f1a;  /* pressed */
+  /* было светлее, не проходило контраст на белом, притемнил */
   --muted: #787165;
 
-  /* единая шкала скруглений — уменьшена по правке Босса (было 8/12/18/20 — слишком круглo) */
-  --r-xs: 5px;   /* кнопки, теги, инсеты фото внутри карточек */
-  --r-sm: 7px;   /* карточки шагов/статистики/команды */
-  --r-md: 9px;   /* карточка карусели преимуществ */
-  --r-lg: 10px;  /* крупные фото-блоки, панель планировок */
+  /* радиусы уменьшены, Босс просил не так кругло (было 8/12/18/20) */
+  --r-xs: 5px;   /* кнопки, теги, фото в карточках */
+  --r-sm: 7px;   /* карточки шагов и команды */
+  --r-md: 9px;   /* карточка карусели */
+  --r-lg: 10px;  /* крупные фото, план */
   --r-pill: 999px;
 
   --container: 1440px;
   --sp-xs: 8px; --sp-sm: 16px; --sp-md: 24px; --sp-lg: 40px;
-  /* по правке Босса: единый вертикальный ритм между секциями — 120px итого
-     (60 вниз от нижнего блока + 60 вверх от следующего), было 104 (итого 208,
-     неравномерно вперемешку с --sp-2xl=88 у .loc — тоже приведено к 60,
-     затем по правке Босса увеличено до 80/80=160 общий, затем ещё +20 до
-     100/100=200 общий — "больше воздуха", внутренние отступы (--sp-lg=40 и
-     меньше) остаются кратно меньше внешнего — иерархия не нарушена) */
+  /* ритм между секциями, было 104 потом 160 потом 200 по правкам босса,
+     внутри блоков всегда меньше чем снаружи */
   --sp-xl: 64px; --sp-2xl: 80px; --sp-3xl: 100px;
 
   --shadow-card: 0 20px 50px -20px rgba(28,24,21,.18);
@@ -49,13 +40,7 @@
   --ease: cubic-bezier(.22,.61,.36,1);
 }
 
-/* ---------- тема "моно" (служебная, для быстрого просмотра) ----------
-   Двухцветная: только текущий тёмный (--ink) + белый, акцентный терракотовый
-   --clay убран. На светлых секциях --clay→--ink (акцент = обычный тёмный
-   текст), --stone→белый. Отдельные места, где --clay используется НА тёмном
-   фоне (.signature/.plans-info — там --clay был "светлым пятном" на --ink),
-   переопределены в белый точечно ниже, иначе акцентный текст сливался бы
-   с фоном той же тёмной переменной. */
+/* тема моно, служебная, для быстрого просмотра без акцента */
 html[data-theme="mono"]{
   --clay: var(--ink); --clay-soft: var(--graphite); --clay-active: #000000;
   --stone: var(--white); --line: #e4e4e4; --line-strong: #b0b0b0;
@@ -66,30 +51,18 @@ html[data-theme="mono"] .btn-glass:hover{color:var(--white)}
 html[data-theme="mono"] .signature-meta h3{text-decoration-color:rgba(255,255,255,.4)}
 
 *{box-sizing:border-box}
-/* без этого переход по якорю (напр. #contacts) прижимал секцию впритык к
-   верху, и фиксированная шапка перекрывала первую строку заголовка */
+/* scroll-padding, иначе шапка перекрывает заголовок при переходе по якорю */
 html{scroll-behavior:smooth; scroll-padding-top:100px; overscroll-behavior-x:none}
-/* мобильный "воббл" влево-вправо при вертикальном скролле — iOS/Android
-   резинят страницу по X при чуть заметном диагональном движении пальца;
-   touch-action ограничивает жест боку до вертикали (pinch-zoom сохранён),
-   overscroll-behavior-x глушит резину на границах. У внутренних слайдеров
-   (.feat-track и т.п.) свой touch-action:pan-x — он локально перебивает это
-   для тач-старта внутри них, горизонтальный свайп там не ломается. */
+/* гасит горизонтальный воббл при вертикальном скролле на телефоне,
+   у слайдеров свой touch-action, это не трогает */
 body{
   margin:0; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;
   color:var(--graphite); background:var(--white); -webkit-font-smoothing:antialiased;
   overflow-x:hidden; touch-action:pan-y pinch-zoom; overscroll-behavior-x:none;
 }
 img{max-width:100%; display:block}
-/* ---------- прогрузка картинок: градиентный «shine»-скелет ----------
-   Босс 05-06.09: пока фото грузится — на его месте тёмный плейсхолдер с
-   бегущим световым бликом (graphite → тёплый блик → graphite), снимается
-   по событию load. Класс-маркер .ph висит в разметке на всех контентных
-   <img>; сам визуал несёт .is-loading, который навешивает main.js ТОЛЬКО
-   если картинка ещё не в кэше (img.complete === false) — иначе на уже
-   закешированных фото при повторном визите мелькал бы лишний кадр блика.
-   Габариты берутся от контейнера (у обёрток фото задан aspect-ratio),
-   поэтому скелет виден в полную величину кадра ещё до пикселей. */
+/* плейсхолдер пока фото грузится, бегущий блик, снимается по load.
+   .is-loading вешает main.js только если фото еще не в кеше */
 img.is-loading{
   background:
     linear-gradient(100deg,
@@ -108,51 +81,32 @@ a{color:inherit; text-decoration:none}
 button{font-family:inherit; cursor:pointer}
 .container{max-width:var(--container); margin:0 auto; padding:0 40px}
 .section{padding:var(--sp-3xl) 0}
-/* архитектура (#architecture) + карусель преимуществ (следующая секция) — по
-   смыслу один блок (правка Босса), не две разные темы: обычные 100+100=200px
-   между ними читались как разрыв. Урезаем верхний паддинг ВТОРОЙ секции
-   точечным adjacent-селектором, не трогая общее правило .section — 100+20=120 */
+/* архитектура и карусель дальше это один блок по смыслу, урезаю верхний паддинг
+   второй секции чтобы не читалось разрывом */
 #architecture + .section{padding-top:20px}
-/* Figma (ноды "Система"/"Приватность" и т.д.): естественный регистр, БЕЗ
-   text-transform:uppercase и БЕЗ доп. letter-spacing — я лишний раз стилизовал */
 .kicker{font-size:16px; font-weight:300; color:var(--clay)}
 
-/* Точный масштаб из Figma (get_nodes_info на всех 15 фреймах):
-   h1 137px и h2 64px идут с плотным line-height 0.8 и letter-spacing -5% (-6.85/137, -3.2/64) —
-   это касается ТОЛЬКО крупных дисплейных заголовков.
-   h3 (24px) и весь текстовый корпус (лид/параграфы/карточки) — letter-spacing 0, line-height ровно 1.1
-   (проверено на 26.4/24, 19.8/18, 23.88/24 — везде 1.1, а не 1.4-1.6, как было раньше) */
+/* h1/h2 плотный line-height и минус леттерспейсинг, только для крупных
+   заголовков. остальной текст line-height 1.1 */
 h1,h2{font-weight:400; letter-spacing:-.05em; line-height:.8; margin:0}
 h3{font-weight:400; letter-spacing:0; line-height:1.1; margin:0}
 h1{font-size:clamp(64px,9.5vw,137px)}
 h2{font-size:clamp(32px,4.45vw,64px); text-wrap:balance}
 h3{font-size:24px}
 p{margin:0; line-height:1.1}
-/* .68 давал ~4.36:1 — чуть ниже WCAG AA (4.5), не было в списке аудита, но
-   та же причина; поднято до .72 */
+/* было темнее, контраст не проходил, поднял */
 .lead{font-size:clamp(17px,1.67vw,24px); color:rgba(58,58,58,.72); max-width:64ch; margin-top:var(--sp-md); line-height:1.1}
 .lead.on-dark{color:rgba(255,255,255,.72)}
 .lead-sm{font-size:18px!important}
-/* для абзацев с явными <br> по разметке Figma — 64ch слишком узко, браузер
-   переносил бы их ЕЩЁ раз поверх ручных разрывов и портил число строк */
+/* абзацы с ручными <br>, 64ch тесно, браузер бы перенес их еще раз */
 .lead-wide{max-width:1180px}
-/* Figma 1:4436: заголовок и правая подпись вертикально ЦЕНТРИРОВАНЫ друг относительно
-   друга (подпись занимает середину высоты заголовка), а не выровнены по нижнему краю */
+/* заголовок и подпись справа центрированы по вертикали, не по низу */
 .block-head-split{display:flex; justify-content:space-between; align-items:center; gap:var(--sp-lg); flex-wrap:wrap}
-/* без max-width h2 растягивается на всю строку (flex без ограничений) и
-   выталкивает lead-sm на отдельную строку ниже — в Figma заголовок сам
-   занимает только 761px, оставляя место соседней колонке в том же ряду */
+/* без max-width h2 растягивается и выталкивает lead-sm на отдельную строку */
 .block-head-split h2{max-width:761px}
-/* max-width в px (не ch) — с явными <br> по разметке Figma (3 строки) нужно
-   достаточно места, чтобы браузер не переносил их ЕЩЁ раз внутри */
 .block-head-split .lead-sm{text-align:right; margin-top:0; max-width:370px}
 
-/* Базовая кнопка — по Figma (нода 1:4813/1:4814, финальный CTA, единственный
-   ПОЛНОСТЬЮ финализированный образец): fill white/border тёмный/текст тёмный,
-   radius 8 (НЕ пилюля), font-size 24. Кнопка в блоке "02" (1:4433) выглядела
-   как fill=white+stroke=white+text=gray — это классический Figma-дефолт для
-   несведённого слоя (белая обводка на белой заливке = невидима), не финальный
-   стиль, поэтому НЕ копируем её буквально. */
+/* базовая кнопка, белый фон, темный текст, radius 8 не пилюля */
 .btn{
   display:inline-flex; align-items:center; justify-content:center; gap:16px; white-space:nowrap;
   padding:20px 32px; border-radius:var(--r-xs); font-size:24px; font-weight:400;
@@ -160,7 +114,7 @@ p{margin:0; line-height:1.1}
   transition:transform .18s var(--ease), background .18s, color .18s, border-color .18s, box-shadow .18s;
 }
 .btn svg{width:16px; height:16px; flex-shrink:0}
-/* активное/нажатое состояние — лёгкое приседание + притемнение, без резких скачков (VIP-тон) */
+/* легкое приседание на active, без резких скачков */
 .btn:active{transform:scale(.97)}
 
 .btn-clay{background:var(--clay); color:var(--white); border-color:var(--clay)}
@@ -169,7 +123,7 @@ p{margin:0; line-height:1.1}
 
 .btn-white{background:var(--white); color:var(--ink); border-color:var(--ink)}
 .btn-white:hover{background:var(--ink); color:var(--white); border-color:var(--ink)}
-/* активное/нажатое — в акцент, не в чёрный/серый (по запросу Босса) */
+/* active в акцентный цвет, не серый, так просил Босс */
 .btn-white:active{background:var(--clay-active); border-color:var(--clay-active); color:var(--white)}
 
 .btn-ghost{border-color:rgba(255,255,255,.4); color:var(--white); background:transparent}
@@ -180,43 +134,33 @@ p{margin:0; line-height:1.1}
 .btn-line:hover{border-color:var(--clay); color:var(--clay)}
 .btn-line:active{background:var(--stone)}
 
-/* компактная кнопка шапки — high-end/VIP: без крупной пилюли, тонкая и собранная */
+/* кнопка в шапке компактная, без крупной пилюли */
 .btn-header{
-  padding:11px 22px; font-size:14px; letter-spacing:.01em; border-radius:var(--r-xs);
+  padding:12px 24px; font-size:14px; letter-spacing:.01em; border-radius:var(--r-xs);
 }
 
-/* ---------- header ---------- */
+/* header */
 .site-header{
   position:fixed; top:0; left:0; right:0; z-index:50;
-  /* Босс 20.08: раньше padding при скролле сжимался 22→14 — шапка «съезжала»
-     на 8px в момент заливки фона. Держим высоту постоянной; при is-solid
-     плавно появляются только фон, блюр и тень, геометрия не двигается. */
-  padding:13px 0; transition:background .3s, box-shadow .3s;
+  /* раньше падинг при скролле сжимался и шапка ехала на 8px, теперь высота постоянная */
+  padding:12px 0; transition:background .3s, box-shadow .3s;
 }
 .site-header.is-solid{background:rgba(23,24,26,.92); backdrop-filter:blur(10px); box-shadow:0 8px 30px rgba(0,0,0,.25)}
 .header-in{display:flex; align-items:center; justify-content:space-between; gap:32px;
-  /* высота строки под самый высокий элемент (кнопка ≈40px): когда на скролле
-     появляется .btn-ghost, строка уже этой высоты — шапка не растёт, логотип
-     не съезжает вниз */
+  /* мин высота под кнопку, чтобы шапка не прыгла когда она появляется */
   min-height:40px}
-.logo{font-size:20px; font-weight:500; color:var(--white); letter-spacing:.02em}
-/* по правке Босса: название в шапке белое, не акцентное — акцент тут спорит с бургером/CTA */
+.logo{font-size:20px; font-weight:500; color:var(--white); letter-spacing:.02em; white-space:nowrap}
+/* название в шапке белое, не акцентное, акцент спорит с бургером */
 .logo b{color:var(--white); font-weight:500}
 .nav{display:flex; gap:28px}
-.nav a{font-size:14px; color:rgba(255,255,255,.75); transition:color .2s; position:relative}
+.nav a{font-size:14px; color:rgba(255,255,255,.75); transition:color .2s; position:relative; white-space:nowrap}
 .nav a::after{content:""; position:absolute; left:0; right:100%; bottom:-4px; height:1px; background:var(--clay); transition:right .2s var(--ease)}
 .nav a:hover{color:var(--white)}
 .nav a:hover::after{right:0}
 .header-cta{display:flex; align-items:center; gap:16px}
-/* по правке Босса: на хиро уже есть своя CTA-кнопка ("Изучить предложение") —
-   кнопка в шапке дублирует её, поэтому появляется только после скролла
-   (is-solid). На мобиле кнопка всегда скрыта — там роль CTA у нижнего mob-cta.
-   Найдено критиком: логотип+nav+кнопка на is-solid не помещались в 861-999px
-   (логотип переносился на 2-3 строки, высота шапки скакала) — кнопка на
-   скролле включается только от 1000px, где всё физически помещается в ряд
-   (замерено getBoundingClientRect: на 1000px после включения кнопки — 985px
-   ширины строки при 839px занятых, запас есть; на 900px кнопка вылезала на
-   ~58px за контейнер) */
+/* кнопка в шапке дублирует CTA хиро, появляется только после скролла,
+   на мобиле скрыта всегда, там своя mob-cta снизу. включаю от 1000px,
+   ниже лого+меню+кнопка не влезают в ряд */
 @media (min-width:861px){
   .header-cta .btn-ghost{display:none}
 }
@@ -224,16 +168,27 @@ p{margin:0; line-height:1.1}
   .site-header.is-solid .header-cta .btn-ghost{display:inline-flex}
 }
 
-/* ---------- переключатель языка RU/EN ---------- */
+/* иконка WhatsApp в шапке, прямая связь без формы. скрыта на мобиле —
+   там своя mob-cta-whatsapp снизу и пункт в мобильном меню */
+.header-whatsapp{
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  width:36px; height:36px; border-radius:50%;
+  border:1px solid rgba(255,255,255,.35); color:var(--white); transition:.25s var(--ease);
+}
+.header-whatsapp svg{width:17px; height:17px}
+.header-whatsapp:hover{background:var(--clay); border-color:var(--clay)}
+@media (max-width:860px){
+  .header-whatsapp{display:none}
+}
+
+/* переключатель языка ru en */
 .lang{display:flex; align-items:center; gap:6px; font-size:13px; font-weight:500}
 .lang button{background:none; border:0; padding:2px; color:rgba(255,255,255,.5); transition:color .2s}
 .lang button.is-active{color:var(--white)}
 .lang button:hover{color:var(--clay-soft)}
 .lang span{color:rgba(255,255,255,.3); font-size:12px}
-/* по правке Босса: .is-solid тёмный ТОЛЬКО на десктопе (мобильный вариант
-   светлый, см. мобильный override) — тёмный текст был жёстко задан без
-   привязки к брейкпоинту и на десктопе гас на тёмном фоне (тёмное на
-   тёмном). Оставляем белым, только чуть тише непрозрачностью */
+/* is-solid темный только на десктопе, на мобиле светлый (см ниже),
+   тут оставляю белым просто тише */
 .site-header.is-solid .lang button{color:rgba(255,255,255,.55)}
 .site-header.is-solid .lang button.is-active{color:var(--white)}
 .site-header.is-solid .lang span{color:rgba(255,255,255,.3)}
@@ -249,46 +204,32 @@ body.menu-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45de
 body.menu-open .burger span:nth-child(2){opacity:0}
 body.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
 
-/* ---------- мобильное меню: полноэкранный оверлей (паттерн с unit-wordpress) ---------- */
-/* структура: пункты сразу под шапкой меню, языковой переключатель и CTA прижаты
-   к низу экрана (margin-top:auto у .menu-lang). Прошлые варианты не читались:
-   padding-top:150px давал дыру под «Меню», а justify-content:center — дыру
-   сверху (188px) и слипшуюся группу «ссылки+язык+кнопка» внизу. 96px сверху =
-   высота .menu-head (76) + воздух, 40px снизу — как у остальных мобильных
-   нижних отступов */
-/* Босс 05.09(4): тот же баг, что у .mob-cta (см. её комментарий) — в
-   Telegram/Instagram-браузере на видео поверх шапки протекал "© 2026
-   unit.now" (подвал ЭТОГО закрытого меню, .menu-legal ниже): inset:0 держит
-   высоту оверлея РОВНО по текущему вьюпорту, а translateY(-100%) сдвигает
-   его на 100% ЭТОЙ ЖЕ высоты — низ контента (тут это .menu-legal) при этом
-   оказывается всего в ~40-54px НАД видимым краем экрана (padding-bottom 40px
-   + строка текста), то есть почти на грани. Во время анимации схлопывания
-   адресной строки в таких вебвью высота на кадр-другой рассинхронизируется
-   с моментом вычисления transform — этого небольшого зазора достаточно,
-   чтобы подвал меню высунулся в кадр. visibility:hidden — страховка
-   независимо от transform: закрытое меню невидимо и некликабельно, даже
-   если translate на мгновение промахнётся мимо края. */
+/* мобильное меню, полноэкранный оверлей, паттерн с unit-wordpress */
+/* тот же баг что у mob-cta, в телеграм браузере футер меню протекал
+   поверх видео на скругление адресной строки. visibility:hidden страховка,
+   даже если transform промахнется мимо края экрана */
+/* меню не влезало в один экран на коротких телефонах, теперь menu-head
+   sticky внутри скролящегося оверлея, ритм плотнее */
 .menu-overlay{
   position:fixed; inset:0; z-index:90; background:var(--white);
   transform:translateY(-100%); visibility:hidden; transition:transform .5s var(--ease), visibility 0s .5s;
-  display:flex; flex-direction:column; justify-content:flex-start; padding:96px 24px 40px; gap:2px;
+  display:flex; flex-direction:column; justify-content:flex-start; padding:0 24px 32px; gap:2px;
+  overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;
 }
-.menu-overlay .menu-lang{margin-top:auto; padding-top:32px}
+.menu-overlay .menu-lang{margin-top:auto; padding-top:24px}
 body.menu-open .menu-overlay{transform:translateY(0); visibility:visible; transition:transform .5s var(--ease), visibility 0s}
 body.menu-open{overflow:hidden}
-.menu-head{position:fixed; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between; padding:22px 24px; z-index:1}
+.menu-head{position:sticky; top:0; left:0; right:0; display:flex; align-items:center; justify-content:space-between;
+  margin:0 -24px 4px; padding:20px 24px; z-index:2; background:var(--white)}
 .menu-title{font-size:16px; line-height:1; color:var(--graphite); display:flex; align-items:center}
 .menu-close{width:32px; height:32px; color:var(--ink); background:none; border:0; padding:0; display:flex; align-items:center; justify-content:center}
 .menu-close svg{width:22px; height:22px}
-/* заголовки-пункты меню — компактнее и с воздухом между строк (было 24px без line-height) */
-.menu-overlay a{font-size:19px; line-height:1.4; font-weight:400; color:var(--ink); padding:15px 0; border-bottom:1px solid var(--line)}
-/* .menu-overlay a{color:var(--ink)} специфичнее .btn-clay{color:white} — текст CTA
-   гас на акцентной заливке; уточняем цвет отдельно для .menu-cta */
-.menu-overlay .menu-cta{margin-top:28px; border-bottom:0; width:100%; justify-content:center; padding:16px 20px; font-size:16px; color:var(--white)}
-/* Босс 05.09: мелкий текст снизу мобильного меню (та же строка, что в футере) */
-.menu-legal{margin-top:16px; text-align:center; font-size:12px; color:var(--muted)}
+.menu-overlay a{font-size:19px; line-height:1.35; font-weight:400; color:var(--ink); padding:13px 0; border-bottom:1px solid var(--line)}
+/* цвет кнопки гас на золотой заливке, уточняю отдельно */
+.menu-overlay .menu-cta{margin-top:22px; border-bottom:0; width:100%; justify-content:center; padding:16px 20px; font-size:16px; color:var(--white)}
+.menu-legal{margin-top:14px; text-align:center; font-size:12px; color:var(--muted)}
 
-/* ---------- hero ---------- */
+/* hero */
 .hero{position:relative; height:100vh; min-height:680px; max-height:1040px; overflow:hidden; display:flex; align-items:center}
 .hero-bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 40%; filter:saturate(1.05) contrast(1.04)}
 .hero-shade{
@@ -300,71 +241,38 @@ body.menu-open{overflow:hidden}
 }
 .hero-in{position:relative; z-index:2; width:100%}
 .hero-title{color:var(--white); max-width:14ch}
-/* Figma (1:4421): узкая колонка ~265px (не широкий lead на всю ширину), отступ
-   от заголовка 50px (замерено между низом h1 и верхом абзаца, не sp-md/24px) */
 .hero-sub{color:rgba(255,255,255,.8); font-size:16px; font-weight:400; max-width:31ch; margin-top:50px; line-height:1}
 .hero-scroll{position:absolute; bottom:36px; left:40px; z-index:2; color:rgba(255,255,255,.6); font-size:12px; letter-spacing:.08em; text-transform:uppercase}
 .hero-in .btn-row{margin-top:var(--sp-lg)}
 
-/* ---------- .loc (блок "02 Локация") удалён вместе с секцией — текст
-   перенесён в объединённый блок 03/архитектура, разметка живёт в git-истории,
-   легко восстановить одним git revert при необходимости ---------- */
+/* блок 02 Локация убран, текст перенесен в 03, разметка осталась в гит истории */
 .btn-row{margin-top:var(--sp-lg)}
 
-/* ---------- минимализм: большое фото + чипы ---------- */
-/* по правке Босса: space-between растягивал 4 плашки на всю ширину контейнера,
-   из-за разной длины текста промежутки между ними получались НЕРАВНЫМИ и
-   местами неоправданно большими — теперь фиксированный gap, ряд просто
-   переносится на 2-ю строку, если не влезает (это нормально) */
-/* Figma (Frame 28, нода 1:4440): в самом артборде ряд 1239px фиксированной
-   ширины — но это абсолютный пиксель ФИКСИРОВАННОГО 1440-канваса, а сайт
-   резиновый. По правке Босса ряд должен реально доходить до правого края
-   контейнера — поэтому ширины 279/325/277/278 переведены в ПРОПОРЦИИ
-   (flex-grow), а не взяты как абсолютные px: сумма растягивается на 100%
-   ширины, относительное соотношение пилюль друг к другу сохранено 1:1 */
-/* flex-wrap:wrap (не nowrap) — на широких экранах (>~1290 RU/1145 EN) 4
-   пилюли и так помещаются в один ряд за счёт flex-grow ниже, но между этим
-   и мобильным грид-брейкпоинтом (860px) их суммарный min-content (nowrap-
-   текст) шире контейнера — при nowrap-РЯДА (не путать с nowrap-текстом
-   внутри пилюли, он остаётся) это тихо обрезалось overflow-x:hidden на
-   body, а не переносилось. wrap просто пускает лишние пилюли на 2-ю строку */
+/* минимализм: большое фото и чипы под ним */
+/* space-between растягивал 4 плашки неровно, теперь фикс gap и перенос строки */
 .min-tags{display:flex; flex-wrap:wrap; gap:27px; margin:var(--sp-lg) 0}
-/* Figma (Frame 24-27, ноды 1:4441 и т.д.): пилюли — скруглённый прямоугольник radius 8
-   (не pill), font-size 20, паддинг 45px по бокам И 20px сверху/снизу (перепроверено
-   get_nodes_info: frame height 54 = 20+14(текст)+20, было ошибочно 15/15),
-   обводка #B9B9B9 — замерено по 7 инстансам в секциях 03 и 04, отличается от общей --line.
-   white-space:nowrap — текст в Figma умещается ровно в один ряд (189px в 189px
-   доступных), это не резиновая пилюля, что переносится по обстоятельствам */
+/* пилюли radius 8 не pill, паддинг 45 по бокам 20 сверху снизу,
+   nowrap текст в один ряд как в фигме */
 .min-tags .tag-pill, .feat-filters .tag-pill{
   padding:20px 45px; border:1px solid var(--line-strong); border-radius:var(--r-xs);
   font-size:20px; color:var(--muted); text-align:center; white-space:nowrap;
 }
-/* min-width НЕ занулён нарочно — дефолтный auto держит пилюлю не уже
-   min-content (текст в nowrap), так что на узких десктопных ширинах ряд
-   уедет в overflow, а не сплющит текст или перенесёт его на 2 строки */
 .min-tags .tag-pill{flex:1 1 0}
 .min-tags .tag-pill:nth-child(1){flex-grow:279}
 .min-tags .tag-pill:nth-child(2){flex-grow:325}
 .min-tags .tag-pill:nth-child(3){flex-grow:277}
 .min-tags .tag-pill:nth-child(4){flex-grow:278}
-/* галерея фасада — по запросу Босса вместо одной статичной фотографии:
-   стрелки переиспользуют .carousel-arrow (тот же стеклянный стиль, что и
-   в каруселях 04/09), точки — по паттерну .plans-dots, но белые (фото
-   разной яркости, тёмные точки местами теряются) */
+/* галерея фасада, Босс попросил вместо одной статичной фотки */
 .min-gallery{
   position:relative; border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-card);
   aspect-ratio:16/9;
 }
-/* нативный scroll-snap вместо transform по индексу — стрелки листают через
-   scrollBy (работает везде), а на мобиле то же самое доступно свайпом,
-   когда стрелки спрятаны (см. mobile media query) */
-.min-gallery-track{display:flex; height:100%; overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+/* scroll-snap вместо transform, работает и мышью и свайпом */
+.min-gallery-track{display:flex; height:100%; overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain}
 .min-gallery-track::-webkit-scrollbar{display:none}
 .min-gallery-slide{flex:0 0 100%; height:100%; scroll-snap-align:start}
 .min-gallery-slide img{width:100%; height:100%; object-fit:cover; display:block}
-/* по правке Босса: не кнопка-рамка, а простой шеврон без фона/рамки —
-   кликабельная зона тянется на половину фото (жмёшь в любом месте справа —
-   вперёд, слева — назад), а не только по маленькой иконке */
+/* простой шеврон без рамки, кликабельная зона на пол фото, жмешь справа вперед слева назад */
 .min-gallery-arrow{
   position:absolute; top:0; bottom:0; width:42%; z-index:2;
   display:flex; align-items:center; background:none; border:0; padding:0; margin:0;
@@ -377,8 +285,7 @@ body.menu-open{overflow:hidden}
 .min-gallery-arrow svg{width:30px; height:30px}
 .min-gallery-arrow:hover:not(:disabled){color:var(--white)}
 .min-gallery-arrow:disabled{opacity:0; pointer-events:none}
-/* по правке Босса — компактнее и элегантнее: активная точка вытягивается в
-   тонкий "прогресс-бар" вместо простого укрупнения кружка */
+/* активная точка тянется в полоску, не просто крупнее кружок */
 .min-gallery-dots{position:absolute; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:5px; z-index:2}
 .min-gallery-dots span{width:5px; height:5px; border-radius:3px; background:rgba(255,255,255,.5); box-shadow:0 1px 2px rgba(0,0,0,.3); transition:background .25s, width .25s}
 .min-gallery-dots span.on{width:16px; background:var(--white)}
@@ -386,28 +293,18 @@ body.menu-open{overflow:hidden}
 .min-foot p{font-size:18px; color:rgba(58,58,58,.62); max-width:36ch}
 .min-foot p:last-child{text-align:right; margin-left:auto}
 
-/* ---------- feature carousel ---------- */
-/* без стрелок-кнопок (правка Босса) — трек живёт вне .container, паддинг
-   слева/справа даёт тот же отступ, что и контейнер, но позволяет карточкам
-   реально прокручиваться до края экрана (bleed), а не упираться в контейнер.
-   Левый паддинг считается через calc, а не фиксированным 40px — на экранах
-   шире --container(1320px) у .container появляется собственный внешний
-   margin:auto, и плоские 40px перестают совпадать с реальным левым краем
-   текста/сетки (карточки "прилипали" к краю экрана вместо грида). */
+/* карусель преимуществ, трек вне контейнера чтобы карточки уезжали до края
+   экрана (bleed). левый паддинг через calc, не фикс 40px, иначе на широких
+   экранах карточки прилипают к краю а не к сетке */
 .feat-track{
   display:flex; gap:20px; overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y; scroll-snap-type:x mandatory;
   --edge: max(40px, calc((100% - var(--container)) / 2 + 40px));
   scroll-padding-left:var(--edge); padding:0 40px 4px; padding-left:var(--edge);
-  scrollbar-width:none;
+  scrollbar-width:none; overscroll-behavior-x:contain;
 }
 .feat-track::-webkit-scrollbar{display:none}
 .feat-card{
-  /* Figma (Frame 29/32/34/36, 610x607, ноды 1:4460 и т.д., перепроверено
-     get_node_info): карточка — ТОЛЬКО контур (stroke #b9b9b9), БЕЗ заливки и
-     БЕЗ тени — не "плавающая белая карточка с shadow", как было раньше (это
-     моя выдумка, в макете её нет). Фиксированная ширина 610 (было — резиновая
-     clamp 280-400, вдвое уже реального макета). Фото утоплено на 20px (radius 8),
-     а текстовый блок — на ~35px по бокам. */
+  /* только контур без заливки и тени, фикс ширина 610, фото утоплено на 20px */
   flex:0 0 610px; min-height:607px; scroll-snap-align:start;
   border-radius:var(--r-md); border:1px solid var(--line-strong); background:transparent;
   padding:20px;
@@ -415,28 +312,14 @@ body.menu-open{overflow:hidden}
 .feat-card-photo{aspect-ratio:570/376; border-radius:var(--r-xs); overflow:hidden}
 .feat-card-photo img{width:100%; height:100%; object-fit:cover}
 .feat-card-body{padding:30px 15px 15px}
-/* по правке Босса: заголовки/подписи в карточках были крупнее, чем в unit-wp — сверили масштаб (~20/15) */
 .feat-card-body h3{margin-bottom:14px; font-size:20px}
 .feat-card-body p{font-size:15px; line-height:1.35; color:var(--muted)}
-/* Figma: это просто теги-подписи, не фильтр — без hover/active/is-active */
-/* стрелки — в одном ряду с тегами/заголовком, как в Figma (Frame 102/103 у
-   блока 04, Frame 100/101 у блока 09), не отдельной строкой под карточками */
-/* margin-bottom обязателен: по правке Босса ряд стоит НАД .feat-track, который
-   лежит вне .container сразу следующим элементом — без отступа снизу ряд
-   упирался прямо в верхний край карточек */
-/* margin-top убран — .section уже даёт 104px паддинга сверху, этот ряд
-   первый элемент в контейнере, лишний margin-top удваивал разрыв между
-   секциями 03 и 04 (было 224px, в Figma ~139px) */
+/* margin-bottom нужен, ряд стоит над feat-track вне контейнера */
 .feat-filters-row{display:flex; align-items:center; justify-content:space-between; gap:var(--sp-lg); margin-bottom:var(--sp-lg)}
 .feat-filters{display:flex; flex-wrap:wrap; gap:10px}
 .steps-head-row{display:flex; align-items:center; justify-content:space-between; gap:var(--sp-lg)}
 
-/* ---------- индикатор позиции под каруселями (04 и 09) ---------- */
-/* стрелки вернули по прямому запросу Босса — были убраны в раунде 2026-07-21,
-   но только для десктопа (на мобиле листание пальцем, см. @media 860px).
-   Форма — 1:1 с Figma (блок 04, Frame 102/103, get_svg): скруглённый
-   прямоугольник 85x45 rx7.5, обводка --line-strong, стеклянный blur(13px),
-   тонкий шеврон stroke-width 2 БЕЗ заливки — не круглая кнопка "с интуиции". */
+/* индикатор позиции под каруселями, стрелки только на десктопе, на мобиле свайп */
 .carousel-nav{display:flex; align-items:center; gap:16px; flex-shrink:0}
 .carousel-arrow{
   display:flex; align-items:center; justify-content:center; flex-shrink:0;
@@ -451,10 +334,7 @@ body.menu-open{overflow:hidden}
 .carousel-dots span{width:5px; height:5px; border-radius:3px; background:var(--line-strong); transition:background .25s, width .25s}
 .carousel-dots span.on{width:16px; background:var(--clay)}
 
-/* ---------- разделитель фото/карточки в Nuanu (LINE228 из Figma) ---------- */
-/* была голая тонкая стрелка на линии — смотрелась случайно; собрали её в
-   опрятный кружок-роундел (обводка + паддинг), это читается как деталь UI,
-   а не недоделанный элемент */
+/* разделитель фото и карточек в блоке Nuanu, стрелка в кружке а не голая */
 .nuanu-divider{display:flex; align-items:center; gap:12px; margin-top:var(--sp-lg)}
 .nuanu-divider .line{flex:1; height:1px; background:var(--line-strong)}
 .nuanu-divider svg{
@@ -462,15 +342,9 @@ body.menu-open{overflow:hidden}
   border:1px solid var(--line-strong); border-radius:50%; color:var(--clay);
 }
 
-/* ---------- фото Nuanu с бейджем и подписью НА фото (Figma 1:4513) ---------- */
-/* тот же файл, что использует unit-wordpress в своём блоке "Мастер-план" —
-   сверено напрямую по исходнику (nodeId/страница masterplan), это не
-   случайный выбор; object-position смещена вниз, чтобы на узком мобильном
-   кропе в кадр попадала застройка, а не небо/океан сверху кадра */
-/* aspect-ratio 1600/800 = 2/1 — точное совпадение с нативными пропорциями
-   assets/nuanu-masterplan.jpg (1600x800) и Figma-фрейма "nuanu desk rus"
-   (1060x530, тоже 2/1) — без этого object-fit:cover подрезал кадр и все
-   проценты пинов (снятые с координат Figma-нод) уезжали мимо целей. */
+/* фото Nuanu с бейджем и подписью прямо на фото, тот же файл что на unitdeveloper */
+/* aspect-ratio 2/1 совпадает с реальным фото, без этого cover подрезал бы
+   кадр и проценты пинов уехали бы мимо целей */
 .nuanu-photo{position:relative; aspect-ratio:1600/800; border-radius:var(--r-xs); overflow:hidden; margin-top:var(--sp-lg)}
 .nuanu-photo picture{display:block; width:100%; height:100%}
 .nuanu-photo img{width:100%; height:100%; object-fit:cover; object-position:50% 50%}
@@ -479,10 +353,6 @@ body.menu-open{overflow:hidden}
   color:var(--white); font-size:15px; letter-spacing:.04em; text-transform:uppercase;
   transform:translate(-50%,-50%); white-space:nowrap;
 }
-/* Позиции пересверены через get_nodes_info на фрейме "nuanu desk rus" (174:3,
-   1060x530, тот же 2/1, что и наш .nuanu-photo) — координаты центра
-   реальных бейджей-фреймов Frame2087325970 (BSO, x140 y60 w170 h40) и
-   Frame2087325971 (USC, x776 y50 w144 h40), не примерные на глаз */
 .nuanu-badge--bso{
   left:21.23%; top:15.09%;
   background:rgba(58,53,47,.15); border:1px solid rgba(255,255,255,.9);
@@ -492,17 +362,10 @@ body.menu-open{overflow:hidden}
   color:var(--white); font-size:18px; line-height:1.1; text-align:right;
 }
 
-/* ---------- пины инфраструктуры на мастер-плане (Figma-фреймы nuanu desk/mob,
-   канал hdgz87wq) — координаты точки (dot) И метки (label) сняты РАЗДЕЛЬНО
-   через get_nodes_info (в Figma подпись стоит не у самой точки, а отнесена
-   линией-указателем в сторону, чтобы соседние подписи не наезжали друг на
-   друга) — соединительная линия рисуется SVG-оверлеем между ними.
-   Рендер из js/main.js (NUANU_PINS). viewBox 0 0 100 100 == проценты 1:1. */
+/* пины инфраструктуры на мастер-плане, точка и подпись разнесены линией
+   чтобы соседние подписи не наезжали. рендер из js/main.js NUANU_PINS */
 .nuanu-pins{position:absolute; inset:0; pointer-events:none}
 .nuanu-pins-svg{position:absolute; inset:0; width:100%; height:100%}
-/* non-scaling-stroke (задан в main.js на самой line) читает stroke-width в
-   реальных css-пикселях, а не в единицах viewBox — раньше 0.12 было почти
-   невидимо; ellipse (не circle, см. main.js) остаётся в системе viewBox */
 .nuanu-pins-svg line{stroke:rgba(255,255,255,.55); stroke-width:1.2}
 .nuanu-pins-svg ellipse{fill:var(--white)}
 .nuanu-pin-label{
@@ -511,70 +374,39 @@ body.menu-open{overflow:hidden}
   max-width:130px; text-shadow:0 1px 3px rgba(0,0,0,.5);
 }
 
-/* ---------- Stella Solaris / архитектурная подпись ---------- */
-/* Сверка по Figma nodeId 1:4612: фото 1240x654 (≈620/327, не 16/8), заголовок
-   "Stella Solaris" fontSize 36 (не 24 от общего h3), чипы fontSize 18 (не 16),
-   отступы фото/чипов от соседей ~60-65px (var(--sp-xl)), не var(--sp-lg) */
+/* Stella Solaris, архитектурная подпись */
 .signature{background:var(--ink); color:var(--white)}
 .signature h2{color:var(--white)}
 .signature-photo{border-radius:var(--r-lg); overflow:hidden; aspect-ratio:620/327; margin-top:var(--sp-xl); box-shadow:var(--shadow-card-dark)}
 .signature-photo img{width:100%; height:100%; object-fit:cover}
 .signature-meta{display:flex; flex-wrap:wrap; justify-content:space-between; gap:var(--sp-md); margin-top:var(--sp-lg)}
 .signature-meta h3{font-size:36px; color:var(--clay); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(156,79,32,.4)}
-/* max-width в px (449, замерено в Figma), не 36ch — с явными <br> нужно
-   достаточно места под самую длинную строку, иначе браузер перенесёт её ещё раз */
+/* max-width в px, с ручными br нужно место под самую длинную строку */
 .signature-meta p{font-size:18px; color:rgba(255,255,255,.65); max-width:460px}
-/* Figma (Frame 30/24/29): НЕ единый ряд из 3 пилюль — верхний ряд одна широкая
-   плашка, под ней ещё две поменьше; форма — скруглённый прямоугольник rx8
-   (НЕ полная пилюля), обводка белая с opacity .6 (не .22) */
-/* Figma (Frame 30/24/29, ноды 1:4619/4621/4623): гэп 20px (не 12), паддинг
-   ~11px/25px (не 10/16 — считал по разнице frame/text width), radius 8
-   (нет такого токена в шкале — жёстко), непрозрачность текста/обводки 0.6 */
 .signature-chips{display:flex; flex-wrap:wrap; gap:20px; margin-top:var(--sp-xl)}
-/* по правке Босса: ширина HUG по контенту (было flex-basis:100% у первой —
-   растягивало плашку на всю строку), паддинг 25px по бокам, текст по центру,
-   вес regular явно (не полагаться на дефолт), непрозрачность ниже (было .6) */
+/* ширина по контенту, была растянута на всю строку, поправил */
 .signature-chips span{
   padding:11px 25px; border:1px solid rgba(255,255,255,.45); border-radius:8px;
   font-size:18px; font-weight:400; color:rgba(255,255,255,.45); text-align:center;
 }
 
-/* ---------- 3 карточки: частная территория ---------- */
-/* Сверка по Figma nodeId 1:4625 (Frame 33/34/35, 400x221, шаг 20px между
-   карточками) — было gap:24, реально 20; паддинг карточки ~32px, было 24 */
-/* по правке Босса: секция про приватность была чисто иконочной, без фото —
-   добавлено реальное фото приватного бассейна за экраном фасада (из
-   presentation PDF), усиливает посыл gated-community/приватность */
+/* 3 карточки частная территория */
+/* добавил реальное фото приватного бассейна вместо чисто иконочного блока */
 .priv-photo{border-radius:var(--r-lg); overflow:hidden; aspect-ratio:16/7; margin-top:var(--sp-lg)}
 .priv-photo img{width:100%; height:100%; object-fit:cover; object-position:35% 90%}
 .priv-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:var(--sp-lg)}
-/* Figma (Frame 33/34/35, нода 1:4353 и т.д.): НЕТ заливки/тени, только контур,
-   цвет обводки почти чёрный #1d0d09 (≈ var(--ink)) — тот же паттерн, что и
-   карточки карусели (04), а не белая "плавающая" карточка с тенью */
-/* Figma (1:4627): обводка #b9b9b9 (var(--line-strong)), НЕ ink — перепроверено
-   этим аудитом, предыдущая запись про "почти чёрный #1d0d09" была ошибкой */
+/* только контур без заливки и тени, как у карточек карусели */
 .priv-card{
   background:transparent; border-radius:var(--r-lg); padding:32px;
   border:1px solid var(--line-strong);
 }
-/* иконки в карточках — оживляют прототип, нет в Figma, но логично для карточного UI */
-/* иконки — плоские (flatten), один path на иконку. По правке Босса — крупнее,
-   и отступ до текста ЗАМЕТНО больше, чем от kicker до заголовка (14px) —
-   это композиционное правило применяется во всех карточках проекта */
+/* иконки крупнее, отступ до текста заметно больше чем у kicker→заголовок */
 .card-ic{width:40px; height:40px; color:var(--clay); display:block; margin-bottom:28px}
 .priv-card .kicker{display:block; margin-bottom:14px}
 .priv-card h3{margin-bottom:24px; font-size:20px}
 .priv-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75)}
 
-/* ---------- планировки: ВЕРХНИЕ табы (правка Босса — было слева) ---------- */
-/* Сверка по Figma nodeId 1:4642: табы fontSize 20 (было 16), форма — скруглённый
-   прямоугольник rx8 (НЕ пилюля, было var(--r-pill)); панель просмотра — это
-   тёмная карточка (Frame 33 fill + белый текст Studio/Площадь/Вместимость/
-   Для кого/кнопка "Приобрести" с белой обводкой+blur — тот же стеклянный
-   паттерн, что и стрелки карусели), а не светлая var(--stone); заголовок
-   плана 28px (было 24 от общего h3); фото-вьюер 600x478 (не 4/3); колонки
-   вьюер:инфо ≈ 600:430 (было 1.3fr, точнее 1.4fr); кнопка "Приобрести" —
-   реально 320x44 rx7.5, glass-стиль, НЕ сплошной золотой pill (см. .btn-glass) */
+/* планировки, табы сверху, было слева */
 .plans-tabs{display:flex; flex-wrap:wrap; gap:10px; margin:var(--sp-lg) 0}
 .plans-tab{
   padding:15px 28px; border-radius:var(--r-xs); border:1px solid var(--line);
@@ -583,57 +415,31 @@ body.menu-open{overflow:hidden}
 .plans-tab:not(.is-active):hover{border-color:var(--clay); color:var(--clay)}
 .plans-tab.is-active{background:var(--ink); border-color:var(--ink); color:var(--white)}
 .plans-tab:active{transform:scale(.96)}
-/* по правке Босса: тёмным остаётся только текстовый столбец, план и фото
-   виллы получили каждый свою СВЕТЛУЮ панель — больше не нужно "вписывать"
-   план в тёмный фон блендами, он просто лежит на своём естественном белом
-   листе, как в референсах luxury-девелоперов (чистый чертёж на светлом) */
+/* темным остается только текстовая колонка, план и фото виллы на своей
+   светлой панели, не вписаны в темный фон блендами */
 .plans-panel{
   display:grid; grid-template-columns:1.3fr 1fr; border-radius:var(--r-lg); overflow:hidden;
   box-shadow:var(--shadow-card-dark);
 }
-/* по правке Босса: план и фото виллы — ОДНА область (одна галерея), не два
-   отдельных бокса рядом. Один трек, план — первый слайд (светлый фон,
-   contain, не обрезается), дальше реальные интерьерные фото (тёмный фон,
-   cover) — единый свайп/стрелки на всё */
+/* план и фото виллы это одна галерея не два бокса, план первым слайдом */
 .plans-viewer{position:relative; height:100%; min-width:0; min-height:0; overflow:hidden; background:var(--ink)}
-.plans-viewer-track{display:flex; height:100%; min-height:0; overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch}
+.plans-viewer-track{display:flex; height:100%; min-height:0; overflow-x:auto; overflow-y:hidden; touch-action:pan-x pan-y; scroll-snap-type:x mandatory; scrollbar-width:none; -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain}
 .plans-viewer-track::-webkit-scrollbar{display:none}
-/* img — position:absolute, а не просто height:100% — картинки (особенно
-   портретные detail-кадры 704x1188) иначе тянули intrinsic-размер через всю
-   flex/grid-цепочку и раздували высоту всей панели планировок до ~1280px */
+/* img абсолютом, иначе портретные кадры раздувают высоту всей панели */
 .plans-viewer-slide{position:relative; flex:0 0 100%; height:100%; min-height:0; scroll-snap-align:start}
-/* фото портретные (704x1188 из триптиха презентации), панель галереи —
-   широкий landscape-бокс: cover с такой разницей аспектов зверски зумил
-   кадр (видно было только стену+штору, кровать/ванна обрезались). contain
-   на тёмном фоне панели — фото целиком, тёмный паспарту сверху/снизу вместо
-   уродливого кропа */
-/* по правке Босса: фото должны заполнять всю область без полей — cover, а
-   не contain. object-position у каждого фото подобран вручную (не 50/50
-   бланкетно), чтобы в кадре оставался интересный объект (вилла/кровать/
-   бассейн), а не срезанное в никуда небо/потолок — задаётся инлайн через
-   JS из PLANS[].positions при рендере слайда */
+/* фото должны заполнять область без полей, object-position у каждого
+   подобран вручную чтобы в кадре был интересный объект а не срезанный потолок */
 .plans-viewer-slide img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block}
-/* план и топ-вид (разрез виллы сверху) — официальные ассеты застройщика из
-   Figma, экспортированы на белой подложке фрейма; фон бокса — тот же белый
-   (не --stone/бежевый), иначе виден шов между белым кадра и бежевым сайта.
-   Цветные — раньше был grayscale(1) под старый ч/б скан-план, для нового
-   цветного материала фильтр снят */
+/* план и топвид на белой подложке, тот же белый что и в фигме, не бежевый сайта */
 .plans-viewer-slide--plan,.plans-viewer-slide--topview{background:#fff}
 .plans-viewer-slide--plan img,.plans-viewer-slide--topview img{inset:24px; width:calc(100% - 48px); height:calc(100% - 48px); object-fit:contain}
-/* двухэтажные форматы: SVG-канвас (viewBox 1:1 с Figma-фреймом) вместо
-   одной сплюснутой картинки — preserveAspectRatio="xMidYMid meet" даёт то же
-   letterbox-поведение, что object-fit:contain у обычного img, картинки этажей
-   и подписи внутри позиционируются точными координатами, визуал не меняется */
+/* двухэтажные форматы svg канвасом вместо сплюснутой картинки */
 .plan-floors-svg{position:absolute; inset:24px; width:calc(100% - 48px); height:calc(100% - 48px); display:block}
 .plan-floors-svg text{font-family:inherit}
 .plans-viewer .min-gallery-dots{bottom:14px}
-/* по правке Босса: расстояние от текста до разделителя должно быть РАВНЫМ
-   сверху и снизу каждой линии — раньше сверху был gap:40 (--sp-lg) родителя,
-   снизу padding-top:14 самого блока, асимметрично. gap убран, вместо него
-   у каждого .plans-stat одинаковый padding сверху И снизу (24px) */
+/* padding сверху и снизу у каждого stat одинаковый, раньше было асиметрично */
 .plans-info{padding:50px; display:flex; flex-direction:column; background:var(--ink)}
 .plans-info h3{font-size:28px; color:var(--white); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(156,79,32,.5); margin-bottom:24px}
-/* иконки площади/вместимости/для кого — по контексту (правка Босса) */
 .plans-stat{display:flex; align-items:center; gap:14px; border-top:1px solid rgba(255,255,255,.15); padding-top:24px; padding-bottom:24px}
 .plans-stat-ic{width:22px; height:22px; color:var(--clay-soft); flex-shrink:0}
 .plans-stat .k{font-size:16px; font-weight:300; color:rgba(255,255,255,.5)}
@@ -645,115 +451,75 @@ body.menu-open{overflow:hidden}
 }
 .btn-glass:hover{border-color:var(--clay); color:var(--clay); background:rgba(255,255,255,.1)}
 
-/* ---------- шаги покупки: горизонтальная лента ---------- */
-/* без стрелок-кнопок (правка Босса) — трек вне .container для bleed-эффекта,
-   тот же паттерн отступов, что у .feat-track */
+/* шаги покупки, горизонтальная лента, тот же паттерн что у feat-track */
 .steps-track{
   display:flex; gap:20px; overflow-x:auto; scroll-snap-type:x mandatory;
   --edge: max(40px, calc((100% - var(--container)) / 2 + 40px));
   scroll-padding-left:var(--edge); margin-top:var(--sp-lg); padding:0 40px 4px; padding-left:var(--edge);
-  scrollbar-width:none;
+  scrollbar-width:none; overscroll-behavior-x:contain;
 }
 .steps-track::-webkit-scrollbar{display:none}
-/* Figma (1:4689 и т.д.): нет fill/тени, только контур #b9b9b9 */
 .step-card{
   flex:0 0 clamp(280px,32vw,400px); scroll-snap-align:start;
   border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:35px; background:transparent;
 }
-/* по правке Босса: акцентный цвет для номера шага, а не нейтральный графит */
+/* номер шага акцентным цветом а не графитом */
 .step-card .num{font-size:32px; font-weight:500; color:var(--clay)}
 .step-card h3{margin:28px 0 20px; font-size:20px}
 .step-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75)}
 
-/* ---------- инвестиции: 3 stat-карточки + фото ---------- */
+/* инвестиции, 3 карточки плюс фото */
 .stat-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:var(--sp-lg)}
 .stat-grid-4{grid-template-columns:repeat(4,1fr); margin-top:var(--sp-lg)}
-/* Figma (1:4723 и т.д.): нет fill/тени, только контур #b9b9b9; паддинг 35px
-   (не sp-md/24 — замерено от края карточки до текста, тот же паттерн, что
-   у step-card/team-card), отступ значение→описание ~24-30px (не 10) */
 .stat-card{
-  /* по правке Босса: карточки были слишком крупные для короткого текста — паддинг ужат */
+  /* карточки были слишком крупные для короткого текста, паддинг ужал */
   border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:28px; background:transparent;
 }
 .stat-card h3{font-size:30px; font-weight:500; color:var(--ink)}
 .stat-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75); margin-top:16px}
-/* Figma (get_nodes_info, "0 мин"/"3 мин"/"20 мин"/"1 ч" — Frame 2147223224/225/226,
-   секция 09): эти значения Regular/400 24px, НЕ Medium/500 32px как у карточек
-   инвестиций (11) — общий .stat-card h3 был скопирован под обе секции один в один */
+/* эти цифры мельче и обычным весом, не как у карточек инвестиций */
 .stat-grid-4 .stat-card h3{font-size:24px; font-weight:400}
-/* фото под карточками — увеличено по правке Босса (было 1239/466, плоская узкая лента) */
+/* фото увеличено, было плоской узкой лентой */
 .why-photo{border-radius:var(--r-lg); overflow:hidden; margin-top:var(--sp-lg); aspect-ratio:16/8; box-shadow:var(--shadow-card)}
 .why-photo img{width:100%; height:100%; object-fit:cover}
 
-/* ---------- финансовая модель (структура — Figma "LOOK", страница NUANU
-   masterplan, channel 52364hku: тёмная крупная карточка, крупный заголовок
-   слева, фото документов вылезает справа. БЕЗ фонового фото-блюра и БЕЗ
-   поля ввода телефона из референса — только структура, цвета и контент
-   наши) ---------- */
+/* финансовая модель, темная карточка, заголовок слева, фото документов справа */
 .fin-section{padding-bottom:var(--sp-3xl)}
 .fin-card{
   position:relative; display:flex; align-items:center; justify-content:space-between;
-  gap:var(--sp-xl); margin-top:var(--sp-lg); padding:64px 60px;
+  gap:var(--sp-xl); margin-top:var(--sp-lg); padding:64px;
   background:var(--ink); border-radius:24px; overflow:visible;
 }
-/* в разметке фото теперь ПЕРВЫМ (для мобильного порядка MOBILE_SHIT — фото
-   сверху), поэтому на десктопе порядок текст/фото держится через order, а не DOM */
+/* фото в разметке первым для мобилки, на десктопе порядок держится через order */
 .fin-card-text{flex:1 1 420px; max-width:460px; order:1}
 .fin-card-text h3{font-size:36px; color:var(--white); font-weight:500}
 .fin-card-text p{font-size:16px; line-height:1.35; color:rgba(255,255,255,.65); margin-top:16px}
-/* white-space:normal переопределяет базовый .btn{nowrap} — в RU кнопка
-   "Получить финансовую модель" (409px min-content) раздувала .fin-card-text
-   (flex:1 1 420px) шире EN-версии и утаскивала фиксированный отрицательный
-   margin .fin-card-photo (:658) за физический край экрана в диапазоне
-   861-1070px (реальный горизонтальный скролл всей страницы). Перенос кнопки
-   в 2 строки на этих ширинах устраняет overflow, на 1440+ она и так в 1 строку */
+/* в ru кнопка длинная, раздувала блок и утаскивала фото за край на 861-1070px,
+   разрешаю перенос в 2 строки */
 .fin-card-text .btn{margin-top:28px; white-space:normal; text-align:center}
-/* по правке Босса — фото должно реально "вылезать" за рамку карточки, не
-   на 20-30px, а заметно: крупнее и с лёгким разворотом для динамики */
-/* по правке Босса — ещё крупнее на десктопе */
+/* фото должно реально вылезать за рамку карточки, заметно, с разворотом */
 .fin-card-photo{flex:0 0 auto; width:56%; max-width:620px; margin:-150px -80px -70px 0; order:2; transform:rotate(-4deg)}
 .fin-card-photo img{width:100%; height:auto; display:block; filter:drop-shadow(0 28px 46px rgba(0,0,0,.5))}
 
-/* ---------- команда ---------- */
+/* команда */
 .team-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:var(--sp-lg)}
-/* Figma (1:4765/4778): нет fill/тени, только контур #b9b9b9 */
 .team-card{border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:35px; background:transparent}
 .team-photo{aspect-ratio:295/220; border-radius:var(--r-xs); overflow:hidden; margin-bottom:32px; filter:grayscale(1)}
 .team-photo img{width:100%; height:100%; object-fit:cover}
-/* по правке Босса: роль (Основатель/Со-владелец) слишком заметна рядом с
-   именем — уменьшена, чтобы читаться как компактный лейбл, не вторая строка
-   заголовка того же веса */
+/* роль была слишком заметна рядом с именем, уменьшил до лейбла */
 .team-role{font-size:13px; font-weight:300; color:var(--clay)}
 .team-card h3{margin:6px 0 12px; font-size:20px}
 .team-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75)}
 
-/* ---------- финальный CTA ---------- */
-/* Figma (нода 1:4791): фрейм 745px высотой — было 620, контент вертикально
-   центрирован в банере, не растянут впритык к содержимому */
+/* финальный cta */
 .final{position:relative; overflow:hidden; min-height:745px; display:flex; align-items:center}
-/* по правке Босса: исходник — почти пустое небо в левых 2/3 кадра, здание
-   и башня зажаты в правый нижний угол; при cover+center вся текстовая зона
-   слева читалась просто как плоская тёмная заливка. Зумим и смещаем кадр
-   к зданию, чтобы архитектура реально была видна за текстом, а не только
-   в дальнем правом крае */
+/* в исходнике почти пустое небо слева, здание зажато в угол, зумлю и
+   смещаю кадр чтобы архитектуру реально было видно за текстом */
 .final-bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:75% 70%; transform:scale(1.45); transform-origin:75% 70%}
 .final-shade{position:absolute; inset:0; background:linear-gradient(100deg, rgba(10,9,7,.72) 0%, rgba(10,9,7,.3) 55%, rgba(10,9,7,.15) 100%), rgba(10,9,7,.22)}
-/* width:100% обязателен — .final это flex-контейнер, а .container(.final-in) даёт
-   только max-width, без него flex-child сжимается по контенту (тот же баг,
-   что был найден и исправлен в .loc-in ранее в этом аудите) */
 .final-in{position:relative; z-index:1; color:var(--white); width:100%}
 .final-in h2{color:var(--white); max-width:1116px}
-/* Figma 1:4791 (get_node_info, перепроверено): h2 отдельно full-width строкой
-   сверху (60px до ряда ниже) — это подтвердилось. НО дальше был неверный
-   вывод: цифры это НЕ горизонтальная стеклянная панель с разделителями (моя
-   выдумка), а колонка из 3 стек-групп (число сверху, подпись снизу,
-   выравнивание по правому краю, ~90px между группами), справа от лид-абзаца.
-   Слева лид-абзац и кнопка растянуты по высоте (space-between) до нижнего
-   края правой колонки — кнопка в Figma заканчивается почти на одном уровне
-   с последней статой. */
-/* CSS grid вместо flex — нужно, чтобы кнопка на мобиле уезжала ПОД статы
-   (order во flex не переставляет узел из вложенного контейнера в другой,
-   а grid-area делает это чисто через одно свойство на брейкпоинт) */
+/* grid не flex, чтобы кнопка на мобиле уезжала под статы одним свойством */
 .final-row{
   display:grid; grid-template-columns:1fr auto; column-gap:var(--sp-xl); row-gap:40px;
   grid-template-areas:"lead stats" "cta stats"; margin-top:60px;
@@ -761,26 +527,18 @@ body.menu-open{overflow:hidden}
 .final-lead{grid-area:lead; max-width:560px; margin-top:0; align-self:start}
 .final-cta{grid-area:cta; align-self:end; justify-self:start}
 .final-stats{grid-area:stats; display:flex; flex-direction:column; justify-content:space-between; gap:24px; text-align:right}
-/* тонкая линия-разделитель между статами вместо чистого gap — Figma-нода
-   этого не рисует явно (отдельных line-элементов там нет), но такой приём
-   уже используется в сайте (.final-stats/.plans-stat) и читается собраннее
-   голого воздуха между тремя цифрами */
+/* тонкая линия между статами вместо голого воздуха, читается собраннее */
 .final-stats .stat + .stat{border-top:1px solid rgba(255,255,255,.18); padding-top:24px}
 .final-stats .stat h3{font-size:32px; color:var(--white); font-weight:500}
 .final-stats .stat p{font-size:18px; color:rgba(255,255,255,.75); margin-top:4px; line-height:1.15}
 
-/* ---------- footer ---------- */
-/* пересобрано по образцу unit-wordpress: сетка колонок (не рыхлый flex
-   space-between), скруглённый верх, компактные ссылки с hover-сдвигом,
-   кольцевые соц-иконки с заливкой на hover, полоса-разделитель снизу */
+/* футер, сетка колонок как на unitdeveloper, не рыхлый flex */
 .site-footer{background:var(--stone); border-radius:var(--r-lg) var(--r-lg) 0 0; padding:var(--sp-xl) 0 var(--sp-md)}
 .footer-in{display:grid; grid-template-columns:1.4fr 1fr 1.2fr auto; gap:var(--sp-lg)}
 .footer-brand .logo{color:var(--ink); font-size:22px}
-/* по правке Босса: «Black Sands Oasis» в футере — тёмным, не терракотовым */
+/* название в футере темным, не терракотой */
 .footer-brand .logo b{color:var(--ink)}
 .footer-brand p{margin-top:18px; font-size:14px; line-height:1.5; color:rgba(58,58,58,.78); max-width:32ch}
-/* Figma ("Меню"/"Важные ссылки"/"Адрес", frame 15): Regular/400 20px, не
-   Medium/500 16px как было — перепутано так же, как заголовки-стат Nuanu */
 .footer-col h4{font-size:20px; margin-bottom:20px; color:var(--ink); font-weight:400; letter-spacing:0}
 .footer-col a{display:block; font-size:14px; font-weight:300; color:rgba(58,58,58,.78); padding:7px 0; transition:color .2s, padding-left .2s}
 .footer-col a:hover{color:var(--clay); padding-left:4px}
@@ -796,16 +554,12 @@ body.menu-open{overflow:hidden}
   margin-top:var(--sp-xl); padding-top:var(--sp-md); border-top:1px solid var(--line);
   font-size:14px; color:rgba(58,58,58,.78);
 }
-/* живой штрих в футере — реальное время на Бали (WITA) + текущая температура
-   (Open-Meteo, без ключа). Цифры акцентным цветом — единственная тёплая
-   деталь на нейтральной строке футера. Если запрос погоды не прошёл (сеть/
-   блокировка), main.js прячет #baliWeatherWrap целиком — остаётся только
-   время, ничего не ломается */
+/* время на бали и температура, Open-Meteo без ключа. если запрос не прошел
+   main.js прячет весь блок погоды, время остается */
 .bali-clock{font-variant-numeric:tabular-nums}
 .bali-clock #baliTime,
 .bali-clock #baliTemp{color:var(--clay); font-weight:500}
-/* переключатель темы — служебный, не для клиентов: нарочно без стилизации
-   под остальной сайт (моноширинный, серый) — сразу видно, что это техничка */
+/* переключатель темы, служебный не для клиентов, специально серый моноширинный */
 .theme-switch{display:flex; gap:1px; font-family:monospace; font-size:11px; margin-left:auto}
 .theme-switch button{
   padding:4px 9px; border:1px solid #999; background:#eee; color:#666;
@@ -815,26 +569,13 @@ body.menu-open{overflow:hidden}
 .theme-switch button:last-child{border-radius:0 3px 3px 0; border-left:0}
 .theme-switch button.is-active{background:#333; color:#fff; border-color:#333}
 
-/* ---------- reveal ---------- */
-/* .reveal прячется ТОЛЬКО если html.js стоит (см. инлайн-скрипт в head index.html,
-   выполняется синхронно до первой отрисовки) — если JS отключён/заблокирован/упал,
-   класса нет, и весь контент остаётся видимым по умолчанию, а не скрытым навсегда */
+/* reveal прячется только если html.js стоит, если js упал контент остается видимым */
 html.js .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s var(--ease), transform .7s var(--ease)}
 html.js .reveal.in{opacity:1; transform:none}
 @media (prefers-reduced-motion: reduce){.reveal{opacity:1; transform:none; transition:none}}
 
-/* ---------- mobile CTA bar ---------- */
-/* по умолчанию уехала за нижний край — появляется через .show,
-   когда хиро полностью прокручен (см. IntersectionObserver в main.js).
-   Босс 05.09(4): в Telegram/Instagram-браузере (свой WebView, своя анимация
-   схлопывания адресной строки) кнопка на видео ловилась ДУБЛЕМ вверху экрана
-   поверх шапки — чистый transform:translateY(100%) держит элемент "за
-   нижним краем" только пока box-height/viewport совпадают с моментом
-   вычисления; во время resize-анимации адресной строки в таких вебвью
-   высота на кадр-другой рассинхронизируется, и transform временно промахивается
-   мимо реального края экрана. visibility:hidden — доп. страховка НЕЗАВИСИМО
-   от transform-математики: даже если translate промахнётся, элемент всё
-   равно не будет ни виден, ни кликабелен, пока не открыт .show. */
+/* mobile cta полоса, уехала за низ экрана, появляется когда хиро проскроллен.
+   в телеграм браузере ловило дублем сверху, visibility:hidden страховка */
 .mob-cta{
   display:none; position:fixed; bottom:0; left:0; right:0; z-index:40;
   background:var(--white); padding:12px 16px; box-shadow:0 -8px 24px rgba(0,0,0,.12); gap:10px;
@@ -842,14 +583,19 @@ html.js .reveal.in{opacity:1; transform:none}
 }
 .mob-cta.show{transform:translateY(0); visibility:visible; transition:transform .3s var(--ease), visibility 0s}
 .mob-cta .btn{flex:1; justify-content:center; padding:14px 20px; font-size:16px}
+/* кнопка WhatsApp рядом с основным CTA, фиксированный кружок, не тянется flex:1 */
+.mob-cta-whatsapp{
+  flex:0 0 50px; width:50px; height:50px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid var(--line); color:var(--graphite); transition:.25s var(--ease);
+}
+.mob-cta-whatsapp svg{width:23px; height:23px}
+.mob-cta-whatsapp:hover, .mob-cta-whatsapp:active{background:var(--clay); border-color:var(--clay); color:var(--white)}
 @media (prefers-reduced-motion: reduce){.mob-cta{transition:none}}
 
-/* ---------- уведомление про куки/локальное хранилище (правый нижний угол) ----------
-   Показывается один раз: согласие пишется в localStorage (bso_cookie_ok). Ниже
-   модалки заявки по z-index (200) и выше мобильной CTA-полосы (40), на мобиле
-   садится над этой полосой, а не под неё. */
+/* уведомление про куки, показывается один раз, согласие в localStorage */
 .cookie-note{
-  position:fixed; z-index:150; right:24px; bottom:24px; width:min(360px, calc(100vw - 48px));
+  position:fixed; z-index:150; right:24px; bottom:24px; width:min(380px, calc(100vw - 48px));
   background:var(--white); border:1px solid var(--line); border-radius:var(--r-sm);
   padding:20px; box-shadow:var(--shadow-card);
   opacity:0; visibility:hidden; transform:translateY(12px);
@@ -857,29 +603,24 @@ html.js .reveal.in{opacity:1; transform:none}
 }
 .cookie-note.is-open{opacity:1; visibility:visible; transform:translateY(0)}
 .cookie-note p{font-size:13px; line-height:1.5; color:var(--muted)}
-.cookie-note-row{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-top:16px}
-.cookie-note-row a{font-size:13px; color:var(--clay); border-bottom:1px solid transparent}
+/* кнопку иногда выдавлевало за край на широком шрифте, теперь не сжимается,
+   ссылка переносится а кнопка остается справа */
+.cookie-note-row{display:flex; flex-wrap:wrap; align-items:center; justify-content:flex-end; gap:12px 16px; margin-top:16px}
+.cookie-note-row a{font-size:13px; color:var(--clay); border-bottom:1px solid transparent; margin-right:auto; min-width:0}
 .cookie-note-row a:hover{border-bottom-color:var(--clay)}
-.cookie-note-row .btn{padding:11px 20px; font-size:14px}
+.cookie-note-row .btn{padding:11px 20px; font-size:14px; flex:0 0 auto}
 @media (prefers-reduced-motion: reduce){.cookie-note{transition:none}}
 @media (max-width:860px){
-  /* мобильная CTA-полоса (.mob-cta) занимает низ экрана — уведомление ставим
-     над ней, иначе кнопка «Got it» уходит под полосу и её не нажать */
+  /* поднимаю над mob-cta, иначе кнопка Got it уходит под полосу */
   .cookie-note{right:16px; left:16px; bottom:88px; width:auto; padding:16px}
   .cookie-note p{font-size:12px}
   .cookie-note-row{margin-top:12px}
   .cookie-note-row .btn{padding:10px 16px; font-size:13px}
 }
 
-/* ---------- оверлей заявки (паттерн с unit-wp, тот же UX: бэкдроп+панель,
-   код страны с автоформатом номера, кнопка неактивна без согласия на ПД) ---------- */
-/* Баг Босса 05.09 (мобилка): "оверлей иногда липнет к верхней части экрана" —
-   overflow:hidden на body НЕ блокирует тач-скролл фона на iOS Safari, фон
-   продолжал скроллиться под фикс-оверлеем (position:fixed;inset:0), и на
-   смене адресной строки/тулбара браузер пересчитывал layout viewport —
-   оверлей визуально дёргался/прилипал к верху. Стандартный мобильный лок:
-   body сам становится position:fixed со сдвигом на текущий scrollY (JS
-   выставляет top), после закрытия скролл возвращается тем же числом. */
+/* оверлей заявки, паттерн с unit-wp, бекдроп плюс панель */
+/* на ios overflow:hidden на body не блокирует тач скролл фона, оверлей дергался.
+   фикс стандартный, body сам position:fixed со сдвигом на scrollY */
 body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .lead-modal{position:fixed; inset:0; z-index:200; display:none}
 .lead-modal.is-open{display:flex; align-items:center; justify-content:center; padding:24px; box-sizing:border-box; overflow-y:auto}
@@ -907,12 +648,9 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .lead-status.is-ok{color:#1a8a4a}
 .lead-status.is-err{color:#b3341f}
 
-/* ==================== ADAPTIVE ==================== */
-/* Босс 20.08: на 861–999px («планшет» / узкий старый ноут) горизонтальное меню
-   из 7 пунктов + логотип не помещались в строку — логотип и «How to Buy»
-   ломались на 2 строки, шапка выглядела «планшетно-криво». До 1000px показываем
-   ту же чистую шапку с бургером, что и на телефоне; контент ниже остаётся
-   десктопным (2-колоночные сетки), меняется только навигация в шапке. */
+/* адаптив */
+/* на планшетах 861-999 меню из 7 пунктов не влезало в строку, до 1000px
+   показываю ту же шапку с бургером что на телефоне */
 @media (max-width:999px){
   .nav, .header-cta .btn-ghost{display:none}
   .burger{display:flex}
@@ -924,47 +662,32 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 }
 @media (max-width:860px){
   .container{padding:0 20px}
-  /* мобильный ритм — компактнее десктопного (было 40/40=80 общий, затем
-     +8 по правке Босса "больше воздуха" — 48/48=96 общий) */
+  /* мобильный ритм компактнее десктопного */
   .section{padding:48px 0}
-  /* та же логика, что на десктопе (100+20=120): architecture+карусель — один
-     блок, 48+48=96 читалось разрывом; пропорционально урезано до 48+12=60 */
   #architecture + .section{padding-top:12px}
-  /* подзаголовки (лид-абзацы под H2) — компактнее на мобиле */
   .lead{font-size:12px}
   .fin-section{padding-bottom:48px}
   .carousel-arrow{display:none}
-  /* теперь track — нативный scroll-snap (см. базовое правило), свайпом
-     листается и на мобиле — стрелки прячем как у остальных каруселей */
+  /* трек листается свайпом на мобиле, стрелки прячу как у остальных каруселей */
   .min-gallery-arrow{display:none}
   .nuanu-pin-label{font-size:6.5px; line-height:1.1; max-width:62px}
-  /* .nuanu-caption не имел мобильного override вообще — 18px/min-width:220px
-     на фото шириной ~350px перекрывали карту целиком (2/3 ширины фото) */
+  /* тут не было мобильного оверрайда, подпись перекрывала карту почти целиком */
   .nuanu-caption{font-size:10px; width:40%; min-width:130px}
   .nuanu-pins-svg ellipse{rx:.5; ry:1}
   .nuanu-pins-svg line{stroke-width:.8}
   .nuanu-badge{font-size:10px; padding:7px 12px}
-  /* мобильное фото — отдельный кроп из Figma-фрейма "nuanu mob rus" (174:81,
-     280x289, канал p5olkt4g), не десктопные 1600x800 — иные пропорции кадра */
+  /* мобильный кроп фото, другие пропорции кадра */
   .nuanu-photo{aspect-ratio:280/289}
-  /* мобильный кроп показывает свой набор плоских подписей (без dot/line,
-     JS переключает разметку по matchMedia — см. renderNuanuPins) */
   .nuanu-pin-label.is-left{transform:translate(0,-50%); text-align:left}
-  /* координаты BSO-бейджа сняты с фрейма "nuanu mob rus" (card 174:119,
-     x20 y40 w89 h17 из 280x289) — центр 64.5/280=23.04%, 48.5/289=16.78% */
   .nuanu-badge--bso{left:23.04%; top:16.78%}
   .site-footer{padding-top:var(--sp-lg)}
   .nav, .header-cta .btn-ghost{display:none}
   .burger{display:flex}
-  /* сайт в основном светлый — тёмная непрозрачная шапка после скролла на
-     мобиле выглядела чужеродно; на мобиле переключаем на светлый вариант
-     (прозрачная шапка над hero-фото остаётся как есть, меняется только is-solid) */
+  /* сайт светлый, темная шапка на мобиле после скролла выглядела чужой,
+     тут светлый вариант */
   .site-header.is-solid{background:rgba(255,255,255,.96); box-shadow:0 4px 20px rgba(0,0,0,.08)}
   .site-header.is-solid .logo b{color:var(--ink)}
   .site-header.is-solid .burger span{background:var(--ink)}
-  /* мобильный is-solid светлый (в отличие от тёмного десктопного) — RU/EN
-     переключатель тоже нужен тёмным здесь, иначе белый текст с базового
-     правила сольётся со светлым фоном */
   .site-header.is-solid .lang button{color:rgba(28,24,21,.45)}
   .site-header.is-solid .lang button.is-active{color:var(--ink)}
   .site-header.is-solid .lang span{color:rgba(28,24,21,.25)}
@@ -974,65 +697,43 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .min-foot p:last-child{text-align:left; margin-left:0}
   .feat-card{flex-basis:80vw; min-height:0}
   .feat-track, .steps-track{padding-left:20px; padding-right:20px; scroll-padding-left:20px}
-  /* пилюли материалов — сеткой 2х2 вместо одной прижатой строки, легче читать */
+  /* пилюли сеткой 2х2 вместо прижатой строки, легче читать */
   .min-tags{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-  /* по правке Босса: текст мельче и по-настоящему центрирован (и по X, и по Y —
-     display:flex внутри самой пилюли, не только text-align). font-size:7px
-     был нечитаем (ниже любого разумного мобильного минимума, антиалиасинг
-     на таком мелком тексте давал "цветной" шум) — поднят до 12px, как у
-     .lead и прочего мелкого текста на мобиле */
+  /* было 7px нечитаемо, поднял до 12 как у лида */
   .min-tags .tag-pill, .feat-filters .tag-pill{
     padding:12px 16px; font-size:12px; text-align:center; white-space:normal;
     display:flex; align-items:center; justify-content:center;
   }
   .min-tags .tag-pill{width:auto; flex:none}
-  /* на мобиле h2+lead-sm складываются в колонку (не бок о бок, как на
-     десктопе) — общий gap:40px (var(--sp-lg), рассчитан на десктопный "бок о
-     бок" разрыв) давал ровно те же 40px между заголовком и подзаголовком,
-     что и от края секции до заголовка — заголовок→подзаголовок должен быть
-     заметно теснее */
+  /* h2+lead-sm колонкой на мобиле, gap теснее чем на десктопе */
   .block-head-split{row-gap:16px}
   .block-head-split .lead-sm{text-align:left; max-width:none}
-  /* по правке Босса: кнопка переезжает ПОД статы (было сразу под лидом) —
-     меняем только порядок grid-areas, разметка та же */
-  /* margin-top:60px (Figma-точный для десктопа, см. комментарий у .final-row)
-     на мобиле давал перевёрнутую иерархию: заголовок→лид (60px) БОЛЬШЕ, чем
-     лид→ближайший UI-элемент (24px row-gap) — внешний отступ не может быть
-     больше внутреннего. Приведено к var(--sp-md)=24px, как и везде на сайте
-     между h2 и .lead */
+  /* кнопка под статы вместо под лидом, меняю только grid-areas */
   .final-row{grid-template-columns:1fr; grid-template-areas:"lead" "stats" "cta"; row-gap:24px; margin-top:var(--sp-md)}
   .final-lead{max-width:none}
   .final-cta{justify-self:stretch}
   .final-stats{text-align:left; gap:14px; margin-top:0}
   .final-stats .stat h3{font-size:18px}
   .final-stats .stat p{font-size:11px}
-  /* MOBILE_SHIT: карточка становится колонкой — фото сверху (с отступом,
-     как будто выступает из-под скруглённой панели), текст+кнопка снизу,
-     всё по центру */
+  /* карточка колонкой, фото сверху текст с кнопкой снизу, все по центру */
   .fin-card{
     flex-direction:column; align-items:center; text-align:center;
-    padding:24px 20px 28px; border-radius:18px; gap:0; margin-top:var(--sp-md);
+    padding:24px 20px; border-radius:18px; gap:0; margin-top:var(--sp-md);
   }
   .fin-card-text h3{font-size:24px}
   .fin-card-photo{width:78%; max-width:280px; margin:0 0 20px; order:-1}
-  /* сброс flex-grow:1 с десктопной flex:1 1 420px — на десктопе это растягивает
-     текстовый блок ПО ШИРИНЕ (main axis = row), но при переключении карточки
-     в column (мобила) тот же grow:1 начинает тянуть блок ПО ВЫСОТЕ и создаёт
-     пустой хвост под кнопкой внутри самого блока */
+  /* flex-grow сбрасываю, на десктопе тянет по ширине, в колонку тянуло бы
+     по высоте и оставляло пустой хвост под кнопкой */
   .fin-card-text{max-width:none; order:0; flex:none}
   .fin-card-text .btn{width:100%; justify-content:center}
   .mob-cta{display:flex}
   body{padding-bottom:74px}
 
-  /* ---------- общее утончение: кнопки и карточки были слишком крупные ---------- */
+  /* общее утончение, кнопки и карточки были слишком крупные */
   .btn{font-size:16px; padding:15px 22px; gap:10px}
   .btn svg{width:14px; height:14px}
   .card-ic{width:28px; height:28px; margin-bottom:20px}
-  /* фото→карточки было var(--sp-lg)=40px, а card→card внутри грида 20px —
-     на десктопе не заметно (грид горизонтальный, разные оси), на мобиле
-     карточки складываются в колонку и разница бьёт по ритму: первый отступ
-     вдвое больше остальных. Выравниваем под тот же gap, что и между
-     карточками, — фото читается как часть той же группы, не отдельный блок */
+  /* фото было 40 отступ, карточки внутри грида 20, выравниваю на одно и то же */
   .priv-grid{margin-top:20px}
   .priv-card, .step-card, .team-card{padding:20px}
   .priv-card h3{margin-bottom:14px; font-size:18px}
@@ -1041,12 +742,12 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .feat-card-body h3{font-size:18px}
   .feat-card-body p{font-size:14px}
 
-  /* ---------- планировки: табы становятся слайдером, не сеткой кнопок ---------- */
+  /* планировки, табы слайдером не сеткой */
   .plans-tabs{flex-wrap:nowrap; overflow-x:auto; scroll-snap-type:x mandatory; -webkit-overflow-scrolling:touch; gap:8px; margin:var(--sp-md) 0}
   .plans-tabs::-webkit-scrollbar{display:none}
   .plans-tab{flex:0 0 auto; scroll-snap-align:start; padding:10px 18px; font-size:14px}
   .plans-panel{grid-template-columns:1fr}
-  /* панель планировки была слишком высокой — не помещалась на экран целиком */
+  /* панель была слишком высокой, не влезала на экран */
   .plans-viewer{aspect-ratio:4/3}
   .plans-info{padding:22px}
   .plans-info h3{font-size:20px; margin-bottom:14px}
@@ -1056,58 +757,47 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .plans-stat .v{font-size:18px}
   .plans-info .btn{font-size:15px; padding:13px 18px}
 
-  /* ---------- карточки расстояний Nuanu: по правке Босса вернули простую
-     сетку 1х4 (в один ряд), без 2х2 и без акцентной первой карточки ---------- */
+  /* карточки расстояний Nuanu, вернул простую сетку 1х4 в ряд */
   .stat-grid-4{grid-template-columns:repeat(4,1fr); gap:8px}
   .stat-grid-4 .stat-card{padding:10px 8px}
   .stat-grid-4 .stat-card .card-ic{width:20px; height:20px; margin-bottom:10px}
   .stat-grid-4 .stat-card h3{font-size:15px}
   .stat-grid-4 .stat-card p{font-size:10.5px; line-height:1.25; margin-top:5px}
 
-  /* ---------- команда: 2 колонки остаются, но компактнее (не 1 колонка) ---------- */
+  /* команда, 2 колонки остаются но компактнее */
   .team-grid{gap:10px}
   .team-photo{margin-bottom:14px}
   .team-card h3{font-size:18px; margin:4px 0 8px}
   .team-role{font-size:11px}
 
-  /* ---------- Stella Solaris: на мобиле h2 секции проседает до 32px (clamp-минимум),
-     а подпись "Stella Solaris" была зафиксирована на 36px — иерархия ломалась
-     (имя объекта визуально крупнее заголовка блока). Уменьшаем подпись ---------- */
+  /* Stella Solaris, h2 секции проседает на мобиле а подпись была фиксом крупнее,
+     ломало иерархию, уменьшил */
   .signature-meta h3{font-size:24px}
   .signature-meta p{font-size:15px}
-  /* по правилу "внутренний отступ не больше отступа от края" — sp-xl(64)
-     превышал мобильный edge-паддинг секции (40px), не было override */
   .signature-photo{margin-top:var(--sp-lg)}
-  /* по правке Босса: чипы-описания под Stella Solaris на мобиле убраны —
-     три длинные фразы в 7px были нечитаемы и ломали ритм секции */
+  /* чипы убраны на мобиле, три длинные фразы мелким текстом были нечитаемы */
   .signature-chips{display:none}
 
-  /* ---------- инвестиции: карточки компактнее на мобиле, фото крупнее ---------- */
+  /* инвестиции, карточки компактнее, фото крупнее */
   .stat-card{padding:22px}
   .why-photo{aspect-ratio:4/3}
 
-  /* ---------- футер: 2 колонки вместо 4, бренд и соц-иконки на всю ширину ---------- */
+  /* футер, 2 колонки вместо 4 */
   .footer-in{grid-template-columns:1fr 1fr; gap:24px}
   .footer-brand{grid-column:1/-1}
   .footer-social{grid-column:1/-1; justify-content:flex-start}
   .footer-col h4{font-size:15px; margin-bottom:12px}
   .footer-col a{font-size:13px; padding:6px 0}
   .footer-bottom{font-size:12px; margin-top:var(--sp-lg); padding-top:18px}
-  /* на узком экране "Nuanu, Bali — HH:MM WITA · " не влезает опрятно в общий
-     ряд футера и переносится некрасиво — на мобиле оставляем только погоду */
+  /* строка с местом и временем не влезает на узком экране, оставляю только погоду */
   .bali-clock-full, .bali-clock-sep{display:none}
 
   .lead-modal.is-open{padding:16px}
   .lead-panel{padding:24px 20px; max-height:calc(100vh - 32px)}
 }
 
-/* ---------- мягкий zoom фото на ховере (крафт-деталь) ----------
-   Только контейнеры, где УЖЕ есть overflow:hidden вокруг object-fit:cover
-   фото — увеличенный кадр обрезается тем же боксом, ничего не съезжает и не
-   перекрывает соседей. Планировки/топвиды (белые технические чертежи)
-   осознанно исключены — зум фото уместен, зум чертежа нет. Без
-   prefers-reduced-motion — сам transform лёгкий (4.5%), не сравним с
-   полноэкранной анимацией. */
+/* мягкий зум фото на ховере, только там где уже есть overflow:hidden,
+   чертежи планировок специально исключены */
 .signature-photo img,
 .why-photo img,
 .feat-card-photo img,
@@ -1123,22 +813,15 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   transform:scale(1.045);
 }
 
-/* ---------- интерактивный план (v1, черновик) ----------
-   Сайт живёт только в тёмной теме (v1 убран 18.08, см. git log) — токены
-   ниже намеренно "тёмные" напрямую, не через светлые --white/--line-strong
-   из :root (те переопределены в v2.css под тёмный фон и на светлой панели
-   были бы нечитаемы; здесь светлой панели просто нет). */
-/* Босс 03.09: аэро-план во всю ширину контейнера, таблица юнитов — в выпадашке
-   под кнопкой в правом верхнем углу карты. */
+/* интерактивный план, токены тут темные напрямую, сайт живет только в темной теме */
+/* аэро план во всю ширину, таблица юнитов в выпадашке под кнопкой сверху справа */
 .iplan-wrap{margin-top:var(--sp-md)}
 .iplan-map{position:relative; border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-card)}
-/* однократная подсказка «нажмите на здание» — плашка по центру сверху карты,
-   графит + золотой контур, палец легонько «тапает». Управление классом
-   .is-visible и localStorage — в js/iplan-map.js. */
+/* подсказка нажмите на здание, один раз, палец тапает. класс и localStorage в iplan-map.js */
 .iplan-hint{
   position:absolute; top:16px; left:16px; z-index:6;
   display:flex; align-items:center; gap:8px;
-  padding:9px 15px; border-radius:999px; white-space:nowrap;
+  padding:8px 16px; border-radius:999px; white-space:nowrap;
   background:rgba(20,18,15,.82); border:1px solid rgba(217,174,69,.55);
   color:#f2e6cf; font-size:13px; line-height:1; font-weight:400;
   -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px);
@@ -1152,34 +835,18 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   animation:iplan-hint-tap 1.5s ease-in-out infinite }
 @keyframes iplan-hint-tap{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(2px) } }
 @media (prefers-reduced-motion: reduce){ .iplan-hint-ic{ animation:none } }
-/* Правка Босса 05.09 (реф andreevskiy.by/#rpt/.../interactive): картинку
-   плана делаем КРУПНЕЕ контейнера по высоте — раньше img шёл width:100%,
-   т.е. всегда ровно по ширине блока и без остатка, слайдить было нечего.
-   05.09 (2): "на пк то не надо слайдить... он и так хорошо вмещался" —
-   на десктопе width:100% ЖИВЁТ как раньше (см. .iplan-pan-inner img ниже),
-   слайд/стрелки/протяг остаются ТОЛЬКО в мобильном media query — там
-   картинка была мелкой и от увеличения+пана реально выигрывает, десктопу
-   это увеличение не нужно было вовсе. .iplan-map--full без явной высоты на
-   десктопе — высоту как раньше держит сама картинка (width:100%, auto). */
+/* картинка плана крупнее контейнера по высоте, слайд/пан только на мобиле,
+   на пк не надо, она и так хорошо помещалась */
 .iplan-pan{
   position:relative; height:100%; overflow-x:auto; overflow-y:hidden;
   touch-action:pan-x pan-y; -webkit-overflow-scrolling:touch; scrollbar-width:none;
-  /* Босс 05.09: "фотка плана слишком сильно уезжает вправо или влево" —
-     это iOS-резинка (rubber-band): тач-скролл на границах утаскивает
-     контент ЗА пределы 0..max с упругим отскоком, за краем картинки видно
-     пустоту/фон карты. overscroll-behavior-x:contain не даёт границе
-     "пружинить" за пределы своего скролла. */
+  /* ios резинка утаскивала контент за край с отскоком, contain это гасит */
   overscroll-behavior-x:contain;
 }
 .iplan-pan::-webkit-scrollbar{display:none}
 .iplan-pan.is-drag{cursor:grabbing}
-/* inline-block — коробка сама сжимается по ширине картинки (а не тянется на
-   100% вьюпорта); на десктопе картинка width:100% (см. ниже) — коробка и так
-   ровно по ширине контейнера, inline-block здесь просто не мешает. На мобиле
-   (где картинка становится шире контейнера) это уже критично: иначе
-   .iplan-hotspots (inset:0 от этого блока) лёг бы по ширине КОНТЕЙНЕРА, а не
-   фактической (более широкой) картинки — зоны разъехались бы с силуэтами
-   зданий на прокрученной части. */
+/* inline-block чтобы коробка сжималась по ширине картинки, критично на мобиле
+   где картинка шире контейнера, иначе хотспоты лягут не по тем координатам */
 .iplan-pan-inner{position:relative; display:inline-block; height:auto; width:100%; vertical-align:top}
 .iplan-pan-inner img{
   width:100%; height:auto; display:block;
@@ -1187,12 +854,9 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 }
 
 .iplan-hotspots{position:absolute; inset:0}
-/* Зоны — SVG-полигоны по силуэту здания. Только золотой контур + свечение,
-   БЕЗ заливки (правка Босса). */
+/* зоны svg полигонами по силуэту здания, только золотой контур без заливки */
 .iplan-hotspots-svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible}
-/* затемнение всего, кроме активной зоны — дырка в полупрозрачном слое по
-   контуру активного полигона (fill-rule:evenodd). Легко откатить: убрать
-   .iplan-dim-path из iplan-map.js + этот блок. */
+/* затемнение всего кроме активной зоны, дырка в слое по контуру полигона */
 .iplan-dim-path{
   fill:rgba(8,7,5,0); fill-rule:evenodd; pointer-events:none;
   transition:fill .28s var(--ease);
@@ -1214,32 +878,22 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 
 .iplan-popup{
   position:absolute; z-index:5; min-width:220px; max-width:280px;
-  /* укрупнённые зоны (напр. студии 1–20 + P1–P8) дают 20+ строк — держим
-     попап в пределах карты, список внутри скроллится. Высота была
-     min(78%,560px) — Босс 05.09: "слишком агрессивно большие попап
-     таблицы" (после того как сама карта плана подросла — см. .iplan-map--
-     full — те же 78% стали давать заметно более высокий попап, замер на
-     кластере из 28 юнитов: 560px, 63,6% высоты карты). Меньше — попап всё
-     ещё показывает 6-7 строк сразу, для остального скролл, но больше не
-     перекрывает половину плана. */
+  /* укрупненые зоны дают 20+ строк, держу попап в границах карты со скроллом,
+     было слишком агрессивно большим, ужал */
   max-height:min(50%, 400px); display:flex; flex-direction:column;
   background:var(--surface); border:1px solid rgba(255,255,255,.13); border-radius:var(--r-sm);
-  padding:14px; box-shadow:0 20px 50px -20px rgba(0,0,0,.7);
+  padding:16px; box-shadow:0 20px 50px -20px rgba(0,0,0,.7);
   opacity:0; visibility:hidden; transform:translateY(6px); pointer-events:none;
   transition:opacity .2s var(--ease), transform .2s var(--ease), visibility .2s;
 }
 .iplan-popup.is-open{opacity:1; visibility:visible; transform:translateY(0); pointer-events:auto}
 .iplan-popup-title{flex:0 0 auto; font-size:12px; font-weight:500; color:var(--muted); text-transform:uppercase; letter-spacing:.02em; margin-bottom:8px}
-/* Босс 05.09: "слайд бары в попап таблицах... стандартные белые, а я просил
-   кастомные под наш дизайн" — scrollbar-width:thin убирал только ШИРИНУ
-   нативного скролла, цвет оставался системным. Тот же приём и цвет, что
-   уже стоит на .iplan-table-wrap (золото на прозрачном треке). */
+/* скроллбар просил кастомный под дизайн, не системный белый */
 .iplan-popup-list{flex:1 1 auto; min-height:0; overflow-y:auto; list-style:none; margin:0 -6px 0 0; padding:0 10px 0 0; display:flex; flex-direction:column; gap:6px;
   scrollbar-width:none}
 .iplan-popup-list::-webkit-scrollbar{display:none}
-/* Босс 07.09: свой ПОСТОЯННЫЙ индикатор прогресса скролла списка юнитов —
-   нативный скроллбар на тачах авто-скрывается, юзер не видит что список
-   длинный. Монтируется из js/iplan-map.js (mountPopupScrollbar). */
+/* свой постояный индикатор скролла, нативный на тачах прячется сам.
+   монтируется из iplan-map.js */
 .iplan-pl-scroll{
   position:absolute; right:4px; top:42px; bottom:12px; width:3px;
   border-radius:3px; background:rgba(255,255,255,.13);
@@ -1250,16 +904,12 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   position:absolute; left:0; right:0; top:0; min-height:20px;
   border-radius:3px; background:rgba(217,174,69,.9);
 }
-/* cursor:pointer на всей строке — вся она кликабельна (Босс 05.09: "по
-   иконке можно смазать", клик теперь ловится на .iplan-popup-row целиком,
-   см. iplan-map.js), не только на самой кнопке */
+/* вся строка кликабельна, а не только иконка, по иконке промахивались */
 .iplan-popup-row{display:flex; align-items:center; gap:8px; font-size:13px; color:var(--graphite); cursor:pointer}
 @media(hover:hover){.iplan-popup-row:hover{background:rgba(255,255,255,.04)}}
 .iplan-popup-row b{flex:0 0 auto; min-width:24px; color:var(--white)}
 .iplan-popup-row span:nth-child(2){flex:1; color:var(--muted); font-size:12px}
-/* Порядок в строке (правка Босса): номер, тип, статус-пилюля, цена — цена
-   и статус поменяны местами, статус (3-й span) получает свой размер через
-   .iplan-status ниже, тут только цена (теперь 4-й span). */
+/* цена и статус поменяны местами в строке */
 .iplan-popup-row span:nth-child(4){flex:0 0 auto; font-size:12px}
 .iplan-popup .iplan-status{padding:2px 8px; font-size:10px}
 .iplan-popup-empty{margin:0; font-size:13px; color:var(--muted); max-width:22ch}
@@ -1276,11 +926,8 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .iplan-reserve-cell{padding-left:0 !important}
 .iplan-reserve-cell:empty::after{content:'—'; color:rgba(255,255,255,.15)}
 
-/* стрелки прокрутки плана — правый нижний угол карты (реф andreevskiy.by),
-   свободный от легенды (слева-снизу) и кнопки таблицы (справа-сверху).
-   Скрыты по умолчанию — Босс 05.09: "на пк не надо слайдить, он и так
-   хорошо вмещался", слайд/стрелки актуальны только в мобильном media
-   query ниже, где картинка реально становится шире контейнера. */
+/* стрелки прокрутки плана, правый нижний угол, скрыты по умолчанию,
+   актуальны только на мобиле где картинка шире контейнера */
 .iplan-pan-arrows{display:none; position:absolute; right:16px; bottom:16px; z-index:5; gap:8px}
 .iplan-pan-arrow{
   width:40px; height:40px; display:flex; align-items:center; justify-content:center;
@@ -1292,24 +939,24 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .iplan-pan-arrow:hover{border-color:var(--clay); color:var(--clay)}
 .iplan-pan-arrow:disabled{opacity:.3; cursor:default; pointer-events:none}
 
-/* легенда — плашка поверх карты слева снизу */
+/* легенда, плашка поверх карты слева снизу */
 .iplan-legend{position:absolute; left:16px; bottom:16px; z-index:4;
   display:flex; flex-direction:column; gap:8px;
   background:rgba(19,19,19,.66); backdrop-filter:blur(6px);
-  padding:12px 15px; border-radius:var(--r-sm); border:1px solid rgba(255,255,255,.1)}
+  padding:12px 16px; border-radius:var(--r-sm); border:1px solid rgba(255,255,255,.1)}
 .iplan-legend-item{display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,.82)}
 
-/* кнопка «таблица юнитов» — правый верхний угол карты */
+/* кнопка таблица юнитов, правый верхний угол */
 .iplan-table-toggle{position:absolute; right:16px; top:16px; z-index:6;
   display:inline-flex; align-items:center; gap:9px;
-  padding:11px 18px; border:0; border-radius:var(--r-pill); cursor:pointer;
+  padding:12px 16px; border:0; border-radius:var(--r-pill); cursor:pointer;
   background:var(--grad-gold); color:var(--on-gold); font-family:inherit; font-size:14px; font-weight:500;
   box-shadow:0 10px 30px -12px rgba(0,0,0,.6); transition:filter .2s var(--ease), transform .2s var(--ease)}
 .iplan-table-toggle svg{width:17px; height:17px}
 .iplan-table-toggle:hover{filter:brightness(1.06)}
 .iplan-table-toggle[aria-expanded="true"]{background:var(--surface); color:var(--white); box-shadow:none; border:1px solid rgba(255,255,255,.16)}
 
-/* выпадающая панель с фильтрами + таблицей */
+/* выпадающая панель с фильтрами и таблицей */
 .iplan-drawer{margin-top:16px; background:var(--surface); border-radius:var(--r-lg); box-shadow:var(--shadow-card); color:var(--graphite); overflow:hidden}
 .iplan-drawer[hidden]{display:none}
 .iplan-drawer-inner{padding:28px}
@@ -1318,7 +965,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .iplan-dot.is-prebooked{background:var(--clay)}
 .iplan-dot.is-booked{background:rgba(255,255,255,.3)}
 
-/* эйбран над каждой группой чипов — Босс 05.09, см. index.html */
+/* лейбл над каждой группой чипов */
 .iplan-filters-label{font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.08em;
   color:rgba(255,255,255,.4); margin-bottom:8px}
 .iplan-filters{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px}
@@ -1329,8 +976,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 }
 .iplan-chip:not(.is-active):hover{border-color:var(--clay); color:var(--clay)}
 .iplan-chip.is-active{background:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
-/* точка статуса внутри чипа — свой цвет виден и на активном (золотом) фоне,
-   и на неактивном (прозрачном), поэтому не наследует currentColor */
+/* точка не наследует currentColor, свой цвет виден и на активном и на обычном фоне */
 .iplan-chip .iplan-dot{width:7px; height:7px}
 .iplan-filters-status{margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(255,255,255,.13)}
 
@@ -1338,7 +984,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .iplan-table{width:100%; border-collapse:collapse; font-size:14px}
 .iplan-table thead{position:sticky; top:0; background:var(--surface); z-index:1}
 .iplan-table th{
-  text-align:left; padding:10px 12px; font-weight:500; color:var(--muted); font-size:12px;
+  text-align:left; padding:8px 12px; font-weight:500; color:var(--muted); font-size:12px;
   text-transform:uppercase; letter-spacing:.02em; border-bottom:1px solid rgba(255,255,255,.13); cursor:pointer; white-space:nowrap;
 }
 .iplan-table th:hover{color:var(--clay)}
@@ -1356,35 +1002,17 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 
 @media (max-width:860px){
   .iplan-drawer-inner{padding:18px}
-  /* Босс 05.09: кнопка "смотреть таблицу" на мобиле переезжает в правый
-     нижний угол (туда, где раньше сидели стрелки листания плана) — стрелки
-     уступают ей место и переезжают в правый ВЕРХНИЙ угол (там, где раньше
-     была сама кнопка таблицы). Просто зеркальная рокировка позиций. */
+  /* кнопка таблицы и стрелки меняются местами на мобиле, зекральная рокировка */
   .iplan-table-toggle{right:10px; bottom:10px; top:auto; padding:9px 13px; font-size:12px; gap:7px}
   .iplan-table-toggle svg{width:15px; height:15px}
   .iplan-legend{left:10px; bottom:10px; padding:9px 11px; gap:6px}
   .iplan-legend-item{font-size:11px}
-  /* стрелки пана на мобиле в правом верхнем углу (top:10px, ~58px в ширину) —
-     короткая плашка по центру сверху с ними не пересекается; чуть ужимаем */
   .iplan-hint{top:10px; left:10px; font-size:12px; padding:8px 13px}
-  /* короче: мобильные экраны и так узкие, высокий кадр ушёл бы за экран
-     по вертикали ещё до того, как пользователь долистает до плана.
-     Именно тут, а не на десктопе (Босс 05.09), картинка становится ВЫШЕ
-     контейнера и уезжает за край по ширине — width:100%/height:auto
-     десктопа сюда не годится, картинка была бы мелкой на узком экране. */
+  /* тут картинка выше контейнера и уезжает за край по ширине, десктопный
+     width:100% сюда не годится */
   .iplan-map--full{height:clamp(360px, 62vh, 520px); height:clamp(360px, 62svh, 520px)}
-  /* width:auto возвращает inline-block к сжатию по фактической (более
-     широкой) ширине картинки — на десктопе .iplan-pan-inner нарочно
-     width:100% (см. выше), но здесь картинка снова шире контейнера, и
-     .iplan-hotspots должен мериться по НЕЙ, а не по вьюпорту */
-  /* Босс 05.09(3): "фото плана зашакаленное" — глобальный сброс img{max-width:100%}
-     (см. выше) резал ширину картинки до ширины контейнера ДАЖЕ при
-     width:auto, а .iplan-pan-inner держал height:auto (не 100%), из-за чего
-     height:100% на img не резолвился (проценты от auto — невалидны, браузер
-     падал на натуральный размер) — картинка сначала обрезалась по ширине
-     max-width, потом высота пересчитывалась по этой урезанной ширине через
-     aspect-ratio: реальный рендер был ~306×171 вместо задуманных ~930×520,
-     фото выглядело мелким/нечётким. Оба свойства нужно явно перебить. */
+  /* фото было зашакаленное, max-width резал ширину даже при width:auto,
+     оба свойства нужно перебить явно */
   .iplan-pan-inner{width:auto; height:100%}
   .iplan-pan-inner img{width:auto; height:100%; max-width:none}
   .iplan-pan{cursor:grab}

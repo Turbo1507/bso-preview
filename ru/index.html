@@ -19,7 +19,7 @@
 <link rel="alternate" hreflang="en" href="https://blacksandsoasis.com/">
 <link rel="alternate" hreflang="x-default" href="https://blacksandsoasis.com/">
 <!-- English is the primary language (x-default); RU has its own /ru/ tree -->
-<!-- превью при шаринге; og:title/og:description синхронно обновляются в setLang() -->
+<!-- превью при шаринге, теги переписываются в setLang -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Black Sands Oasis">
 <meta property="og:title" content="Black Sands Oasis (БСО) — виллы в Нуану, Бали | UNIT">
@@ -183,12 +183,12 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20260915110721">
-<link rel="stylesheet" href="css/v2.css?v=20260915110721">
+<link rel="stylesheet" href="css/styles.css?v=20260926123835">
+<link rel="stylesheet" href="css/v2.css?v=20260926123835">
 </head>
 <body>
 
-<!-- ===== HEADER ===== -->
+<!-- header -->
 <header class="site-header" id="header">
   <div class="container header-in">
     <a class="logo" href="/ru/#top"><b>Black Sands Oasis</b></a>
@@ -206,6 +206,7 @@
       <div class="lang" role="group" aria-label="language">
         <button data-lang="ru" class="is-active">RU</button><span>/</span><button data-lang="en">EN</button>
       </div>
+      <a class="header-whatsapp" href="https://wa.me/628133917731" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.24 0 4.35.87 5.94 2.46a8.23 8.23 0 0 1 2.42 5.85c0 4.55-3.7 8.25-8.25 8.25h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.27-4.4c0-4.55 3.7-8.25 8.15-8.25zm4.52 5.87c-.25-.12-1.47-.72-1.69-.8-.23-.08-.39-.12-.56.12-.17.25-.64.8-.78.97-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.66-1.23-1.47-1.37-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.84-.86 2.06 0 1.21.88 2.38 1 2.55.12.17 1.73 2.64 4.2 3.7.59.25 1.05.4 1.41.51.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.16-.48-.28z"/></svg></a>
       <a class="btn btn-ghost btn-header js-lead-open" href="/ru/#contacts" data-i18n="nav.cta">Получить презентацию</a>
       <button class="burger" id="burger" aria-label="Меню" data-i18n-aria="menu.title"><span></span><span></span><span></span></button>
     </div>
@@ -224,15 +225,16 @@
   <a href="/ru/#team" data-i18n="nav.team">Команда</a>
   <a href="/ru/#gallery" data-i18n="nav.gallery">Галерея</a>
   <a href="/ru/#faq" data-i18n="nav.faq">Вопросы</a>
+  <a href="https://wa.me/628133917731" target="_blank" rel="noopener noreferrer" data-i18n="nav.whatsapp">Написать в WhatsApp</a>
   <div class="lang menu-lang" role="group" aria-label="language">
     <button data-lang="ru" class="is-active">RU</button><span>/</span><button data-lang="en">EN</button>
   </div>
   <a class="btn btn-clay menu-cta js-lead-open" href="/ru/#contacts" data-i18n="nav.cta">Получить презентацию</a>
-  <!-- Босс 05.09: мелкий текст снизу мобильного меню, инфа из футера -->
+  <!-- мелкий текст снизу мобильного меню, инфа из футера -->
   <span class="menu-legal">© 2026 unit.now</span>
 </div>
 
-<!-- ===== 01. HERO ===== -->
+<!-- hero -->
 <section class="hero" id="top">
   <video class="hero-bg" id="heroVideo" muted loop playsinline preload="none" poster="assets/hero-tour-poster.jpg">
     <source src="assets/hero-tour.mp4" type="video/mp4">
@@ -246,23 +248,16 @@
   <div class="hero-scroll" data-i18n="hero.scroll">UNIT. Флагманский проект</div>
 </section>
 
-<!-- ===== 02-03. ЛОКАЦИЯ + АРХИТЕКТУРА (объединены по правке Босса) ===== -->
-<!-- Блок "02 Локация" (тёмный фон, карта Бали) убран целиком — его текст
-     (лид про "редкую форму на западном побережье") перенесён сюда вторым
-     абзацем справа от заголовка. Полный старый блок 02 (с картой/CTA) жив в
-     истории git — коммит перед этим удалением, легко вернуть при необходимости. -->
-<!-- ===== 02-03. ЛОКАЦИЯ + АРХИТЕКТУРА (объединены по правке Босса) =====
-     04.08: пробовали слить с «Частной территорией» в 1 фото+4 чипа — Босс
-     сказал откатить, не трогать этот блок. Оставлено как было. -->
+<!-- локация плюс архитектура, объединены. блок локация с картой убран
+     целиком, текст перенесен вторым абзацем справа. история в гит -->
+<!-- пробовали слить с частной территорией, откатили, оставлено как было -->
 <section class="section" id="architecture">
   <div class="container">
     <div class="block-head-split">
       <h2 class="reveal" data-i18n="arch.title">Современный минимализм и восточная чувственность</h2>
-      <p class="lead lead-sm reveal" data-i18n="arch.lead">Редкая форма на западном побережье Бали, которая сочетает архитектурный характер и локацию</p>
+      <p class="lead lead-sm reveal" data-i18n="arch.lead">Редкая архитектурная форма на западном побережье Бали, которая сочетает архитектурный характер и локацию</p>
     </div>
-    <!-- Список характеристик слит со слайдером: 4 фото под 4 атрибута,
-         подпись лежит НА фото слева снизу — тот же приём, что у карточек
-         блока 3 (.vcard-text). Свободная высота отдана фото (выше, до 900px). -->
+    <!-- список характеристик слит со слайдером, подпись на фото слева снизу -->
     <div class="min-gallery reveal">
       <div class="min-gallery-track" id="minGalleryTrack">
         <div class="min-gallery-slide">
@@ -289,18 +284,14 @@
   </div>
 </section>
 
-<!-- ===== 03. ВИЛЛЫ В КОМПЛЕКСЕ БУДУЩЕГО (блок 3 макета «бсо2», Figma 6:651) =====
-     Заменяет карусель преимуществ v1: преимущества те же четыре, но в макете
-     это не слайдер, а сетка фото-карточек с текстом НА фото плюс вводный
-     разворот «заголовок слева / два абзаца справа». Держать оба варианта
-     нельзя — на странице оказалось бы два одинаковых набора преимуществ.
-     Карусель осталась в истории git (предыдущая светлая версия). -->
+<!-- виллы в комплексе будущего, заменяет карусель преимуществ v1, тот же
+     смысл но сеткой фото-карточек с текстом на фото. карусель в истории гит -->
 <section class="section villas" id="villas">
   <div class="container">
     <div class="villas-head reveal">
       <h2 data-i18n="villas.title">Виллы в комплексе будущего это:</h2>
       <div class="villas-intro">
-        <p data-i18n="villas.p1">Black Sands Oasis находится в Nuanu, кластере на берегу океана с единым архитектурным планом и собственной инфраструктурой. Это локация, где удобно жить самому и куда охотно возвращаются гости, потому что рядом есть всё нужное и при этом сохраняется ощущение тишины.</p>
+        <p data-i18n="villas.p1">Black Sands Oasis находится в Nuanu, культурном кластере на берегу океана с единым архитектурным планом и собственной инфраструктурой. Это локация, где удобно жить самому и куда охотно возвращаются гости, потому что рядом есть всё нужное и при этом сохраняется ощущение тишины.</p>
         <p data-i18n="villas.p2">Сами виллы сделаны как комфортное пространство для жизни и аренды. Большие окна в пол, натуральные материалы, спокойные природные оттенки и приватные дворы создают ощущение уединения и качества.</p>
       </div>
     </div>
@@ -340,12 +331,12 @@
   </div>
 </section>
 
-<!-- ===== 05. ЛОКАЦИЯ ВНУТРИ NUANU ===== -->
+<!-- локация внутри nuanu -->
 <section class="section" id="nuanu">
   <div class="container">
     <h2 class="reveal" data-i18n="nuanu.title">Строим в лучшей локации на Бали</h2>
-    <p class="lead lead-wide reveal" data-i18n="nuanu.lead">Комплекс расположен в кластере Nuanu площадью 45 гектаров на берегу океана с единым мастер-планом и городской инфраструктурой нового поколения</p>
-    <!-- Figma 1:4513: фото (с бейджем и подписью НА фото) идёт ПЕРЕД карточками расстояний, не после -->
+    <p class="lead lead-wide reveal" data-i18n="nuanu.lead">Комплекс расположен в культурном кластере Nuanu площадью 45 гектаров на берегу океана с единым мастер-планом и городской инфраструктурой нового поколения</p>
+    <!-- фото с бейджем и подписью идет перед карточками расстояний не после -->
     <div class="nuanu-photo reveal">
       <picture>
         <source media="(max-width:860px)" srcset="assets/nuanu-masterplan-mobile.jpg">
@@ -355,8 +346,7 @@
       <span class="nuanu-badge nuanu-badge--bso"><small data-i18n="nuanu.flag">Флагманский проект</small>BLACK SANDS OASIS<i></i></span>
             <p class="nuanu-caption" data-i18n="nuanu.caption">Жители Black Sands Oasis находятся в центре событий, сохраняя приватность собственной виллы</p>
     </div>
-    <!-- Figma: горизонтальная линия-разделитель со стрелкой вправо между
-         фото и карточками расстояний (LINE228 в исходнике) -->
+    <!-- линия-разделитель со стрелкой между фото и карточками расстояний -->
     <div class="nuanu-divider reveal"><span class="line"></span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
     <div class="stat-grid stat-grid-4 reveal">
       <div class="stat-card"><h3 data-i18n="nuanu.stat1.v">0 мин</h3><p data-i18n="nuanu.stat1.p">до Nuanu</p></div>
@@ -367,32 +357,25 @@
   </div>
 </section>
 
-<!-- ===== 06. АРХИТЕКТУРНАЯ ПОДПИСЬ: STELLA SOLARIS ===== -->
+<!-- архитектурная подпись stella solaris -->
 <section class="section signature">
   <div class="container">
-    <h2 class="reveal" data-i18n="sig.title">Архитектурная подпись комплекса</h2>
-    <!-- Босс 20.08: чипы с фото убраны. На кадре теперь мета-строка (Stella
-         Solaris + описание), которая раньше лежала ПОД фото; заголовок вынесен
-         плашкой в левый верхний угол, описание — стеклянной строкой у нижнего
-         края. Отдельного блока .signature-meta под фото больше нет. -->
+    <h2 class="reveal" data-i18n="sig.title">Знаковый объект комплекса</h2>
+    <!-- чипы с фото убраны, теперь мета-строка на кадре, заголовок плашкой сверху слева -->
     <div class="signature-photo reveal">
       <img decoding="async" class="ph" src="assets/stella-solaris.jpg" alt="Арт-объект Stella Solaris" data-i18n-alt="sig.photo_alt" loading="lazy">
       <div class="arch-slide-cap sig-cap">
         <h3>Stella Solaris</h3>
-        <!-- Босс 02.09: два чипа-строки объединены в одно предложение -->
+        <!-- два чипа-строки объединены в одно предложение -->
         <p data-i18n="sig.p1">15-метровый арт-объект от известного архитектурного бюро — визуальная доминанта проекта</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===== 07. ЧАСТНАЯ ТЕРРИТОРИЯ — вариант 3 (выбор Босса) =====
-     Было: фото во всю ширину + три равные карточки с иконками. Тот же
-     паттерн уже трижды на странице, а формулировки абстрактные.
-     Стало: геометрия блока 3 — крупный вертикальный кадр слева, три
-     коротких пункта справа. Иконки убраны: на карточке из трёх строк
-     они работали как украшение, а не как навигация.
-     Вернуть прежний вид: git show 74290ab:v2/index.html, секция 07. -->
+<!-- частная территория, вариант 3. было фото на всю ширину плюс три карточки
+     с иконками, тот же паттерн уже трижды на странице. стало: крупный кадр
+     слева, три коротких пункта справа без иконок -->
 <section class="section">
   <div class="container">
     <h2 class="reveal" data-i18n="priv.title">Частная территория нового уровня</h2>
@@ -423,33 +406,18 @@
 </section>
 
 
-<!-- ===== 08. ИНТЕРАКТИВНЫЙ ПЛАН — v1 (черновик, только для GitHub Pages) =====
-     Порядок с блоком «Планировки» ниже развёрнут (правка Босса 04.09): план
-     комплекса теперь ПЕРЕД планировками типов — карточка юнита на плане ведёт
-     вглубь, к разбору планировки конкретного типа (см. .iplan-reserve-btn в
-     js/iplan-map.js — клик проваливается в #plans на нужный таб).
-     По просьбе Босса: реф andreevskiy.by (виджет Realting) — у них есть
-     полноценная кликабельная схема + шахматка. У нас пока только ВТОРОЕ:
-     честная сортируемая/фильтруемая таблица юнитов (1-103 + P1-P8) из
-     партнёрской шахматки, плюс мастер-план картинкой рядом (НЕ кликабельный
-     по отдельным юнитам — 103 точных полигона на глаз с одной фотографии
-     это гадание, а не инженерия; кликабельные зоны — отдельным шагом, когда
-     будет точный источник координат, напр. Figma-вектор).
-     ВАЖНО перед деплоем на прод: данные (цена/статус BOOKED-PREBOOKED)
-     изначально для закрытого брокерского хаба /for-partners/, не публичные
-     — см. предупреждение в js/units-data.js. Не деплоить на blacksandsoasis.com
-     без явного разрешения Босса. -->
+<!-- интерактивный план, на проде. план комплекса теперь перед планировками
+     типов, карточка юнита ведет к разбору конкретного типа. данные из
+     партнерской шахматки, источник и правила обновления в units-data.js -->
 <section class="section section-gray" style="background:var(--stone)" id="interactive-plan">
   <div class="container">
     <h2 class="reveal" data-i18n="iplan.title">Интерактивный план комплекса</h2>
     <p class="lead reveal" data-i18n="iplan.lead">Все 111 юнитов комплекса — тип, площадь, цена и актуальное наличие</p>
     <div class="iplan-wrap reveal">
       <div class="iplan-map iplan-map--full" id="iplanMap">
-        <!-- .iplan-pan — картинку теперь показываем крупнее контейнера по
-             высоте (см. css/styles.css), поэтому по ширине она вылезает за
-             край и её нужно слайдить (правка Босса 05.09, реф andreevskiy.by:
-             стрелки + свайп вместо одного статичного кадра). Попап/легенда/
-             кнопка таблицы — СНАРУЖИ .iplan-pan, остаются на месте при
+        <!-- картинка крупнее контейнера по высоте, вылезает за край по
+             ширине, нужно слайдить. попап/легенда/кнопка таблицы снаружи
+             iplan-pan, остаются на месте при
              прокрутке; масштабируются только картинка+зоны внутри. -->
         <div class="iplan-pan" id="iplanPan">
           <div class="iplan-pan-inner">
@@ -458,10 +426,7 @@
           </div>
         </div>
         <div class="iplan-popup" id="iplanPopup"></div>
-        <!-- Однократная подсказка кликабельности (Босс 05-06.09): появляется
-             при первом показе карты, гаснет после первого касания/клика по
-             зоне или свайпа плана; факт показа в localStorage (bso_iplan_hint).
-             pointer-events:none — не мешает попасть по самим зданиям. -->
+        <!-- однократная подсказка, гаснет после первого касания, факт в localStorage -->
         <div class="iplan-hint" id="iplanHint" aria-hidden="true">
           <svg class="iplan-hint-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V6a2 2 0 0 1 4 0v5"/><path d="M13 8a2 2 0 0 1 4 0v3"/><path d="M17 9a2 2 0 0 1 4 0v6a6 6 0 0 1-6 6h-2a7 7 0 0 1-5.7-2.9L4 15a2 2 0 0 1 3.3-2.2L9 14"/></svg>
           <span data-i18n="iplan.hint">Нажмите на здание</span>
@@ -486,12 +451,7 @@
       </div>
       <div class="iplan-drawer" id="iplanDrawer" hidden>
         <div class="iplan-drawer-inner">
-          <!-- Босс 05.09: "фильтры сливаются" — два ряда чипов (тип/статус)
-               отличались только тонкой линией-разделителем. Добавили
-               подписи-эйбраны над каждой группой + цветную точку статуса на
-               статусных чипах (переиспользует .iplan-dot — тот же цвет, что
-               в легенде карты и в самой таблице), чтобы группа "Статус"
-               считывалась по цвету, а не только по тексту. -->
+          <!-- фильтры сливались, добавил подписи над группами и цветную точку статуса -->
           <div class="iplan-filters-label" data-i18n="iplan.filter.type_label">Тип</div>
           <div class="iplan-filters" id="iplanTypeFilters">
             <button class="iplan-chip is-active" data-type="all" data-i18n="iplan.filter.all">Все типы</button>
@@ -503,12 +463,7 @@
             <button class="iplan-chip" data-status="prebooked"><i class="iplan-dot is-prebooked"></i><span data-i18n="iplan.st.prebooked">Забронирован</span></button>
             <button class="iplan-chip" data-status="booked"><i class="iplan-dot is-booked"></i><span data-i18n="iplan.st.booked">Продан</span></button>
           </div>
-          <!-- Босс 05.09: "прогресс бары по скроллу таблицы должны быть
-               видны всегда" — нативный скроллбар (даже кастомно стилизованный
-               через ::-webkit-scrollbar) на тачах авто-скрывается вне
-               скролла, CSS это не отменить (тот же вывод уже был сделан на
-               unitdeveloper.com/.pp-table-track — переносим тот же приём:
-               отдельный DOM-элемент-полоска, ширину/позицию двигает JS). -->
+          <!-- прогресс бары скролла таблицы, нативный скроллбар на тачах прячется, css не отменить -->
           <div class="iplan-table-outer">
             <div class="iplan-table-wrap">
               <table class="iplan-table">
@@ -535,10 +490,8 @@
   </div>
 </section>
 
-<!-- ===== 08-b. ПЛАНИРОВКИ (раскрывашка «смотреть планировку» поверх фото —
-     реф Figma «план1»/«план2» (295:331/332, канал 41fc2tir): кнопка над фото
-     разворачивается в тёмную панель со схемой, план вынесен из карусели.
-     Фото — 3:4 (правка Босса: в широком кадре смотрелись растянутыми). ===== -->
+<!-- планировки, раскрывашка смотреть планировку поверх фото, кнопка над
+     фото разворачивается в темную панель, план вынесен из карусели -->
 <section class="section section-gray plans-tight-top" style="background:var(--stone)" id="plans">
   <div class="container">
     <h2 class="reveal" data-i18n="plans.title">Планировки под разные сценарии жизни</h2>
@@ -554,27 +507,19 @@
     </div>
     <div class="plans-panel reveal">
       <div class="plans-viewer" id="plansViewer">
-        <!-- Коллаж вместо карусели (правка Босса 01.09, реф unitdeveloper.com
-             #projects .project-gallery, доп. правка 02.09 — масонри вместо
-             ровной сетки): интерьерные фото слева сохраняют СВОИ пропорции
-             (вертикальное фото — вертикальный контейнер, без обрезки под
-             общую рамку), топвью с последним интерьерным кадром образуют
-             квадратный блок справа снизу (интерьер сверху, топвью снизу).
-             Разметка ниже — просто валидный фолбэк на первый паинт, renderPlan()
-             в main.js перестраивает содержимое под активный таб сразу при загрузке.
-             Клик по интерьерному фото открывает лайтбокс (js/v2.js, уже умеет
-             работать с #plansPhotoTrack — ничего в нём менять не пришлось). -->
+        <!-- коллаж вместо карусели, интерьерные фото слева сохраняют свои
+             пропорции, топвью с последним интерьером справа снизу. разметка
+             ниже это фолбэк на первый паинт, renderPlan в main.js перестраивает -->
         <div class="plans-collage" id="plansPhotoTrack">
           <div class="plans-collage-left" id="plansCollageLeft">
             <img decoding="async" class="plan-photo-img plans-collage-tile ph" src="assets/villa-studio-detail1.jpg" alt="Studio villa interior">
           </div>
           <div class="plans-collage-right">
             <img decoding="async" class="plan-photo-img plans-collage-tile plans-collage-tile--sq ph" src="assets/villa-studio-detail2.jpg" alt="Studio villa interior">
-            <!-- топвью-карточка строится в main.js (renderPlan) -->
+            <!-- топвью карточка строится в main.js renderPlan -->
           </div>
         </div>
-        <!-- панель — сестра .plans-collage, не внутри неё: inset:0 должен мерить
-             от всего фото-кадра .plans-viewer -->
+        <!-- панель сестра plans-collage не внутри, inset:0 меряет от всего кадра -->
         <div class="plans-toggle-panel" id="plansTogglePanel">
           <div class="plans-toggle-panel-in"><img loading="lazy" decoding="async" width="497" height="1112" id="planToggleImg" src="assets/plan-studio.png" alt="Studio floor plan"></div>
         </div>
@@ -594,13 +539,9 @@
           <div><div class="k" data-i18n="plans.who_label">Для кого</div><div class="v" id="planWho">Single, couples</div></div>
         </div>
         <div class="plans-cta-row">
-          <!-- Порядок поменян местами (правка Босса 05.09: "поменяй их еще
-               местами") — раньше иконка стояла первой. -->
+          <!-- порядок поменян местами, раньше иконка стояла первой -->
           <a class="btn btn-glass js-lead-open" href="/ru/#contacts" data-i18n="plans.cta.v2">Узнать подробнее</a>
-          <!-- иконка-план встала рядом с CTA (правка Босса 02.09) — раньше
-               была стеклянным чипом поверх фото карточки топвью, но топвью
-               в масонри-раскладке разного размера по типам, и кнопка на ней
-               плавала непредсказуемо. Только иконка, без текста. -->
+          <!-- иконка встала рядом с cta, раньше была чипом на топвью и плавала непредсказуемо -->
           <button class="plans-toggle-btn plans-toggle-btn--icon" id="plansToggleBtn" aria-expanded="false" aria-label="Смотреть планировку" data-i18n-aria="plans.view_layout">
             <svg class="plans-toggle-ic plans-toggle-ic--closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 12h18M12 3v18"/></svg>
             <svg class="plans-toggle-ic plans-toggle-ic--open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
@@ -611,32 +552,19 @@
   </div>
 </section>
 
-<!-- Старый блок «Как купить виллу» (карусель шагов) убран по правке Босса —
-     остался только вариант со липким заголовком ниже. Вернуть целиком:
-         git show 34cd263:v2/index.html
-     и забрать оттуда секцию «09. ОТ ВЫБОРА ЮНИТА ДО ГОТОВОЙ ВИЛЛЫ».
-     Стили .steps-track/.step-card в css/styles.css и вызов
-     wireCarousel('stepsTrack', …) в js/main.js НЕ трогали: вызов
-     тихо выходит, если трека нет, а v1 ими продолжает пользоваться. -->
+<!-- старый блок как купить виллу карусель шагов убран, остался только
+     вариант со липким заголовком ниже. история в гит -->
 
-<!-- ===== 09-b. КАК КУПИТЬ ВИЛЛУ — вариант со «липким» заголовком =====
-     Второй вариант того же блока, по просьбе Босса стоит РЯДОМ со старым
-     (карусель выше не удалена — их надо сравнить). Референс — product-feed
-     на burton.com: слева колонка, которая держится на месте, справа лента
-     карточек. Здесь левая колонка на position:sticky, правая — обычный
-     столбик, так что «прокрутка» заголовка вместе с блоком получается без
-     единой строки JS и корректно деградирует в старых браузерах.
-     ВАЖНО: в v1 у body стоит overflow-x:hidden, а это делает body scroll-
-     контейнером и убивает sticky у потомков. В css/v2.css оно заменено на
-     overflow-x:clip — клип обрезает так же, но контейнер прокрутки не создаёт. -->
+<!-- как купить виллу, вариант со липким заголовком, реф product-feed burton.com.
+     левая колонка sticky, правая обычный столбик, без единой строки js.
+     v1 держит overflow-x:hidden на body и ломает sticky, в v2.css заменено на clip -->
 <section class="section steps-sticky" id="steps-sticky">
   <div class="container">
     <div class="ss-grid">
       <div class="ss-head">
         <h2 class="reveal" data-i18n="steps.title">Как купить виллу</h2>
         <p class="lead reveal" data-i18n="stepsSticky.lead">От выбора юнита до ключей — пять шагов, каждый закреплён договором.</p>
-        <!-- Кнопка живёт ВНУТРИ .ss-head, чтобы липнуть вместе с шапкой при
-             скролле (Босс 09.09). На десктопе показана эта, ss-cta--mob скрыта. -->
+        <!-- кнопка внутри ss-head чтобы липнуть с шапкой, на десктопе показана эта -->
         <a class="btn btn-clay ss-cta ss-cta--desk reveal js-lead-open" href="/ru/#contacts" data-i18n="nav.cta">Получить презентацию</a>
       </div>
       <ol class="ss-list reveal">
@@ -676,28 +604,21 @@
           </div>
         </li>
       </ol>
-      <!-- Мобильный экземпляр: липкость отключена, кнопка стоит под шагами
-           (правка Босса 05.09). На десктопе скрыт — см. css/v2.css .ss-cta--mob. -->
+      <!-- мобильный экземпляр, липкость отключена, на десктопе скрыт -->
       <a class="btn btn-clay ss-cta ss-cta--mob reveal js-lead-open" href="/ru/#contacts" data-i18n="nav.cta">Получить презентацию</a>
     </div>
   </div>
 </section>
 
-<!-- ===== 11. ПОЧЕМУ БАЛИ И NUANU ===== -->
+<!-- почему бали и nuanu -->
 <section class="section section-gray" style="background:var(--stone)" id="invest">
   <div class="container">
     <h2 class="reveal" data-i18n="invest.title">Почему именно Бали и Nuanu</h2>
     <p class="lead lead-wide reveal" data-i18n="invest.lead">Бали входит в число сильных туристических направлений мира. В ТОП-районах острова фиксируют рост цен на недвижимость 20% в год и доходность аренды вилл до 16% годовых. Nuanu усиливает эту динамику за счёт ограниченного предложения и развитой городской среды</p>
-    <!-- Стеклянные чипы ПРЯМО на фото (реф Figma «ТУТСМОТРИ», 6:695, канал
-         pghzhfwu, страница БСО2) — десктопная раскладка, не трогаем.
-         Босс 05.09: на мобиле чипы закрывали фулл-фотку — правка была нужна
-         ТОЛЬКО там (см. @media 860px ниже: чипы уходят из абсолюта под фото,
-         стиль на мобиле — по аналогии с .ss-card, сплошная поверхность).
-         На десктопе разметка и стиль остаются как в исходном Figma-рефе. -->
+    <!-- стеклянные чипы прямо на фото, десктопная раскладка не трогаем.
+         на мобиле чипы закрывали фулл фотку, правка нужна была только там -->
     <div class="invest-photo reveal">
-      <!-- правка Босса: вместо рендера комплекса — реальный кадр Бали из той же
-           части побережья, что и проект (Танах Лот, ~15 минут от Nuanu вдоль
-           берега). Unsplash, лицензия свободная для коммерческого использования. -->
+      <!-- реальный кадр бали вместо рендера комплекса, танах лот 15 минут от nuanu -->
       <img decoding="async" class="ph" src="assets/why-bali-tanahlot.jpg" alt="Храм Танах Лот на западном побережье Бали на закате" data-i18n-alt="invest.photo_alt_v2" loading="lazy">
       <div class="invest-chips">
         <div class="invest-chip invest-chip--wide"><h3 data-i18n="invest.stat1.v">+20% в год</h3><p data-i18n="invest.stat1.p">Ориентир роста стоимости недвижимости в топовых районах Бали</p></div>
@@ -708,12 +629,8 @@
   </div>
 </section>
 
-<!-- ===== 12. ФИНАНСОВАЯ МОДЕЛЬ ===== -->
-<!-- Пересобрано с нуля по свежим Figma-фреймам GOVNO1 (десктоп) и MOBILE_SHIT
-     (мобила) на странице NUANU masterplan (channel vn58u3ke) — старая версия
-     (full-bleed тёмное фото-бандо) была выдумкой, в макете её нет.
-     Реально: светлая скруглённая карточка, слева текст+кнопка, фото стопки
-     документов (PNG с альфой) выступает за верхний/правый край карточки. -->
+<!-- финансовая модель, светлая скругленная карточка, слева текст и кнопка,
+     фото стопки документов выступает за край карточки -->
 <section class="section fin-section">
   <div class="container">
     <h2 class="reveal" data-i18n="fin.title">Финансовая модель проекта</h2>
@@ -728,7 +645,7 @@
   </div>
 </section>
 
-<!-- ===== 13. КОМАНДА ===== -->
+<!-- команда -->
 <section class="section section-gray" style="background:var(--stone)" id="team">
   <div class="container">
     <h2 class="reveal" data-i18n="team.title">Кто делает Black Sands Oasis</h2>
@@ -739,7 +656,7 @@
         <h3 data-i18n="team.name1">Степан Федосеев</h3>
         <p data-i18n="team.p1">Основатель UNIT. и UNIT.BUILD. Эксперт по системному управлению и внедрению технологий в строительстве</p>
       </div>
-      <!-- скрывается на EN-версии по правке Босса, см. css/v2.css -->
+      <!-- скрывается на en версии, см. css/v2.css -->
       <div class="team-card team-card--anna">
         <div class="team-photo"><img decoding="async" class="ph" src="assets/team-anna.jpg" alt="Anna Orlova" loading="lazy"></div>
         <span class="team-role" data-i18n="team.role2">Со-владелец</span>
@@ -750,10 +667,7 @@
   </div>
 </section>
 
-<!-- ===== 13.5. UNIT. КАК ГРУППА КОМПАНИЙ (реф Figma «бсо2», раздел «Работаем
-     как единая система», y~12500-14100, канал 41fc2tir) — текст оттуда,
-     не выдуман: показывает BSO как продукт всей группы UNIT., не одной
-     компании ===== -->
+<!-- unit как группа компаний, текст из макета бсо2, показывает bso как продукт всей группы -->
 <section class="section section-gray" style="background:var(--stone)" id="unit-group">
   <div class="container">
     <h2 class="reveal" data-i18n="unitgrp.title">Работаем как единая система</h2>
@@ -783,12 +697,9 @@
   </div>
 </section>
 
-<!-- ===== 13.7. ГАЛЕРЕЯ ПРОЕКТА (блок из макета «бсо2») =====
-     Полоса фиксированной высоты: ширина слайда идёт от самой фотографии, а не
-     наоборот. Кадры в архиве разной ориентации, и загонять их в общую рамку
-     значило бы резать половину — здесь каждый показан целиком.
-     Фото отобраны по правилам Босса: одна вилла в кадре, никаких аэрофото
-     с рядами вилл и кадров с моделями. -->
+<!-- галерея проекта, полоса фиксированной высоты, ширина слайда от фото не
+     наоборот, каждый кадр показан целиком без обрезки. фото: одна вилла в
+     кадре, без аэрофото рядов вилл и без моделей -->
 <section class="section gallery" id="gallery">
   <div class="container">
     <div class="steps-head-row">
@@ -818,12 +729,8 @@
   </div>
 </section>
 
-<!-- ===== 13.5. ОТВЕТЫ НА ВОПРОСЫ (блок из макета «бсо2», Figma 6:651) =====
-     Вопросы взяты из макета дословно. Ответы написаны заново: в макете под
-     раскрытым пунктом лежит текст-рыба про Сергея Солонина в три повтора,
-     переносить оттуда было нечего. Содержание собрано из блоков «Правовой
-     контур и сроки», «Покупка и оплата» и описания локации того же макета —
-     цифры требуют подтверждения Босса. -->
+<!-- faq, вопросы из макета дословно, ответы написаны заново, в макете была рыба.
+     цифры требуют подтверждения Босса -->
 <section class="section faq" id="faq">
   <div class="container">
     <div class="faq-wrap">
@@ -879,12 +786,8 @@
   </div>
 </section>
 
-<!-- ===== 14. ФИНАЛЬНЫЙ CTA ===== -->
-<!-- Пересобрано с нуля по Figma 1:4791 (get_node_info): h2 full-width сверху,
-     ниже — ДВЕ колонки: слева лид-абзац + кнопка (растянуты по высоте до
-     низа правой колонки), справа 3 статы СТЕКОМ по вертикали (число сверху,
-     подпись снизу, выравнивание по правому краю) — не горизонтальная
-     стеклянная панель с разделителями, это была моя выдумка. -->
+<!-- финальный cta, h2 full-width сверху, ниже две колонки: лид плюс кнопка
+     слева, три статы стеком справа -->
 <section class="final" id="contacts">
   <img decoding="async" class="final-bg ph" src="assets/cta-villas-overview.jpg" alt="" loading="lazy">
   <div class="final-shade"></div>
@@ -902,12 +805,12 @@
   </div>
 </section>
 
-<!-- ===== FOOTER ===== -->
+<!-- footer -->
 <footer class="site-footer" id="footer">
   <div class="container footer-in">
     <div class="footer-brand">
       <a class="logo" href="/ru/#top"><b>Black Sands Oasis</b></a>
-      <p data-i18n="footer.desc">Флагманский проект UNIT. в кластере Nuanu, западное побережье Бали</p>
+      <p data-i18n="footer.desc">Флагманский проект UNIT. в культурном кластере Nuanu, западное побережье Бали</p>
     </div>
     <nav class="footer-col">
       <h4 data-i18n="menu.title">Меню</h4>
@@ -928,8 +831,7 @@
       <a href="legal-info.html" data-i18n="footer.link4">Юр. информация о компании</a>
     </div>
     <div class="footer-social">
-      <a href="/ru/#" class="placeholder-link" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
-      <a href="/ru/#" class="placeholder-link" aria-label="Telegram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 4L3 11l6 2 2 6 3-4 5 3z"/></svg></a>
+      <a href="https://www.instagram.com/unit.developer" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg></a>
     </div>
   </div>
   <div class="container footer-bottom">
@@ -939,12 +841,13 @@
 </div>
 </footer>
 
-<!-- ===== MOBILE CTA ===== -->
+<!-- mobile cta -->
 <div class="mob-cta">
   <a class="btn btn-clay js-lead-open" href="/ru/#contacts" data-i18n="nav.cta">Получить презентацию</a>
+  <a class="mob-cta-whatsapp" href="https://wa.me/628133917731" target="_blank" rel="noopener noreferrer" aria-label="Написать в WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2zm0 1.67c2.24 0 4.35.87 5.94 2.46a8.23 8.23 0 0 1 2.42 5.85c0 4.55-3.7 8.25-8.25 8.25h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.27-4.4c0-4.55 3.7-8.25 8.15-8.25zm4.52 5.87c-.25-.12-1.47-.72-1.69-.8-.23-.08-.39-.12-.56.12-.17.25-.64.8-.78.97-.14.17-.29.19-.53.06-.25-.12-1.04-.38-1.99-1.22-.73-.66-1.23-1.47-1.37-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.12-.14.16-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.35-.77-1.85-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.84-.86 2.06 0 1.21.88 2.38 1 2.55.12.17 1.73 2.64 4.2 3.7.59.25 1.05.4 1.41.51.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.68-1.18.21-.58.21-1.08.15-1.18-.06-.1-.23-.16-.48-.28z"/></svg></a>
 </div>
 
-<!-- ===== ОВЕРЛЕЙ ЗАЯВКИ ===== -->
+<!-- оверлей заявки -->
 <div class="lead-modal" id="leadModal" aria-hidden="true">
   <div class="lead-backdrop" data-lead-close></div>
   <div class="lead-panel" role="dialog" aria-modal="true" aria-labelledby="leadTitle">
@@ -974,9 +877,7 @@
           <input type="tel" id="leadPhoneLocal" name="phone_local" inputmode="numeric" autocomplete="tel-national" required placeholder="812 3456 789">
         </div>
       </label>
-      <!-- правка Босса: почта обязательна (было «Email (optional)»). Форма
-           стоит с novalidate — за required отвечает проверка в js/main.js,
-           она смотрит именно на атрибут required, поэтому v1 не задет. -->
+      <!-- почта стала обязательной, форма с novalidate, required проверяет main.js -->
       <label class="lead-field"><span data-i18n="lead.email_r">Email</span><input type="email" name="email" required></label>
 
       <label class="lead-field"><span data-i18n="lead.purpose">Что вас интересует</span>
@@ -999,7 +900,7 @@
   </div>
 </div>
 
-<!-- ===== COOKIE / STORAGE NOTICE ===== -->
+<!-- уведомление про куки -->
 <div class="cookie-note" id="cookieNote" role="dialog" aria-live="polite" aria-labelledby="cookieNoteText">
   <p id="cookieNoteText" data-i18n="cookie.text">Мы используем куки и локальное хранилище браузера, чтобы сайт работал: запоминаем язык, настройки отображения и анонимную статистику посещений.</p>
   <div class="cookie-note-row">
@@ -1008,7 +909,7 @@
   </div>
 </div>
 
-<!-- ===== LIGHTBOX (фото галереи + слайдера типов вилл на весь экран) ===== -->
+<!-- lightbox, фото галереи и слайдера типов вилл на весь экран -->
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
   <button class="lightbox-close" id="lightboxClose" aria-label="Закрыть" data-i18n-aria="menu.close">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg>
@@ -1019,34 +920,27 @@
   <div class="lightbox-count"><span id="lightboxCountCur">1</span>/<span id="lightboxCountTotal">1</span></div>
 </div>
 
-<!-- v2 лежит на уровень глубже, ассеты общие в /assets/ — main.js читает этот префикс -->
-<!-- BSO_ASSET_PREFIX убран: v2 переехал в корень, ассеты грузятся от корня -->
-<!-- пин у бейджа BSO на мастер-плане: точка на застройке прямо под бейджем,
-     короткий указатель от его нижнего края. Проценты — от кадра nuanu-masterplan -->
+<!-- пин у бейджа bso на мастер-плане, точка под бейджем, короткий указатель вниз -->
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
-<!-- тот же пин для мобильного кропа (280x289, координата бейджа 23.04/16.78
-     из styles.css) — тот же короткий указатель вниз, тем же смещением по %,
-     что и на десктопе (from +2.81pp, dot +5.71pp от верха бейджа) -->
+<!-- тот же пин для мобильного кропа -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/i18n.js?v=20260915110721"></script>
-<script src="js/v2-i18n.js?v=20260915110721"></script>
-<script src="js/main.js?v=20260915110721"></script>
-<script src="js/v2.js?v=20260915110721"></script>
-<script src="js/units-data.js?v=20260915110721"></script>
-<script src="js/units-plan.js?v=20260915110721"></script>
-<script src="js/buildings-data.js?v=20260915110721"></script>
-<script src="js/iplan-map.js?v=20260915110721"></script>
+<script src="js/i18n.js?v=20260926123835"></script>
+<script src="js/v2-i18n.js?v=20260926123835"></script>
+<script src="js/main.js?v=20260926123835"></script>
+<script src="js/v2.js?v=20260926123835"></script>
+<script src="js/units-data.js?v=20260926123835"></script>
+<script src="js/units-plan.js?v=20260926123835"></script>
+<script src="js/buildings-data.js?v=20260926123835"></script>
+<script src="js/iplan-map.js?v=20260926123835"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 <script>
-/* EN-страница: кнопка RU уводит на /ru/ (server-rendered RU), а не просто
-   переключает data-i18n на месте — у /ru/ свой URL и canonical. */
+/* en страница, кнопка ru уводит на /ru/, а не просто переключает i18n на месте */
 document.querySelectorAll('[data-lang="ru"]').forEach(function(b){
   b.addEventListener('click', function(e){ e.stopImmediatePropagation(); e.preventDefault(); location.href='/ru/'; }, true);
 });
 </script>
 <script>
-/* RU-страница: кнопка EN уводит на английский URL, а не просто переключает
-   data-i18n на месте (у /ru/ свой server-rendered контент и canonical). */
+/* ru страница, кнопка en уводит на корневой url, у /ru/ свой контент и canonical */
 document.querySelectorAll('[data-lang="en"]').forEach(function(b){
   b.addEventListener('click', function(e){ e.stopImmediatePropagation(); e.preventDefault(); location.href='/'; }, true);
 });
