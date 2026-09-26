@@ -272,7 +272,7 @@ function animateNumberIn(el, duration = 900) {
 const statNumIO = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { animateNumberIn(e.target); statNumIO.unobserve(e.target); } });
 }, { threshold: 0.5 });
-document.querySelectorAll('.stat-card h3').forEach(el => statNumIO.observe(el));
+document.querySelectorAll('.stat-card .stat-v').forEach(el => statNumIO.observe(el));
 
 /* ---------- живой футер: время + погода на Бали (WITA, Nuanu/Tabanan) ---------- */
 /* Open-Meteo — без API-ключа, CORS открыт, подходит для чисто статического

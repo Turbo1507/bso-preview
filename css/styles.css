@@ -60,7 +60,7 @@ body{
   color:var(--graphite); background:var(--white); -webkit-font-smoothing:antialiased;
   overflow-x:hidden; touch-action:pan-y pinch-zoom; overscroll-behavior-x:none;
 }
-img{max-width:100%; display:block}
+img{max-width:100%; height:auto; display:block}
 /* плейсхолдер пока фото грузится, бегущий блик, снимается по load.
    .is-loading вешает main.js только если фото еще не в кеше */
 img.is-loading{
@@ -94,6 +94,8 @@ h1{font-size:clamp(64px,9.5vw,137px)}
 h2{font-size:clamp(32px,4.45vw,64px); text-wrap:balance}
 h3{font-size:24px}
 p{margin:0; line-height:1.1}
+/* цифры-статы (.stat-v) были h3: для поиска это не заголовки. база та же, что у h3 */
+.stat-v{font-weight:400; letter-spacing:0; line-height:1.1; margin:0; font-size:24px}
 /* было темнее, контраст не проходил, поднял */
 .lead{font-size:clamp(17px,1.67vw,24px); color:rgba(58,58,58,.72); max-width:64ch; margin-top:var(--sp-md); line-height:1.1}
 .lead.on-dark{color:rgba(255,255,255,.72)}
@@ -240,6 +242,10 @@ body.menu-open{overflow:hidden}
     rgba(10,9,7,.28);
 }
 .hero-in{position:relative; z-index:2; width:100%}
+/* H1 = название + подзаголовок (SEO 26.09): обёртка нейтральная, вид прежний */
+.hero-h1{font-size:inherit; letter-spacing:normal; line-height:inherit}
+.hero-h1 .hero-title{display:block; font-size:clamp(64px,9.5vw,137px); letter-spacing:-.05em; line-height:.8}
+.hero-h1 .hero-sub{display:block; letter-spacing:normal}
 .hero-title{color:var(--white); max-width:14ch}
 .hero-sub{color:rgba(255,255,255,.8); font-size:16px; font-weight:400; max-width:31ch; margin-top:50px; line-height:1}
 .hero-scroll{position:absolute; bottom:36px; left:40px; z-index:2; color:rgba(255,255,255,.6); font-size:12px; letter-spacing:.08em; text-transform:uppercase}
@@ -475,10 +481,10 @@ body.menu-open{overflow:hidden}
   /* карточки были слишком крупные для короткого текста, паддинг ужал */
   border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:28px; background:transparent;
 }
-.stat-card h3{font-size:30px; font-weight:500; color:var(--ink)}
+.stat-card .stat-v{font-size:30px; font-weight:500; color:var(--ink)}
 .stat-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75); margin-top:16px}
 /* эти цифры мельче и обычным весом, не как у карточек инвестиций */
-.stat-grid-4 .stat-card h3{font-size:24px; font-weight:400}
+.stat-grid-4 .stat-card .stat-v{font-size:24px; font-weight:400}
 /* фото увеличено, было плоской узкой лентой */
 .why-photo{border-radius:var(--r-lg); overflow:hidden; margin-top:var(--sp-lg); aspect-ratio:16/8; box-shadow:var(--shadow-card)}
 .why-photo img{width:100%; height:100%; object-fit:cover}
@@ -529,7 +535,7 @@ body.menu-open{overflow:hidden}
 .final-stats{grid-area:stats; display:flex; flex-direction:column; justify-content:space-between; gap:24px; text-align:right}
 /* тонкая линия между статами вместо голого воздуха, читается собраннее */
 .final-stats .stat + .stat{border-top:1px solid rgba(255,255,255,.18); padding-top:24px}
-.final-stats .stat h3{font-size:32px; color:var(--white); font-weight:500}
+.final-stats .stat .stat-v{font-size:32px; color:var(--white); font-weight:500}
 .final-stats .stat p{font-size:18px; color:rgba(255,255,255,.75); margin-top:4px; line-height:1.15}
 
 /* футер, сетка колонок как на unitdeveloper, не рыхлый flex */
@@ -713,7 +719,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .final-lead{max-width:none}
   .final-cta{justify-self:stretch}
   .final-stats{text-align:left; gap:14px; margin-top:0}
-  .final-stats .stat h3{font-size:18px}
+  .final-stats .stat .stat-v{font-size:18px}
   .final-stats .stat p{font-size:11px}
   /* карточка колонкой, фото сверху текст с кнопкой снизу, все по центру */
   .fin-card{
@@ -761,7 +767,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .stat-grid-4{grid-template-columns:repeat(4,1fr); gap:8px}
   .stat-grid-4 .stat-card{padding:10px 8px}
   .stat-grid-4 .stat-card .card-ic{width:20px; height:20px; margin-bottom:10px}
-  .stat-grid-4 .stat-card h3{font-size:15px}
+  .stat-grid-4 .stat-card .stat-v{font-size:15px}
   .stat-grid-4 .stat-card p{font-size:10.5px; line-height:1.25; margin-top:5px}
 
   /* команда, 2 колонки остаются но компактнее */

@@ -93,7 +93,7 @@ body.menu-open .burger span{background:var(--white)}
 .footer-brand p,
 .footer-col a,
 .footer-bottom{color:rgba(255,255,255,.66)}
-.stat-card h3{color:var(--clay)}
+.stat-card .stat-v{color:var(--clay)}
 /* заголовок→подзаголовок в финальном CTA был 60px (styles.css:709, тот же
    отступ что и до статов/кнопки) — Босс попросил сблизить title+lead, они
    должны читаться как пара, а не как заголовок+произвольный контент */
@@ -627,7 +627,7 @@ body.menu-open .burger span{background:var(--white)}
   background:var(--surface); border:1px solid var(--line);
   border-radius:var(--r-sm); box-shadow:var(--shadow-card); padding:22px 20px;
 }
-.stat-grid-4 .stat-card h3{font-family:'Prata',Georgia,serif; font-weight:400;
+.stat-grid-4 .stat-card .stat-v{font-family:'Prata',Georgia,serif; font-weight:400;
   font-size:26px; line-height:1.1; color:var(--clay)}
 .stat-grid-4 .stat-card p{margin-top:6px; font-size:11px; letter-spacing:.1em;
   text-transform:uppercase; color:rgba(255,255,255,.55); line-height:1.4}
@@ -1015,8 +1015,8 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   border-radius:var(--r-sm); padding:26px 28px;
   backdrop-filter:blur(24px) saturate(1.1); -webkit-backdrop-filter:blur(24px) saturate(1.1)}
 /* акцентнее (правка Босса 05.08): значение — Prata золотом, как остальные
-   цифры-статы на сайте (.stat-card h3 и т.п.), крупнее прежнего 18px белого */
-.invest-chip h3{margin:0; font-family:'Prata',Georgia,serif; font-weight:400;
+   цифры-статы на сайте (.stat-card .stat-v и т.п.), крупнее прежнего 18px белого */
+.invest-chip .stat-v{margin:0; font-family:'Prata',Georgia,serif; font-weight:400;
   font-size:30px; line-height:1.15; color:var(--clay)}
 .invest-chip p{margin:8px 0 0; font-size:14px; line-height:1.5; color:rgba(255,255,255,.85)}
 @media (max-width:860px){
@@ -1043,7 +1043,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .invest-chips{position:static; margin-top:16px; grid-template-columns:1fr; gap:16px}
   .invest-chip{background:var(--surface); border:1px solid var(--line); box-shadow:var(--shadow-card);
     backdrop-filter:none; -webkit-backdrop-filter:none; padding:24px}
-  .invest-chip h3{font-family:inherit; font-weight:500; font-size:18px; color:var(--white); margin:0 0 8px; line-height:1.2}
+  .invest-chip .stat-v{font-family:inherit; font-weight:500; font-size:18px; color:var(--white); margin:0 0 8px; line-height:1.2}
   .invest-chip p{font-size:14px; line-height:1.5; color:rgba(255,255,255,.7)}
 }
 
@@ -1187,7 +1187,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
    т.д.) до 24px, сравняв с мелкими лейблами — но по замыслу (:232) оно должно
    визуально стоять вровень с соседней цифрой площади (тоже 32px, тоже Prata),
    а не проигрывать ей. 32 УЖЕ есть в шкале (тот же шаг, что у .plans-stat .v) */
-.stat-card h3{font-size:32px}                  /* было 30 */
+.stat-card .stat-v{font-size:32px}                  /* было 30 */
 .signature-meta h3,
 .fin-card-text h3{font-size:32px}              /* было 36 */
 .ss-card .num{font-size:64px}                  /* clamp давал дробные 63.36 */
@@ -1269,7 +1269,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
      justify-content:flex-end прижимал контент коротких карточек ("20 мин /
      до Чангу") к низу — большой пустой зазор сверху. Выравниваем по ВЕРХУ. */
   .stat-grid-4 .stat-card{padding:16px 14px; justify-content:flex-start}
-  .stat-grid-4 .stat-card h3{font-size:20px}
+  .stat-grid-4 .stat-card .stat-v{font-size:20px}
   .stat-grid-4 .stat-card p{margin-top:4px; font-size:10px}
   .team-role{font-size:12px}                              /* было 13 */
   .pv-card p{font-size:14px}                              /* было 15 */
@@ -1290,7 +1290,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   .logo b, .logo{font-size:20px}                          /* было 22 */
   .lang button, .lang span{font-size:12px}                /* было 13 */
   .plans-stat .k{font-size:12px}                          /* было 13 */
-  .stat-card h3{font-size:24px}                           /* было 30 */
+  .stat-card .stat-v{font-size:24px}                           /* было 30 */
   .lead-form-sub{font-size:12px}                          /* было 13 */
   .cookie-note-row .btn, .cookie-note-row a, .mob-cta .btn{font-size:14px}  /* было 13 */
   .plans-info .btn-glass{font-size:16px}                  /* было 15 */
