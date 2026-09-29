@@ -860,6 +860,23 @@ body{overflow-x:clip}
    window.BSO_NUANU_BADGE_PIN в index.html — теми же примитивами, что у
    остальных названий. */
 .nuanu-badge--bso{background:var(--surface); border:0}
+/* 29.09: на десктопе у <small> «Флагманский проект» не было стилей — он шёл
+   инлайном в ту же строку капсом и склеивался с названием («ПРОЕКТBLACK»).
+   Тот же вид, что на мобиле (порт .mp-flag с unitdeveloper): вкладка над
+   плашкой слева, обычный регистр без разрядки; угол плашки под вкладкой прямой.
+   Мобильный @media ниже перебивает эти значения своими. */
+.nuanu-badge--bso{border-radius:0 var(--r-xs) var(--r-xs) var(--r-xs)}
+.nuanu-badge--bso small{
+  position:absolute; left:0; bottom:100%; margin:0;
+  background:#3a3a3a; color:#fff; font-size:12px; font-weight:400;
+  letter-spacing:0; text-transform:none; line-height:1;
+  padding:5px 12px; border-radius:2px 2px 0 0; white-space:nowrap;
+}
+/* 861–1100: полноразмерная плашка (RU 363px) вылезала за левый край фото */
+@media (max-width:1100px){
+  .nuanu-badge--bso{font-size:12px; padding:8px 16px}
+  .nuanu-badge--bso small{font-size:11px; padding:4px 8px}
+}
 /* указатель и точка бейджа — тёмные (#131313, правка Босса), в отличие от
    белых пинов остальных подписей: так метка нашего объекта отделяется от
    инфраструктурных. Линия чуть толще белых — тёмное на пёстром кадре тоньше
