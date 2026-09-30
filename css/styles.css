@@ -33,7 +33,7 @@
   --sp-xs: 8px; --sp-sm: 16px; --sp-md: 24px; --sp-lg: 40px;
   /* ритм между секциями, было 104 потом 160 потом 200 по правкам босса,
      внутри блоков всегда меньше чем снаружи */
-  --sp-xl: 64px; --sp-2xl: 80px; --sp-3xl: 100px;
+  --sp-xl: 64px; --sp-2xl: 80px; --sp-3xl: 120px;
 
   --shadow-card: 0 20px 50px -20px rgba(28,24,21,.18);
   --shadow-card-dark: 0 24px 60px -20px rgba(0,0,0,.55);
