@@ -1658,3 +1658,14 @@ body.lb-lock{overflow:hidden}
 /* RU / EN: зона нажатия 36×44 без сдвига вёрстки (кнопки 21×18); шире 36 зоны соседей перекрываются */
 .lang button{position:relative}
 .lang button::after{content:''; position:absolute; left:50%; top:50%; width:36px; height:44px; transform:translate(-50%,-50%)}
+
+/* факты покупки под лидом «Как купить» (Босс 01.10 подтвердил: возврат при отказе PBG, гарантии, старт стройки) */
+.ss-facts{list-style:none; margin:24px 0 0; padding:0; display:flex; flex-direction:column; gap:12px; font-size:16px; line-height:1.4; color:rgba(255,255,255,.72)}
+.ss-facts li{position:relative; padding-left:24px}
+.ss-facts li::before{content:''; position:absolute; left:2px; top:6px; width:10px; height:5px; border-left:2px solid var(--clay); border-bottom:2px solid var(--clay); transform:rotate(-45deg)}
+@media (max-width:860px){ .ss-facts{font-size:14px; gap:8px} .ss-facts li::before{top:5px} }
+
+/* форма заявки 01.10 (Босс: поиск кода страны сжат по высоте): .lead-phone-row input{flex:1}
+   (styles.css) специфичнее .csel-search и давал поиску flex-basis 0 в колонке попапа —
+   Safari схлопывал поле. Возвращаем размер по содержимому + явная высота 44. */
+.lead-phone-row .csel-search{flex:0 0 auto; height:44px; min-height:44px; font-size:16px}  /* 16 = без зума iOS при фокусе */

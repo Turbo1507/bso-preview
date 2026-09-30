@@ -10,6 +10,9 @@
 (function () {
   var ru = {
     /* блок 3 01.10: цена «от» и модалка под нажатую кнопку */
+    "stepsSticky.fact1": "Возврат всех платежей, если лицензия PBG не получена",
+    "stepsSticky.fact2": "Гарантия 25 лет на конструктив, 5 лет на инженерные сети, 1 год на отделку",
+    "stepsSticky.fact3": "Стройка стартует в феврале 2026 и длится 24 месяца по договору",
     "plans.price_label": "Цена от",
     "lead.title.presentation": "Презентация проекта",
     "lead.submit.presentation": "Получить презентацию",
@@ -96,6 +99,9 @@
 
   var en = {
     /* блок 3 01.10: цена «от» и модалка под нажатую кнопку */
+    "stepsSticky.fact1": "Full refund of all payments if the PBG permit is not obtained",
+    "stepsSticky.fact2": "A 25-year structural warranty, 5 years on engineering systems, 1 year on finishes",
+    "stepsSticky.fact3": "Construction starts in February 2026 and runs 24 months under the contract",
     "plans.price_label": "Price from",
     "lead.title.presentation": "Project presentation",
     "lead.submit.presentation": "Send me the presentation",
