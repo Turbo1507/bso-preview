@@ -1644,3 +1644,17 @@ body.lb-lock{overflow:hidden}
   .nuanu-badge--bso small{font-size:10px; padding:4px 8px}
   .nuanu-caption{font-size:12px}
 }
+
+/* блок 3 01.10: цена «от» строкой под названием формата (минимальная COST свободных юнитов) */
+.plans-from{margin:16px 0 0; font-size:16px; line-height:1.3; color:rgba(255,255,255,.7); white-space:nowrap}
+.plans-from b{font-weight:500; color:var(--white)}
+@media (max-width:860px){ .plans-name{flex:0 0 100%} }
+
+/* P3 01.10 (критика): подсказка «нажмите на здание» без золотой рамки, размытия и широкой тени, 14px как прочие подписи */
+.iplan-hint{border:0; box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none; background:rgba(19,19,19,.88); color:#fff; font-size:14px}
+@media (max-width:860px){ .iplan-hint{font-size:14px; padding:8px 12px} }
+/* ответы FAQ: строка не длиннее ~70 знаков (было до 140 на десктопе) */
+.faq-a p{max-width:70ch}
+/* RU / EN: зона нажатия 36×44 без сдвига вёрстки (кнопки 21×18); шире 36 зоны соседей перекрываются */
+.lang button{position:relative}
+.lang button::after{content:''; position:absolute; left:50%; top:50%; width:36px; height:44px; transform:translate(-50%,-50%)}

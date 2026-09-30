@@ -837,7 +837,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   transition:opacity .4s var(--ease), transform .4s var(--ease);
 }
 .iplan-hint.is-visible{ opacity:1; transform:translateY(0) }
-.iplan-hint-ic{ width:16px; height:16px; color:#d9ae45; flex:0 0 auto;
+.iplan-hint-ic{ width:16px; height:16px; color:var(--clay); flex:0 0 auto;
   animation:iplan-hint-tap 1.5s ease-in-out infinite }
 @keyframes iplan-hint-tap{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(2px) } }
 @media (prefers-reduced-motion: reduce){ .iplan-hint-ic{ animation:none } }
@@ -874,11 +874,11 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   transition:stroke .25s var(--ease), filter .25s var(--ease);
 }
 @media(hover:hover){.iplan-hotspot:hover{
-  stroke:#d9ae45; stroke-width:2;
+  stroke:var(--clay); stroke-width:2;
   filter:drop-shadow(0 0 3px rgba(217,174,69,.95)) drop-shadow(0 0 9px rgba(217,174,69,.8)) drop-shadow(0 0 20px rgba(217,174,69,.5));
 }}
 .iplan-hotspot.is-active{
-  stroke:#d9ae45; stroke-width:2;
+  stroke:var(--clay); stroke-width:2;
   filter:drop-shadow(0 0 3px rgba(217,174,69,1)) drop-shadow(0 0 13px rgba(217,174,69,.85)) drop-shadow(0 0 28px rgba(217,174,69,.55));
 }
 

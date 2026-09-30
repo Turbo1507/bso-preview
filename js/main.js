@@ -91,9 +91,24 @@ if (leadModal && leadForm) {
   };
   leadModal.setAttribute('aria-hidden', 'true');
   leadModal.setAttribute('inert', '');
+  /* заголовок и кнопка формы под нажатую CTA (data-lead-intent): ключи
+     lead.title.<intent> / lead.submit.<intent>; data-i18n меняем вместе с текстом,
+     чтобы смена языка при открытой форме не вернула общий «Оставить заявку» */
+  const leadTitleEl = document.getElementById('leadTitle');
+  const leadSubmitEl = leadForm.querySelector('button[type="submit"] [data-i18n]');
+  const setLeadIntent = intent => {
+    const dict = window.I18N[window.__bsoLang || document.documentElement.lang || 'en'] || window.I18N.en;
+    [[leadTitleEl, 'lead.title'], [leadSubmitEl, 'lead.submit']].forEach(([el, base]) => {
+      if (!el) return;
+      const key = intent && dict[base + '.' + intent] ? base + '.' + intent : base;
+      el.setAttribute('data-i18n', key);
+      el.innerHTML = dict[key];
+    });
+  };
   document.querySelectorAll('.js-lead-open').forEach(el => el.addEventListener('click', e => {
     e.preventDefault();
     setMenuOpen(false);
+    setLeadIntent(el.dataset.leadIntent);
     openLead();
   }));
 
@@ -111,6 +126,7 @@ if (leadModal && leadForm) {
     // 'own'. Диспатчим change, чтобы v2.js перерисовал кнопку.
     if (purposeEl && !purposeEl.value) { purposeEl.value = 'own'; purposeEl.dispatchEvent(new Event('change', { bubbles: true })); }
     setMenuOpen(false);
+    setLeadIntent('unit');
     openLead();
   };
   leadModal.querySelectorAll('[data-lead-close]').forEach(el => el.addEventListener('click', closeLead));
@@ -793,6 +809,22 @@ function buildFloorsSVG(layout, lang, showLabels) {
   return svg;
 }
 const plansTabs = document.getElementById('plansTabs');
+/* «Цена от» — минимальная COST среди свободных юнитов формата (units-data.js,
+   тот же источник, что таблица #iplan). units-data.js подключён после main.js,
+   поэтому на первом рендере данных может не быть: пересчёт на DOMContentLoaded. */
+const PLAN_UNIT_TYPE = { studio: /^STUDIO/, '1bd': /^1BD$/, '1bdsky': /^1BD SKY$/, '2bd': /^2BD$/, '3bd': /^3BD$/, '3bdsky': /^3BD SKY$/, '4bd': /^4BD/ };
+let currentPlanId = 'studio';
+function renderPlanPrice(planId) {
+  currentPlanId = planId;
+  const stat = document.getElementById('planPriceStat');
+  const el = document.getElementById('planPrice');
+  if (!stat || !el || typeof BSO_UNITS === 'undefined') return;
+  const re = PLAN_UNIT_TYPE[planId];
+  const free = re ? BSO_UNITS.filter(u => re.test(u.t) && (u.st === 'early' || u.st === 'presale')) : [];
+  stat.hidden = !free.length;
+  if (free.length) el.textContent = '$' + Math.min(...free.map(u => u.c)).toLocaleString('en-US');
+}
+document.addEventListener('DOMContentLoaded', () => renderPlanPrice(currentPlanId));
 function renderPlan(planId, lang) {
   const p = (PLANS[lang] || PLANS.en)[planId];
   if (!p) return;
@@ -802,6 +834,7 @@ function renderPlan(planId, lang) {
   planAreaEl.textContent = p.area; planAreaEl.dataset.counted = '';
   planCapEl.textContent = p.cap; planCapEl.dataset.counted = '';
   document.getElementById('planWho').textContent = p.who;
+  renderPlanPrice(planId);
   animateNumberIn(planAreaEl); animateNumberIn(planCapEl);
   /* число фото разное по типам (5 у большинства, 6 у 4BD). Индексы в p.photos:
      [0]=план, [1..length-2]=интерьерные фото виллы, [length-1]=topview.

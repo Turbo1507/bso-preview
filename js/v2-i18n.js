@@ -9,6 +9,18 @@
    в макете это RU-only, английской версии там нет. */
 (function () {
   var ru = {
+    /* блок 3 01.10: цена «от» и модалка под нажатую кнопку */
+    "plans.price_label": "Цена от",
+    "lead.title.presentation": "Презентация проекта",
+    "lead.submit.presentation": "Получить презентацию",
+    "lead.title.plan": "Планировки и цены",
+    "lead.submit.plan": "Получить планировку и цены",
+    "lead.title.fin": "Финансовая модель Black Sands Oasis",
+    "lead.submit.fin": "Получить финмодель",
+    "lead.title.selection": "Персональная подборка вилл",
+    "lead.submit.selection": "Получить подборку",
+    "lead.title.unit": "Бронь юнита",
+    "lead.submit.unit": "Забронировать юнит",
     "plans.cta.v2": "Получить планировку и цены",
     /* v2-only: почта обязательна (в v1 поле осталось необязательным,
        поэтому свой ключ, а не правка "lead.email" в общем словаре) */
@@ -83,6 +95,18 @@
   };
 
   var en = {
+    /* блок 3 01.10: цена «от» и модалка под нажатую кнопку */
+    "plans.price_label": "Price from",
+    "lead.title.presentation": "Project presentation",
+    "lead.submit.presentation": "Send me the presentation",
+    "lead.title.plan": "Floor plans and prices",
+    "lead.submit.plan": "Get the floor plan and prices",
+    "lead.title.fin": "Black Sands Oasis financial model",
+    "lead.submit.fin": "Get the financial model",
+    "lead.title.selection": "Personal selection of villas",
+    "lead.submit.selection": "Get my selection",
+    "lead.title.unit": "Unit booking",
+    "lead.submit.unit": "Request the booking",
     "plans.cta.v2": "Get the floor plan and prices",
     "lead.email_r": "Email",
     "invest.photo_alt_v2": "Tanah Lot temple on the west coast of Bali at sunset",
