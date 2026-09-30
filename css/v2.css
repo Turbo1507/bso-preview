@@ -1106,7 +1106,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 /* Правка Босса: 36/18 закрывали кадр — текст спущен к шкале карточек сайта
    (там h3 20px), но остаётся на ступень крупнее, потому что и карточки крупнее.
    Вес 500, а не Bold как в прототипе: это наш шаг шкалы для заголовков карточек. */
-.vcard-text h3{margin:0 0 8px; font-size:clamp(18px,1.75vw,25px); font-weight:500; line-height:1.16;
+.vcard-text h3{margin:0 0 8px; font-size:clamp(18px,1.75vw,25px); font-weight:500; line-height:1.15;
   color:var(--white); max-width:34ch; text-wrap:balance}
 /* max-width подобран так, чтобы подпись укладывалась в две строки, а не в три:
    лишняя строка — это ещё ~22px закрытого кадра на каждой карточке */
@@ -1619,31 +1619,7 @@ body.lb-lock{overflow:hidden}
 .u5{font-weight:500}
 
 /* ---------- мастерплан Nuanu на мобиле: номера на карте + легенда (Босс 01.10) ---------- */
-/* Подписи 6.5px на карте 358px не читались. Кружок стоит центром на точке
-   объекта (координаты NUANU_PINS_MOBILE — точка на объекте), список ниже. */
-.nuanu-legend{display:none}
-@media (max-width:860px){
-  .nuanu-pin-num{
-    position:absolute; transform:translate(-50%,-50%);
-    width:16px; height:16px; border-radius:50%;
-    display:inline-flex; align-items:center; justify-content:center;
-    background:#fff; color:#131313; font-size:10px; font-weight:500; line-height:1;
-    box-shadow:0 1px 3px rgba(0,0,0,.45);
-  }
-  .nuanu-legend{
-    display:grid; grid-template-columns:1fr 1fr; gap:8px 16px;
-    list-style:none; margin:16px 0 0; padding:0;
-    font-size:14px; line-height:1.3; color:rgba(255,255,255,.72);
-  }
-  .nuanu-legend li{display:flex; align-items:flex-start; gap:8px}
-  .nuanu-legend .nuanu-pin-num{position:static; transform:none; flex:0 0 auto; margin-top:1px}
-  .nuanu-legend:empty{display:none}
-  /* бейдж BSO крупнее: было 9px / вкладка 7px. top пересчитан под новую высоту
-     плашки (+5px): точка указателя остаётся на объекте */
-  .nuanu-badge--bso{font-size:12px; padding:7px 10px; top:21.03%}
-  .nuanu-badge--bso small{font-size:10px; padding:4px 8px}
-  .nuanu-caption{font-size:12px}
-}
+
 
 /* блок 3 01.10: цена «от» строкой под названием формата (минимальная COST свободных юнитов) */
 .plans-from{margin:16px 0 0; font-size:16px; line-height:1.3; color:rgba(255,255,255,.7); white-space:nowrap}
@@ -1669,3 +1645,96 @@ body.lb-lock{overflow:hidden}
    (styles.css) специфичнее .csel-search и давал поиску flex-basis 0 в колонке попапа —
    Safari схлопывал поле. Возвращаем размер по содержимому + явная высота 44. */
 .lead-phone-row .csel-search{flex:0 0 auto; height:44px; min-height:44px; font-size:16px}  /* 16 = без зума iOS при фокусе */
+
+/* межстрочный по ролям, единый на весь сайт (Босс 01.10: лид «Строим в лучшей локации» слипался на 1.1).
+   Было вперемешку: лиды 1.1, абзацы 1.35/1.4/1.45/1.5/1.55, h3 1.1/1.15/1.16.
+   h2 (Prata, дисплей) остаётся 1.04; чипы и цифры-значения не трогаем. */
+section h3{line-height:1.15}
+section .lead{line-height:1.4}
+section p:not(.lead):not(.nuanu-caption):not(.plans-from), section li, .footer-brand p{line-height:1.5}
+.nuanu-caption{line-height:1.4}
+
+/* попап здания на мобиле (Босс 01.10: 4 строки, остальные прокруткой — ставит iplan-map.js).
+   280px не хватало: тип юнита переносился, иконка брони выпадала за край строки */
+@media (max-width:860px){ .iplan-popup{max-width:calc(100% - 16px)} }
+/* строке юнита нужно ~278px (номер, тип, статус, цена, корзина); в 280px попапе оставалось 242 —
+   корзина брони торчала за край на 36px (десктоп, найдено 01.10). */
+.iplan-popup{max-width:320px}
+@media (max-width:860px){ .iplan-popup{max-width:calc(100% - 16px)} .iplan-popup-row{gap:6px} }
+
+/* Босс 01.10, Layouts на мобиле: точки-кружки под слайдером фото; скругление всех углов фото.
+   Нижние углы пропадали: у img высота из aspect-ratio, а Safari берёт пропорцию из атрибутов
+   width/height (1600x898) — фото выше ленты, лента режет низ. Высота плитки теперь от ширины
+   ленты (cqw), скругление через clip-path — не зависит от overflow предков. */
+.plans-dots{display:none}
+@media (max-width:860px){
+  .plans-collage--bento{container-type:inline-size; align-items:flex-start}
+  .plans-collage--bento .pc-bento-tile{height:105cqw; aspect-ratio:auto; clip-path:inset(0 round var(--r-md)); border-radius:var(--r-md)}
+  .plans-dots{display:flex; justify-content:center; margin-top:8px}
+  .plans-dots button{width:24px; height:24px; padding:0; border:0; background:none; display:flex; align-items:center; justify-content:center; cursor:pointer}
+  .plans-dots button::before{content:''; width:8px; height:8px; border-radius:50%; background:rgba(255,255,255,.3); transition:background .2s var(--ease)}
+  .plans-dots button.on::before{background:var(--white)}
+  /* цена «от» в одну строку с названием, прижата вправо */
+  .plans-name{display:flex; align-items:baseline; justify-content:space-between; gap:16px; width:100%; flex:0 0 100%}
+  .plans-from{margin:0}
+}
+
+/* размер лида-подзаголовка, один на все блоки (Босс 01.10, токен --fs-sub): ≤760 16 · 761–1599 20 · ≥1600 21.
+   Межстрочный 1.4 — выше, в правилах межстрочного по ролям. */
+:root{--fs-sub:20px}
+@media (max-width:760px){ :root{--fs-sub:16px} }
+@media (min-width:1600px){ :root{--fs-sub:21px} }
+section .lead, section .lead.lead-sm, section .lead.lead-wide, section .lead.final-lead{font-size:var(--fs-sub)}
+/* лид справа от h2 в #architecture: при 20–21px в 370px шло 3 строки — колонка шире */
+@media (min-width:861px){ .block-head-split .lead-sm{max-width:440px} }
+/* цена в строку с названием (моб.): старое .plans-info h3{flex:0 0 100%} растягивало название и выталкивало цену */
+@media (max-width:860px){ .plans-name h3{flex:0 1 auto; margin:0} }
+/* мобила: лайтбокс по тапу отключён (Босс 01.10, v2.js) — курсор-лупа не нужна */
+@media (max-width:860px){ .plans-collage-tile, .plans-collage--bento img.pc-bento-tile, #galTrack img{cursor:default} }
+
+/* Босс 01.10: команда в RU — горизонтальные карточки, сетка 1 столбец × 2 ряда.
+   Только RU: в EN одна карточка, горизонтальный формат там Босс отверг 05.09
+   («маленько и уныло»). Фото крупное — половина карточки, текст справа. */
+html[lang="ru"] .team-grid{grid-template-columns:1fr; gap:24px}
+@media (min-width:861px){
+  html[lang="ru"] .team-card{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:1fr auto auto 1fr; column-gap:40px}
+  html[lang="ru"] .team-card .team-photo{grid-row:1 / -1; grid-column:1; margin:0; aspect-ratio:4/3}
+  html[lang="ru"] .team-card .team-role{grid-column:2; grid-row:1; align-self:end}
+  html[lang="ru"] .team-card h3{grid-column:2; grid-row:2}
+  html[lang="ru"] .team-card p{grid-column:2; grid-row:3; max-width:56ch}
+}
+@media (max-width:860px){ html[lang="ru"] .team-grid{gap:16px} }
+
+/* Босс 01.10: «Почему Бали, почему Nuanu» на мобиле — заголовки чипов фирменным золотом, как на десктопе */
+@media (max-width:860px){ .invest-chip .stat-v{color:var(--clay)} }
+
+/* Босс 01.10: низ футера на мобиле стоял криво (три куска в переносящемся flex-ряду,
+   температура одна у правого края). Столбцом, всё по левому краю, время+погода целиком. */
+@media (max-width:860px){
+  .footer-bottom{flex-direction:column; align-items:flex-start; justify-content:flex-start; gap:8px; padding-top:24px}
+  .footer-bottom .bali-clock-full, .footer-bottom .bali-clock-sep{display:inline}
+}
+
+/* Босс 01.10, правило UNIT.: связка <b class="ul"><b class="u5">UNIT.</b>BUILD</b> — UNIT. 500, хвост 400.
+   <b> по умолчанию bold — сбрасываем. */
+.ul{font-weight:400}
+.ul .u5{font-weight:500}
+/* Босс 01.10: финальная CTA в #contacts на мобиле — RU-текст в nowrap был шире экрана,
+   кнопка вылезала вправо (справа отступ меньше). На мобиле текст кнопок переносится. */
+@media (max-width:860px){
+  .btn{white-space:normal; max-width:100%; text-align:center}
+}
+
+/* Босс 01.10: «проверь иерархию текстов по размеру и прозрачности». Замер скриптом
+   (_bso-unit-hier-audit.mjs): у текста одной роли — пояснение под заголовком карточки
+   или под цифрой — было 14/15/15.84/16/18px и альфа .55–.75. Одна ступень на тёмном фоне:
+   16px десктоп / 14px мобила, альфа .7. Текст поверх фото (.vcard, чипы #invest на
+   десктопе, статы #contacts) остаётся ярче — там это ради читаемости, не иерархия. */
+.villas-intro p, .ss-card-body p, .team-card p, .unitgrp-card p, .faq-a p,
+.stat-grid .stat-card p{color:rgba(255,255,255,.7)}
+.unitgrp-card p, .faq-a p, .final-stats .stat p{font-size:16px}
+@media (max-width:860px){
+  .team-card p, .unitgrp-card p, .faq-a p, .final-stats .stat p{font-size:14px}
+}
+/* лид #invest (RU длинный) при 20–21px (--fs-sub) уходил в 3 строки в 1180px — даём всю ширину контейнера */
+@media (min-width:861px){ section .lead.lead-wide{max-width:none} }

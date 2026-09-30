@@ -30,7 +30,11 @@ const ASSET = s => (window.BSO_ASSET_PREFIX || '') + s;
 
 /* ---------- header solid on scroll ---------- */
 const header = document.getElementById('header');
-function syncHeader() { header.classList.toggle('is-solid', window.scrollY > 40); }
+function syncHeader() {
+  // Босс 01.10: под открытой формой body зафиксирован и scrollY = 0 — шапка становилась прозрачной
+  if (document.body.classList.contains('lead-lock')) return;
+  header.classList.toggle('is-solid', window.scrollY > 40);
+}
 document.addEventListener('scroll', syncHeader, { passive: true });
 syncHeader();
 
@@ -72,6 +76,9 @@ if (leadModal && leadForm) {
   let leadScrollY = 0;
   const openLead = () => {
     leadScrollY = window.scrollY;
+    const sbw = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.paddingRight = sbw ? sbw + 'px' : '';
+    header.style.paddingRight = sbw ? sbw + 'px' : '';
     document.body.style.top = `-${leadScrollY}px`;
     leadModal.classList.add('is-open');
     leadModal.setAttribute('aria-hidden', 'false');
@@ -84,6 +91,8 @@ if (leadModal && leadForm) {
     leadModal.setAttribute('inert', '');
     document.body.classList.remove('lead-lock');
     document.body.style.top = '';
+    document.body.style.paddingRight = '';
+    header.style.paddingRight = '';
     // behavior:'instant' обязателен — на сайте глобальный html{scroll-behavior:
     // smooth} (styles.css), обычный scrollTo(x,y) укатил бы страницу назад
     // плавной анимацией вместо мгновенного возврата на то же место
@@ -109,6 +118,12 @@ if (leadModal && leadForm) {
     e.preventDefault();
     setMenuOpen(false);
     setLeadIntent(el.dataset.leadIntent);
+    if (el.dataset.leadIntent === 'book') {
+      const commentEl = leadForm.querySelector('textarea[name="comment"]');
+      const lang = window.__bsoLang || document.documentElement.lang || 'en';
+      const name = (document.getElementById('planName') || {}).textContent || '';
+      if (commentEl && name) commentEl.value = (lang === 'ru' ? 'Формат: ' : 'Format: ') + name;
+    }
     openLead();
   }));
 
@@ -532,7 +547,6 @@ const NUANU_PINS_MOBILE = [
   { ru: 'Thk tower', en: 'Thk Tower', left: 47.4, top: 62.45 },
 ];
 const nuanuPinsWrap = document.getElementById('nuanuPins');
-const nuanuLegend = document.getElementById('nuanuLegend');
 const nuanuMobileMQ = window.matchMedia('(max-width:860px)');
 function renderNuanuPins(lang) {
   if (!nuanuPinsWrap) return;
@@ -545,16 +559,16 @@ function renderNuanuPins(lang) {
     const badgeSvgMobile = badgePinMobile
       ? `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none"><line class="badge-pin" x1="${badgePinMobile.dot[0]}" y1="${badgePinMobile.dot[1]}" x2="${badgePinMobile.from[0]}" y2="${badgePinMobile.from[1]}" vector-effect="non-scaling-stroke"/><ellipse class="badge-pin" cx="${badgePinMobile.dot[0]}" cy="${badgePinMobile.dot[1]}" rx=".35" ry=".7"/></svg>`
       : '';
-    /* Босс 01.10: подписи 6.5px на карте не читались. На карте только
-       номера-кружки на точке объекта, названия — списком под картой (14px).
-       Нумерация слева направо по карте, чтобы номер легко найти глазами. */
-    const pins = NUANU_PINS_MOBILE.slice().sort((a, b) => a.left - b.left);
-    const marks = pins.map((p, i) => `<span class="nuanu-pin-num" style="left:${p.left}%;top:${p.top}%">${i + 1}</span>`).join('');
-    nuanuPinsWrap.innerHTML = badgeSvgMobile + marks;
-    if (nuanuLegend) nuanuLegend.innerHTML = pins.map((p, i) => `<li><span class="nuanu-pin-num">${i + 1}</span>${lang === 'en' ? p.en : p.ru}</li>`).join('');
+    const labels = NUANU_PINS_MOBILE.map(p => {
+      const cls = ['nuanu-pin-label'];
+      if (p.align === 'left') cls.push('is-left');
+      if (p.align === 'right') cls.push('is-right');
+      if (p.below) cls.push('is-below');
+      return `<span class="${cls.join(' ')}" style="left:${p.left}%;top:${p.top}%">${lang === 'en' ? p.en : p.ru}</span>`;
+    }).join('');
+    nuanuPinsWrap.innerHTML = badgeSvgMobile + labels;
     return;
   }
-  if (nuanuLegend) nuanuLegend.innerHTML = '';
   /* preserveAspectRatio="none" мапит viewBox 100x100 на контейнер 2:1
      (width:height контейнера ≠ viewBox) — X и Y растягиваются РАЗНЫМИ
      коэффициентами, поэтому circle (r одинаковый по X/Y) на выходе сплюснут
@@ -1146,4 +1160,39 @@ if (themeSwitch) {
   var orig = window.setLang;
   if (typeof orig === 'function') { window.setLang = function (l) { orig(l); sync(); }; }
   sync();
+})();
+
+/* Босс 01.10: точки-прогресс у мобильного слайдера фото Layouts. Слайды
+   пересобирает renderPlan (число фото разное по форматам) — следим через
+   MutationObserver. Активная — плитка, чей центр ближе к центру ленты. */
+(function () {
+  const track = document.getElementById('plansPhotoTrack');
+  const viewer = document.getElementById('plansViewer');
+  if (!track || !viewer) return;
+  const dots = document.createElement('div');
+  dots.className = 'plans-dots';
+  viewer.insertAdjacentElement('afterend', dots);
+  const tiles = () => Array.from(track.querySelectorAll('.pc-bento-tile'));
+  const centerOf = t => t.getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft + t.offsetWidth / 2;
+  const sync = () => {
+    const c = track.scrollLeft + track.clientWidth / 2;
+    let best = 0, d = Infinity;
+    tiles().forEach((t, i) => { const dd = Math.abs(centerOf(t) - c); if (dd < d) { d = dd; best = i; } });
+    Array.from(dots.children).forEach((b, k) => b.classList.toggle('on', k === best));
+  };
+  const build = () => {
+    const n = tiles().length;
+    if (dots.children.length !== n) {
+      dots.innerHTML = Array.from({ length: n }, (_, k) => '<button type="button" aria-label="' + (k + 1) + '/' + n + '"></button>').join('');
+    }
+    sync();
+  };
+  dots.addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b) return;
+    const t = tiles()[Array.from(dots.children).indexOf(b)]; if (!t) return;
+    track.scrollTo({ left: centerOf(t) - track.clientWidth / 2, behavior: 'smooth' });
+  });
+  track.addEventListener('scroll', sync, { passive: true });
+  new MutationObserver(build).observe(track, { childList: true });
+  build();
 })();

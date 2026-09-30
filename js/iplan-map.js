@@ -262,6 +262,18 @@
       }).join('');
       popup.innerHTML = `<div class="iplan-popup-title">${title}</div><ul class="iplan-popup-list">${rows}</ul>`;
     }
+    /* Босс 01.10: на мобиле список ровно 4 строки, остальное прокруткой —
+       иначе попап закрывает комплекс. Строки разной высоты (длинный тип
+       переносится), поэтому высота по низу 4-й строки, а не row×4. */
+    const list = popup.querySelector('.iplan-popup-list');
+    popup.style.maxHeight = '';
+    if (list) {
+      list.style.maxHeight = '';
+      if (window.matchMedia('(max-width:860px)').matches && list.children.length > 4) {
+        popup.style.maxHeight = 'none';
+        list.style.maxHeight = Math.ceil(list.children[3].getBoundingClientRect().bottom - list.getBoundingClientRect().top) + 'px';
+      }
+    }
     mountPopupScrollbar();
 
     // Попап уезжает В БОК от зоны (не поверх неё): вправо если есть место,

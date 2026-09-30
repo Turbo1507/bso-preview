@@ -46,8 +46,11 @@
   ['galTrack', 'plansPhotoTrack'].forEach(function (id) {
     var container = document.getElementById(id);
     if (!container) return;
-    container.style.cursor = 'zoom-in';
+    // Босс 01.10: на мобиле увеличение по тапу «только сбивает» — лайтбокс только на десктопе
+    var mobileMQ = window.matchMedia('(max-width: 860px)');
+    if (!mobileMQ.matches) container.style.cursor = 'zoom-in';
     container.addEventListener('click', function (e) {
+      if (mobileMQ.matches) return;
       var im = e.target.closest('img');
       if (!im) return;
       open(container, im);
@@ -74,10 +77,16 @@
 (function () {
   var v = document.getElementById('heroVideo');
   if (!v) return;
-  if (window.matchMedia('(min-width: 821px)').matches) {
-    v.preload = 'auto';
-    v.play().catch(function () {});
+  /* Босс 01.10: видео должно играть и на мобиле. Там свой лёгкий ролик
+     hero-tour-mobile.mp4 (3.7 МБ против 13.5): центральный кроп 3:4 под
+     вертикальный хиро, без звука, faststart. */
+  if (window.matchMedia('(max-width: 820px)').matches) {
+    var s = v.querySelector('source');
+    if (s) s.src = 'assets/hero-tour-mobile.mp4';
+    v.load();
   }
+  v.preload = 'auto';
+  v.play().catch(function () {});
 })();
 
 /* BSO v2 — аккордеон FAQ.

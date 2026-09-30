@@ -99,7 +99,7 @@ p{margin:0; line-height:1.1}
 /* было темнее, контраст не проходил, поднял */
 .lead{font-size:clamp(17px,1.67vw,24px); color:rgba(58,58,58,.72); max-width:64ch; margin-top:var(--sp-md); line-height:1.1}
 .lead.on-dark{color:rgba(255,255,255,.72)}
-.lead-sm{font-size:18px!important}
+.lead-sm{font-size:var(--fs-sub, 18px)}  /* Босс 01.10: общий размер лида, было 18px !important */
 /* абзацы с ручными <br>, 64ch тесно, браузер бы перенес их еще раз */
 .lead-wide{max-width:1180px}
 /* заголовок и подпись справа центрированы по вертикали, не по низу */
@@ -633,7 +633,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .lead-backdrop{position:fixed; inset:0; background:rgba(28,24,21,.6)}
 .lead-panel{position:relative; z-index:1; max-width:480px; width:100%; max-height:calc(100vh - 48px); overflow-y:auto; margin:auto; background:var(--white); border-radius:var(--r-lg); padding:32px; box-shadow:var(--shadow-card)}
 .lead-x{position:absolute; top:16px; right:16px; width:32px; height:32px; border:0; background:var(--stone); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink)}
-.lead-panel h3{font-size:24px; line-height:1.1; margin-right:32px; color:var(--ink)}
+.lead-panel h3{font-size:24px; line-height:1.15; margin-right:32px; color:var(--ink)}
 .lead-form-sub{margin-top:6px; color:var(--muted); font-size:13px}
 .lead-field{display:block; margin-top:16px; font-size:12px; color:var(--muted)}
 .lead-field span{display:block; margin-bottom:6px}
