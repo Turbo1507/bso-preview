@@ -1617,3 +1617,30 @@ body.lb-lock{overflow:hidden}
 }
 /* связка UNIT. — 500, хвост — вес окружения (дизайн-система, UNIT.-правило) */
 .u5{font-weight:500}
+
+/* ---------- мастерплан Nuanu на мобиле: номера на карте + легенда (Босс 01.10) ---------- */
+/* Подписи 6.5px на карте 358px не читались. Кружок стоит центром на точке
+   объекта (координаты NUANU_PINS_MOBILE — точка на объекте), список ниже. */
+.nuanu-legend{display:none}
+@media (max-width:860px){
+  .nuanu-pin-num{
+    position:absolute; transform:translate(-50%,-50%);
+    width:16px; height:16px; border-radius:50%;
+    display:inline-flex; align-items:center; justify-content:center;
+    background:#fff; color:#131313; font-size:10px; font-weight:500; line-height:1;
+    box-shadow:0 1px 3px rgba(0,0,0,.45);
+  }
+  .nuanu-legend{
+    display:grid; grid-template-columns:1fr 1fr; gap:8px 16px;
+    list-style:none; margin:16px 0 0; padding:0;
+    font-size:14px; line-height:1.3; color:rgba(255,255,255,.72);
+  }
+  .nuanu-legend li{display:flex; align-items:flex-start; gap:8px}
+  .nuanu-legend .nuanu-pin-num{position:static; transform:none; flex:0 0 auto; margin-top:1px}
+  .nuanu-legend:empty{display:none}
+  /* бейдж BSO крупнее: было 9px / вкладка 7px. top пересчитан под новую высоту
+     плашки (+5px): точка указателя остаётся на объекте */
+  .nuanu-badge--bso{font-size:12px; padding:7px 10px; top:21.03%}
+  .nuanu-badge--bso small{font-size:10px; padding:4px 8px}
+  .nuanu-caption{font-size:12px}
+}

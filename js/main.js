@@ -516,6 +516,7 @@ const NUANU_PINS_MOBILE = [
   { ru: 'Thk tower', en: 'Thk Tower', left: 47.4, top: 62.45 },
 ];
 const nuanuPinsWrap = document.getElementById('nuanuPins');
+const nuanuLegend = document.getElementById('nuanuLegend');
 const nuanuMobileMQ = window.matchMedia('(max-width:860px)');
 function renderNuanuPins(lang) {
   if (!nuanuPinsWrap) return;
@@ -528,16 +529,16 @@ function renderNuanuPins(lang) {
     const badgeSvgMobile = badgePinMobile
       ? `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none"><line class="badge-pin" x1="${badgePinMobile.dot[0]}" y1="${badgePinMobile.dot[1]}" x2="${badgePinMobile.from[0]}" y2="${badgePinMobile.from[1]}" vector-effect="non-scaling-stroke"/><ellipse class="badge-pin" cx="${badgePinMobile.dot[0]}" cy="${badgePinMobile.dot[1]}" rx=".35" ry=".7"/></svg>`
       : '';
-    const labels = NUANU_PINS_MOBILE.map(p => {
-      const cls = ['nuanu-pin-label'];
-      if (p.align === 'left') cls.push('is-left');
-      if (p.align === 'right') cls.push('is-right');
-      if (p.below) cls.push('is-below');
-      return `<span class="${cls.join(' ')}" style="left:${p.left}%;top:${p.top}%">${lang === 'en' ? p.en : p.ru}</span>`;
-    }).join('');
-    nuanuPinsWrap.innerHTML = badgeSvgMobile + labels;
+    /* Босс 01.10: подписи 6.5px на карте не читались. На карте только
+       номера-кружки на точке объекта, названия — списком под картой (14px).
+       Нумерация слева направо по карте, чтобы номер легко найти глазами. */
+    const pins = NUANU_PINS_MOBILE.slice().sort((a, b) => a.left - b.left);
+    const marks = pins.map((p, i) => `<span class="nuanu-pin-num" style="left:${p.left}%;top:${p.top}%">${i + 1}</span>`).join('');
+    nuanuPinsWrap.innerHTML = badgeSvgMobile + marks;
+    if (nuanuLegend) nuanuLegend.innerHTML = pins.map((p, i) => `<li><span class="nuanu-pin-num">${i + 1}</span>${lang === 'en' ? p.en : p.ru}</li>`).join('');
     return;
   }
+  if (nuanuLegend) nuanuLegend.innerHTML = '';
   /* preserveAspectRatio="none" мапит viewBox 100x100 на контейнер 2:1
      (width:height контейнера ≠ viewBox) — X и Y растягиваются РАЗНЫМИ
      коэффициентами, поэтому circle (r одинаковый по X/Y) на выходе сплюснут
