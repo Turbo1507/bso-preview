@@ -122,8 +122,9 @@
     try { localStorage.setItem('bso_lang', lang); } catch (e) {}
   }
 
+  /* без сохранённого выбора — язык по региону (Босс 01.10): Россия и Беларусь → RU, остальные → EN */
   var saved = 'en';
-  try { saved = localStorage.getItem('bso_lang') || 'en'; } catch (e) {}
+  try { saved = localStorage.getItem('bso_lang') || ((function(){var z='';try{z=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}var l=(navigator.languages&&navigator.languages[0])||navigator.language||'';return /^(Europe|Asia).(Moscow|Minsk|Kaliningrad|Samara|Volgograd|Saratov|Ulyanovsk|Astrakhan|Kirov|Yekaterinburg|Omsk|Novosibirsk|Barnaul|Tomsk|Novokuznetsk|Krasnoyarsk|Irkutsk|Chita|Yakutsk|Khandyga|Vladivostok|Ust-Nera|Magadan|Sakhalin|Srednekolymsk|Kamchatka|Anadyr)$/.test(z)||/-(RU|BY)$/i.test(l)})() ? 'ru' : 'en'); } catch (e) {}
   apply(saved === 'ru' ? 'ru' : 'en');
 
   document.querySelectorAll('[data-lang]').forEach(function (b) {
