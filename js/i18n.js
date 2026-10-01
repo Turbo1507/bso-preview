@@ -8,7 +8,7 @@ window.I18N = {
   ru: {
     "carousel.prev": "Предыдущее",
     "carousel.next": "Следующее",
-    "meta.title": "Black Sands Oasis (БСО) — виллы в Нуану, Бали | UNIT.",
+    "meta.title": "Виллы в Нуану, Бали — Black Sands Oasis (БСО) | UNIT.",
     "nav.architecture": "Архитектура",
     "nav.plans": "Планировки",
     "nav.iplan": "План комплекса",
