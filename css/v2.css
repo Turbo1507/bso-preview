@@ -1738,3 +1738,71 @@ html[lang="ru"] .team-grid{grid-template-columns:1fr; gap:24px}
 }
 /* лид #invest (RU длинный) при 20–21px (--fs-sub) уходил в 3 строки в 1180px — даём всю ширину контейнера */
 @media (min-width:861px){ section .lead.lead-wide{max-width:none} }
+
+/* ============================================================================
+   ШРИФТОВАЯ ШКАЛА (Босс 01.10: «размеры с мобилки просочились на десктоп —
+   составь чёткую систему размеров на каждом адаптиве»). Таблица и роли —
+   ТИПОГРАФИКА.md. Пять ступеней: XL ≥1600 · L 1280–1599 · M 861–1279 ·
+   S 761–860 · XS ≤760. Роли ниже берут размер ТОЛЬКО из токенов; мобильные
+   значения живут только в медиа S/XS. Слой стоит последним и поднят
+   префиксом `html body`, чтобы перекрыть разрозненные старые правила.
+   Не входят: дисплейный hero-title и h2 (свой clamp), аннотации на карте Nuanu
+   (привязаны к кадру), навигация/логотип/кнопки (одинаковы на всех ширинах).
+   ========================================================================== */
+:root{
+  --fs-hero-sub:24px; --fs-h3:32px; --fs-h4:24px; --fs-h5:20px; --fs-stat:32px;
+  --fs-body:16px; --fs-label:14px; --fs-q:18px; --fs-tab:20px;
+  --lh-body:1.4; --lh-head:1.15;
+}
+@media (max-width:1599px){ :root{ --fs-hero-sub:22px } }
+@media (max-width:1279px){ :root{ --fs-hero-sub:20px; --fs-h3:28px; --fs-h4:22px; --fs-stat:28px; --fs-tab:18px } }
+@media (max-width:860px){  :root{ --fs-hero-sub:18px; --fs-h3:24px; --fs-h4:20px; --fs-h5:18px; --fs-stat:24px; --fs-q:16px; --fs-tab:16px } }
+@media (max-width:760px){  :root{ --fs-hero-sub:16px; --fs-h4:20px; --fs-stat:20px; --fs-body:14px; --fs-label:12px; --fs-tab:14px } }
+
+/* хиро: подзаголовок */
+html body .hero-sub, html body .hero-h1 .hero-sub{font-size:var(--fs-hero-sub); line-height:1.3}
+/* h3 крупный: подписи слайдов, название планировки, карточка финмодели */
+html body .arch-slide-cap h3, html body .plans-info h3, html body .fin-card-copy h3{font-size:var(--fs-h3); line-height:var(--lh-head)}
+/* h4: заголовки карточек */
+html body .vcard-text h3, html body .pv-photo-text h3, html body .ss-card-body h3, html body .team-card h3{font-size:var(--fs-h4); line-height:var(--lh-head)}
+/* h5: заголовки мелких карточек в сетке 3–4 колонки */
+html body .pv-card h3, html body .unitgrp-card h3{font-size:var(--fs-h5); line-height:var(--lh-head)}
+/* цифры-статы */
+html body .stat-grid-4 .stat-card .stat-v, html body .invest-chip .stat-v,
+html body .final-stats .stat .stat-v, html body .plans-stat .v{font-size:var(--fs-stat)}
+/* основной текст: абзацы карточек, пояснения к цифрам, ответы FAQ */
+html body .villas-intro p, html body .vcard-text p, html body .arch-slide-cap p, html body .pv-card p,
+html body .ss-facts li, html body .ss-card-body p, html body .team-card p, html body .unitgrp-card p,
+html body .faq-a p, html body .fin-card-copy p, html body .final-stats .stat p, html body .invest-chip p,
+html body .stat-grid-4 .stat-card p, html body .sig-meta p, html body .signature-meta p{font-size:var(--fs-body); line-height:var(--lh-body)}
+/* подписи и метки */
+html body .plans-stat .k, html body .gal-cap, html body .iplan-legend-item span,
+html body .iplan-filters-label, html body .iplan-table-toggle span{font-size:var(--fs-label)}
+html body .faq-q{font-size:var(--fs-q)}
+html body .plans-tab{font-size:var(--fs-tab)}
+/* межстрочный основного текста 1.4 (Босс 01.10: «меньше, как у подзаголовков») */
+section p:not(.lead):not(.nuanu-caption):not(.plans-from), section li, .footer-brand p{line-height:var(--lh-body)}
+
+/* Блок 2 (#architecture): лид справа от заголовка, как на проде 30.09. При лиде 20px
+   заголовок 920 + лид 440 + зазор не влезали в 1360 — flex переносил лид вниз. */
+@media (min-width:1280px){
+  #architecture .block-head-split{flex-wrap:nowrap; align-items:flex-end}
+  #architecture .block-head-split h2{flex:1 1 0; min-width:0}
+  #architecture .block-head-split .lead-sm{flex:0 0 520px; max-width:520px; margin:0; text-align:right}
+}
+/* 861–1279: две колонки не влезают без 3–4 строк лида — лид под заголовком, как на мобиле */
+@media (min-width:861px) and (max-width:1279px){
+  #architecture .block-head-split{flex-direction:column; align-items:flex-start; row-gap:0}
+  #architecture .block-head-split .lead-sm{text-align:left; max-width:760px; margin-top:24px}
+}
+html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
+/* RU-меню длиннее EN: на 1000–1199 шапка вылезала за экран (было и на проде 30.09) — бургер до 1199 */
+@media (max-width:1199px){
+  html[lang="ru"] .nav, html[lang="ru"] .header-cta .btn-ghost{display:none}
+  html[lang="ru"] .burger{display:flex}
+}
+/* EN на 1000–1024 тоже упиралось в край — бургер до 1099 */
+@media (max-width:1099px){
+  .nav, .header-cta .btn-ghost{display:none}
+  .burger{display:flex}
+}
