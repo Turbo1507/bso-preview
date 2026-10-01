@@ -509,7 +509,7 @@ body.menu-open .burger span{background:var(--white)}
   transition:all .2s var(--ease);
 }
 .plans-toggle-btn--icon:hover{border-color:var(--clay); color:var(--clay)}
-.plans-toggle-ic{width:26px; height:26px}
+.plans-toggle-ic{width:28px; height:28px}  /* 01.10: план с проёмами, штрих 1.5 на сетке 24 — старый «крест» Босс назвал кривым */
 .plans-toggle-ic--open{display:none}
 .plans-viewer.is-open ~ .plans-info .plans-toggle-btn--icon{background-color:var(--gold-1); background-image:var(--grad-gold); border-color:transparent; color:var(--on-gold)}
 .plans-viewer.is-open ~ .plans-info .plans-toggle-ic--closed{display:none}
@@ -1789,6 +1789,10 @@ section p:not(.lead):not(.nuanu-caption):not(.plans-from), section li, .footer-b
   #architecture .block-head-split{flex-wrap:nowrap; align-items:flex-end}
   #architecture .block-head-split h2{flex:1 1 0; min-width:0}
   #architecture .block-head-split .lead-sm{flex:0 0 520px; max-width:520px; margin:0; text-align:right}
+  /* RU-заголовок длиннее: в 800px шёл в 4 строки (Босс 01.10). На 2 строки нужно 884px
+     при 64px = 13.8em — даём 14.2em, лид забирает остаток (не шире 520) */
+  html[lang="ru"] #architecture .block-head-split h2{flex:0 0 14.2em; max-width:14.2em}
+  html[lang="ru"] #architecture .block-head-split .lead-sm{flex:1 1 0; min-width:0}
 }
 /* 861–1279: две колонки не влезают без 3–4 строк лида — лид под заголовком, как на мобиле */
 @media (min-width:861px) and (max-width:1279px){
