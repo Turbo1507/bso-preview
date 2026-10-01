@@ -93,7 +93,9 @@ html = html
   .replace(/(<meta name="twitter:description" content=")[^"]*(")/, `$1${esc(RU['meta.desc'])}$2`)
   .replace(/(<meta property="og:url" content=")[^"]*(")/, `$1${O}/ru/$2`)
   .replace(/(<meta property="og:locale" content=")[^"]*(")/, `$1ru_RU$2`)
-  .replace(/(<meta property="og:locale:alternate" content=")[^"]*(")/, `$1en_US$2`);
+  .replace(/(<meta property="og:locale:alternate" content=")[^"]*(")/, `$1en_US$2`)
+  .replace(/(<meta property="og:image:alt" content=")[^"]*(")/, `$1Комплекс Black Sands Oasis с высоты, Nuanu, Бали$2`)
+  .replace(/(<meta name="twitter:image:alt" content=")[^"]*(")/, `$1Комплекс Black Sands Oasis с высоты, Nuanu, Бали$2`);
 
 // ---- 8. ассеты оставляем относительными: <base href="/"> (см. п.4b) уже
 //         резолвит css/ js/ assets/ от корня и в разметке, и из JS ----
@@ -106,7 +108,7 @@ const faqRu = [1,2,3,4,5].map(i => ({
 const graph = [
   { '@type':'Organization','@id':`${O}/#org`, name:'Black Sands Oasis',
     alternateName:['BSO','БСО','Блэк Сэндс Оазис'], url:`${O}/`,
-    logo:`${O}/assets/favicon2-512.png`, image:`${O}/assets/facade-sunset.jpg`,
+    logo:`${O}/assets/favicon2-512.png`, image:`${O}/assets/cta-villas-overview.jpg`,
     description:'Девелопер Black Sands Oasis (БСО) — камерных вилл в стиле Desert Modernism в кластере Нуану, Бали. Проект UNIT.',
     parentOrganization:{ '@type':'Organization', name:'UNIT', url:'https://unitdeveloper.com/' },
     sameAs:['https://unitdeveloper.com/'],
@@ -115,12 +117,12 @@ const graph = [
     inLanguage:['ru','en'], publisher:{ '@id':`${O}/#org` } },
   { '@type':'WebPage','@id':`${O}/ru/#webpage`, url:`${O}/ru/`, inLanguage:'ru',
     isPartOf:{ '@id':`${O}/#website` }, about:{ '@id':`${O}/#complex` },
-    primaryImageOfPage:{ '@type':'ImageObject', url:`${O}/assets/facade-sunset.jpg`, width:1600, height:914 } },
+    primaryImageOfPage:{ '@type':'ImageObject', url:`${O}/assets/cta-villas-overview.jpg`, width:2400, height:1371 } },
   { '@type':'ApartmentComplex','@id':`${O}/#complex`, name:'Black Sands Oasis (БСО)',
     url:`${O}/ru/`,
     description:'Закрытый кластер камерных вилл в стиле Desert Modernism в Нуану на западном побережье Бали: 7 планировок от 31 до 160 м², приватные бассейны и сады, шестиметровые потолки, панорамное остекление и программа управляемой аренды.',
     numberOfAccommodationUnits:111,
-    image:[`${O}/assets/facade-sunset.jpg`,`${O}/assets/villa-exterior-pool1.jpg`,`${O}/assets/villa-private-pool.jpg`],
+    image:[`${O}/assets/cta-villas-overview.jpg`,`${O}/assets/villa-exterior-pool1.jpg`,`${O}/assets/villa-private-pool.jpg`],
     address:{ '@type':'PostalAddress', addressLocality:'Нуану', addressRegion:'Бали', addressCountry:'ID' },
     geo:{ '@type':'GeoCoordinates', latitude:-8.57, longitude:115.08 },
     amenityFeature:[
