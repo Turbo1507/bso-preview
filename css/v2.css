@@ -1692,18 +1692,17 @@ section .lead, section .lead.lead-sm, section .lead.lead-wide, section .lead.fin
 /* мобила: лайтбокс по тапу отключён (Босс 01.10, v2.js) — курсор-лупа не нужна */
 @media (max-width:860px){ .plans-collage-tile, .plans-collage--bento img.pc-bento-tile, #galTrack img{cursor:default} }
 
-/* Босс 01.10: команда в RU — горизонтальные карточки, сетка 1 столбец × 2 ряда.
-   Только RU: в EN одна карточка, горизонтальный формат там Босс отверг 05.09
-   («маленько и уныло»). Фото крупное — половина карточки, текст справа. */
-html[lang="ru"] .team-grid{grid-template-columns:1fr; gap:24px}
-@media (min-width:861px){
-  html[lang="ru"] .team-card{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:1fr auto auto 1fr; column-gap:40px}
-  html[lang="ru"] .team-card .team-photo{grid-row:1 / -1; grid-column:1; margin:0; aspect-ratio:4/3}
-  html[lang="ru"] .team-card .team-role{grid-column:2; grid-row:1; align-self:end}
-  html[lang="ru"] .team-card h3{grid-column:2; grid-row:2}
-  html[lang="ru"] .team-card p{grid-column:2; grid-row:3; max-width:56ch}
+/* Босс 01.10 (уточнено 02.10): команда в RU — горизонтальные карточки 1 столбец × 2 ряда
+   ТОЛЬКО НА МОБИЛЕ. На ПК — две вертикальные карточки рядом, как было до 01.10.
+   В EN одна карточка, горизонтальный формат там Босс отверг 05.09. */
+@media (max-width:860px){
+  html[lang="ru"] .team-grid{grid-template-columns:1fr; gap:16px}
+  html[lang="ru"] .team-card{display:grid; grid-template-columns:minmax(0,2fr) minmax(0,3fr); grid-template-rows:1fr auto auto auto 1fr; column-gap:16px}
+  html[lang="ru"] .team-card .team-photo{grid-row:1 / -1; grid-column:1; margin:0; aspect-ratio:4/5; align-self:start}
+  html[lang="ru"] .team-card .team-role{grid-column:2; grid-row:2}
+  html[lang="ru"] .team-card h3{grid-column:2; grid-row:3}
+  html[lang="ru"] .team-card p{grid-column:2; grid-row:4}
 }
-@media (max-width:860px){ html[lang="ru"] .team-grid{gap:16px} }
 
 /* Босс 01.10: «Почему Бали, почему Nuanu» на мобиле — заголовки чипов фирменным золотом, как на десктопе */
 @media (max-width:860px){ .invest-chip .stat-v{color:var(--clay)} }
