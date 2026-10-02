@@ -1,44 +1,115 @@
 <!DOCTYPE html>
+<!-- 404: отдаёт bso-site.php на любой несуществующий путь (в т.ч. /ru/...), поэтому
+     все ссылки и стили — абсолютные от корня. Язык: /ru/ в адресе → bso_lang → EN. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page not found — Black Sands Oasis</title>
+<title>Page not found | Black Sands Oasis</title>
 <meta name="robots" content="noindex">
 <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon2-192.png?v=4">
 <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon2-32.png?v=4">
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon2-16.png?v=4">
 <link rel="icon" href="/assets/favicon2.ico?v=4" sizes="any">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-2.png?v=4">
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="/css/styles.css?v=20261002090430">
+<link rel="stylesheet" href="/css/v2.css?v=20261002090430">
 <style>
-  body{background:var(--ink); min-height:100vh}
-  .nf-wrap{
-    min-height:100vh; display:flex; flex-direction:column; align-items:center;
-    justify-content:center; text-align:center; padding:40px 20px;
+  html,body{background:var(--bg,#131313); color:var(--white)}
+  body{padding-bottom:0}  /* сайт резервирует 74px под моб. sticky CTA, здесь его нет */
+  .nf{position:relative; min-height:100vh; min-height:100svh; display:flex; flex-direction:column; overflow:hidden}
+  .nf-bg{position:absolute; inset:0; z-index:0}
+  .nf-bg img{width:100%; height:100%; object-fit:cover; object-position:70% 50%}
+  .nf-bg::after{content:""; position:absolute; inset:0;
+    background:linear-gradient(90deg,rgba(13,13,13,.9) 0%,rgba(13,13,13,.6) 45%,rgba(13,13,13,.1) 100%),
+               linear-gradient(0deg,rgba(13,13,13,.85) 0%,rgba(13,13,13,0) 40%)}
+  .nf-top,.nf-main,.nf-links{position:relative; z-index:1; width:100%}  /* .container с margin:auto во flex-колонке ужимается до контента */
+  .nf-top{display:flex; align-items:center; justify-content:space-between; padding-top:32px; padding-bottom:32px}
+  .nf-top .logo{color:var(--white); font-size:20px}
+  .nf-lang{display:flex; align-items:center; gap:8px; font-size:14px; color:rgba(255,255,255,.7)}
+  .nf-lang a{color:inherit; min-width:44px; min-height:44px; display:inline-flex; align-items:center; justify-content:center}
+  .nf-lang a.is-active{color:var(--white)}
+  .nf-main{flex:1; display:flex; flex-direction:column; justify-content:center; padding-top:40px; padding-bottom:56px}
+  .nf-code{font-size:14px; font-weight:400; color:rgba(255,255,255,.7); margin:0 0 16px}
+  .nf h1{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-height:1.04;
+    font-size:72px; margin:0; max-width:12em; color:var(--white)}
+  .nf-lead{font-size:21px; line-height:1.4; color:rgba(255,255,255,.85); margin:24px 0 0; max-width:34em}
+  .nf-actions{display:flex; flex-wrap:wrap; gap:16px; margin-top:40px}
+  .nf-actions .btn{display:inline-flex; align-items:center; gap:8px}
+  .nf-actions .btn svg{width:18px; height:18px; flex:none}
+  .nf-actions .btn-line{color:var(--white)}
+  .nf-actions .btn-line:hover{border-color:var(--white)}
+  .nf-links{border-top:1px solid var(--line); padding-top:24px; padding-bottom:40px;
+    display:flex; flex-wrap:wrap; gap:8px 40px}
+  .nf-links a{font-size:16px; color:rgba(255,255,255,.7); min-height:44px; display:inline-flex; align-items:center}
+  .nf-links a:hover{color:var(--white)}
+  @media (max-width:1599px){ .nf-lead{font-size:20px} }
+  @media (max-width:1279px){ .nf h1{font-size:56px} }
+  @media (max-width:760px){
+    .nf-top{padding-top:16px; padding-bottom:16px}
+    .nf-main{justify-content:flex-end; padding-top:40px; padding-bottom:40px}
+    .nf h1{font-size:40px}
+    .nf-lead{font-size:16px; margin-top:16px}
+    .nf-actions{flex-direction:column; margin-top:32px}
+    .nf-actions .btn{width:100%; justify-content:center}
+    .nf-links{display:grid; grid-template-columns:1fr 1fr; gap:0 16px; padding-top:16px; padding-bottom:24px}
+    .nf-links a{font-size:14px}
+    .nf-bg img{object-position:72% 50%}
   }
-  .nf-logo{font-size:20px; font-weight:500; color:var(--white); letter-spacing:.02em; margin-bottom:auto; padding-top:40px}
-  .nf-num{
-    font-family:'Helvetica Neue',Helvetica,Arial,sans-serif; font-weight:200;
-    font-size:clamp(96px,18vw,180px); line-height:1; color:var(--clay); margin:0;
-  }
-  .nf-title{font-size:clamp(22px,3vw,28px); font-weight:500; color:var(--white); margin:16px 0 8px}
-  .nf-sub{font-size:15px; color:rgba(255,255,255,.55); margin:0 0 40px; max-width:420px}
-  .nf-actions{display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-bottom:auto; padding-bottom:60px}
 </style>
 </head>
 <body>
-<div class="nf-wrap">
-  <a class="nf-logo" href="/bso-preview/">Black Sands Oasis</a>
-  <div>
-    <p class="nf-num">404</p>
-    <h1 class="nf-title">This page doesn’t exist</h1>
-    <p class="nf-sub">The link may be outdated, or the page has moved.<br>Страница не найдена — возможно, ссылка устарела.</p>
+<main class="nf">
+  <div class="nf-bg"><img src="/assets/villa-private-pool.jpg" alt="" width="1920" height="1248" fetchpriority="high"></div>
+
+  <div class="container nf-top">
+    <a class="logo" href="/" data-home><b>Black Sands Oasis</b></a>
+    <div class="nf-lang" role="group" aria-label="language">
+      <a href="/ru/" data-lang="ru">RU</a><span aria-hidden="true">/</span><a href="/" data-lang="en" class="is-active">EN</a>
+    </div>
   </div>
-  <div class="nf-actions">
-    <a class="btn btn-clay" href="/bso-preview/">Back to homepage</a>
-    <a class="btn btn-ghost" href="/bso-preview/v2/">Dark version</a>
+
+  <div class="container nf-main">
+    <p class="nf-code" data-t="code">Error 404</p>
+    <h1 data-t="h1">This page doesn’t exist</h1>
+    <p class="nf-lead" data-t="lead">The link is outdated or has a&nbsp;typo. The villas are still here.</p>
+    <div class="nf-actions">
+      <a class="btn btn-clay" href="/" data-home data-t="home">View the villas</a>
+      <a class="btn btn-line" href="https://wa.me/628133917731" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg><span data-t="wa">Ask on WhatsApp</span></a>
+    </div>
   </div>
-</div>
+
+  <nav class="container nf-links" aria-label="Sections">
+    <a href="/#plans" data-hash="plans" data-t="l1">Layouts and prices</a>
+    <a href="/#interactive-plan" data-hash="interactive-plan" data-t="l2">Site plan</a>
+    <a href="/#steps-sticky" data-hash="steps-sticky" data-t="l3">How to buy</a>
+    <a href="/#faq" data-hash="faq" data-t="l4">FAQ</a>
+  </nav>
+</main>
+<script>
+(function () {
+  var NB = ' ';
+  var RU = {
+    title: 'Страница не найдена | Black Sands Oasis',
+    code: 'Ошибка 404',
+    h1: 'Такой страницы нет',
+    lead: 'Ссылка устарела или' + NB + 'в' + NB + 'адресе опечатка. Виллы на' + NB + 'месте.',
+    home: 'Смотреть виллы',
+    wa: 'Спросить в' + NB + 'WhatsApp',
+    l1: 'Планировки и' + NB + 'цены', l2: 'Интерактивный план', l3: 'Как купить', l4: 'Вопросы и' + NB + 'ответы'
+  };
+  var lang = 'en';
+  if (/^\/ru(\/|$)/.test(location.pathname)) lang = 'ru';
+  else { try { if (localStorage.getItem('bso_lang') === 'ru') lang = 'ru'; } catch (e) {} }
+  if (lang !== 'ru') return;
+  document.documentElement.lang = 'ru';
+  document.title = RU.title;
+  document.querySelectorAll('[data-t]').forEach(function (el) { el.textContent = RU[el.getAttribute('data-t')]; });
+  document.querySelectorAll('[data-home]').forEach(function (a) { a.href = '/ru/'; });
+  document.querySelectorAll('[data-hash]').forEach(function (a) { a.href = '/ru/#' + a.getAttribute('data-hash'); });
+  document.querySelector('[data-lang="ru"]').classList.add('is-active');
+  document.querySelector('[data-lang="en"]').classList.remove('is-active');
+})();
+</script>
 </body>
 </html>
