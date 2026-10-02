@@ -229,6 +229,7 @@ if (leadModal && leadForm) {
       .then(res => {
         if (!res || !res.success) throw new Error('bad');
         if (status) { status.textContent = dict['lead.success'] || 'Спасибо! Мы скоро свяжемся с вами.'; status.className = 'lead-status is-ok'; }
+        if (window.fbq) fbq('track', 'Lead', { content_name: 'Black Sands Oasis', content_category: fd.get('lang') });
         leadForm.reset();
         syncSubmitState();
         setTimeout(closeLead, 2200);
@@ -1196,3 +1197,8 @@ if (themeSwitch) {
   new MutationObserver(build).observe(track, { childList: true });
   build();
 })();
+
+/* Meta Pixel: клик по любой WhatsApp-ссылке = Contact (сам пиксель в <head>) */
+document.addEventListener('click', e => {
+  if (window.fbq && e.target.closest && e.target.closest('a[href*="wa.me"]')) fbq('track', 'Contact');
+});

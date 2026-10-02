@@ -12,10 +12,18 @@
 <link rel="icon" href="/assets/favicon2.ico?v=4" sizes="any">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-2.png?v=4">
 <!-- v2 лежит на уровень глубже: базовые стили общие, тёмная тема своя -->
-<link rel="stylesheet" href="css/styles.css?v=20261002103112">
-<link rel="stylesheet" href="css/v2.css?v=20261002103112">
+<link rel="stylesheet" href="css/styles.css?v=20261002200646">
+<link rel="stylesheet" href="css/v2.css?v=20261002200646">
+<!-- Meta Pixel (Босс 03.10): реклама FB/IG. PageView на каждой странице; Lead — успешная заявка, Contact — клик WhatsApp (js/main.js). Ботов и headless не считаем. -->
+<script>
+if(!navigator.webdriver&&!/bot|crawl|spider|lighthouse|headless/i.test(navigator.userAgent)){
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1643530640022999');fbq('track','PageView');
+}
+</script>
 </head>
 <body>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1643530640022999&amp;ev=PageView&amp;noscript=1"></noscript>
 <section class="legal-page">
   <div class="container">
     <div class="legal-head">
@@ -32,7 +40,7 @@
     <ul>
       <li data-i18n="consent.what1">Name and contact details: phone, messenger (WhatsApp/Telegram), email</li>
       <li data-i18n="consent.what2">The content of your request and the materials you asked for (presentation, financial model, floor plans)</li>
-      <li data-i18n="consent.what3">Technical browser/device data collected during your visit (for analytics, without direct identification)</li>
+      <li data-i18n="consent.what3">Technical browser/device data and cookies collected during your visit, for statistics and ad measurement, including via Meta Pixel</li>
     </ul>
 
     <h2 data-i18n="consent.h2_why">Purposes of processing</h2>
@@ -50,7 +58,7 @@
     <p data-i18n="consent.safety">Data is stored in secured information systems with employee access limited on a need-to-know basis. The company applies organisational and technical safeguards proportionate to the nature of the data processed.</p>
 
     <h2 data-i18n="consent.h2_third">Transfer to third parties</h2>
-    <p data-i18n="consent.third">The company does not sell personal data to third parties. Contractors and partners engaged to process requests (for example, payment and communication services) are given access only to the data required to perform their task.</p>
+    <p data-i18n="consent.third">The company does not sell personal data to third parties. Contractors and partners engaged to process requests (for example, payment and communication services) are given access only to the data required to perform their task. The site uses Meta Pixel (Meta Platforms) to measure advertising: Meta receives technical data about your visit and actions on the site under its own privacy policy.</p>
 
     <h2 data-i18n="consent.h2_rights">Your rights</h2>
     <ul>
@@ -67,6 +75,6 @@
     <p class="legal-note" data-i18n="consent.note">To withdraw your consent or ask a question about data processing, contact us through the form on the site.</p>
   </div>
 </section>
-<script src="js/legal.js?v=20261002103112"></script>
+<script src="js/legal.js?v=20261002200646"></script>
 </body>
 </html>

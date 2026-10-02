@@ -203,10 +203,18 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20261002103112">
-<link rel="stylesheet" href="css/v2.css?v=20261002103112">
+<link rel="stylesheet" href="css/styles.css?v=20261002200646">
+<link rel="stylesheet" href="css/v2.css?v=20261002200646">
+<!-- Meta Pixel (Босс 03.10): реклама FB/IG. PageView на каждой странице; Lead — успешная заявка, Contact — клик WhatsApp (js/main.js). Ботов и headless не считаем. -->
+<script>
+if(!navigator.webdriver&&!/bot|crawl|spider|lighthouse|headless/i.test(navigator.userAgent)){
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','1643530640022999');fbq('track','PageView');
+}
+</script>
 </head>
 <body>
+<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1643530640022999&amp;ev=PageView&amp;noscript=1"></noscript>
 
 <!-- header -->
 <header class="site-header" id="header">
@@ -933,7 +941,7 @@
 
 <!-- уведомление про куки -->
 <div class="cookie-note" id="cookieNote" role="dialog" aria-live="polite" aria-labelledby="cookieNoteText">
-  <p id="cookieNoteText" data-i18n="cookie.text">Мы используем куки и локальное хранилище браузера, чтобы сайт работал: запоминаем язык, настройки отображения и анонимную статистику посещений.</p>
+  <p id="cookieNoteText" data-i18n="cookie.text">Мы используем куки и локальное хранилище браузера: запоминаем язык и настройки отображения, считаем посещения и измеряем рекламу (Meta Pixel).</p>
   <div class="cookie-note-row">
     <a href="consent.html" data-i18n="cookie.more">Подробнее об использовании cookie</a>
     <button type="button" class="btn btn-clay" id="cookieOk" data-i18n="cookie.accept">Понятно</button>
@@ -955,14 +963,14 @@
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
 <!-- тот же пин для мобильного кропа -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/i18n.js?v=20261002103112"></script>
-<script src="js/v2-i18n.js?v=20261002103112"></script>
-<script src="js/main.js?v=20261002103112"></script>
-<script src="js/v2.js?v=20261002103112"></script>
-<script src="js/units-data.js?v=20261002103112"></script>
-<script src="js/units-plan.js?v=20261002103112"></script>
-<script src="js/buildings-data.js?v=20261002103112"></script>
-<script src="js/iplan-map.js?v=20261002103112"></script>
+<script src="js/i18n.js?v=20261002200646"></script>
+<script src="js/v2-i18n.js?v=20261002200646"></script>
+<script src="js/main.js?v=20261002200646"></script>
+<script src="js/v2.js?v=20261002200646"></script>
+<script src="js/units-data.js?v=20261002200646"></script>
+<script src="js/units-plan.js?v=20261002200646"></script>
+<script src="js/buildings-data.js?v=20261002200646"></script>
+<script src="js/iplan-map.js?v=20261002200646"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 <script>
 /* en страница, кнопка ru уводит на /ru/, а не просто переключает i18n на месте */
