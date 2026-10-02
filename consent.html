@@ -12,18 +12,20 @@
 <link rel="icon" href="/assets/favicon2.ico?v=4" sizes="any">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-2.png?v=4">
 <!-- v2 лежит на уровень глубже: базовые стили общие, тёмная тема своя -->
-<link rel="stylesheet" href="css/styles.css?v=20261002200646">
-<link rel="stylesheet" href="css/v2.css?v=20261002200646">
-<!-- Meta Pixel (Босс 03.10): реклама FB/IG. PageView на каждой странице; Lead — успешная заявка, Contact — клик WhatsApp (js/main.js). Ботов и headless не считаем. -->
+<link rel="stylesheet" href="css/styles.css?v=20261002203535">
+<link rel="stylesheet" href="css/v2.css?v=20261002203535">
+<!-- Meta Pixel (Босс 03.10): реклама FB/IG. Строгий режим: грузится ТОЛЬКО после согласия — кнопка «Понятно» в cookie-баннере
+     (bso_cookie_ok=1; js/main.js зовёт bsoPixel()). Lead — успешная заявка, Contact — клик WhatsApp. Ботов и headless не считаем. -->
 <script>
-if(!navigator.webdriver&&!/bot|crawl|spider|lighthouse|headless/i.test(navigator.userAgent)){
+window.bsoPixel=function(){
+if(window.fbq||navigator.webdriver||/bot|crawl|spider|lighthouse|headless/i.test(navigator.userAgent))return;
 !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
 fbq('init','1643530640022999');fbq('track','PageView');
-}
+};
+try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 </script>
 </head>
 <body>
-<noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1643530640022999&amp;ev=PageView&amp;noscript=1"></noscript>
 <section class="legal-page">
   <div class="container">
     <div class="legal-head">
@@ -75,6 +77,6 @@ fbq('init','1643530640022999');fbq('track','PageView');
     <p class="legal-note" data-i18n="consent.note">To withdraw your consent or ask a question about data processing, contact us through the form on the site.</p>
   </div>
 </section>
-<script src="js/legal.js?v=20261002200646"></script>
+<script src="js/legal.js?v=20261002203535"></script>
 </body>
 </html>

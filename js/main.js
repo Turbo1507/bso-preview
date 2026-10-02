@@ -1098,8 +1098,8 @@ if (window.setLang) {
 }
 
 /* ---------- уведомление про куки/локальное хранилище ----------
-   Сайт — статика без бэкенда: сейчас в браузере хранятся только язык (bso_lang),
-   тема (bsoTheme) и сам факт согласия. Баннер показывается один раз, ждёт пару
+   В браузере хранятся язык (bso_lang), тема (bsoTheme) и факт согласия. «Понятно» =
+   согласие на Meta Pixel (строгий режим, Босс 03.10): до клика пиксель не грузится. Баннер показывается один раз, ждёт пару
    секунд, чтобы не перебивать первый экран, и уступает модалке заявки. */
 const cookieNote = document.getElementById('cookieNote');
 if (cookieNote) {
@@ -1111,6 +1111,7 @@ if (cookieNote) {
     if (okBtn) okBtn.addEventListener('click', () => {
       cookieNote.classList.remove('is-open');
       try { localStorage.setItem('bso_cookie_ok', '1'); } catch (e) {}
+      if (window.bsoPixel) window.bsoPixel();
     });
   }
 }
