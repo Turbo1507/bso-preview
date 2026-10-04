@@ -1,10 +1,7 @@
-/* Юридические страницы v2 (consent.html, legal-info.html) — RU/EN.
-   Отдельный маленький словарь, а не общий js/i18n.js: тот в setLang() ещё и
-   переписывает <title>/og-теги главной и дёргает синхронизацию планировок с
-   пинами Nuanu — на юрстранице это только навредило бы.
-   Язык берём из того же localStorage-ключа bso_lang, что пишет главная, —
-   значит открытая с EN-версии страница откроется на английском. По умолчанию
-   EN, как и основной сайт. */
+/* Юрстраницы (consent.html, legal-info.html), RU/EN.
+   Свой маленький словарь, а не общий i18n.js: тот в setLang() ещё переписывает
+   <title>/og-теги главной и синхронизирует планировки с пинами Nuanu, здесь
+   это только навредит. Язык из того же bso_lang, что пишет главная, по умолчанию EN. */
 (function () {
   var DICT = {
     ru: {
@@ -122,7 +119,7 @@
     try { localStorage.setItem('bso_lang', lang); } catch (e) {}
   }
 
-  /* без сохранённого выбора — язык по региону (Босс 01.10): Россия и Беларусь → RU, остальные → EN */
+  /* без сохранённого выбора язык по региону: Россия и Беларусь → RU, остальные → EN */
   var saved = 'en';
   try { saved = localStorage.getItem('bso_lang') || ((function(){var z='';try{z=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}var l=(navigator.languages&&navigator.languages[0])||navigator.language||'';return /^(Europe|Asia).(Moscow|Minsk|Kaliningrad|Samara|Volgograd|Saratov|Ulyanovsk|Astrakhan|Kirov|Yekaterinburg|Omsk|Novosibirsk|Barnaul|Tomsk|Novokuznetsk|Krasnoyarsk|Irkutsk|Chita|Yakutsk|Khandyga|Vladivostok|Ust-Nera|Magadan|Sakhalin|Srednekolymsk|Kamchatka|Anadyr)$/.test(z)||/-(RU|BY)$/i.test(l)})() ? 'ru' : 'en'); } catch (e) {}
   apply(saved === 'ru' ? 'ru' : 'en');
@@ -131,10 +128,6 @@
     b.addEventListener('click', function () { apply(b.dataset.lang); });
   });
 
-  /* Кнопка "← назад на сайт": раньше при заходе с того же хоста делали
-     history.back() вместо перехода по href — расчёт был на восстановление
-     позиции скролла у футера. code-review 15.09: ломается на цепочке из
-     двух переходов внутри сайта (consent.html → ссылка на legal-info.html
-     → «на сайт» уводит на consent.html, не на index.html). href у ссылки
-     и так ведёт на index.html#footer — просто не мешаем нативной навигации. */
+  /* «← на сайт» — обычная ссылка на index.html#footer. history.back() не годится:
+     после перехода consent → legal-info он уводил обратно на consent. */
 })();

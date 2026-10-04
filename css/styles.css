@@ -16,13 +16,12 @@
   --line: #e3ddd0;
   --line-strong: #b9b1a1;  /* обводка тегов и кнопок, темнее чем --line */
   --white: #ffffff;
-  --clay: #9c4f20;         /* акцент, просил Босс, было #ab6a41 */
+  --clay: #9c4f20;
   --clay-soft: #ba8463;    /* hover */
   --clay-active: #7d3f1a;  /* pressed */
-  /* было светлее, не проходило контраст на белом, притемнил */
+  /* темнее, иначе не проходит контраст на белом */
   --muted: #787165;
 
-  /* радиусы уменьшены, Босс просил не так кругло (было 8/12/18/20) */
   --r-xs: 5px;   /* кнопки, теги, фото в карточках */
   --r-sm: 7px;   /* карточки шагов и команды */
   --r-md: 9px;   /* карточка карусели */
@@ -31,8 +30,7 @@
 
   --container: 1440px;
   --sp-xs: 8px; --sp-sm: 16px; --sp-md: 24px; --sp-lg: 40px;
-  /* ритм между секциями, было 104 потом 160 потом 200 по правкам босса,
-     внутри блоков всегда меньше чем снаружи */
+  /* ритм между секциями; внутри блоков отступы всегда меньше, чем снаружи */
   --sp-xl: 64px; --sp-2xl: 80px; --sp-3xl: 120px;
 
   --shadow-card: 0 20px 50px -20px rgba(28,24,21,.18);
@@ -96,10 +94,10 @@ h3{font-size:24px}
 p{margin:0; line-height:1.1}
 /* цифры-статы (.stat-v) были h3: для поиска это не заголовки. база та же, что у h3 */
 .stat-v{font-weight:400; letter-spacing:0; line-height:1.1; margin:0; font-size:24px}
-/* было темнее, контраст не проходил, поднял */
+/* светлее, иначе не проходит контраст */
 .lead{font-size:clamp(17px,1.67vw,24px); color:rgba(58,58,58,.72); max-width:64ch; margin-top:var(--sp-md); line-height:1.1}
 .lead.on-dark{color:rgba(255,255,255,.72)}
-.lead-sm{font-size:var(--fs-sub, 18px)}  /* Босс 01.10: общий размер лида, было 18px !important */
+.lead-sm{font-size:var(--fs-sub, 18px)}  /* общий размер лида */
 /* абзацы с ручными <br>, 64ch тесно, браузер бы перенес их еще раз */
 .lead-wide{max-width:1180px}
 /* заголовок и подпись справа центрированы по вертикали, не по низу */
@@ -125,7 +123,6 @@ p{margin:0; line-height:1.1}
 
 .btn-white{background:var(--white); color:var(--ink); border-color:var(--ink)}
 .btn-white:hover{background:var(--ink); color:var(--white); border-color:var(--ink)}
-/* active в акцентный цвет, не серый, так просил Босс */
 .btn-white:active{background:var(--clay-active); border-color:var(--clay-active); color:var(--white)}
 
 .btn-ghost{border-color:rgba(255,255,255,.4); color:var(--white); background:transparent}
@@ -144,7 +141,7 @@ p{margin:0; line-height:1.1}
 /* header */
 .site-header{
   position:fixed; top:0; left:0; right:0; z-index:50;
-  /* раньше падинг при скролле сжимался и шапка ехала на 8px, теперь высота постоянная */
+  /* высота шапки постоянная, иначе при скролле она ехала на 8px */
   padding:12px 0; transition:background .3s, box-shadow .3s;
 }
 .site-header.is-solid{background:rgba(23,24,26,.92); backdrop-filter:blur(10px); box-shadow:0 8px 30px rgba(0,0,0,.25)}
@@ -242,7 +239,7 @@ body.menu-open{overflow:hidden}
     rgba(10,9,7,.28);
 }
 .hero-in{position:relative; z-index:2; width:100%}
-/* H1 = название + подзаголовок (SEO 26.09): обёртка нейтральная, вид прежний */
+/* H1 = название + подзаголовок: обёртка нейтральная, выглядит как обычный заголовок */
 .hero-h1{font-size:inherit; letter-spacing:normal; line-height:inherit}
 .hero-h1 .hero-title{display:block; font-size:clamp(64px,9.5vw,137px); letter-spacing:-.05em; line-height:.8}
 .hero-h1 .hero-sub{display:block; letter-spacing:normal}
@@ -257,8 +254,7 @@ body.menu-open{overflow:hidden}
 /* минимализм: большое фото и чипы под ним */
 /* space-between растягивал 4 плашки неровно, теперь фикс gap и перенос строки */
 .min-tags{display:flex; flex-wrap:wrap; gap:27px; margin:var(--sp-lg) 0}
-/* пилюли radius 8 не pill, паддинг 45 по бокам 20 сверху снизу,
-   nowrap текст в один ряд как в фигме */
+/* пилюли: radius 8, не pill, текст в один ряд */
 .min-tags .tag-pill, .feat-filters .tag-pill{
   padding:20px 45px; border:1px solid var(--line-strong); border-radius:var(--r-xs);
   font-size:20px; color:var(--muted); text-align:center; white-space:nowrap;
@@ -268,7 +264,7 @@ body.menu-open{overflow:hidden}
 .min-tags .tag-pill:nth-child(2){flex-grow:325}
 .min-tags .tag-pill:nth-child(3){flex-grow:277}
 .min-tags .tag-pill:nth-child(4){flex-grow:278}
-/* галерея фасада, Босс попросил вместо одной статичной фотки */
+/* галерея фасада */
 .min-gallery{
   position:relative; border-radius:var(--r-lg); overflow:hidden; box-shadow:var(--shadow-card);
   aspect-ratio:16/9;
@@ -412,7 +408,7 @@ body.menu-open{overflow:hidden}
 .priv-card h3{margin-bottom:24px; font-size:20px}
 .priv-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75)}
 
-/* планировки, табы сверху, было слева */
+/* планировки, табы сверху */
 .plans-tabs{display:flex; flex-wrap:wrap; gap:10px; margin:var(--sp-lg) 0}
 .plans-tab{
   padding:15px 28px; border-radius:var(--r-xs); border:1px solid var(--line);
@@ -436,14 +432,14 @@ body.menu-open{overflow:hidden}
 /* фото должны заполнять область без полей, object-position у каждого
    подобран вручную чтобы в кадре был интересный объект а не срезанный потолок */
 .plans-viewer-slide img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block}
-/* план и топвид на белой подложке, тот же белый что и в фигме, не бежевый сайта */
+/* план и вид сверху на белой подложке, а не на бежевом фоне сайта */
 .plans-viewer-slide--plan,.plans-viewer-slide--topview{background:#fff}
 .plans-viewer-slide--plan img,.plans-viewer-slide--topview img{inset:24px; width:calc(100% - 48px); height:calc(100% - 48px); object-fit:contain}
 /* двухэтажные форматы svg канвасом вместо сплюснутой картинки */
 .plan-floors-svg{position:absolute; inset:24px; width:calc(100% - 48px); height:calc(100% - 48px); display:block}
 .plan-floors-svg text{font-family:inherit}
 .plans-viewer .min-gallery-dots{bottom:14px}
-/* padding сверху и снизу у каждого stat одинаковый, раньше было асиметрично */
+/* padding сверху и снизу у каждого stat одинаковый */
 .plans-info{padding:50px; display:flex; flex-direction:column; background:var(--ink)}
 .plans-info h3{font-size:28px; color:var(--white); text-decoration:underline; text-underline-offset:6px; text-decoration-color:rgba(156,79,32,.5); margin-bottom:24px}
 .plans-stat{display:flex; align-items:center; gap:14px; border-top:1px solid rgba(255,255,255,.15); padding-top:24px; padding-bottom:24px}
@@ -485,7 +481,6 @@ body.menu-open{overflow:hidden}
 .stat-card p{font-size:15px; line-height:1.35; color:rgba(58,58,58,.75); margin-top:16px}
 /* эти цифры мельче и обычным весом, не как у карточек инвестиций */
 .stat-grid-4 .stat-card .stat-v{font-size:24px; font-weight:400}
-/* фото увеличено, было плоской узкой лентой */
 .why-photo{border-radius:var(--r-lg); overflow:hidden; margin-top:var(--sp-lg); aspect-ratio:16/8; box-shadow:var(--shadow-card)}
 .why-photo img{width:100%; height:100%; object-fit:cover}
 
@@ -677,7 +672,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   /* трек листается свайпом на мобиле, стрелки прячу как у остальных каруселей */
   .min-gallery-arrow{display:none}
   .nuanu-pin-label{font-size:6.5px; line-height:1.1; max-width:62px}
-  /* тут не было мобильного оверрайда, подпись перекрывала карту почти целиком */
+  /* на мобиле подпись перекрывала карту почти целиком */
   .nuanu-caption{font-size:10px; width:40%; min-width:130px}
   .nuanu-pins-svg ellipse{rx:.5; ry:1}
   .nuanu-pins-svg line{stroke-width:.8}
@@ -705,7 +700,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .feat-track, .steps-track{padding-left:20px; padding-right:20px; scroll-padding-left:20px}
   /* пилюли сеткой 2х2 вместо прижатой строки, легче читать */
   .min-tags{display:grid; grid-template-columns:1fr 1fr; gap:10px}
-  /* было 7px нечитаемо, поднял до 12 как у лида */
+  /* 12, как у лида: 7px не читался */
   .min-tags .tag-pill, .feat-filters .tag-pill{
     padding:12px 16px; font-size:12px; text-align:center; white-space:normal;
     display:flex; align-items:center; justify-content:center;
@@ -739,7 +734,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .btn{font-size:16px; padding:15px 22px; gap:10px}
   .btn svg{width:14px; height:14px}
   .card-ic{width:28px; height:28px; margin-bottom:20px}
-  /* фото было 40 отступ, карточки внутри грида 20, выравниваю на одно и то же */
+  /* фото и карточки грида на одном отступе */
   .priv-grid{margin-top:20px}
   .priv-card, .step-card, .team-card{padding:20px}
   .priv-card h3{margin-bottom:14px; font-size:18px}
@@ -763,7 +758,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .plans-stat .v{font-size:18px}
   .plans-info .btn{font-size:15px; padding:13px 18px}
 
-  /* карточки расстояний Nuanu, вернул простую сетку 1х4 в ряд */
+  /* карточки расстояний Nuanu, простая сетка 1х4 в ряд */
   .stat-grid-4{grid-template-columns:repeat(4,1fr); gap:8px}
   .stat-grid-4 .stat-card{padding:10px 8px}
   .stat-grid-4 .stat-card .card-ic{width:20px; height:20px; margin-bottom:10px}
@@ -884,8 +879,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 
 .iplan-popup{
   position:absolute; z-index:5; min-width:220px; max-width:280px;
-  /* укрупненые зоны дают 20+ строк, держу попап в границах карты со скроллом,
-     было слишком агрессивно большим, ужал */
+  /* крупные зоны дают 20+ строк: попап в границах карты со скроллом */
   max-height:min(50%, 400px); display:flex; flex-direction:column;
   background:var(--surface); border:1px solid rgba(255,255,255,.13); border-radius:var(--r-sm);
   padding:16px; box-shadow:0 20px 50px -20px rgba(0,0,0,.7);
@@ -894,7 +888,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 }
 .iplan-popup.is-open{opacity:1; visibility:visible; transform:translateY(0); pointer-events:auto}
 .iplan-popup-title{flex:0 0 auto; font-size:12px; font-weight:500; color:var(--muted); text-transform:uppercase; letter-spacing:.02em; margin-bottom:8px}
-/* скроллбар просил кастомный под дизайн, не системный белый */
+/* свой скроллбар под дизайн, не системный белый */
 .iplan-popup-list{flex:1 1 auto; min-height:0; overflow-y:auto; list-style:none; margin:0 -6px 0 0; padding:0 10px 0 0; display:flex; flex-direction:column; gap:6px;
   scrollbar-width:none}
 .iplan-popup-list::-webkit-scrollbar{display:none}
@@ -1017,8 +1011,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   /* тут картинка выше контейнера и уезжает за край по ширине, десктопный
      width:100% сюда не годится */
   .iplan-map--full{height:clamp(360px, 62vh, 520px); height:clamp(360px, 62svh, 520px)}
-  /* фото было зашакаленное, max-width резал ширину даже при width:auto,
-     оба свойства нужно перебить явно */
+  /* max-width резал ширину даже при width:auto, и фото мылилось — перебиваем оба свойства */
   .iplan-pan-inner{width:auto; height:100%}
   .iplan-pan-inner img{width:auto; height:100%; max-width:none}
   .iplan-pan{cursor:grab}

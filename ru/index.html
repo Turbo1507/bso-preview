@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="google-site-verification" content="_4Na7OjGO-3__6-sV9z1Wi0mUedr2uLYXCHsgYBtrTw">
 <script>document.documentElement.classList.add('js')</script>
-<script>/* language by region (Boss 01.10): Russia, Belarus -> RU, other countries -> EN; first visit only, saved choice (bso_lang) and bots are left alone */(function(){try{if(/bot|crawl|spider|slurp|lighthouse|headless/i.test(navigator.userAgent)||localStorage.getItem('bso_lang'))return;var ru=(function(){var z='';try{z=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}var l=(navigator.languages&&navigator.languages[0])||navigator.language||'';return /^(Europe|Asia).(Moscow|Minsk|Kaliningrad|Samara|Volgograd|Saratov|Ulyanovsk|Astrakhan|Kirov|Yekaterinburg|Omsk|Novosibirsk|Barnaul|Tomsk|Novokuznetsk|Krasnoyarsk|Irkutsk|Chita|Yakutsk|Khandyga|Vladivostok|Ust-Nera|Magadan|Sakhalin|Srednekolymsk|Kamchatka|Anadyr)$/.test(z)||/-(RU|BY)$/i.test(l)})(),p=location.pathname,r=p.indexOf('/ru/')===0,t=ru&&!r?'/ru/':!ru&&r?'/':'';if(t&&t!==p)location.replace(t+location.search+location.hash)}catch(e){}})()</script>
+<script>/* язык по региону: Россия и Беларусь → RU, остальные → EN; только при первом заходе, сохранённый выбор (bso_lang) и ботов не трогаем */(function(){try{if(/bot|crawl|spider|slurp|lighthouse|headless/i.test(navigator.userAgent)||localStorage.getItem('bso_lang'))return;var ru=(function(){var z='';try{z=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}var l=(navigator.languages&&navigator.languages[0])||navigator.language||'';return /^(Europe|Asia).(Moscow|Minsk|Kaliningrad|Samara|Volgograd|Saratov|Ulyanovsk|Astrakhan|Kirov|Yekaterinburg|Omsk|Novosibirsk|Barnaul|Tomsk|Novokuznetsk|Krasnoyarsk|Irkutsk|Chita|Yakutsk|Khandyga|Vladivostok|Ust-Nera|Magadan|Sakhalin|Srednekolymsk|Kamchatka|Anadyr)$/.test(z)||/-(RU|BY)$/i.test(l)})(),p=location.pathname,r=p.indexOf('/ru/')===0,t=ru&&!r?'/ru/':!ru&&r?'/':'';if(t&&t!==p)location.replace(t+location.search+location.hash)}catch(e){}})()</script>
 <script>try{localStorage.setItem('bso_lang','ru')}catch(e){}</script>
 <title>Виллы в Нуану, Бали — Black Sands Oasis (БСО) | UNIT.</title>
 <meta name="description" data-i18n-content="meta.desc" content="Камерные виллы Desert Modernism от UNIT. в Нуану, Бали: 7 планировок от 31 до 160 м², свои бассейны, потолки 6 м, управляемая аренда.">
@@ -203,10 +203,10 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20261002203601">
-<link rel="stylesheet" href="css/v2.css?v=20261002203601">
-<!-- Meta Pixel (Босс 03.10): реклама FB/IG. Строгий режим: грузится ТОЛЬКО после согласия — кнопка «Понятно» в cookie-баннере
-     (bso_cookie_ok=1; js/main.js зовёт bsoPixel()). Lead — успешная заявка, Contact — клик WhatsApp. Ботов и headless не считаем. -->
+<link rel="stylesheet" href="css/styles.css?v=20261004204210">
+<link rel="stylesheet" href="css/v2.css?v=20261004204210">
+<!-- Meta Pixel: грузится только после согласия, по кнопке «Понятно» в cookie-баннере
+     (bso_cookie_ok=1, main.js зовёт bsoPixel()). Lead — заявка ушла, Contact — клик в WhatsApp. Ботов и headless не считаем. -->
 <script>
 window.bsoPixel=function(){
 if(window.fbq||navigator.webdriver||/bot|crawl|spider|lighthouse|headless/i.test(navigator.userAgent))return;
@@ -279,7 +279,6 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 
 <!-- локация плюс архитектура, объединены. блок локация с картой убран
      целиком, текст перенесен вторым абзацем справа. история в гит -->
-<!-- пробовали слить с частной территорией, откатили, оставлено как было -->
 <section class="section" id="architecture">
   <div class="container">
     <div class="block-head-split">
@@ -313,8 +312,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   </div>
 </section>
 
-<!-- виллы в комплексе будущего, заменяет карусель преимуществ v1, тот же
-     смысл но сеткой фото-карточек с текстом на фото. карусель в истории гит -->
+<!-- виллы в комплексе будущего: сетка фото-карточек, текст прямо на фото -->
 <section class="section villas" id="villas">
   <div class="container">
     <div class="villas-head reveal">
@@ -402,9 +400,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   </div>
 </section>
 
-<!-- частная территория, вариант 3. было фото на всю ширину плюс три карточки
-     с иконками, тот же паттерн уже трижды на странице. стало: крупный кадр
-     слева, три коротких пункта справа без иконок -->
+<!-- частная территория: крупный кадр слева, три коротких пункта справа без иконок -->
 <section class="section">
   <div class="container">
     <h2 class="reveal" data-i18n="priv.title">Частная территория нового уровня</h2>
@@ -573,9 +569,8 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
           <div><div class="k" data-i18n="plans.who_label">Для кого</div><div class="v" id="planWho">Single, couples</div></div>
         </div>
         <div class="plans-cta-row">
-          <!-- порядок поменян местами, раньше иконка стояла первой -->
           <a class="btn btn-glass js-lead-open" href="/ru/#contacts" data-lead-intent="book" data-i18n="plans.cta.v2">Забронировать виллу</a>
-          <!-- иконка встала рядом с cta, раньше была чипом на топвью и плавала непредсказуемо -->
+          <!-- иконка плана рядом с cta -->
           <button class="plans-toggle-btn plans-toggle-btn--icon" id="plansToggleBtn" aria-expanded="false" aria-label="Смотреть планировку" data-i18n-aria="plans.view_layout">
             <svg class="plans-toggle-ic plans-toggle-ic--closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><path d="M3 3H21V21H3Z"/><path stroke-linecap="butt" d="M11 3.75V8M11 11.25V20.25M11.75 12H14M17 12H20.25M3.75 15H7"/></svg>
             <svg class="plans-toggle-ic plans-toggle-ic--open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><path d="M3 3H21V21H3Z"/><circle cx="9" cy="9" r="2"/><path stroke-linecap="butt" d="M3.75 18.6L9 13L13 16L16 14L20.25 17.4"/></svg>
@@ -589,16 +584,14 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <!-- старый блок как купить виллу карусель шагов убран, остался только
      вариант со липким заголовком ниже. история в гит -->
 
-<!-- как купить виллу, вариант со липким заголовком, реф product-feed burton.com.
-     левая колонка sticky, правая обычный столбик, без единой строки js.
-     v1 держит overflow-x:hidden на body и ломает sticky, в v2.css заменено на clip -->
+<!-- как купить: левая колонка sticky, правая обычный столбик, без js.
+     sticky держится, потому что у body в v2.css overflow-x:clip, а не hidden -->
 <section class="section steps-sticky" id="steps-sticky">
   <div class="container">
     <div class="ss-grid">
       <div class="ss-head">
         <h2 class="reveal" data-i18n="steps.title">Как купить виллу</h2>
         <p class="lead reveal" data-i18n="stepsSticky.lead">Пять шагов до ключей, каждый закреплён договором.</p>
-        <!-- факты покупки подтверждены Боссом 01.10.2026 -->
         <ul class="ss-facts reveal">
           <li data-i18n="stepsSticky.fact1">Возврат всех платежей, если лицензия PBG не получена</li>
           <li data-i18n="stepsSticky.fact2">Гарантия 25 лет на конструктив, 5 лет на инженерные сети, 1 год на отделку</li>
@@ -655,8 +648,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   <div class="container">
     <h2 class="reveal" data-i18n="invest.title">Почему именно Бали и Nuanu</h2>
     <p class="lead lead-wide reveal" data-i18n="invest.lead">Бали входит в число сильных туристических направлений мира. В ТОП-районах острова фиксируют рост цен на недвижимость 20% в год и доходность аренды вилл до 16% годовых. Nuanu усиливает эту динамику за счёт ограниченного предложения и развитой городской среды</p>
-    <!-- стеклянные чипы прямо на фото, десктопная раскладка не трогаем.
-         на мобиле чипы закрывали фулл фотку, правка нужна была только там -->
+    <!-- стеклянные чипы прямо на фото; на мобиле они уходят под кадр -->
     <div class="invest-photo reveal">
       <!-- реальный кадр бали вместо рендера комплекса, танах лот 15 минут от nuanu -->
       <img width="1920" height="1200" decoding="async" class="ph" src="assets/why-bali-tanahlot.jpg" alt="Храм Танах Лот на западном побережье Бали на закате" data-i18n-alt="invest.photo_alt_v2" loading="lazy">
@@ -707,7 +699,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   </div>
 </section>
 
-<!-- unit как группа компаний, текст из макета бсо2, показывает bso как продукт всей группы -->
+<!-- UNIT. как группа компаний: BSO как продукт всей группы -->
 <section class="section section-gray" style="background:var(--stone)" id="unit-group">
   <div class="container">
     <h2 class="reveal" data-i18n="unitgrp.title">Работаем как единая система</h2>
@@ -769,8 +761,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   </div>
 </section>
 
-<!-- faq, вопросы из макета дословно, ответы написаны заново, в макете была рыба.
-     цифры требуют подтверждения Босса -->
+<!-- faq: вопросы из макета дословно, ответы написаны заново -->
 <section class="section faq" id="faq">
   <div class="container">
     <div class="faq-wrap">
@@ -965,14 +956,14 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
 <!-- тот же пин для мобильного кропа -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/i18n.js?v=20261002203601"></script>
-<script src="js/v2-i18n.js?v=20261002203601"></script>
-<script src="js/main.js?v=20261002203601"></script>
-<script src="js/v2.js?v=20261002203601"></script>
-<script src="js/units-data.js?v=20261002203601"></script>
-<script src="js/units-plan.js?v=20261002203601"></script>
-<script src="js/buildings-data.js?v=20261002203601"></script>
-<script src="js/iplan-map.js?v=20261002203601"></script>
+<script src="js/i18n.js?v=20261004204210"></script>
+<script src="js/v2-i18n.js?v=20261004204210"></script>
+<script src="js/main.js?v=20261004204210"></script>
+<script src="js/v2.js?v=20261004204210"></script>
+<script src="js/units-data.js?v=20261004204210"></script>
+<script src="js/units-plan.js?v=20261004204210"></script>
+<script src="js/buildings-data.js?v=20261004204210"></script>
+<script src="js/iplan-map.js?v=20261004204210"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 <script>
 /* en страница, кнопка ru уводит на /ru/, а не просто переключает i18n на месте */

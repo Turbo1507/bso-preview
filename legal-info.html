@@ -11,11 +11,11 @@
 <link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon2-16.png?v=4">
 <link rel="icon" href="/assets/favicon2.ico?v=4" sizes="any">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-2.png?v=4">
-<!-- v2 лежит на уровень глубже: базовые стили общие, тёмная тема своя -->
-<link rel="stylesheet" href="css/styles.css?v=20261002203601">
-<link rel="stylesheet" href="css/v2.css?v=20261002203601">
-<!-- Meta Pixel (Босс 03.10): реклама FB/IG. Строгий режим: грузится ТОЛЬКО после согласия — кнопка «Понятно» в cookie-баннере
-     (bso_cookie_ok=1; js/main.js зовёт bsoPixel()). Lead — успешная заявка, Contact — клик WhatsApp. Ботов и headless не считаем. -->
+<!-- базовые стили общие с главной, тёмная тема своя -->
+<link rel="stylesheet" href="css/styles.css?v=20261004204210">
+<link rel="stylesheet" href="css/v2.css?v=20261004204210">
+<!-- Meta Pixel: грузится только после согласия, по кнопке «Понятно» в cookie-баннере
+     (bso_cookie_ok=1, main.js зовёт bsoPixel()). Lead — заявка ушла, Contact — клик в WhatsApp. Ботов и headless не считаем. -->
 <script>
 window.bsoPixel=function(){
 if(window.fbq||navigator.webdriver||/bot|crawl|spider|lighthouse|headless/i.test(navigator.userAgent))return;
@@ -61,6 +61,6 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <p data-i18n="legal.contacts">For legal and partnership enquiries: through the form on the site or the manager handling your request.</p>
   </div>
 </section>
-<script src="js/legal.js?v=20261002203601"></script>
+<script src="js/legal.js?v=20261004204210"></script>
 </body>
 </html>

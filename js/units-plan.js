@@ -1,7 +1,6 @@
-/* Интерактивный план (v1) — рендер таблицы юнитов + фильтры/сортировка.
+/* Интерактивный план: таблица юнитов, фильтры и сортировка.
    Данные — BSO_UNITS из units-data.js. Статусы: early/prebooked/booked
-   (presale в шахматке объединён с early — с точки зрения покупателя это
-   тоже "доступен", разница только внутренняя бухгалтерская). */
+   (presale из шахматки слит с early: для покупателя это тоже «доступен»). */
 (function () {
   const tbody = document.getElementById('iplanTbody');
   if (!tbody || typeof BSO_UNITS === 'undefined') return;

@@ -1,25 +1,17 @@
 /* BLACK SANDS OASIS — базовый интерактив: header, reveal, карусели, табы планировок */
 
-/* Пути к фото планировок ниже прописаны как 'assets/...' — относительно страницы.
-   v2 лежит на уровень глубже (/v2/), а картинки общие и остаются в /assets/,
-   поэтому страница может объявить window.BSO_ASSET_PREFIX ДО подключения этого
-   файла. Для v1 переменной нет → префикс пустой, поведение прежнее. */
+/* Пути к фото планировок ниже — 'assets/...', относительно страницы. Страница
+   глубже корня может задать window.BSO_ASSET_PREFIX до подключения файла. */
 const ASSET = s => (window.BSO_ASSET_PREFIX || '') + s;
 
-/* ---------- прогрузка картинок: «shine»-скелет (Босс 05-06.09) ----------
-   На каждой контентной <img class="ph">, которая ещё НЕ в кэше, включаем
-   .is-loading (бегущий блик, стиль в styles.css) и снимаем по load/error.
-   Закешированные (img.complete && naturalWidth) пропускаем — иначе на
-   повторном визите мелькал бы лишний кадр. Скрипт внизу body, DOM уже
-   разобран, так что querySelectorAll видит все картинки. */
+/* ---------- прогрузка картинок: блик-скелет ----------
+   На <img class="ph">, которой ещё нет в кэше, включаем .is-loading (блик,
+   стиль в styles.css) и снимаем по load/error. Закешированные пропускаем,
+   иначе на повторном визите мелькал бы лишний кадр. */
 (function () {
   document.querySelectorAll('img.ph').forEach(function (img) {
-    // code-review 15.09: было `complete && naturalWidth>0` — картинка,
-    // которая к этому моменту уже ЗАВЕРШИЛАСЬ ошибкой (complete=true,
-    // naturalWidth=0), проходила мимо этой проверки, получала .is-loading
-    // и вешала load/error listeners на событие, которое уже отстрелялось
-    // в прошлом — .is-loading оставался бегать вечно. complete=true значит
-    // финальное состояние (успех ИЛИ ошибка) уже известно в любом случае.
+    // complete=true — состояние уже финальное, успех или ошибка. Если проверять
+    // ещё и naturalWidth, битая картинка получала .is-loading и блик бегал вечно.
     if (img.complete) return;
     img.classList.add('is-loading');
     var done = function () { img.classList.remove('is-loading'); };
@@ -31,7 +23,7 @@ const ASSET = s => (window.BSO_ASSET_PREFIX || '') + s;
 /* ---------- header solid on scroll ---------- */
 const header = document.getElementById('header');
 function syncHeader() {
-  // Босс 01.10: под открытой формой body зафиксирован и scrollY = 0 — шапка становилась прозрачной
+  // под открытой формой body зафиксирован и scrollY = 0, шапка становилась прозрачной
   if (document.body.classList.contains('lead-lock')) return;
   header.classList.toggle('is-solid', window.scrollY > 40);
 }
@@ -61,12 +53,7 @@ if (menuOverlay) { menuOverlay.setAttribute('aria-hidden', 'true'); menuOverlay.
 if (menuClose) menuClose.addEventListener('click', () => setMenuOpen(false));
 if (menuOverlay) menuOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenuOpen(false)));
 
-/* ---------- оверлей заявки (тот же паттерн, что на unitdeveloper.com) ----------
-   ВАЖНО: у BSO нет своего бэкенда/CRM-эндпоинта для приёма заявок (сайт —
-   статика на GitHub Pages). Пока шлём через mailto на hello@unit.now (реальный
-   опубликованный адрес UNIT. в футере unitdeveloper.com, не придуман) — это
-   ЧЕСТНЫЙ, но временный канал. Настоящую доставку (форма-бэкенд/Telegram-бот/
-   Битрикс CRM) нужно обсудить с Боссом отдельно. */
+/* ---------- оверлей заявки ---------- */
 const leadModal = document.getElementById('leadModal');
 const leadForm = document.getElementById('leadForm');
 if (leadModal && leadForm) {
@@ -135,20 +122,16 @@ if (leadModal && leadForm) {
     const purposeEl = leadForm.querySelector('select[name="purpose"]');
     const lang = window.__bsoLang || document.documentElement.lang || 'en';
     if (commentEl) commentEl.value = (lang === 'ru' ? 'Юнит ' : 'Unit ') + unitNumber;
-    // code-review 15.09: .value= напрямую не бьёт нативный 'change' —
-    // кастомная кнопка-подмена select'а (v2.js .csel) оставалась со старым
-    // текстом («Select what interests you»), хотя реальное значение уже
-    // 'own'. Диспатчим change, чтобы v2.js перерисовал кнопку.
+    // .value= не шлёт change, а кастомная кнопка (v2.js .csel) ждёт его,
+    // иначе остаётся со старой подписью
     if (purposeEl && !purposeEl.value) { purposeEl.value = 'own'; purposeEl.dispatchEvent(new Event('change', { bubbles: true })); }
     setMenuOpen(false);
     setLeadIntent('unit');
     openLead();
   };
   leadModal.querySelectorAll('[data-lead-close]').forEach(el => el.addEventListener('click', closeLead));
-  // code-review 15.09: раньше Esc закрывал форму заявки ВСЕГДА, даже если
-  // она не открыта — совпадает с Esc в лайтбоксе галереи (v2.js) и дёргает
-  // страницу scrollTo(leadScrollY), хотя лид ни разу не открывали или
-  // открывали давно в другом месте. Закрываем только когда реально открыта.
+  // Esc закрывает форму, только если она открыта: иначе он срабатывал вместе
+  // с лайтбоксом и дёргал scrollTo
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && leadModal.classList.contains('is-open')) closeLead(); });
 
   /* телефон: код страны + автоформат по региональному шаблону (как на unit-wp) */
@@ -186,11 +169,8 @@ if (leadModal && leadForm) {
     const dict = (window.I18N && window.I18N[window.__bsoLang || 'en']) || {};
     const data = new FormData(leadForm);
 
-    /* Правка Босса 17.08: почта стала обязательной. Форма стоит с novalidate
-       (списки и чекбокс нарисованы свои), поэтому required проверяем руками —
-       и заодно остальные required-поля: до этого заявка уходила бы и с пустым
-       именем. Признак — сам атрибут required в разметке, так что v1, где почта
-       осталась необязательной, ведёт себя как раньше. */
+    /* форма стоит с novalidate (списки и чекбокс свои), поэтому required
+       проверяем руками; признак — сам атрибут required в разметке */
     const fail = (el, msg) => {
       if (status) { status.textContent = msg; status.className = 'lead-status is-err'; }
       if (el && el.focus) el.focus();
@@ -205,10 +185,9 @@ if (leadModal && leadForm) {
 
     const phone = '+' + (ccSelect ? ccSelect.value : '') + ' ' + (phoneLocal ? phoneLocal.value.trim() : '');
 
-    /* Босс 07.09: BSO живёт как плагин в той же WP-инсталляции, что
-       unitdeveloper.com — шлём заявку в тот же обработчик (wp_ajax
-       unit_lead_submit), он по хосту роутит в отдельную Telegram-группу BSO.
-       Nonce подставляет роутер плагина (bso-site.php, __BSO_LEAD_NONCE__). */
+    /* заявка уходит в тот же обработчик WP, что у unitdeveloper.com (wp_ajax
+       unit_lead_submit), он по хосту шлёт её в Telegram-группу BSO.
+       Nonce подставляет плагин (bso-site.php, __BSO_LEAD_NONCE__). */
     const nonce = (document.querySelector('meta[name="bso-lead-nonce"]') || {}).content || '';
     const fd = new FormData();
     fd.append('action', 'unit_lead_submit');
@@ -242,18 +221,9 @@ if (leadModal && leadForm) {
 }
 
 /* ---------- мобильный CTA снизу: скрыт пока мы на хиро, появляется после ---------- */
-/* Босс 05.09: "СТА-кнопка появляется ДО начала скролла, в верхней части,
-   поверх шапки" — сама кнопка position:fixed;bottom:0 и transform:translateY
-   (100%) по умолчанию, наверху появиться физически не может; но
-   IntersectionObserver гарантированно стреляет первым колбэком СРАЗУ на
-   .observe(), ещё до того, как layout (особенно у героя с video/фоном)
-   реально устаканился — известный класс бага, когда самый первый repor
-   мимолётно врёт про intersectionRatio. На секунду .show успевал
-   включиться и тут же погаснуть — глазами это читалось как вспышка кнопки
-   "сверху" в самый момент загрузки. Первый колбэк просто игнорируем —
-   стартовое состояние (герой на экране, кнопка скрыта) и так верное по
-   умолчанию из CSS, отвечать на него незачем; реагируем только на
-   реальные последующие пересечения (то есть на фактический скролл). */
+/* первый колбэк IntersectionObserver приходит сразу на observe(), пока layout
+   хиро ещё не устоялся, и иногда врёт: кнопка на миг вспыхивала при загрузке.
+   Стартовое состояние и так верное из CSS, поэтому первый колбэк пропускаем. */
 const heroSection = document.querySelector('.hero');
 const mobCta = document.querySelector('.mob-cta');
 if (heroSection && mobCta) {
@@ -368,12 +338,9 @@ function wireCarousel(trackId, prevId, nextId, dotsId, step) {
 wireCarousel('featTrack', 'featPrev', 'featNext', 'featDots', 400);
 wireCarousel('stepsTrack', 'stepsPrev', 'stepsNext', 'stepsDots', 300);
 
-/* Прогресс-бар прокрутки таблицы юнитов (мобилка, Босс 05.09) — тот же
-   приём, что .pp-table-track/main.js на unitdeveloper.com: нативный
-   скроллбар на тачах авто-прячется вне скролла, CSS это не отменяет,
-   поэтому отдельная полоска — обычный DOM-элемент, её ширину/позицию
-   двигает скролл. Два трека (гор.+верт.) — таблица юнитов скроллится в
-   обе стороны, в отличие от той, где взят приём. */
+/* Полоски прокрутки таблицы юнитов на мобиле: нативный скроллбар на тачах
+   прячется, CSS это не отменяет. Двигаем свои полоски от скролла, их две:
+   таблица листается в обе стороны. */
 (function () {
   const wrap = document.querySelector('.iplan-table-wrap');
   const outer = wrap && wrap.closest('.iplan-table-outer');
@@ -470,10 +437,8 @@ function wireSlider(trackId, prevId, nextId, dotsId, autoplayMs, opts) {
   track.addEventListener('scroll', sync, { passive: true });
   window.addEventListener('resize', sync);
   sync();
-  /* автолистание (по просьбе Босса, галерея фасада) — держит слайд заданное
-     время, потом едет на следующий, зацикливаясь; останавливается насовсем
-     при первом ручном вмешательстве пользователя (свайп/стрелка/точка), не
-     мешает дальше листать вручную */
+  /* автолистание: держит слайд заданное время и едет дальше по кругу;
+     после первого ручного листания (свайп, стрелка, точка) выключается насовсем */
   if (autoplayMs) {
     let timer = setInterval(() => {
       const max = track.scrollWidth - track.clientWidth;
@@ -488,18 +453,13 @@ function wireSlider(trackId, prevId, nextId, dotsId, autoplayMs, opts) {
   return { sync, setCount };
 }
 wireSlider('minGalleryTrack', 'minGalleryPrev', 'minGalleryNext', 'minGalleryDots', 8000, { loop: true });
-/* plansPhotoTrack — с 01.09 коллаж (CSS grid), не свайп-карусель, wireSlider
-   больше не нужен (правка Босса: "коллаж, не карусель", реф unitdeveloper.com) */
+/* plansPhotoTrack — коллаж на CSS grid, а не карусель, wireSlider ему не нужен */
 
 /* ---------- пины инфраструктуры на мастер-плане Nuanu ---------- */
-/* координаты (%) сняты через get_nodes_info с Figma-фреймов "nuanu desk rus"
-   (168:138) и "nuanu desk eng" (168:301), канал hdgz87wq. dot — позиция
-   точки-маркера (Ellipse) на карте; label — позиция текстовой подписи
-   (СВОЯ, не совпадает с dot — в Figma подпись отнесена в сторону линией-
-   указателем, чтобы соседние подписи не наезжали друг на друга, напр.
-   "Музыкальная студия" и "Арт-площадка" стоят рядом на карте, но подписи
-   разведены). Линия dot→label рисуется SVG. Один список на оба языка —
-   assets/nuanu-masterplan.jpg (1600x800) и Figma-фрейм — один кадр 2:1. */
+/* координаты в % от assets/nuanu-masterplan.jpg (1600x800). dot — точка на
+   объекте, label — подпись: она отнесена в сторону линией, чтобы соседние
+   подписи не наезжали друг на друга. Линию dot→label рисует SVG. Список один
+   на оба языка. */
 const NUANU_PINS = [
   { ru: 'Музыкальная студия', en: 'Music Studio', dot: [23.43, 36.05], label: [23.28, 27.36] },
   { ru: 'Ресторан Beer Garden', en: 'Restaurant Beer Garden', dot: [17.30, 58.95], label: [17.20, 49.78] },
@@ -518,18 +478,12 @@ const NUANU_PINS = [
   { ru: 'Thk tower', en: 'Thk Tower', dot: [47.78, 68.47], label: [47.99, 77.14] },
 ];
 /* мобильный кроп (assets/nuanu-masterplan-mobile.jpg, 1120x1156).
-   ПЕРЕСЧИТАНО 17.09.2026. Старые числа снимались с Figma-фрейма "nuanu mob
-   rus", который не совпал с реальным кадром рендера: подписи и бейдж BSO
-   съезжали с объектов и наезжали друг на друга, пин бейджа висел в небе.
-   Новые получены из десктопных координат через геометрическое соответствие
-   кадров (масштаб 0.940, сдвиг dx=199.7 dy=-220.3 в пикселях десктопа;
-   сверено по трём ориентирам, корреляция 0.95-0.98).
-   left/top = точка НА ОБЪЕКТЕ: подпись цепляется к ней дроплайном (CSS
-   ::after/::before, порт .mp-pin с unitdeveloper), сверху или снизу.
-   below:true — подпись под объектом, дроплайн вверх. Небольшие сдвиги по X
-   у Art Gallery/Night Club/Shopping Center/Art Venue разводят подписи, чтобы
-   не наезжали ни в EN, ни в RU (в RU текст длиннее). Проверено расчётом
-   боксов на обоих языках: наложений 0. */
+   Числа пересчитаны из десктопных по соответствию кадров (масштаб 0.940,
+   сдвиг dx=199.7 dy=-220.3 в px десктопа), сверено по трём ориентирам.
+   left/top = точка на объекте, подпись цепляется к ней дроплайном (CSS
+   ::after/::before), сверху или снизу. below:true — подпись под объектом,
+   дроплайн вверх. Небольшие сдвиги по X у Art Gallery/Night Club/Shopping
+   Center/Art Venue разводят подписи, чтобы не наезжали ни в EN, ни в RU. */
 const NUANU_PINS_MOBILE = [
   { ru: 'Музыкальная студия', en: 'Music Studio', left: 14.7, top: 41.36, below: true },
   { ru: 'Ресторан Beer Garden', en: 'Restaurant Beer Garden', left: 6.47, top: 56.26, align: 'left' },
@@ -576,12 +530,10 @@ function renderNuanuPins(lang) {
      в эллипс по вертикали вдвое; компенсируем через ellipse с ry=2×rx, и
      non-scaling-stroke, чтобы толщина линии не "гуляла" в зависимости от угла */
   const lines = NUANU_PINS.map(p => `<line x1="${p.dot[0]}" y1="${p.dot[1]}" x2="${p.label[0]}" y2="${p.label[1]}" vector-effect="non-scaling-stroke"/><ellipse cx="${p.dot[0]}" cy="${p.dot[1]}" rx=".35" ry=".7"/>`).join('');
-  /* Бейдж BLACK SANDS OASIS в v1 стоит без указателя, в отличие от остальных
-     подписей. Страница может попросить такой же пин, задав
-     window.BSO_NUANU_BADGE_PIN = {dot:[x%,y%], from:[x%,y%]} ДО подключения
-     файла. Рисуем теми же примитивами, что и прочие пины, чтобы точка и линия
-     масштабировались одинаково. Мобильная ветка выше пинов не рисует вообще —
-     там бейдж так и остаётся без точки, как и все остальные подписи. */
+  /* Бейдж BLACK SANDS OASIS по умолчанию без указателя. Страница может попросить
+     пин, задав window.BSO_NUANU_BADGE_PIN = {dot:[x%,y%], from:[x%,y%]} до
+     подключения файла. Рисуем теми же примитивами, что и прочие пины, чтобы
+     точка и линия масштабировались одинаково. */
   const badgePin = window.BSO_NUANU_BADGE_PIN;
   /* класс badge-pin — чтобы страница могла покрасить указатель бейджа отдельно
      от остальных пинов (у BSO он тёмный, у прочих подписей белый) */
@@ -595,27 +547,18 @@ renderNuanuPins(window.__bsoLang || 'en');
 nuanuMobileMQ.addEventListener('change', () => renderNuanuPins(window.__bsoLang || 'en'));
 window.__bsoSyncNuanuPins = function (lang) { renderNuanuPins(lang); };
 
-/* ---------- планировки: верхние табы (правка Босса — раньше были слева) ---------- */
-/* Площадь — реальные цифры из официальной презентации bso-presentation_eng.pdf
-   (unitdeveloper.com/for-partners/black-sands-oasis/), таблица "MASTER PLAN OF
-   VILLAS". Планировки (plan-*.png) и топ-виды в разрезе (villa-*-topview.jpg) —
-   из Figma "villas plans" (channel 24124zuq), 1:1 официальные ассеты застройщика.
-   Вместимость (cap) — расчётная по правилу Босса (2026-07-26): 1 спальня = 2
-   чел., кроме Studio (реальные данные, заданы раньше). "Для кого" (who) — не
-   официальные данные, интерпретация по масштабу формата исходя из контекста
-   (по прямому указанию Босса). Двуязычно: PLANS[lang][planId] — синхронизируется
+/* ---------- планировки: табы сверху ---------- */
+/* Площади — из официальной презентации (таблица MASTER PLAN OF VILLAS).
+   Планы plan-*.png и виды сверху villa-*-topview.jpg — ассеты застройщика.
+   Вместимость (cap): 1 спальня = 2 человека, у Studio свои данные. «Для кого»
+   (who) — наша трактовка по размеру формата. PLANS[lang][planId] синхронизируется
    с setLang() через window.__bsoSyncPlan (см. js/i18n.js). */
-/* photo/photoAlt — реальные интерьерные рендеры по типам, вырезаны из
-   презентации (bso-presentation_eng.pdf, стр. 31/33/35/37/39/41/43 —
-   1:1 соответствие с материалом Figma "МАТЕРИАЛ ДЛЯ ЗАПОЛНЕНИЯ..."), не
-   стоковые/придуманные фото. Порядок слайдов (правка Босса): сначала
-   интерьерные фото виллы, затем план, затем topview (разрез сверху) —
-   последним, после плана. */
+/* photo/photoAlt — интерьерные рендеры из презентации застройщика.
+   Порядок слайдов: сначала интерьеры, потом план, вид сверху последним. */
 const PLANS = {
   ru: {
-    /* detail1 (кадр с телевизором) — 3-й слайд карусели по правке Босса. Учитываем
-       перестановку в renderPlan: photos[0] (план) уезжает предпоследним, поэтому
-       в массиве detail1 стоит 4-м, а в самой карусели показывается третьим */
+    /* detail1 (кадр с телевизором) показывается третьим: renderPlan уводит
+       photos[0] (план) ближе к концу, поэтому в массиве он стоит 4-м */
     studio:   { name: 'Studio', area: '31,2 м²', cap: '2 чел.', who: 'Один, пары', photos: ['assets/plan-studio.png','assets/villa-studio-detail2.jpg','assets/villa-studio-detail3.jpg','assets/villa-studio-detail1.jpg','assets/villa-studio-topview.jpg'], photoAlts: ['Планировка Studio','Интерьер виллы Studio','Интерьер виллы Studio','Интерьер виллы Studio','Вилла Studio в разрезе сверху'], positions: ['50% 50%','50% 65%','50% 55%','50% 50%','50% 50%'] },
     '1bd':    { name: '1BD', area: '71,3 м²', cap: '2 чел.', who: 'Пары', photos: ['assets/plan-1bd.png','assets/villa-1bd-detail1.jpg','assets/villa-1bd-detail2.jpg','assets/villa-1bd-detail3.jpg','assets/villa-1bd-topview.jpg'], photoAlts: ['Планировка 1BD','Интерьер виллы 1BD','Интерьер виллы 1BD','Интерьер виллы 1BD','Вилла 1BD в разрезе сверху'], positions: ['50% 50%','50% 60%','50% 75%','50% 55%','50% 50%'] },
     '1bdsky': { name: '1BD SKY', area: '83,3 м²', cap: '2 чел.', who: 'Пары, workation', photos: ['assets/plan-1bdsky-f1.png','assets/villa-1bdsky-detail1.jpg','assets/villa-1bdsky-detail2.jpg','assets/villa-1bdsky-detail3.jpg','assets/villa-1bdsky-topview-f1.jpg'], photoAlts: ['Планировка 1BD SKY','Интерьер виллы 1BD SKY','Интерьер виллы 1BD SKY','Интерьер виллы 1BD SKY','Вилла 1BD SKY в разрезе сверху'], positions: ['50% 50%','50% 65%','50% 70%','50% 75%','50% 50%'] },
@@ -634,22 +577,15 @@ const PLANS = {
     '4bd':    { name: '4BD', area: '159.8 m²', cap: '8 people', who: 'Multi-generational families', photos: ['assets/plan-4bd-f1.png','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd-detail4.jpg','assets/villa-4bd-topview-f1.png'], photoAlts: ['4BD floor plan','4BD villa interior','4BD villa interior','4BD villa interior','4BD villa interior','4BD villa cutaway top view'], positions: ['50% 50%','50% 70%','50% 50%','50% 60%','50% 75%','50% 50%'] },
   }
 };
-/* ---------- многоэтажные планы/топвиды: слоями, не одним растром ----------
-   Картинки этажей (без текста, тесный кроп) + подписи «1-й/2-й этаж» как
-   настоящий SVG <text> (не вшито в PNG/JPG — переводимо, редактируемо).
-   Координаты x/y/w/h — сырые px 1:1 с Figma-фреймом 1920×1277 (viewBox тех
-   же размеров даёт точное совпадение без пересчёта в %), сняты через
-   get_nodes_info с "villas plans" (channel 24124zuq). Только для
-   двухэтажных форматов; Studio/1BD — один этаж, обычная картинка. */
+/* ---------- двухэтажные планы и виды сверху: слоями, не одним растром ----------
+   Картинки этажей без текста + подписи «1-й/2-й этаж» настоящим SVG <text>,
+   чтобы переводились. x/y/w/h — px на холсте 1920×1277 (viewBox тех же
+   размеров, без пересчёта в %). Studio/1BD — один этаж, обычная картинка. */
 const FLOOR_LAYOUTS = {
   '1bdsky': {
-    /* x/y ниже пересчитаны (Босс 05.09: "планировки криво показываются") —
-       f1/f2 стояли внахлёст (общий диапазон и по x, и по y), на схематичном
-       плане (плоская заливка, не фотореал с прозрачными полями как в render)
-       это давало видимое наложение картинок друг на друга. Развели по
-       вертикали без пересечения: f2 сверху, f1 снизу, зазор ~57px, высота
-       каждого этажа — 550 под свою реальную пропорцию файла (см. py/PIL
-       замер размеров assets/plan-*-f*.png), по центру канваса 1920 по x. */
+    /* f1/f2 развели по вертикали без нахлёста: на плоской схеме этажи
+       накладывались друг на друга. f2 сверху, f1 снизу, зазор ~57px, высота
+       этажа 550 под пропорцию файла, по центру холста по x. */
     plan:   { f2:{src:'assets/plan-1bdsky-f2.png', x:573.08, y:60, w:773.84, h:550}, f1:{src:'assets/plan-1bdsky-f1.png', x:681.04, y:667, w:557.92, h:550}, label2:{x:960,y:20}, label1:{x:960,y:1227} },
     render: { f2:{src:'assets/villa-1bdsky-topview-f2.png', x:302, y:128, w:1084, h:675}, f1:{src:'assets/villa-1bdsky-topview-f1.jpg', x:774.68, y:353, w:844.18, h:796}, label2:{x:1466,y:128}, label1:{x:518,y:1115} }
   },
@@ -674,22 +610,15 @@ const FLOOR_LABEL_TEXT = {
   ru: { f2: '2-й этаж', f1: '1-й этаж' },
   en: { f2: '2nd floor', f1: '1st floor' }
 };
-/* ---------- бенто-коллаж «Layouts» по типам (правка Босса 04.09) ----------
-   Логика: матрица ячеек с общим гэпом 14px, крупные тайлы = несколько ячеек,
-   слитых через grid-row/column span (гэп между ними схлопывается сам, CSS
-   Grid). cols — фр-веса колонок (не обязаны суммироваться в 1360, браузер
-   распределит доступное пространство пропорционально), rows — фикс. высоты.
-   tiles[].photoIdx — индекс в p.photos (см. PLANS), isTopview — рендерить как
-   топвью (SVG-композит для двухэтажных ИЛИ фон-картинка). Собрано в Figma
-   (Боссом), studio — первый тип, остальные добавляются по этой же схеме. */
+/* ---------- бенто-коллаж планировок по типам ----------
+   Матрица ячеек с общим гэпом, крупные тайлы — несколько ячеек через
+   grid-row/column span. cols — fr-веса колонок, rows — фикс. высоты.
+   tiles[].photoIdx — индекс в p.photos (см. PLANS), isTopview — тайл с видом
+   сверху (SVG для двухэтажных или картинка). */
 const COLLAGE_LAYOUTS = {
-  /* Порядок содержимого (правка Босса 04.09-ter): чем ЛЕВЕЕ и БОЛЬШЕ тайл,
-     тем «интерьернее»/эффектнее должно быть фото — спальни и гостиные с
-     видом в крупные и левые тайлы, санузлы НИКОГДА не в большие (только
-     самые мелкие одноклеточные, независимо от того, где физически стоит
-     клетка), нейтральное (кухня/коридор/техника) — в оставшиеся мелкие
-     клетки. Не супер строго (сам Босс: "не придерживайся на 100%"), просто
-     общий вектор. */
+  /* Чем левее и крупнее тайл, тем эффектнее фото: спальни и гостиные с видом
+     в крупные и левые, санузлы только в самые мелкие, кухня/коридор/техника —
+     в оставшиеся мелкие. Не жёстко, просто общий вектор. */
   studio: {
     // и A(col1), и D(col3) тут двухклеточные (row:'1/3') — единственный
     // некрупный слот во всём макете это B (col2,row1), поэтому санузел ТУДА,
@@ -708,13 +637,10 @@ const COLLAGE_LAYOUTS = {
      293px, крупные тайлы = span. У каждого типа свой рисунок слияний.
      Родных фото на тип 3-4, добор до 5-6 тайлов из общего пула
      (assets/bso-pool-N.jpg). */
-  /* Экстерьер/бассейн — оставлен СИГНАТУРНЫМ только у 3bdsky (аэро-вид сверху,
-     единственный по-настоящему непохожий на остальные ракурс). У 1bdsky/2bd/
-     3bd свои detail-экстерьеры убраны из коллажа — Босс: "экстерьеры лучше
-     от типа к типу не дублировать" (7 табов подряд с похожим бассейном
-     выглядят как повтор). 1bd/4bd не трогал — там бассейн виден ЧЕРЕЗ окно
-     интерьерного кадра (гостиная/спальня), это не отдельный «вид на бассейн»
-     тайл. bso-pool-4.jpg выведен из ротации целиком (Босс: "плохое фото"). */
+  /* Экстерьер с бассейном оставлен только у 3bdsky (аэро-вид, единственный
+     непохожий ракурс): семь табов с похожим бассейном выглядят как повтор.
+     У 1bd/4bd бассейн виден через окно интерьера, это не отдельный тайл.
+     bso-pool-4.jpg не используем. */
   '1bd': {
     cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
@@ -753,20 +679,17 @@ const COLLAGE_LAYOUTS = {
       { photoIdx: 1, col: '1', row: '1 / 3' },                              // detail1 — спальня+лестница, высокий слева
       { src: 'assets/bso-pool-9.jpg', col: '2', row: '1' },                 // коридор (пул) — мелкий центр
       { photoIdx: 2, col: '3 / 5', row: '1' },                              // detail2 — гостиная, широкий верх-право
-      // topview — ОДНА клетка (не широкий-плоский, как было): план виллы сам
-      // по себе почти квадратный, в широком-низком тайле оставлял пустые
-      // размытые поля по бокам ("топвьюшки не везде кайфово" — Босс 04.09)
+      // topview — одна клетка: план почти квадратный, в широком низком тайле
+      // по бокам оставались пустые размытые поля
       { photoIdx: 4, col: '2', row: '2', isTopview: true },
       { src: 'assets/bso-pool-10.jpg', col: '3', row: '2' },                // кухня (пул) — мелкий центр
       { src: 'assets/bso-pool-3.jpg', col: '4', row: '2' }                  // кухня (пул) — мелкий справа, вместо detail3-экстерьера
     ]
   },
   '3bdsky': {
-    // Единственный тип, где экстерьер (аэро-вид бассейна) осознанно оставлен —
-    // он один непохож на остальные "вид сбоку на бассейн". Контейнер топвью
-    // (одна клетка) Босс подтвердил как норм — маленькой была КАРТИНКА плана
-    // внутри тайла (inset был слишком щедрый), не сам тайл. Фикс — в CSS
-    // (.plans-collage-topview-fg), геометрию тайла вернул как было.
+    // Единственный тип с экстерьером (аэро-вид бассейна), он не похож на остальные.
+    // Топвью в одну клетку; размер картинки плана внутри тайла правится в CSS
+    // (.plans-collage-topview-fg).
     cols: '1fr 1fr 1fr 1fr', rows: '293px 293px',
     tiles: [
       { photoIdx: 1, col: '1 / 3', row: '1' },                              // detail1 — спальня, широкий верх-лево
@@ -788,8 +711,7 @@ const COLLAGE_LAYOUTS = {
       { photoIdx: 3, col: '4', row: '1' },                                  // detail3 — кабинет, мелкий справа
       { photoIdx: 2, col: '2', row: '2' },                                  // detail2 — дуплекс/лестница, мелкий центр
       { photoIdx: 5, col: '3', row: '2', isTopview: true },                 // topview — одна клетка, не широкий-плоский
-      { src: 'assets/bso-pool-8.jpg', col: '4', row: '2' }                  // коридор (пул) — мелкий справа; без него col4/row2
-      // пустовал (дыра в сетке — "4bd коллаж сломался", Босс 04.09)
+      { src: 'assets/bso-pool-8.jpg', col: '4', row: '2' }                  // коридор (пул) — мелкий справа, без него в сетке дыра
     ]
   }
 };
@@ -808,9 +730,7 @@ function buildFloorsSVG(layout, lang, showLabels) {
     img.setAttribute('width', part.w); img.setAttribute('height', part.h);
     svg.appendChild(img);
   });
-  /* showLabels=false — правка Босса 03.08 (только v2, см. renderPlan):
-     подписи "1-й/2-й этаж" на схемах убраны, план сам по себе достаточно
-     читаем в раскрывашке. v1 продолжает получать true по умолчанию. */
+  /* showLabels=false — без подписей этажей: в раскрывашке план и так читается */
   if (showLabels) {
     [['label2', layout.label2], ['label1', layout.label1]].forEach(([key, pos]) => {
       if (!pos) return;
@@ -861,10 +781,9 @@ function renderPlan(planId, lang) {
   const floors = FLOOR_LAYOUTS[planId];
 
   if (planToggleImg) {
-    /* v2: план вынесен из карусели в раскрывашку «Смотреть планировку» —
-       реф Figma «план1»/«план2» (295:331/332, канал 41fc2tir). Карусель ниже
-       держит интерьерные фото + topview (как в v1), план — отдельно в панели,
-       без подписей этажей (buildFloorsSVG(...,false), см. функцию выше). */
+    /* план вынесен из карусели в раскрывашку «Смотреть планировку», без
+       подписей этажей (buildFloorsSVG(...,false)). Коллаж ниже держит
+       интерьерные фото и вид сверху. */
     const planBox = planToggleImg.parentElement;
     const oldPlanSvg = planBox.querySelector('svg.plan-floors-svg');
     if (oldPlanSvg) oldPlanSvg.remove();
@@ -874,22 +793,8 @@ function renderPlan(planId, lang) {
     } else {
       planToggleImg.style.display = ''; planToggleImg.src = ASSET(p.photos[0]); planToggleImg.alt = p.photoAlts[0];
     }
-    /* Масонри-коллаж вместо карусели (правка Босса 01.09, доработано 02.09:
-       реф unitdeveloper.com/#projects .project-gallery + просьба сохранять
-       формат каждого фото, а не резать под общую рамку). Интерьеры слева —
-       каждый в своих природных пропорциях (.plans-collage-left, CSS: общая
-       высота строки, width:auto — вертикальное фото уже, горизонтальное шире,
-       без object-fit). Справа — квадратный блок из ДВУХ ячеек: последнее
-       интерьерное фото сверху, топвью снизу. Кнопка «Смотреть план» больше
-       не живёт на фото — она в .plans-info рядом с CTA (плоская иконка,
-       постоянный узел, никуда не перемещается). Лайтбокс (v2.js) сам
-       подхватывает любые <img> внутри #plansPhotoTrack, независимо от
-       вложенности в left/right — трогать его не пришлось. */
-    // .plansCollageLeft/.plans-collage-right — обёртки старого масонри-режима.
-    // Все 7 типов сейчас в COLLAGE_LAYOUTS (бенто), эти div'ы больше никогда
-    // не используются — держать их в DOM пустыми под display:none Босс
-    // справедливо назвал мусором. Удаляем физически (один раз — на повторных
-    // рендерах их уже нет, поэтому querySelector, не getElementById + guard).
+    // обёртки старого масонри-режима: все типы теперь в COLLAGE_LAYOUTS, поэтому
+    // удаляем их из DOM (на повторных рендерах их уже нет)
     let left = document.getElementById('plansCollageLeft');
     let right = track.querySelector('.plans-collage-right');
     track.querySelectorAll('.pc-bento-tile').forEach(el => el.remove());
@@ -905,11 +810,8 @@ function renderPlan(planId, lang) {
       // предпоследнее интерьерное — как блюр-подложка топвью, если в конфиге
       // не указан свой (bento.blurIdx — на случай если p.photos[length-2] не подходит)
       const lastInteriorIdx = bento.blurIdx != null ? bento.blurIdx : p.photos.length - 2;
-      // Топвью-тайл добавляется в DOM ПОСЛЕДНИМ (правка Босса: "топвью всегда
-      // последним кадром" в лайтбоксе) — лайтбокс (v2.js) собирает кадры по
-      // порядку <img> в DOM, а не по визуальной grid-позиции, поэтому
-      // визуальное место тайла (t.col/t.row) и порядок добавления в DOM —
-      // независимы друг от друга (grid-column/row решает раскладку).
+      // вид сверху кладём в DOM последним: лайтбокс берёт кадры по порядку <img>
+      // в DOM, а место в сетке задают grid-column/row
       let topviewEl = null;
       bento.tiles.forEach(t => {
         let el;
@@ -931,22 +833,16 @@ function renderPlan(planId, lang) {
           fg.className = 'plans-collage-topview-fg';
           if (floors) {
             const svg = buildFloorsSVG(floors.render, lang, false);
-            // Общий viewBox buildFloorsSVG (0 0 1920 1277) — под схематичную
-            // панель плана, где важно выравнивание между типами. Сам план
-            // f1/f2 занимает только ЧАСТЬ этого холста — остальное прозрачный
-            // отступ. preserveAspectRatio="meet" тянет ВЕСЬ холст целиком, из-
-            // за этого план выглядел мелким в тайле независимо от размера
-            // самого тайла ("размер топвью не увеличился" — Босс 04.09, эту
-            // обрезку раньше делала только старая масонри-ветка, в бенто её
-            // не перенёс). Обрезаем viewBox по фактическому bbox f1+f2.
+            // общий viewBox buildFloorsSVG (0 0 1920 1277) рассчитан на панель плана,
+            // этажи занимают только часть холста, и в тайле план выглядел мелким.
+            // Обрезаем viewBox по фактическому bbox f1+f2.
             const { f1, f2 } = floors.render;
             const minX = Math.min(f1.x, f2.x), minY = Math.min(f1.y, f2.y);
             const maxX = Math.max(f1.x + f1.w, f2.x + f2.w), maxY = Math.max(f1.y + f1.h, f2.y + f2.h);
             svg.setAttribute('viewBox', `${minX} ${minY} ${maxX - minX} ${maxY - minY}`);
             fg.appendChild(svg);
-            // SVG не подхватывается лайтбоксом (тот берёт только <img>) —
-            // добавляем скрытые <img> на оба этажа, чтобы топвью тоже попадал
-            // в галерею оверлея (правка Босса 04.09).
+            // лайтбокс берёт только <img>, поэтому кладём скрытые <img> обоих этажей,
+            // чтобы вид сверху тоже попал в галерею
             [floors.render.f1, floors.render.f2].forEach((part, i) => {
               const hImg = document.createElement('img');
               hImg.src = ASSET(part.src);
@@ -963,11 +859,8 @@ function renderPlan(planId, lang) {
           el.appendChild(fg);
           topviewEl = el;
         } else {
-          // t.src — фото из общего пула (assets/bso-pool-N.jpg, все виллы делят
-          // одну и ту же отделку/мебель, отличаются только планировкой — правка
-          // Босса 04.09: можно свободно подмешивать чужие интерьерные кадры,
-          // если на них не написано явно, что это другой тип). t.photoIdx —
-          // родное фото именно этого типа из p.photos, как раньше.
+          // t.src — фото из общего пула (assets/bso-pool-N.jpg): отделка у всех вилл
+          // одна, чужие интерьерные кадры подмешивать можно. t.photoIdx — родное фото типа.
           el = document.createElement('img');
           el.className = 'plan-photo-img plans-collage-tile pc-bento-tile';
           el.src = t.src ? ASSET(t.src) : ASSET(p.photos[t.photoIdx]);
@@ -979,25 +872,18 @@ function renderPlan(planId, lang) {
         if (!t.isTopview) track.appendChild(el);
       });
       if (topviewEl) track.appendChild(topviewEl);
-      // На мобиле трек — свайп-слайдер (см. v2.css @media 860px); при
-      // переключении таба он раньше сохранял scrollLeft предыдущего типа —
-      // открывался не с первого кадра, а с той же позиции прокрутки, где
-      // остался прошлый таб (правка Босса 05.09).
+      // на мобиле трек — свайп-слайдер (v2.css @media 860px): при смене таба
+      // начинаем с первого кадра, а не с позиции прошлого таба
       track.scrollLeft = 0;
       return;
     }
-    // Масонри-фолбэк (левая колонка натур. пропорций + правая квадратная
-    // пара) убран целиком 04.09 — ВСЕ 7 типов теперь в COLLAGE_LAYOUTS
-    // (бенто), эта ветка была недостижима и держала мёртвый код, ссылавшийся
-    // на left/right — а их сами же удаляем строчкой выше. Если появится тип
-    // без записи в COLLAGE_LAYOUTS, `bento` будет undefined и функция здесь
-    // молча завершится — придётся сразу завести ему бенто-конфиг.
+    // все типы в COLLAGE_LAYOUTS; тип без бенто-конфига ничего не покажет,
+    // ему сразу нужно завести запись
     return;
   }
 
-  /* v1: план, фото и topview — одна общая карусель (не трогаем, старое
-     поведение). Порядок: интерьерные фото ПЕРЕД планом (фикс. слайд в
-     разметке), topview — ПОСЛЕДНИМ слайдом (после плана). */
+  /* без раскрывашки план, фото и вид сверху идут одной каруселью: интерьеры
+     перед планом (фикс. слайд в разметке), вид сверху последним */
   const planSlide = track.querySelector('.plans-viewer-slide--plan');
   const oldPlanSvg = planSlide.querySelector('svg.plan-floors-svg');
   if (oldPlanSvg) oldPlanSvg.remove();
@@ -1025,10 +911,8 @@ function renderPlan(planId, lang) {
     if (isTopview) track.appendChild(slide); else track.insertBefore(slide, planSlide);
   }
   track.scrollLeft = 0;
-  // code-review 15.09: plansPhotoSlider нигде в проекте не объявлен (грепнул
-  // весь js/) — простое чтение необъявленного идентификатора всегда кидает
-  // ReferenceError (не спасает даже && слева), и роняет весь оставшийся код
-  // main.js на любой странице, где достижима эта v1-ветка (palette-preview.html).
+  // plansPhotoSlider нигде не объявлен: без typeof чтение кидает ReferenceError
+  // и роняет остаток main.js
   typeof plansPhotoSlider !== 'undefined' && plansPhotoSlider && plansPhotoSlider.setCount(p.photos.length);
 }
 if (plansTabs) {
@@ -1049,12 +933,9 @@ if (plansTabs) {
      дефолтным 50/50 */
   renderPlan('studio', window.__bsoLang || 'en');
 
-  /* Фоновый прелоад фото ОСТАЛЬНЫХ планировок. Жалоба Босса 20.08: «в разделе
-     с планировками фото очень долго грузят» — раньше кадры таба тянулись только
-     в момент клика по табу (~2 МБ за раз). Ассеты уже пережаты (−56%), а тут
-     после первого экрана, в простое браузера, тихо кэшируем интерьерные фото,
-     топ-виды и схемы всех типов по одному — переключение таба становится
-     мгновенным, а первый экран не тормозится. */
+  /* фоновый прелоад фото остальных планировок: после первого экрана, в простое
+     браузера, по одному кэшируем фото, виды сверху и схемы всех типов, чтобы
+     переключение таба было мгновенным */
   (function preloadPlans() {
     var urls = [], data = PLANS.en || {};
     Object.keys(data).forEach(function (k) {
@@ -1088,9 +969,8 @@ document.querySelectorAll('.placeholder-link').forEach(a => {
 document.querySelectorAll('[data-lang]').forEach(btn => {
   btn.addEventListener('click', () => window.setLang && window.setLang(btn.dataset.lang));
 });
-/* английская версия — основная (правка Босса): статическая разметка index.html
-   тоже на EN, поэтому первый кадр не мигает переводом. RU остаётся по кнопке и
-   запоминается в localStorage */
+/* английская версия — основная: статическая разметка тоже на EN, поэтому
+   первый кадр не мигает переводом. RU по кнопке, запоминается в localStorage */
 if (window.setLang) {
   let initialLang = 'en';
   try { initialLang = localStorage.getItem('bso_lang') || 'en'; } catch (e) {}
@@ -1098,9 +978,10 @@ if (window.setLang) {
 }
 
 /* ---------- уведомление про куки/локальное хранилище ----------
-   В браузере хранятся язык (bso_lang), тема (bsoTheme) и факт согласия. «Понятно» =
-   согласие на Meta Pixel (строгий режим, Босс 03.10): до клика пиксель не грузится. Баннер показывается один раз, ждёт пару
-   секунд, чтобы не перебивать первый экран, и уступает модалке заявки. */
+   В браузере хранятся язык (bso_lang), тема (bsoTheme) и факт согласия.
+   «Понятно» = согласие на Meta Pixel, до клика пиксель не грузится. Баннер
+   показывается один раз, ждёт пару секунд, чтобы не перебивать первый экран,
+   и уступает модалке заявки. */
 const cookieNote = document.getElementById('cookieNote');
 if (cookieNote) {
   let accepted = false;
@@ -1137,7 +1018,7 @@ if (themeSwitch) {
   applyTheme(savedTheme);
 }
 
-/* ---------- интерактивный план: выпадашка с таблицей юнитов (Босс 03.09) ---------- */
+/* ---------- интерактивный план: выпадашка с таблицей юнитов ---------- */
 (function () {
   var btn = document.getElementById('iplanTableToggle');
   var drawer = document.getElementById('iplanDrawer');
@@ -1164,9 +1045,9 @@ if (themeSwitch) {
   sync();
 })();
 
-/* Босс 01.10: точки-прогресс у мобильного слайдера фото Layouts. Слайды
-   пересобирает renderPlan (число фото разное по форматам) — следим через
-   MutationObserver. Активная — плитка, чей центр ближе к центру ленты. */
+/* точки-прогресс у мобильного слайдера фото планировок. Слайды пересобирает
+   renderPlan (у форматов разное число фото), поэтому следим MutationObserver.
+   Активная — плитка, чей центр ближе к центру ленты. */
 (function () {
   const track = document.getElementById('plansPhotoTrack');
   const viewer = document.getElementById('plansViewer');
