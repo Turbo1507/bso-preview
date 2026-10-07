@@ -4,6 +4,35 @@
    глубже корня может задать window.BSO_ASSET_PREFIX до подключения файла. */
 const ASSET = s => (window.BSO_ASSET_PREFIX || '') + s;
 
+/* ---------- UTM-метки для заявок ----------
+   utm_campaign и utm_content запоминаем с первого захода по ссылке с метками
+   (localStorage + cookie на 90 дней), форма заявки отдаёт их в Albato.
+   Повторный заход по другой рекламе метки не перетирает. */
+const UTM_KEYS = ['utm_campaign', 'utm_content'];
+const UTM_DAYS = 90;
+const utmCookie = k => (document.cookie.match('(?:^|; )' + k + '=([^;]*)') || [])[1];
+function readUtm() {
+  const out = {};
+  try {
+    const s = JSON.parse(localStorage.getItem('bso_utm') || 'null');
+    if (s && Date.now() - s.t < UTM_DAYS * 864e5) UTM_KEYS.forEach(k => { if (s[k]) out[k] = s[k]; });
+  } catch (e) {}
+  UTM_KEYS.forEach(k => {
+    if (!out[k] && utmCookie(k)) try { out[k] = decodeURIComponent(utmCookie(k)); } catch (e) {}
+  });
+  return out;
+}
+(function () {
+  const q = new URLSearchParams(location.search);
+  const fresh = {};
+  UTM_KEYS.forEach(k => { const v = (q.get(k) || '').trim().slice(0, 255); if (v) fresh[k] = v; });
+  if (!Object.keys(fresh).length || Object.keys(readUtm()).length) return;
+  try { localStorage.setItem('bso_utm', JSON.stringify(Object.assign({ t: Date.now() }, fresh))); } catch (e) {}
+  UTM_KEYS.forEach(k => {
+    if (fresh[k]) document.cookie = k + '=' + encodeURIComponent(fresh[k]) + '; path=/; max-age=' + UTM_DAYS * 86400 + '; SameSite=Lax';
+  });
+})();
+
 /* ---------- прогрузка картинок: блик-скелет ----------
    На <img class="ph">, которой ещё нет в кэше, включаем .is-loading (блик,
    стиль в styles.css) и снимаем по load/error. Закешированные пропускаем,
@@ -167,6 +196,8 @@ if (leadModal && leadForm) {
     e.preventDefault();
     const status = leadForm.querySelector('[data-status]');
     const dict = (window.I18N && window.I18N[window.__bsoLang || 'en']) || {};
+    const utm = readUtm();
+    UTM_KEYS.forEach(k => { const f = leadForm.querySelector('input[name="' + k + '"]'); if (f) f.value = utm[k] || ''; });
     const data = new FormData(leadForm);
 
     /* форма стоит с novalidate (списки и чекбокс свои), поэтому required
@@ -199,6 +230,7 @@ if (leadModal && leadForm) {
     fd.append('project', 'Black Sands Oasis');
     fd.append('comment', data.get('comment') || '');
     fd.append('lang', window.__bsoLang || document.documentElement.lang || 'en');
+    UTM_KEYS.forEach(k => fd.append(k, data.get(k) || ''));
 
     if (status) { status.textContent = dict['lead.sending'] || 'Отправляем…'; status.className = 'lead-status'; }
     if (submitBtn) submitBtn.disabled = true;
