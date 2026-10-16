@@ -218,8 +218,8 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20261016195339">
-<link rel="stylesheet" href="css/v2.css?v=20261016195339">
+<link rel="stylesheet" href="css/styles.css?v=20261016203720">
+<link rel="stylesheet" href="css/v2.css?v=20261016203720">
 <!-- Meta Pixel: грузится только после согласия, по кнопке «Понятно» в cookie-баннере
      (bso_cookie_ok=1, main.js зовёт bsoPixel()). Lead — заявка ушла, Contact — клик в WhatsApp. Ботов и headless не считаем. -->
 <script>
@@ -457,7 +457,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
              прокрутке; масштабируются только картинка+зоны внутри. -->
         <div class="iplan-pan" id="iplanPan">
           <div class="iplan-pan-inner">
-            <img width="1360" height="768" class="ph" src="assets/bso-aerial-plan.jpg" alt="Black Sands Oasis aerial site plan" loading="lazy" decoding="async">
+            <img width="1360" height="768" class="ph" src="assets/bso-aerial-plan.jpg" alt="Plano aéreo del conjunto Black Sands Oasis" data-i18n-alt="img.aerial" loading="lazy" decoding="async">
             <div class="iplan-hotspots" id="iplanHotspots"></div>
           </div>
         </div>
@@ -548,16 +548,16 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
              ниже это фолбэк на первый паинт, renderPlan в main.js перестраивает -->
         <div class="plans-collage" id="plansPhotoTrack">
           <div class="plans-collage-left" id="plansCollageLeft">
-            <picture><source srcset="assets/villa-studio-detail1.webp" type="image/webp"><img width="1600" height="898" decoding="async" loading="lazy" class="plan-photo-img plans-collage-tile ph" src="assets/villa-studio-detail1.jpg" alt="Studio villa interior"></picture>
+            <picture><source srcset="assets/villa-studio-detail1.webp" type="image/webp"><img width="1600" height="898" decoding="async" loading="lazy" class="plan-photo-img plans-collage-tile ph" src="assets/villa-studio-detail1.jpg" alt="Interior de la villa Studio"></picture>
           </div>
           <div class="plans-collage-right">
-            <picture><source srcset="assets/villa-studio-detail2.webp" type="image/webp"><img width="1280" height="1600" decoding="async" loading="lazy" class="plan-photo-img plans-collage-tile plans-collage-tile--sq ph" src="assets/villa-studio-detail2.jpg" alt="Studio villa interior"></picture>
+            <picture><source srcset="assets/villa-studio-detail2.webp" type="image/webp"><img width="1280" height="1600" decoding="async" loading="lazy" class="plan-photo-img plans-collage-tile plans-collage-tile--sq ph" src="assets/villa-studio-detail2.jpg" alt="Interior de la villa Studio"></picture>
             <!-- топвью карточка строится в main.js renderPlan -->
           </div>
         </div>
         <!-- панель сестра plans-collage не внутри, inset:0 меряет от всего кадра -->
         <div class="plans-toggle-panel" id="plansTogglePanel">
-          <div class="plans-toggle-panel-in"><img loading="lazy" decoding="async" width="497" height="1112" id="planToggleImg" src="assets/plan-studio.png" alt="Studio floor plan"></div>
+          <div class="plans-toggle-panel-in"><img loading="lazy" decoding="async" width="497" height="1112" id="planToggleImg" src="assets/plan-studio.png" alt="Plano de Studio"></div>
         </div>
       </div>
       <div class="plans-info">
@@ -694,14 +694,14 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <h2 class="reveal" data-i18n="team.title">Quién está detrás de Black Sands Oasis</h2>
     <div class="team-grid reveal">
       <div class="team-card">
-        <div class="team-photo"><img width="1083" height="1101" decoding="async" class="ph" src="assets/team-stepan.jpg" alt="Steven Fedos" loading="lazy"></div>
+        <div class="team-photo"><img width="1083" height="1101" decoding="async" class="ph" src="assets/team-stepan.jpg" alt="Steven Fedos" data-i18n-alt="team.name1" loading="lazy"></div>
         <span class="team-role" data-i18n="team.role1">Fundador</span>
         <h3 data-i18n="team.name1">Steven Fedos</h3>
         <p data-i18n="team.p1">Fundador de <b class="u5">UNIT.</b> y <b class="ul"><b class="u5">UNIT.</b>BUILD</b>. Experto en llevar sistemas y tecnología a la gestión de la construcción</p>
       </div>
       <!-- скрывается на en версии, см. css/v2.css -->
       <div class="team-card team-card--anna">
-        <div class="team-photo"><img width="1083" height="1095" decoding="async" class="ph" src="assets/team-anna.jpg" alt="Anna Orlova" loading="lazy"></div>
+        <div class="team-photo"><img width="1083" height="1095" decoding="async" class="ph" src="assets/team-anna.jpg" alt="Anna Orlova" data-i18n-alt="team.name2" loading="lazy"></div>
         <span class="team-role" data-i18n="team.role2">Copropietaria</span>
         <h3 data-i18n="team.name2">Anna Orlova</h3>
         <p data-i18n="team.p2">Arquitecta y diseñadora con 10 años de experiencia en proyectos comerciales y residenciales en Indonesia, Europa y Francia</p>
@@ -968,16 +968,16 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
 <!-- тот же пин для мобильного кропа -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/langs.js?v=20261016195339"></script>
-<script src="js/i18n.js?v=20261016195339"></script>
-<script src="js/v2-i18n.js?v=20261016195339"></script>
-<script src="js/i18n-es.js?v=20261016195339"></script>
-<script src="js/main.js?v=20261016195339"></script>
-<script src="js/v2.js?v=20261016195339"></script>
-<script src="js/units-data.js?v=20261016195339"></script>
-<script src="js/units-plan.js?v=20261016195339"></script>
-<script src="js/buildings-data.js?v=20261016195339"></script>
-<script src="js/iplan-map.js?v=20261016195339"></script>
+<script src="js/langs.js?v=20261016203720"></script>
+<script src="js/i18n.js?v=20261016203720"></script>
+<script src="js/v2-i18n.js?v=20261016203720"></script>
+<script src="js/i18n-es.js?v=20261016203720"></script>
+<script src="js/main.js?v=20261016203720"></script>
+<script src="js/v2.js?v=20261016203720"></script>
+<script src="js/units-data.js?v=20261016203720"></script>
+<script src="js/units-plan.js?v=20261016203720"></script>
+<script src="js/buildings-data.js?v=20261016203720"></script>
+<script src="js/iplan-map.js?v=20261016203720"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>

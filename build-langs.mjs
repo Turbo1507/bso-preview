@@ -50,6 +50,11 @@ function build(lang) {
     return /\baria-label="/.test(m) ? m.replace(/\baria-label="[^"]*"/, `aria-label="${v}"`) : m.replace(/<([a-zA-Z0-9]+)\b/, `<$1 aria-label="${v}"`);
   });
 
+  // alt студии, открытой по умолчанию: в RU шаблоны из main.js, у остальных из словаря
+  const PA = lang === 'ru' ? { plan: 'Планировка {name}', interior: 'Интерьер виллы {name}' } : { plan: D['plan.alt.plan'], interior: D['plan.alt.interior'] };
+  h = h.replace(/alt="(Studio) floor plan"/g, (m, n) => `alt="${esc(PA.plan.replace('{name}', n))}"`)
+    .replace(/alt="(Studio) villa interior"/g, (m, n) => `alt="${esc(PA.interior.replace('{name}', n))}"`);
+
   h = h.replace(/<html\b[^>]*>/, `<html lang="${lang}">`);
   h = h.replace(/<script>\/\* язык выбирает человек[^\n]*<\/script>\n/, '');
   if (!/<base\b/.test(h)) h = h.replace(/(<meta charset="[^"]*">)/i, '$1\n<base href="/">');

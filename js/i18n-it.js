@@ -115,6 +115,7 @@ window.I18N = window.I18N || {}; window.I18N.it = {
  "team.p1": "Fondatore di <b class=\"u5\">UNIT.</b> e <b class=\"ul\"><b class=\"u5\">UNIT.</b>BUILD</b>. Esperto nell’introduzione di sistemi e tecnologie nella gestione dei cantieri",
  "team.role2": "Comproprietaria",
  "team.name2": "Anna Orlova",
+ "img.aerial": "Planimetria aerea di Black Sands Oasis",
  "team.p2": "Architetta e designer con 10 anni di esperienza in progetti commerciali e residenziali in Indonesia, Europa e Francia",
  "final.title": "Una posizione forte, uno sviluppo ponderato",
  "final.lead": "Planimetrie, prezzi, unità disponibili e condizioni di ingresso vengono presentati durante una consulenza personale",

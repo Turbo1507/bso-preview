@@ -115,6 +115,7 @@ window.I18N = window.I18N || {}; window.I18N.tr = {
  "team.p1": "<b class=\"u5\">UNIT.</b> ve <b class=\"ul\"><b class=\"u5\">UNIT.</b>BUILD</b> kurucusu. İnşaat yönetimine sistem ve teknoloji getirme konusunda uzman",
  "team.role2": "Ortak",
  "team.name2": "Anna Orlova",
+ "img.aerial": "Black Sands Oasis vaziyet planı, havadan görünüm",
  "team.p2": "Endonezya, Avrupa ve Fransa’da ticari ve konut projelerinde 10 yıllık deneyime sahip mimar ve tasarımcı",
  "final.title": "Güçlü konum, özenli geliştirme",
  "final.lead": "Planlar, fiyatlar, müsait üniteler ve giriş koşulları kişisel görüşmede paylaşılır",

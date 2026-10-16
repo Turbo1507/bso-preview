@@ -115,6 +115,7 @@ window.I18N = window.I18N || {}; window.I18N.fr = {
  "team.p1": "Fondateur de <b class=\"u5\">UNIT.</b> et de <b class=\"ul\"><b class=\"u5\">UNIT.</b>BUILD</b>. Expert de l’intégration des systèmes et des technologies dans la gestion de la construction",
  "team.role2": "Copropriétaire",
  "team.name2": "Anna Orlova",
+ "img.aerial": "Plan de masse aérien de Black Sands Oasis",
  "team.p2": "Architecte et designer, 10 ans d’expérience en projets commerciaux et résidentiels en Indonésie, en Europe et en France",
  "final.title": "Un emplacement fort, un développement réfléchi",
  "final.lead": "Plans, prix, lots disponibles et conditions d’entrée sont présentés lors d’une consultation personnelle",

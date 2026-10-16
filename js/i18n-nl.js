@@ -115,6 +115,7 @@ window.I18N = window.I18N || {}; window.I18N.nl = {
  "team.p1": "Oprichter van <b class=\"u5\">UNIT.</b> en <b class=\"ul\"><b class=\"u5\">UNIT.</b>BUILD</b>. Expert in het invoeren van systemen en technologie in bouwmanagement",
  "team.role2": "Mede-eigenaar",
  "team.name2": "Anna Orlova",
+ "img.aerial": "Situatieplan van Black Sands Oasis vanuit de lucht",
  "team.p2": "Architect en ontwerper met 10 jaar ervaring in commerciële en residentiële projecten in Indonesië, Europa en Frankrijk",
  "final.title": "Sterke locatie, doordachte ontwikkeling",
  "final.lead": "Plattegronden, prijzen, beschikbare units en instapvoorwaarden worden gedeeld tijdens een persoonlijk gesprek",

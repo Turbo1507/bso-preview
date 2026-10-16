@@ -115,6 +115,7 @@ window.I18N = window.I18N || {}; window.I18N.id = {
  "team.p1": "Pendiri <b class=\"u5\">UNIT.</b> dan <b class=\"ul\"><b class=\"u5\">UNIT.</b>BUILD</b>. Ahli dalam menghadirkan sistem dan teknologi ke manajemen konstruksi",
  "team.role2": "Pemilik bersama",
  "team.name2": "Anna Orlova",
+ "img.aerial": "Denah tapak Black Sands Oasis dari udara",
  "team.p2": "Arsitek dan desainer dengan pengalaman 10 tahun di proyek komersial dan hunian di Indonesia, Eropa, dan Prancis",
  "final.title": "Lokasi kuat, pengembangan yang matang",
  "final.lead": "Denah, harga, unit yang tersedia, dan syarat masuk dibagikan dalam konsultasi pribadi",
