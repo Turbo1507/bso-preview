@@ -1,7 +1,6 @@
-/* Юрстраницы (consent.html, legal-info.html), RU/EN.
-   Свой маленький словарь, а не общий i18n.js: тот в setLang() ещё переписывает
-   <title>/og-теги главной и синхронизирует планировки с пинами Nuanu, здесь
-   это только навредит. Язык из того же bso_lang, что пишет главная, по умолчанию EN. */
+/* Юрстраницы (consent.html, legal-info.html): один адрес на все языки.
+   Свой маленький словарь, а не общий i18n.js: тот синхронизирует планировки
+   и пины Nuanu, здесь это не нужно. <title> всегда на английском. */
 (function () {
   var DICT = {
     ru: {
@@ -103,29 +102,42 @@
     }
   };
 
-  var TITLE_KEY = document.documentElement.getAttribute('data-title-key');
+  /* остальные языки лежат в js/i18n-<код>.js вместе со словарём главной */
+  window.BSO_LEGAL = window.BSO_LEGAL || {};
+  var CODES = (window.bsoLang && window.bsoLang.codes) || ['en', 'ru'];
 
   function apply(lang) {
-    var dict = DICT[lang] || DICT.en;
+    var dict = DICT[lang] || window.BSO_LEGAL[lang];
+    if (!dict) { load(lang); return; }
     document.documentElement.lang = lang;
-    if (TITLE_KEY && dict[TITLE_KEY]) document.title = dict[TITLE_KEY];
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var k = el.getAttribute('data-i18n');
-      if (dict[k] != null) el.textContent = dict[k];
+      var v = dict[k] != null ? dict[k] : DICT.en[k];
+      if (v != null) el.textContent = v;
     });
-    document.querySelectorAll('[data-lang]').forEach(function (b) {
-      b.classList.toggle('is-active', b.dataset.lang === lang);
-    });
-    try { localStorage.setItem('bso_lang', lang); } catch (e) {}
+    var back = document.getElementById('legalBack');
+    if (back) back.href = (window.bsoLang ? window.bsoLang.url(lang) : '/') + '#footer';
+    if (window.bsoLangSync) window.bsoLangSync(lang);
+  }
+  function load(lang) {
+    var sc = document.createElement('script');
+    sc.src = '/js/i18n-' + lang + '.js';
+    sc.onload = function () { if (window.BSO_LEGAL[lang]) apply(lang); };
+    document.head.appendChild(sc);
   }
 
-  /* без сохранённого выбора язык по региону: Россия и Беларусь → RU, остальные → EN */
-  var saved = 'en';
-  try { saved = localStorage.getItem('bso_lang') || ((function(){var z='';try{z=Intl.DateTimeFormat().resolvedOptions().timeZone||''}catch(e){}var l=(navigator.languages&&navigator.languages[0])||navigator.language||'';return /^(Europe|Asia).(Moscow|Minsk|Kaliningrad|Samara|Volgograd|Saratov|Ulyanovsk|Astrakhan|Kirov|Yekaterinburg|Omsk|Novosibirsk|Barnaul|Tomsk|Novokuznetsk|Krasnoyarsk|Irkutsk|Chita|Yakutsk|Khandyga|Vladivostok|Ust-Nera|Magadan|Sakhalin|Srednekolymsk|Kamchatka|Anadyr)$/.test(z)||/-(RU|BY)$/i.test(l)})() ? 'ru' : 'en'); } catch (e) {}
-  apply(saved === 'ru' ? 'ru' : 'en');
-
-  document.querySelectorAll('[data-lang]').forEach(function (b) {
-    b.addEventListener('click', function () { apply(b.dataset.lang); });
+  /* язык: выбор в куки, иначе адрес, с которого пришли (/fr/ → fr), иначе EN */
+  var lang = window.bsoLang && window.bsoLang.get();
+  if (!lang) {
+    var m = /^\/([a-z]{2})\//.exec(document.referrer ? (new URL(document.referrer, location.href)).pathname : '');
+    if (m && CODES.indexOf(m[1]) >= 0 && document.referrer.indexOf(location.host) >= 0) lang = m[1];
+  }
+  /* consent → legal-info: адрес уже без языка, держим его на время вкладки */
+  try { if (!lang) lang = sessionStorage.getItem('bso_legal_lang'); if (lang) sessionStorage.setItem('bso_legal_lang', lang); } catch (e) {}
+  apply(lang || 'en');
+  document.addEventListener('bso:lang', function (e) {
+    try { sessionStorage.setItem('bso_legal_lang', e.detail); } catch (x) {}
+    apply(e.detail);
   });
 
   /* «← на сайт» — обычная ссылка на index.html#footer. history.back() не годится:

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<!-- data-title-key: js/legal.js подставит <title> на нужном языке -->
-<html lang="en" data-title-key="legal.title">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,8 +11,8 @@
 <link rel="icon" href="/assets/favicon2.ico" sizes="any">
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon-2.png">
 <!-- базовые стили общие с главной, тёмная тема своя -->
-<link rel="stylesheet" href="css/styles.css?v=20261014132354">
-<link rel="stylesheet" href="css/v2.css?v=20261014132354">
+<link rel="stylesheet" href="css/styles.css?v=20261016152715">
+<link rel="stylesheet" href="css/v2.css?v=20261016152715">
 <!-- Meta Pixel: грузится только после согласия, по кнопке «Понятно» в cookie-баннере
      (bso_cookie_ok=1, main.js зовёт bsoPixel()). Lead — заявка ушла, Contact — клик в WhatsApp. Ботов и headless не считаем. -->
 <script>
@@ -30,9 +29,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   <div class="container">
     <div class="legal-head">
       <a class="back" id="legalBack" href="index.html#footer" data-i18n="legal.back">← Back to the Black Sands Oasis site</a>
-      <div class="lang" role="group" aria-label="language">
-        <button data-lang="ru">RU</button><span>/</span><button data-lang="en" class="is-active">EN</button>
-      </div>
+      <div class="lang-dd" data-lang-dd data-inplace></div>
     </div>
     <h1 data-i18n="legal.h1">Company Legal Information</h1>
 
@@ -61,6 +58,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <p data-i18n="legal.contacts">For legal and partnership enquiries: through the form on the site or the manager handling your request.</p>
   </div>
 </section>
-<script src="js/legal.js?v=20261014132354"></script>
+<script src="js/langs.js?v=20261016152715"></script>
+<script src="js/legal.js?v=20261016152715"></script>
 </body>
 </html>

@@ -189,3 +189,67 @@
   Object.assign(window.I18N.ru, ru);
   Object.assign(window.I18N.en, en);
 })();
+
+/* Строки, которые собирает JS: статусы юнитов, счётчик таблицы, подписи
+   этажей и пинов карты Nuanu, поля планировок. У RU и EN свои таблицы в
+   main.js и units-plan.js, здесь те же значения, чтобы остальные языки
+   переводили по тем же ключам. */
+(function () {
+  var ru = {
+    "js.format": "Формат: ",
+    "js.unit": "Юнит ",
+    "js.reserve": "Забронировать",
+    "js.allsold": "Все юниты этого здания проданы",
+    "js.units_title": "Юниты: {list}",
+    "js.count": "Показано {n} из {total} юнитов",
+    "status.early": "Доступен",
+    "status.prebooked": "Забронирован",
+    "status.booked": "Продан",
+    "floor.f1": "1-й этаж",
+    "floor.f2": "2-й этаж",
+    "cc.search": "Поиск страны или кода"
+  };
+  var en = {
+    "js.format": "Format: ",
+    "js.unit": "Unit ",
+    "js.reserve": "Reserve",
+    "js.allsold": "All units in this building are sold",
+    "js.units_title": "Units: {list}",
+    "js.count": "Showing {n} of {total} units",
+    "status.early": "Available",
+    "status.prebooked": "Reserved",
+    "status.booked": "Sold",
+    "floor.f1": "1st floor",
+    "floor.f2": "2nd floor",
+    "cc.search": "Search country or code",
+    "plan.cap": "{n} people",
+    "plan.who.studio": "Single, couples",
+    "plan.who.1bd": "Couples",
+    "plan.who.1bdsky": "Couples, workation",
+    "plan.who.2bd": "Couples with a child, friends",
+    "plan.who.3bd": "Families with children",
+    "plan.who.3bdsky": "Larger families",
+    "plan.who.4bd": "Multi-generational families",
+    "plan.alt.plan": "{name} floor plan",
+    "plan.alt.interior": "{name} villa interior",
+    "plan.alt.top": "{name} villa cutaway top view",
+    "pin.Music Studio": "Music Studio",
+    "pin.Restaurant Beer Garden": "Restaurant Beer Garden",
+    "pin.Art Gallery": "Art Gallery",
+    "pin.Luna Beach Club": "Luna Beach Club",
+    "pin.Restaurants": "Restaurants",
+    "pin.Night Club": "Night Club",
+    "pin.Aurora Media Park": "Aurora Media Park",
+    "pin.Alpaca Park": "Alpaca Park",
+    "pin.International School, Kindergarten, Children’s Creativity Village": "International School, Kindergarten, Children’s Creativity Village",
+    "pin.Retreat Center": "Retreat Center",
+    "pin.Shopping Center": "Shopping Center",
+    "pin.Art Venue for Events": "Art Venue for Events",
+    "pin.Wedding Hall": "Wedding Hall",
+    "pin.Pool in the Utopia Cave": "Pool in the Utopia Cave",
+    "pin.Thk Tower": "Thk Tower"
+  };
+  if (!window.I18N) return;
+  Object.assign(window.I18N.ru, ru);
+  Object.assign(window.I18N.en, en);
+})();

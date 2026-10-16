@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- 404: отдаёт bso-site.php на любой несуществующий путь (в т.ч. /ru/...), поэтому
-     все ссылки и стили — абсолютные от корня. Язык: /ru/ в адресе → bso_lang → EN. -->
+     все ссылки и стили абсолютные от корня. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -26,9 +26,6 @@
   .nf-top,.nf-main,.nf-links{position:relative; z-index:1; width:100%}  /* .container с margin:auto во flex-колонке ужимается до контента */
   .nf-top{display:flex; align-items:center; justify-content:space-between; padding-top:32px; padding-bottom:32px}
   .nf-top .logo{color:var(--white); font-size:20px}
-  .nf-lang{display:flex; align-items:center; gap:8px; font-size:14px; color:rgba(255,255,255,.7)}
-  .nf-lang a{color:inherit; min-width:44px; min-height:44px; display:inline-flex; align-items:center; justify-content:center}
-  .nf-lang a.is-active{color:var(--white)}
   .nf-main{flex:1; display:flex; flex-direction:column; justify-content:center; padding-top:40px; padding-bottom:56px}
   .nf-num{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-height:1; font-size:160px; color:var(--clay); margin:0 0 16px}
   .nf h1{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-height:1.04;
@@ -66,9 +63,7 @@
 
   <div class="container nf-top">
     <a class="logo" href="/" data-home><b>Black Sands Oasis</b></a>
-    <div class="nf-lang" role="group" aria-label="language">
-      <a href="/ru/" data-lang="ru">RU</a><span aria-hidden="true">/</span><a href="/" data-lang="en" class="is-active">EN</a>
-    </div>
+    <div class="lang-dd" data-lang-dd></div>
   </div>
 
   <div class="container nf-main">
@@ -88,28 +83,41 @@
     <a href="/#faq" data-hash="faq" data-t="l4">FAQ</a>
   </nav>
 </main>
+<script src="/js/langs.js?v=1"></script>
 <script>
+/* язык: /xx/ в адресе, иначе выбор из куки bso_lang, иначе EN.
+   Тексты RU здесь, остальных языков в js/i18n-<код>.js (window.BSO_404). <title> всегда EN. */
 (function () {
   var NB = ' ';
-  var RU = {
-    title: 'Страница не найдена | Black Sands Oasis',
+  window.BSO_404 = window.BSO_404 || {};
+  window.BSO_404.ru = {
     h1: 'Такой страницы нет',
     lead: 'Ссылка устарела или' + NB + 'в' + NB + 'адресе опечатка.',
     home: 'Смотреть виллы',
     wa: 'Спросить в' + NB + 'WhatsApp',
     l1: 'Планировки и' + NB + 'цены', l2: 'Интерактивный план', l3: 'Как купить', l4: 'Вопросы и' + NB + 'ответы'
   };
-  var lang = 'en';
-  if (/^\/ru(\/|$)/.test(location.pathname)) lang = 'ru';
-  else { try { if (localStorage.getItem('bso_lang') === 'ru') lang = 'ru'; } catch (e) {} }
-  if (lang !== 'ru') return;
-  document.documentElement.lang = 'ru';
-  document.title = RU.title;
-  document.querySelectorAll('[data-t]').forEach(function (el) { el.textContent = RU[el.getAttribute('data-t')]; });
-  document.querySelectorAll('[data-home]').forEach(function (a) { a.href = '/ru/'; });
-  document.querySelectorAll('[data-hash]').forEach(function (a) { a.href = '/ru/#' + a.getAttribute('data-hash'); });
-  document.querySelector('[data-lang="ru"]').classList.add('is-active');
-  document.querySelector('[data-lang="en"]').classList.remove('is-active');
+  var CODES = window.bsoLang.codes;
+  var m = /^\/([a-z]{2})(\/|$)/.exec(location.pathname);
+  var lang = m && CODES.indexOf(m[1]) >= 0 ? m[1] : (window.bsoLang.get() || 'en');
+  if (lang === 'en') return;
+  function apply() {
+    var T = window.BSO_404[lang];
+    if (!T) return;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-t]').forEach(function (el) { var v = T[el.getAttribute('data-t')]; if (v) el.textContent = v; });
+    var root = window.bsoLang.url(lang);
+    document.querySelectorAll('[data-home]').forEach(function (a) { a.href = root; });
+    document.querySelectorAll('[data-hash]').forEach(function (a) { a.href = root + '#' + a.getAttribute('data-hash'); });
+    window.bsoLangSync(lang);
+  }
+  if (window.BSO_404[lang]) apply();
+  else {
+    var sc = document.createElement('script');
+    sc.src = '/js/i18n-' + lang + '.js';
+    sc.onload = apply;
+    document.head.appendChild(sc);
+  }
 })();
 </script>
 </body>

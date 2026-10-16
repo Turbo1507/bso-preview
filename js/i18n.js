@@ -1,6 +1,6 @@
-/* BLACK SANDS OASIS — i18n RU/EN. Паттерн unitdeveloper.com:
+/* BLACK SANDS OASIS — словари языков. Паттерн unitdeveloper.com:
    window.I18N словарь, data-i18n / data-i18n-alt / data-i18n-content атрибуты,
-   window.setLang(lang), переключатель в шапке и мобильном меню, localStorage.
+   window.setLang(lang). Язык страницы задаёт адрес (/ru/, /fr/…), список языков в js/langs.js.
    RU-словарь извлечён программно из готовой (уже вычитанной, с nbsp) разметки
    index.html — не перепечатан вручную, чтобы не потерять неразрывные пробелы. */
 
@@ -335,25 +335,26 @@ window.I18N = {
     "invest.photo_alt": "Sunset over the Nuanu coastline, Bali"
   }
 };
+/* Перевод для строк, которые собирает JS (статусы, счётчики, подписи на карте).
+   {n} в строке подставляется из vars. Нет ключа в языке — берём EN. */
+window.bsoT = function (key, vars) {
+  const I = window.I18N || {};
+  const lang = window.__bsoLang || document.documentElement.lang || 'en';
+  let s = (I[lang] && I[lang][key] != null) ? I[lang][key] : (I.en ? I.en[key] : null);
+  if (s == null) return null;
+  if (vars) s = s.replace(/\{(\w+)\}/g, (m, k) => vars[k] != null ? vars[k] : m);
+  return s;
+};
+
+/* У каждого языка свой адрес, разметка страницы уже на нём. setLang только
+   прогоняет словарь по разметке и перерисовывает то, что собирает JS.
+   title, description и og-теги не трогаем: они всегда на английском. */
 window.setLang = function (lang) {
   const dict = window.I18N[lang] || window.I18N.en;
+  window.__bsoLang = lang;
   document.documentElement.lang = lang;
-  document.title = dict['meta.title'];
-  const metaDesc = document.querySelector('meta[name="description"]');
-  if (metaDesc) metaDesc.setAttribute('content', dict['meta.desc']);
-  /* превью при шаринге держим на языке страницы: og/twitter-теги в <head>
-     статично на EN (основной язык), при переключении на RU — переписываем */
-  [['meta[property="og:title"]', 'content', 'meta.title'],
-   ['meta[name="twitter:title"]', 'content', 'meta.title'],
-   ['meta[property="og:description"]', 'content', 'meta.desc'],
-   ['meta[name="twitter:description"]', 'content', 'meta.desc']].forEach(([sel, attr, key]) => {
-    const el = document.querySelector(sel);
-    if (el && dict[key]) el.setAttribute(attr, dict[key]);
-  });
-  const ogLocale = document.querySelector('meta[property="og:locale"]');
-  if (ogLocale) ogLocale.setAttribute('content', lang === 'ru' ? 'ru_RU' : 'en_US');
 
-  document.querySelectorAll('[data-i18n]').forEach(el => {
+  document.querySelectorAll('body [data-i18n]').forEach(el => {
     const key = el.getAttribute('data-i18n');
     if (dict[key] != null) el.innerHTML = dict[key];
   });
@@ -365,14 +366,8 @@ window.setLang = function (lang) {
     const key = el.getAttribute('data-i18n-aria');
     if (dict[key] != null) el.setAttribute('aria-label', dict[key]);
   });
-  document.querySelectorAll('[data-lang]').forEach(b => {
-    b.classList.toggle('is-active', b.dataset.lang === lang);
-  });
 
   if (window.__bsoSyncPlan) window.__bsoSyncPlan(lang);
   if (window.__bsoSyncNuanuPins) window.__bsoSyncNuanuPins(lang);
-
-  try { localStorage.setItem('bso_lang', lang); } catch (e) {}
-  window.__bsoLang = lang;
+  if (window.bsoLangSync) window.bsoLangSync(lang);
 };
-

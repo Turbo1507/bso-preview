@@ -136,9 +136,8 @@ if (leadModal && leadForm) {
     setLeadIntent(el.dataset.leadIntent);
     if (el.dataset.leadIntent === 'book') {
       const commentEl = leadForm.querySelector('textarea[name="comment"]');
-      const lang = window.__bsoLang || document.documentElement.lang || 'en';
       const name = (document.getElementById('planName') || {}).textContent || '';
-      if (commentEl && name) commentEl.value = (lang === 'ru' ? 'Формат: ' : 'Format: ') + name;
+      if (commentEl && name) commentEl.value = window.bsoT('js.format') + name;
     }
     openLead();
   }));
@@ -149,8 +148,7 @@ if (leadModal && leadForm) {
   window.openLeadForUnit = function (unitNumber) {
     const commentEl = leadForm.querySelector('textarea[name="comment"]');
     const purposeEl = leadForm.querySelector('select[name="purpose"]');
-    const lang = window.__bsoLang || document.documentElement.lang || 'en';
-    if (commentEl) commentEl.value = (lang === 'ru' ? 'Юнит ' : 'Unit ') + unitNumber;
+    if (commentEl) commentEl.value = window.bsoT('js.unit') + unitNumber;
     // .value= не шлёт change, а кастомная кнопка (v2.js .csel) ждёт его,
     // иначе остаётся со старой подписью
     if (purposeEl && !purposeEl.value) { purposeEl.value = 'own'; purposeEl.dispatchEvent(new Event('change', { bubbles: true })); }
@@ -298,7 +296,8 @@ function animateNumberIn(el, duration = 900) {
   function tick(now) {
     const p = Math.min((now - start) / duration, 1);
     const eased = 1 - Math.pow(1 - p, 3);
-    el.textContent = prefix + (target * eased).toFixed(decimals) + suffix;
+    const n = (target * eased).toFixed(decimals);
+    el.textContent = prefix + (raw.includes(',') ? n.replace('.', ',') : n) + suffix;
     if (p < 1) requestAnimationFrame(tick); else el.textContent = original;
   }
   requestAnimationFrame(tick);
@@ -551,7 +550,7 @@ function renderNuanuPins(lang) {
       if (p.align === 'left') cls.push('is-left');
       if (p.align === 'right') cls.push('is-right');
       if (p.below) cls.push('is-below');
-      return `<span class="${cls.join(' ')}" style="left:${p.left}%;top:${p.top}%">${lang === 'en' ? p.en : p.ru}</span>`;
+      return `<span class="${cls.join(' ')}" style="left:${p.left}%;top:${p.top}%">${pinName(p, lang)}</span>`;
     }).join('');
     nuanuPinsWrap.innerHTML = badgeSvgMobile + labels;
     return;
@@ -572,8 +571,13 @@ function renderNuanuPins(lang) {
   const badgeSvg = badgePin
     ? `<line class="badge-pin" x1="${badgePin.dot[0]}" y1="${badgePin.dot[1]}" x2="${badgePin.from[0]}" y2="${badgePin.from[1]}" vector-effect="non-scaling-stroke"/><ellipse class="badge-pin" cx="${badgePin.dot[0]}" cy="${badgePin.dot[1]}" rx=".35" ry=".7"/>`
     : '';
-  const labels = NUANU_PINS.map(p => `<span class="nuanu-pin-label" style="left:${p.label[0]}%;top:${p.label[1]}%">${lang === 'en' ? p.en : p.ru}</span>`).join('');
+  const labels = NUANU_PINS.map(p => `<span class="nuanu-pin-label" style="left:${p.label[0]}%;top:${p.label[1]}%">${pinName(p, lang)}</span>`).join('');
   nuanuPinsWrap.innerHTML = `<svg class="nuanu-pins-svg" viewBox="0 0 100 100" preserveAspectRatio="none">${lines}${badgeSvg}</svg>${labels}`;
+}
+function pinName(p, lang) {
+  if (lang === 'ru') return p.ru;
+  if (lang === 'en') return p.en;
+  return window.bsoT('pin.' + p.en) || p.en;
 }
 renderNuanuPins(window.__bsoLang || 'en');
 nuanuMobileMQ.addEventListener('change', () => renderNuanuPins(window.__bsoLang || 'en'));
@@ -609,6 +613,22 @@ const PLANS = {
     '4bd':    { name: '4BD', area: '159.8 m²', cap: '8 people', who: 'Multi-generational families', photos: ['assets/plan-4bd-f1.png','assets/villa-4bd-detail1.jpg','assets/villa-4bd-detail2.jpg','assets/villa-4bd-detail3.jpg','assets/villa-4bd-detail4.jpg','assets/villa-4bd-topview-f1.png'], photoAlts: ['4BD floor plan','4BD villa interior','4BD villa interior','4BD villa interior','4BD villa interior','4BD villa cutaway top view'], positions: ['50% 50%','50% 70%','50% 50%','50% 60%','50% 75%','50% 50%'] },
   }
 };
+function plansFor(lang) {
+  if (PLANS[lang]) return PLANS[lang];
+  const T = window.bsoT;
+  const out = {};
+  Object.keys(PLANS.en).forEach(id => {
+    const e = PLANS.en[id];
+    out[id] = Object.assign({}, e, {
+      area: e.area.replace('.', ','),
+      cap: T('plan.cap', { n: parseInt(e.cap, 10) }),
+      who: T('plan.who.' + id),
+      photoAlts: e.photos.map(src => T(/\/plan-/.test(src) ? 'plan.alt.plan' : /topview/.test(src) ? 'plan.alt.top' : 'plan.alt.interior', { name: e.name }))
+    });
+  });
+  PLANS[lang] = out;
+  return out;
+}
 /* ---------- двухэтажные планы и виды сверху: слоями, не одним растром ----------
    Картинки этажей без текста + подписи «1-й/2-й этаж» настоящим SVG <text>,
    чтобы переводились. x/y/w/h — px на холсте 1920×1277 (viewBox тех же
@@ -749,7 +769,7 @@ const COLLAGE_LAYOUTS = {
 };
 function buildFloorsSVG(layout, lang, showLabels) {
   if (showLabels === undefined) showLabels = true;
-  const t = FLOOR_LABEL_TEXT[lang] || FLOOR_LABEL_TEXT.ru;
+  const t = FLOOR_LABEL_TEXT[lang] || { f2: window.bsoT('floor.f2'), f1: window.bsoT('floor.f1') };
   const svgNS = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(svgNS, 'svg');
   svg.setAttribute('viewBox', '0 0 1920 1277');
@@ -793,7 +813,7 @@ function renderPlanPrice(planId) {
 }
 document.addEventListener('DOMContentLoaded', () => renderPlanPrice(currentPlanId));
 function renderPlan(planId, lang) {
-  const p = (PLANS[lang] || PLANS.en)[planId];
+  const p = (PLANS[lang] || plansFor(lang))[planId];
   if (!p) return;
   document.getElementById('planName').textContent = p.name;
   const planAreaEl = document.getElementById('planArea');
@@ -878,7 +898,7 @@ function renderPlan(planId, lang) {
             [floors.render.f1, floors.render.f2].forEach((part, i) => {
               const hImg = document.createElement('img');
               hImg.src = ASSET(part.src);
-              hImg.alt = p.photoAlts[t.photoIdx] + (i === 0 ? ' — 1-й этаж' : ' — 2-й этаж');
+              hImg.alt = p.photoAlts[t.photoIdx] + ', ' + window.bsoT(i === 0 ? 'floor.f1' : 'floor.f2');
               hImg.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none';
               fg.appendChild(hImg);
             });
@@ -896,7 +916,7 @@ function renderPlan(planId, lang) {
           el = document.createElement('img');
           el.className = 'plan-photo-img plans-collage-tile pc-bento-tile';
           el.src = t.src ? ASSET(t.src) : ASSET(p.photos[t.photoIdx]);
-          el.alt = t.src ? p.name + ' villa interior' : p.photoAlts[t.photoIdx];
+          el.alt = t.src ? p.photoAlts[1] : p.photoAlts[t.photoIdx];
           if (!t.src && p.positions && p.positions[t.photoIdx]) el.style.objectPosition = p.positions[t.photoIdx];
         }
         el.style.gridColumn = t.col;
@@ -997,20 +1017,13 @@ document.querySelectorAll('.placeholder-link').forEach(a => {
   a.addEventListener('click', e => e.preventDefault());
 });
 
-/* ---------- переключатель языка ---------- */
-document.querySelectorAll('[data-lang]').forEach(btn => {
-  btn.addEventListener('click', () => window.setLang && window.setLang(btn.dataset.lang));
-});
-/* английская версия — основная: статическая разметка тоже на EN, поэтому
-   первый кадр не мигает переводом. RU по кнопке, запоминается в localStorage */
-if (window.setLang) {
-  let initialLang = 'en';
-  try { initialLang = localStorage.getItem('bso_lang') || 'en'; } catch (e) {}
-  window.setLang(initialLang);
-}
+/* ---------- язык ----------
+   У каждого языка свой адрес, язык страницы в <html lang>. Выбор в списке
+   шапки пишет куки и уводит на адрес языка (js/langs.js). */
+if (window.setLang) window.setLang(document.documentElement.lang || 'en');
 
 /* ---------- уведомление про куки/локальное хранилище ----------
-   В браузере хранятся язык (bso_lang), тема (bsoTheme) и факт согласия.
+   В браузере хранятся язык (куки bso_lang), тема (bsoTheme) и факт согласия.
    «Понятно» = согласие на Meta Pixel, до клика пиксель не грузится. Баннер
    показывается один раз, ждёт пару секунд, чтобы не перебивать первый экран,
    и уступает модалке заявки. */

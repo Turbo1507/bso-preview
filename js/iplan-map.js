@@ -40,12 +40,6 @@
     panTrack.addEventListener('pointercancel', endDrag);
   }
 
-  const STATUS_LABEL = {
-    early: { ru: 'Доступен', en: 'Available' },
-    prebooked: { ru: 'Забронирован', en: 'Reserved' },
-    booked: { ru: 'Продан', en: 'Sold' },
-    presale: { ru: 'Доступен', en: 'Available' },
-  };
   let unitsByNumber = {};
   BSO_UNITS.forEach(u => { unitsByNumber[u.n] = u; });
 
@@ -172,8 +166,6 @@
   function fmtPrice(n) { return '$' + n.toLocaleString('en-US'); }
 
   const RESERVE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
-  const RESERVE_LABEL = { ru: 'Забронировать', en: 'Reserve' };
-  const ALL_SOLD_LABEL = { ru: 'Все юниты этого здания проданы', en: 'All units in this building are sold' };
 
   /* Зоны укрупнённые (одна масса рендера = много юнитов) — в заголовке попапа
      сворачиваем подряд идущие номера в диапазоны: 1,2,3,...,20,P1,...,P8 →
@@ -232,18 +224,19 @@
   }
 
   function renderPopup(building, zone) {
-    const lang = (window.__bsoLang || document.documentElement.lang || 'en') === 'ru' ? 'ru' : 'en';
+    const T = window.bsoT;
+    const reserve = T('js.reserve');
     // проданные в попапе не показываем, только в развёрнутой таблице сбоку
     const allUnits = building.units.map(n => unitsByNumber[n]).filter(Boolean);
     const units = allUnits.filter(u => u.st !== 'booked');
-    const title = lang === 'ru' ? `Юниты: ${fmtUnitList(building.units)}` : `Units: ${fmtUnitList(building.units)}`;
+    const title = T('js.units_title', { list: fmtUnitList(building.units) });
     if (units.length === 0) {
-      popup.innerHTML = `<div class="iplan-popup-title">${title}</div><p class="iplan-popup-empty">${ALL_SOLD_LABEL[lang]}</p>`;
+      popup.innerHTML = `<div class="iplan-popup-title">${title}</div><p class="iplan-popup-empty">${T('js.allsold')}</p>`;
     } else {
       const rows = units.map(u => {
         const st = u.st === 'presale' ? 'early' : u.st;
-        const label = STATUS_LABEL[st][lang];
-        return `<li class="iplan-popup-row is-${st}"><b>${u.n}</b><span>${u.t}</span><span class="iplan-status is-${st}">${label}</span><span>${fmtPrice(u.c)}</span><button type="button" class="iplan-reserve-btn" data-unit="${u.n}" aria-label="${RESERVE_LABEL[lang]}" title="${RESERVE_LABEL[lang]}">${RESERVE_ICON}</button></li>`;
+        const label = T('status.' + st);
+        return `<li class="iplan-popup-row is-${st}"><b>${u.n}</b><span>${u.t}</span><span class="iplan-status is-${st}">${label}</span><span>${fmtPrice(u.c)}</span><button type="button" class="iplan-reserve-btn" data-unit="${u.n}" aria-label="${reserve}" title="${reserve}">${RESERVE_ICON}</button></li>`;
       }).join('');
       popup.innerHTML = `<div class="iplan-popup-title">${title}</div><ul class="iplan-popup-list">${rows}</ul>`;
     }

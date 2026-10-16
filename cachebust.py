@@ -15,16 +15,19 @@ V = time.strftime('%Y%m%d%H%M%S', time.gmtime())
 # машины, где скрипт писался, — с мака он не работал вообще
 BASE = os.path.dirname(os.path.abspath(__file__))
 
+MAIN = ['css/styles.css', 'css/v2.css', 'js/langs.js', 'js/i18n.js',
+        'js/v2-i18n.js', 'js/main.js', 'js/v2.js',
+        'js/units-data.js', 'js/units-plan.js', 'js/buildings-data.js', 'js/iplan-map.js']
 TARGETS = {
-    'ru/index.html': ['css/styles.css', 'css/v2.css', 'js/i18n.js',
-                      'js/v2-i18n.js', 'js/main.js', 'js/v2.js',
-                      'js/units-data.js', 'js/units-plan.js', 'js/buildings-data.js', 'js/iplan-map.js'],
-    'index.html': ['css/styles.css', 'css/v2.css', 'js/i18n.js',
-                   'js/v2-i18n.js', 'js/main.js', 'js/v2.js',
-                   'js/units-data.js', 'js/units-plan.js', 'js/buildings-data.js', 'js/iplan-map.js'],
-    'consent.html': ['css/styles.css', 'css/v2.css', 'js/legal.js'],
-    'legal-info.html': ['css/styles.css', 'css/v2.css', 'js/legal.js'],
+    'index.html': MAIN,
+    'ru/index.html': MAIN,
+    'consent.html': ['css/styles.css', 'css/v2.css', 'js/langs.js', 'js/legal.js'],
+    'legal-info.html': ['css/styles.css', 'css/v2.css', 'js/langs.js', 'js/legal.js'],
 }
+# страницы остальных языков собирает build-langs.mjs, у каждой ещё свой словарь
+for l in ['id', 'fr', 'es', 'uk', 'it', 'tr', 'nl']:
+    if os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), l, 'index.html')):
+        TARGETS[l + '/index.html'] = MAIN + ['js/i18n-' + l + '.js']
 
 for fname, assets in TARGETS.items():
     p = os.path.join(BASE, fname)

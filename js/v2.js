@@ -209,8 +209,17 @@
   ];
 
   function ccLang() {
-    var l = (window.__bsoLang || document.documentElement.lang || 'en').toLowerCase();
-    return l.indexOf('ru') === 0 ? 'ru' : 'en';
+    return (window.__bsoLang || document.documentElement.lang || 'en').toLowerCase().slice(0, 2);
+  }
+  /* RU и EN названия стран из таблицы, остальные языки берём у браузера */
+  var dnCache = {};
+  function ccName(r, lg) {
+    if (lg === 'ru') return r[1];
+    if (lg === 'en') return r[2];
+    try {
+      if (!dnCache[lg]) dnCache[lg] = new Intl.DisplayNames([lg], { type: 'region' });
+      return dnCache[lg].of(r[0]) || r[2];
+    } catch (e) { return r[2]; }
   }
 
   /* Дозаполняет <select id="leadCc"> полным списком стран. Сохраняет текущий
@@ -224,7 +233,7 @@
     var prevIso = select.selectedOptions[0] && select.selectedOptions[0].getAttribute('data-iso');
     var prevVal = select.value;
     var rows = COUNTRY_CODES.slice().sort(function (a, b) {
-      return (lg === 'ru' ? a[1] : a[2]).localeCompare(lg === 'ru' ? b[1] : b[2], lg);
+      return ccName(a, lg).localeCompare(ccName(b, lg), lg);
     });
     select.innerHTML = '';
     rows.forEach(function (r) {
@@ -233,8 +242,8 @@
       o.textContent = r[0] + ' +' + r[3];
       o.setAttribute('data-iso', r[0]);
       o.setAttribute('data-format', r[4] || '');
-      o.setAttribute('data-label', (lg === 'ru' ? r[1] : r[2]) + '  +' + r[3]);
-      o.setAttribute('data-search', (r[1] + ' ' + r[2] + ' ' + r[0] + ' ' + r[3]).toLowerCase());
+      o.setAttribute('data-label', ccName(r, lg) + '  +' + r[3]);
+      o.setAttribute('data-search', (r[1] + ' ' + r[2] + ' ' + ccName(r, lg) + ' ' + r[0] + ' ' + r[3]).toLowerCase());
       select.appendChild(o);
     });
     var pick = null;
@@ -276,7 +285,7 @@
       search.className = 'csel-search';
       search.autocomplete = 'off';
       search.spellcheck = false;
-      search.placeholder = ccLang() === 'ru' ? 'Поиск страны или кода' : 'Search country or code';
+      search.placeholder = window.bsoT('cc.search');
       search.setAttribute('aria-label', search.placeholder);
       pop.appendChild(search);
     }
@@ -484,7 +493,7 @@
       fillCountrySelect(document.getElementById('leadCc'));
       widgets.forEach(function (w) {
         if (w.select.id === 'leadCc') {
-          var ph = ccLang() === 'ru' ? 'Поиск страны или кода' : 'Search country or code';
+          var ph = window.bsoT('cc.search');
           var s = w.pop.querySelector('.csel-search');
           if (s) { s.placeholder = ph; s.setAttribute('aria-label', ph); }
         }

@@ -10,12 +10,6 @@
   const statusFiltersEl = document.getElementById('iplanStatusFilters');
   const table = tbody.closest('table');
 
-  const STATUS_LABEL = {
-    early: { ru: 'Доступен', en: 'Available' },
-    prebooked: { ru: 'Забронирован', en: 'Reserved' },
-    booked: { ru: 'Продан', en: 'Sold' },
-  };
-
   // presale — тот же смысл, что early stage (доступен), только другая
   // внутренняя стадия продаж; для покупателя разницы нет.
   let units = BSO_UNITS.map(u => ({ ...u, st: u.st === 'presale' ? 'early' : u.st }));
@@ -45,10 +39,8 @@
   }
 
   const RESERVE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>';
-  const RESERVE_LABEL = { ru: 'Забронировать', en: 'Reserve' };
 
   function render() {
-    const lang = (window.__bsoLang || document.documentElement.lang || 'en');
     let rows = units.filter(u =>
       (activeType === 'all' || u.t === activeType) &&
       (activeStatus === 'all' || u.st === activeStatus)
@@ -61,12 +53,13 @@
       if (av > bv) return 1 * sortDir;
       return 0;
     });
-    const langKey = lang === 'ru' ? 'ru' : 'en';
+    const T = window.bsoT;
+    const reserve = T('js.reserve');
     tbody.innerHTML = rows.map(u => {
-      const label = STATUS_LABEL[u.st][langKey];
+      const label = T('status.' + u.st);
       const reserveCell = u.st === 'booked'
         ? ''
-        : `<button type="button" class="iplan-reserve-btn" data-unit="${u.n}" aria-label="${RESERVE_LABEL[langKey]}" title="${RESERVE_LABEL[langKey]}">${RESERVE_ICON}</button>`;
+        : `<button type="button" class="iplan-reserve-btn" data-unit="${u.n}" aria-label="${reserve}" title="${reserve}">${RESERVE_ICON}</button>`;
       return `<tr class="iplan-row is-${u.st}">
         <td>${u.n}</td>
         <td>${u.t}</td>
@@ -77,9 +70,7 @@
       </tr>`;
     }).join('');
     const total = units.length;
-    countEl.textContent = lang === 'ru'
-      ? `Показано ${rows.length} из ${total} юнитов`
-      : `Showing ${rows.length} of ${total} units`;
+    countEl.textContent = T('js.count', { n: rows.length, total });
   }
 
   typeFiltersEl.addEventListener('click', e => {

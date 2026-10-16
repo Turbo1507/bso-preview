@@ -716,12 +716,11 @@ body{overflow-x:clip}
    RU/EN. Прячем плашку, пока меню открыто. */
 body.menu-open .cookie-note{opacity:0; visibility:hidden; pointer-events:none}
 
-/* ---------- команда: на EN показываем только Степана ---------- */
-/* Язык берём из lang на <html>, его выставляет setLang(), поэтому RU/EN
-   переключается без перезагрузки. Оставшаяся карточка по центру, не на всю ширину. */
-html[lang="en"] .team-card--anna{display:none}
-/* в EN одна карточка того же формата, что на RU, шириной как одна из пары (~660px) */
-html[lang="en"] .team-grid{grid-template-columns:minmax(0,min(660px,100%)); justify-content:center}
+/* ---------- команда: Анна только на RU, на остальных языках один Степан ---------- */
+/* Оставшаяся карточка по центру, не на всю ширину. */
+html:not([lang="ru"]) .team-card--anna{display:none}
+/* одна карточка того же формата, что на RU, шириной как одна из пары (~660px) */
+html:not([lang="ru"]) .team-grid{grid-template-columns:minmax(0,min(660px,100%)); justify-content:center}
 /* карточка команды в styles.css вне сетки 8px (паддинг 35, отступы 6/12,
    подпись 13px). Приводим к шкале обе карточки и оба языка. */
 .team-card{padding:40px}
@@ -1471,13 +1470,42 @@ section p:not(.lead):not(.nuanu-caption):not(.plans-from), section li, .footer-b
   #architecture .block-head-split .lead-sm{text-align:left; max-width:760px; margin-top:24px}
 }
 html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
-/* RU-меню длиннее EN: на 1000–1199 шапка вылезала за экран — бургер до 1199 */
+/* меню на остальных языках длиннее EN: на 1000–1199 шапка вылезала за экран, бургер до 1199 */
 @media (max-width:1199px){
-  html[lang="ru"] .nav, html[lang="ru"] .header-cta .btn-ghost{display:none}
-  html[lang="ru"] .burger{display:flex}
+  html:not([lang="en"]) .nav, html:not([lang="en"]) .header-cta .btn-ghost{display:none}
+  html:not([lang="en"]) .burger{display:flex}
 }
 /* EN на 1000–1024 тоже упиралось в край — бургер до 1099 */
 @media (max-width:1099px){
   .nav, .header-cta .btn-ghost{display:none}
   .burger{display:flex}
 }
+
+/* ---------- выбор языка: кнопка с кодом и список родных названий ---------- */
+.lang-dd{position:relative}
+.lang-dd-btn{
+  display:inline-flex; align-items:center; gap:4px; min-height:44px; padding:0 4px;
+  background:none; border:0; color:var(--white); font:inherit; font-size:14px; font-weight:500;
+  cursor:pointer; transition:color .2s var(--ease);
+}
+.lang-dd-btn:hover, .lang-dd.is-open .lang-dd-btn{color:var(--clay)}
+.lang-dd-chev{width:16px; height:16px; color:var(--clay); transition:transform .22s var(--ease)}
+.lang-dd.is-open .lang-dd-chev{transform:rotate(180deg)}
+.lang-dd-list{
+  position:absolute; top:calc(100% + 8px); right:0; z-index:100; margin:0; padding:8px;
+  list-style:none; min-width:216px; background:var(--surface-2);
+  border:1px solid var(--line-strong); border-radius:var(--r-sm);
+}
+.lang-dd-list[hidden]{display:none}
+.lang-dd-list a,
+.menu-overlay .lang-dd-list a{
+  display:flex; align-items:center; min-height:44px; padding:0 12px; border:0; border-radius:var(--r-xs);
+  font-size:16px; line-height:1.2; font-weight:400; color:var(--graphite); white-space:nowrap;
+  transition:background .15s, color .15s;
+}
+.lang-dd-list a:hover, .lang-dd-list a:focus-visible{background:rgba(255,255,255,.07); outline:none}
+.lang-dd-list a[aria-current]{color:var(--clay)}
+/* в мобильном меню кнопка внизу, список раскрывается вверх */
+.menu-overlay .lang-dd{align-self:flex-start}
+.menu-overlay .lang-dd-btn{font-size:16px; padding:0}
+.menu-overlay .lang-dd-list{top:auto; bottom:calc(100% + 8px); left:0; right:auto}
