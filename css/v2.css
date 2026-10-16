@@ -1505,7 +1505,12 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
 }
 .lang-dd-list a:hover, .lang-dd-list a:focus-visible{background:rgba(255,255,255,.07); outline:none}
 .lang-dd-list a[aria-current]{color:var(--clay)}
-/* в мобильном меню кнопка внизу, список раскрывается вверх */
-.menu-overlay .lang-dd{align-self:flex-start}
-.menu-overlay .lang-dd-btn{font-size:16px; padding:0}
-.menu-overlay .lang-dd-list{top:auto; bottom:calc(100% + 8px); left:0; right:auto}
+/* в мобильном меню язык в шапке рядом с крестиком, отдельной строкой меню не влезало в экран */
+.menu-overlay .menu-lang{margin:0 16px 0 auto; padding:0}
+.menu-overlay .lang-dd-btn{font-size:16px; color:var(--white)}
+/* пункты и зазоры от высоты экрана, чтобы меню целиком влезало на коротких телефонах */
+.menu-overlay{padding-bottom:clamp(16px, 4svh, 32px)}
+.menu-overlay > a{font-size:clamp(17px, 3svh, 20px); line-height:1.2; padding:clamp(8px, 1.6svh, 13px) 0}
+.menu-head{padding-top:clamp(6px, 1.4svh, 12px); padding-bottom:clamp(6px, 1.4svh, 12px)}
+.menu-overlay .menu-cta{margin-top:clamp(16px, 3svh, 22px)}
+.menu-legal{margin-top:clamp(8px, 2svh, 14px)}

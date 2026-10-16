@@ -218,8 +218,8 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20261016153700">
-<link rel="stylesheet" href="css/v2.css?v=20261016153700">
+<link rel="stylesheet" href="css/styles.css?v=20261016155031">
+<link rel="stylesheet" href="css/v2.css?v=20261016155031">
 <!-- Meta Pixel: грузится только после согласия, по кнопке «Понятно» в cookie-баннере
      (bso_cookie_ok=1, main.js зовёт bsoPixel()). Lead — заявка ушла, Contact — клик в WhatsApp. Ботов и headless не считаем. -->
 <script>
@@ -258,6 +258,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <div class="menu-overlay" id="menuOverlay">
   <div class="menu-head">
     <span class="menu-title" data-i18n="menu.title">Menu</span>
+    <div class="lang-dd menu-lang" data-lang-dd></div>
     <button class="menu-close" id="menuClose" aria-label="Fermer" data-i18n-aria="menu.close"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
   </div>
   <a href="/fr/#architecture" data-i18n="nav.architecture">Architecture</a>
@@ -269,7 +270,6 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   <a href="/fr/#gallery" data-i18n="nav.gallery">Galerie</a>
   <a href="/fr/#faq" data-i18n="nav.faq">FAQ</a>
   <a href="https://wa.me/628133917731" target="_blank" rel="noopener noreferrer" data-i18n="nav.whatsapp">Nous écrire sur WhatsApp</a>
-  <div class="lang-dd menu-lang" data-lang-dd></div>
   <a class="btn btn-clay menu-cta js-lead-open" href="/fr/#contacts" data-lead-intent="presentation" data-i18n="nav.cta">Recevoir la présentation</a>
   <!-- мелкий текст снизу мобильного меню, инфа из футера -->
   <span class="menu-legal">© 2026 unit.now</span>
@@ -300,11 +300,11 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <div class="min-gallery reveal">
       <div class="min-gallery-track" id="minGalleryTrack">
         <div class="min-gallery-slide">
-          <picture><source srcset="assets/villa-exterior-pool1.webp" type="image/webp"><img width="1800" height="1286" decoding="async" loading="lazy" class="ph" src="assets/villa-exterior-pool1.jpg" alt="Portes vitrées toute hauteur d’une villa Black Sands Oasis" data-i18n-alt="arch.photo_alt"></picture>
+          <picture><source srcset="assets/villa-exterior-pool1.webp" type="image/webp"><img width="1800" height="1286" decoding="async" loading="lazy" class="ph" src="assets/villa-exterior-pool1.jpg" alt="Portes vitrées toute hauteur d’une villa Black Sands Oasis" data-i18n-alt="arch.photo_alt"></picture>
           <div class="arch-slide-cap"><span class="spec-num">01</span><h3 data-i18n="arch.tag1">Baies vitrées toute hauteur</h3></div>
         </div>
         <div class="min-gallery-slide">
-          <picture><source srcset="assets/villa-exterior-pool2.webp" type="image/webp"><img width="1800" height="1286" decoding="async" loading="lazy" class="ph" src="assets/villa-exterior-pool2.jpg" alt="Pierre naturelle et terre cuite d’une villa Black Sands Oasis" data-i18n-alt="arch.photo2_alt"></picture>
+          <picture><source srcset="assets/villa-exterior-pool2.webp" type="image/webp"><img width="1800" height="1286" decoding="async" loading="lazy" class="ph" src="assets/villa-exterior-pool2.jpg" alt="Pierre naturelle et terre cuite d’une villa Black Sands Oasis" data-i18n-alt="arch.photo2_alt"></picture>
           <div class="arch-slide-cap"><span class="spec-num">02</span><h3 data-i18n="arch.tag2">Matériaux naturels</h3></div>
         </div>
         <div class="min-gallery-slide">
@@ -329,7 +329,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <div class="villas-head reveal">
       <h2 data-i18n="villas.title">Des villas dans une communauté du futur :</h2>
       <div class="villas-intro">
-        <p data-i18n="villas.p1">Black Sands Oasis se trouve au cœur de Nuanu, un cluster culturel au bord de l’océan avec un plan architectural unique et sa propre infrastructure. On y vit aussi bien qu’on y reçoit des hôtes : tout le nécessaire est à proximité, et le calme reste intact.</p>
+        <p data-i18n="villas.p1">Black Sands Oasis se trouve au cœur de Nuanu, un cluster culturel au bord de l’océan avec un plan architectural unique et sa propre infrastructure. On y vit aussi bien qu’on y reçoit des hôtes : tout le nécessaire est à proximité, et le calme reste intact.</p>
         <p data-i18n="villas.p2">Les villas sont conçues pour une vie confortable et une location facile. Baies vitrées toute hauteur, matériaux naturels, tons terre apaisants et cours privées créent un vrai sentiment d’intimité et de savoir-faire.</p>
       </div>
     </div>
@@ -401,11 +401,11 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <h2 class="reveal" data-i18n="sig.title">Le repère emblématique du complexe</h2>
     <!-- чипы с фото убраны, теперь мета-строка на кадре, заголовок плашкой сверху слева -->
     <div class="signature-photo reveal">
-      <img width="1600" height="1066" decoding="async" class="ph" src="assets/stella-solaris.jpg" alt="Œuvre d’art Stella Solaris" data-i18n-alt="sig.photo_alt" loading="lazy">
+      <img width="1600" height="1066" decoding="async" class="ph" src="assets/stella-solaris.jpg" alt="Œuvre d’art Stella Solaris" data-i18n-alt="sig.photo_alt" loading="lazy">
       <div class="arch-slide-cap sig-cap">
         <h3>Stella Solaris</h3>
         <!-- два чипа-строки объединены в одно предложение -->
-        <p data-i18n="sig.p1">Une œuvre d’art de 15 mètres créée avec un cabinet d’architecture renommé, repère visuel du projet</p>
+        <p data-i18n="sig.p1">Une œuvre d’art de 15 mètres créée avec un cabinet d’architecture renommé, repère visuel du projet</p>
       </div>
     </div>
   </div>
@@ -417,7 +417,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <h2 class="reveal" data-i18n="priv.title">Un nouveau niveau de territoire privé</h2>
     <div class="pv-grid reveal">
       <figure class="pv-photo">
-        <img width="1920" height="1248" decoding="async" class="ph" src="assets/villa-private-pool.jpg" alt="Piscine privée d’une villa derrière l’écran de façade" data-i18n-alt="priv.photo_alt" loading="lazy">
+        <img width="1920" height="1248" decoding="async" class="ph" src="assets/villa-private-pool.jpg" alt="Piscine privée d’une villa derrière l’écran de façade" data-i18n-alt="priv.photo_alt" loading="lazy">
         <figcaption class="pv-photo-text">
           <h3 data-i18n="priv.photo_title">Chaque villa a son jardin clos et sa piscine</h3>
         </figcaption>
@@ -434,7 +434,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
       </div>
       <div class="pv-card">
         <span class="kicker" data-i18n="priv.card3.kicker">Scénarios</span>
-        <h3 data-i18n="priv.card3.title">Différents formats au sein d’un même complexe</h3>
+        <h3 data-i18n="priv.card3.title">Différents formats au sein d’un même complexe</h3>
         <p data-i18n="priv.card3.p">Des plans compacts aux résidences familiales, le tout dans un même cadre haut de gamme</p>
       </div>
     </div>
@@ -531,7 +531,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <section class="section section-gray plans-tight-top" style="background:var(--stone)" id="plans">
   <div class="container">
     <h2 class="reveal" data-i18n="plans.title">Des plans pour chaque scénario de vie</h2>
-    <p class="lead lead-wide reveal" data-i18n="plans.lead">Chaque format garde l’ADN commun du projet : architecture expressive, intérieurs baignés de lumière, intimité et art de vivre haut de gamme, pour habiter, se détendre, télétravailler et investir</p>
+    <p class="lead lead-wide reveal" data-i18n="plans.lead">Chaque format garde l’ADN commun du projet : architecture expressive, intérieurs baignés de lumière, intimité et art de vivre haut de gamme, pour habiter, se détendre, télétravailler et investir</p>
     <div class="plans-tabs reveal" id="plansTabs">
       <button class="plans-tab is-active" data-plan="studio">Studio</button>
       <button class="plans-tab" data-plan="1bd">1BD</button>
@@ -602,9 +602,9 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <div class="ss-grid">
       <div class="ss-head">
         <h2 class="reveal" data-i18n="steps.title">Comment acheter une villa</h2>
-        <p class="lead reveal" data-i18n="stepsSticky.lead">Cinq étapes jusqu’aux clés, chacune fixée dans le contrat.</p>
+        <p class="lead reveal" data-i18n="stepsSticky.lead">Cinq étapes jusqu’aux clés, chacune fixée dans le contrat.</p>
         <ul class="ss-facts reveal">
-          <li data-i18n="stepsSticky.fact1">Remboursement intégral de tous les paiements si le permis PBG n’est pas obtenu</li>
+          <li data-i18n="stepsSticky.fact1">Remboursement intégral de tous les paiements si le permis PBG n’est pas obtenu</li>
           <li data-i18n="stepsSticky.fact2">Garantie de 25 ans sur la structure, 5 ans sur les réseaux techniques, 1 an sur les finitions</li>
           <li data-i18n="stepsSticky.fact3">Les travaux démarrent en février 2026 et durent 24 mois selon le contrat</li>
         </ul>
@@ -665,7 +665,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
       <img width="1920" height="1200" decoding="async" class="ph" src="assets/why-bali-tanahlot.jpg" alt="Temple de Tanah Lot sur la côte ouest de Bali au coucher du soleil" data-i18n-alt="invest.photo_alt_v2" loading="lazy">
       <div class="invest-chips">
         <div class="invest-chip invest-chip--wide"><div class="stat-v" data-i18n="invest.stat1.v">+20 % par an</div><p data-i18n="invest.stat1.p">croissance de référence de la valeur des biens dans les meilleurs quartiers de Bali</p></div>
-        <div class="invest-chip"><div class="stat-v" data-i18n="invest.stat2.v">Jusqu’à 16 % par an</div><p data-i18n="invest.stat2.p">en location courte durée de villas dans les zones balnéaires établies de Bali</p></div>
+        <div class="invest-chip"><div class="stat-v" data-i18n="invest.stat2.v">Jusqu’à 16 % par an</div><p data-i18n="invest.stat2.p">en location courte durée de villas dans les zones balnéaires établies de Bali</p></div>
         <div class="invest-chip"><div class="stat-v" data-i18n="invest.stat3.v">La ville de Nuanu</div><p data-i18n="invest.stat3.p">Une ville moderne au bord de l’océan, avec une infrastructure pour la famille, le travail et la création</p></div>
       </div>
     </div>
@@ -681,7 +681,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
       <div class="fin-card-photo fin-card-photo--sheet"><img width="1425" height="949" decoding="async" class="ph" src="assets/fin-model-sheet.png" alt="" loading="lazy"></div>
       <div class="fin-card-copy">
         <h3 data-i18n="fin.headline">Un calcul de rendement pour votre lot</h3>
-        <p data-i18n="fin.p">Prix d’entrée, calendrier de paiement, prévision de rendement et délai de retour sur investissement : le modèle complet est présenté lors d’une consultation personnelle</p>
+        <p data-i18n="fin.p">Prix d’entrée, calendrier de paiement, prévision de rendement et délai de retour sur investissement : le modèle complet est présenté lors d’une consultation personnelle</p>
       </div>
       <a class="btn btn-clay fin-card-cta js-lead-open" href="/fr/#contacts" data-lead-intent="fin" data-i18n="fin.cta">Recevoir le modèle financier</a>
     </div>
@@ -734,7 +734,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
       <div class="unitgrp-card">
         <svg class="card-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="8" r="3"/><path d="M5 21c0-3.87 3.13-7 7-7s7 3.13 7 7"/></svg>
         <h3><b class="ul"><b class="u5">UNIT.</b>SPACE MANAGEMENT</b></h3>
-        <p data-i18n="unitgrp.space">Location et gestion du bien clés en main, sans que l’investisseur ait à s’en occuper</p>
+        <p data-i18n="unitgrp.space">Location et gestion du bien clés en main, sans que l’investisseur ait à s’en occuper</p>
       </div>
     </div>
   </div>
@@ -755,12 +755,12 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   </div>
   <div class="gal-track reveal" id="galTrack">
       <figure class="gal-slide"><picture><source srcset="assets/gal-clubhouse.webp" type="image/webp"><img width="2100" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-clubhouse.jpg" alt="Bâtiment d’entrée et stèle Solaris parmi les palmiers" data-i18n-alt="gallery.alt1"></picture><figcaption class="gal-cap" data-i18n="gallery.cap1">Bâtiment d’entrée et stèle Solaris</figcaption></figure>
-      <figure class="gal-slide"><picture><source srcset="assets/gal-evening-living.webp" type="image/webp"><img width="1120" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-evening-living.jpg" alt="Salon d’une villa dans la lumière du soir" data-i18n-alt="gallery.alt2"></picture><figcaption class="gal-cap" data-i18n="gallery.cap2">Salon au crépuscule</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-evening-living.webp" type="image/webp"><img width="1120" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-evening-living.jpg" alt="Salon d’une villa dans la lumière du soir" data-i18n-alt="gallery.alt2"></picture><figcaption class="gal-cap" data-i18n="gallery.cap2">Salon au crépuscule</figcaption></figure>
       <figure class="gal-slide"><picture><source srcset="assets/gal-living-room.webp" type="image/webp"><img width="1120" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-living-room.jpg" alt="Salon sous un plafond en pente de six mètres" data-i18n-alt="gallery.alt3"></picture><figcaption class="gal-cap" data-i18n="gallery.cap3">Plafond de six mètres</figcaption></figure>
       <figure class="gal-slide"><picture><source srcset="assets/gal-bedroom-garden.webp" type="image/webp"><img width="2489" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-bedroom-garden.jpg" alt="Chambre ouverte sur un jardin privé" data-i18n-alt="gallery.alt4"></picture><figcaption class="gal-cap" data-i18n="gallery.cap4">Chambre ouverte sur le jardin</figcaption></figure>
       <figure class="gal-slide"><picture><source srcset="assets/gal-bath-detail.webp" type="image/webp"><img width="1120" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-bath-detail.jpg" alt="Vasque en travertin devant un mur végétal" data-i18n-alt="gallery.alt5"></picture><figcaption class="gal-cap" data-i18n="gallery.cap5">Travertin et verdure</figcaption></figure>
       <figure class="gal-slide"><picture><source srcset="assets/gal-penthouse-view.webp" type="image/webp"><img width="1400" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-penthouse-view.jpg" alt="Chambre du penthouse avec vue panoramique" data-i18n-alt="gallery.alt6"></picture><figcaption class="gal-cap" data-i18n="gallery.cap6">Penthouse, vue panoramique</figcaption></figure>
-      <figure class="gal-slide"><picture><source srcset="assets/gal-night-dining.webp" type="image/webp"><img width="1120" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-night-dining.jpg" alt="Coin repas d’une villa à la nuit tombée" data-i18n-alt="gallery.alt7"></picture><figcaption class="gal-cap" data-i18n="gallery.cap7">Dîner à la nuit tombée</figcaption></figure>
+      <figure class="gal-slide"><picture><source srcset="assets/gal-night-dining.webp" type="image/webp"><img width="1120" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-night-dining.jpg" alt="Coin repas d’une villa à la nuit tombée" data-i18n-alt="gallery.alt7"></picture><figcaption class="gal-cap" data-i18n="gallery.cap7">Dîner à la nuit tombée</figcaption></figure>
       <figure class="gal-slide"><picture><source srcset="assets/gal-interior-wall.webp" type="image/webp"><img width="1120" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-interior-wall.jpg" alt="Intérieur avec un mur texturé toute hauteur" data-i18n-alt="gallery.alt8"></picture><figcaption class="gal-cap" data-i18n="gallery.cap8">Mur texturé</figcaption></figure>
       <figure class="gal-slide"><picture><source srcset="assets/gal-living-curtains.webp" type="image/webp"><img width="1120" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-living-curtains.jpg" alt="Salon derrière des voilages toute hauteur" data-i18n-alt="gallery.alt9"></picture><figcaption class="gal-cap" data-i18n="gallery.cap9">Rideaux toute hauteur</figcaption></figure>
       <figure class="gal-slide"><picture><source srcset="assets/gal-bedroom-table.webp" type="image/webp"><img width="1120" height="1400" decoding="async" loading="lazy" class="ph" src="assets/gal-bedroom-table.jpg" alt="Chambre avec un coin bureau près du lit" data-i18n-alt="gallery.alt10"></picture><figcaption class="gal-cap" data-i18n="gallery.cap10">Coin bureau près du lit</figcaption></figure>
@@ -789,11 +789,11 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
       </div>
       <div class="faq-item">
         <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA2">
-          <span data-i18n="faq.q2">Qu’est-ce que Nuanu et pourquoi c’est important</span>
+          <span data-i18n="faq.q2">Qu’est-ce que Nuanu et pourquoi c’est important</span>
           <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="faq-a" id="faqA2" role="region">
-          <div><p data-i18n="faq.a2">Nuanu est une ville du futur au bord de l’océan : écoles et jardins d’enfants, œuvres d’art et ateliers, complexe spa, espaces botaniques et restaurants. Pour un propriétaire, c’est un environnement prêt à vivre autour de la maison ; pour un investisseur, une offre limitée dans un lieu en plein essor, ce qui soutient à la fois la valeur de la villa et son taux d’occupation locative.</p></div>
+          <div><p data-i18n="faq.a2">Nuanu est une ville du futur au bord de l’océan : écoles et jardins d’enfants, œuvres d’art et ateliers, complexe spa, espaces botaniques et restaurants. Pour un propriétaire, c’est un environnement prêt à vivre autour de la maison ; pour un investisseur, une offre limitée dans un lieu en plein essor, ce qui soutient à la fois la valeur de la villa et son taux d’occupation locative.</p></div>
         </div>
       </div>
       <div class="faq-item">
@@ -802,7 +802,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
           <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="faq-a" id="faqA3" role="region">
-          <div><p data-i18n="faq.a3">Desert Modernism : panneaux de terre cuite perforés, pierre naturelle, terrazzo dans les pièces d’eau et palette sable et caramel qui fond l’architecture en douceur dans le paysage. Plafonds de six mètres, baies vitrées toute hauteur, jardin et piscine privés pour chaque villa.</p></div>
+          <div><p data-i18n="faq.a3">Desert Modernism : panneaux de terre cuite perforés, pierre naturelle, terrazzo dans les pièces d’eau et palette sable et caramel qui fond l’architecture en douceur dans le paysage. Plafonds de six mètres, baies vitrées toute hauteur, jardin et piscine privés pour chaque villa.</p></div>
         </div>
       </div>
       <div class="faq-item">
@@ -811,7 +811,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
           <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="faq-a" id="faqA4" role="region">
-          <div><p data-i18n="faq.a4">Remboursement intégral de tous les paiements effectués si le permis PBG n’est pas obtenu. Garantie de 25 ans sur la structure, 5 ans sur les réseaux techniques intérieurs et 1 an sur les finitions et l’électroménager. Bail (leasehold) de 35 ans plus une prolongation garantie de 20 ans.</p></div>
+          <div><p data-i18n="faq.a4">Remboursement intégral de tous les paiements effectués si le permis PBG n’est pas obtenu. Garantie de 25 ans sur la structure, 5 ans sur les réseaux techniques intérieurs et 1 an sur les finitions et l’électroménager. Bail (leasehold) de 35 ans plus une prolongation garantie de 20 ans.</p></div>
         </div>
       </div>
       <div class="faq-item">
@@ -836,9 +836,9 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   <div class="container final-in">
     <h2 class="reveal" data-i18n="final.title">Un emplacement fort, un développement réfléchi</h2>
     <div class="final-row reveal">
-      <p class="lead on-dark final-lead" data-i18n="final.lead">Plans, prix, lots disponibles et conditions d’entrée sont présentés lors d’une consultation personnelle</p>
+      <p class="lead on-dark final-lead" data-i18n="final.lead">Plans, prix, lots disponibles et conditions d’entrée sont présentés lors d’une consultation personnelle</p>
       <div class="final-stats">
-        <div class="stat"><div class="stat-v" data-i18n="final.stat1.v">111 lots</div><p data-i18n="final.stat1.p">83 villas, 20 studios et 8 penthouses d’ici 2028</p></div>
+        <div class="stat"><div class="stat-v" data-i18n="final.stat1.v">111 lots</div><p data-i18n="final.stat1.p">83 villas, 20 studios et 8 penthouses d’ici 2028</p></div>
         <div class="stat"><div class="stat-v" data-i18n="final.stat2.v">35+ équipements</div><p data-i18n="final.stat2.p">de l’infrastructure de Nuanu, la ville du futur, déjà disponibles</p></div>
         <div class="stat"><div class="stat-v" data-i18n="final.stat3.v">108 lots</div><p data-i18n="final.stat3.p">déjà construits et livrés avec succès</p></div>
       </div>
@@ -946,10 +946,10 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 
 <!-- уведомление про куки -->
 <div class="cookie-note" id="cookieNote" role="dialog" aria-live="polite" aria-labelledby="cookieNoteText">
-  <p id="cookieNoteText" data-i18n="cookie.text">Nous utilisons des cookies et le stockage local du navigateur pour retenir votre langue et vos réglages d’affichage. En cliquant sur « J’ai compris », vous nous permettez de compter les visites et de mesurer nos publicités (Meta Pixel).</p>
+  <p id="cookieNoteText" data-i18n="cookie.text">Nous utilisons des cookies et le stockage local du navigateur pour retenir votre langue et vos réglages d’affichage. En cliquant sur « J’ai compris », vous nous permettez de compter les visites et de mesurer nos publicités (Meta Pixel).</p>
   <div class="cookie-note-row">
     <a href="consent.html" data-i18n="cookie.more">En savoir plus sur les cookies</a>
-    <button type="button" class="btn btn-clay" id="cookieOk" data-i18n="cookie.accept">J’ai compris</button>
+    <button type="button" class="btn btn-clay" id="cookieOk" data-i18n="cookie.accept">J’ai compris</button>
   </div>
 </div>
 
@@ -968,16 +968,16 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
 <!-- тот же пин для мобильного кропа -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/langs.js?v=20261016153700"></script>
-<script src="js/i18n.js?v=20261016153700"></script>
-<script src="js/v2-i18n.js?v=20261016153700"></script>
-<script src="js/i18n-fr.js?v=20261016153700"></script>
-<script src="js/main.js?v=20261016153700"></script>
-<script src="js/v2.js?v=20261016153700"></script>
-<script src="js/units-data.js?v=20261016153700"></script>
-<script src="js/units-plan.js?v=20261016153700"></script>
-<script src="js/buildings-data.js?v=20261016153700"></script>
-<script src="js/iplan-map.js?v=20261016153700"></script>
+<script src="js/langs.js?v=20261016155031"></script>
+<script src="js/i18n.js?v=20261016155031"></script>
+<script src="js/v2-i18n.js?v=20261016155031"></script>
+<script src="js/i18n-fr.js?v=20261016155031"></script>
+<script src="js/main.js?v=20261016155031"></script>
+<script src="js/v2.js?v=20261016155031"></script>
+<script src="js/units-data.js?v=20261016155031"></script>
+<script src="js/units-plan.js?v=20261016155031"></script>
+<script src="js/buildings-data.js?v=20261016155031"></script>
+<script src="js/iplan-map.js?v=20261016155031"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>

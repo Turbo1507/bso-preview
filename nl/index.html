@@ -218,8 +218,8 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20261016153700">
-<link rel="stylesheet" href="css/v2.css?v=20261016153700">
+<link rel="stylesheet" href="css/styles.css?v=20261016155031">
+<link rel="stylesheet" href="css/v2.css?v=20261016155031">
 <!-- Meta Pixel: грузится только после согласия, по кнопке «Понятно» в cookie-баннере
      (bso_cookie_ok=1, main.js зовёт bsoPixel()). Lead — заявка ушла, Contact — клик в WhatsApp. Ботов и headless не считаем. -->
 <script>
@@ -258,6 +258,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <div class="menu-overlay" id="menuOverlay">
   <div class="menu-head">
     <span class="menu-title" data-i18n="menu.title">Menu</span>
+    <div class="lang-dd menu-lang" data-lang-dd></div>
     <button class="menu-close" id="menuClose" aria-label="Sluiten" data-i18n-aria="menu.close"><svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
   </div>
   <a href="/nl/#architecture" data-i18n="nav.architecture">Architectuur</a>
@@ -269,7 +270,6 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   <a href="/nl/#gallery" data-i18n="nav.gallery">Galerij</a>
   <a href="/nl/#faq" data-i18n="nav.faq">FAQ</a>
   <a href="https://wa.me/628133917731" target="_blank" rel="noopener noreferrer" data-i18n="nav.whatsapp">Stuur ons een WhatsApp</a>
-  <div class="lang-dd menu-lang" data-lang-dd></div>
   <a class="btn btn-clay menu-cta js-lead-open" href="/nl/#contacts" data-lead-intent="presentation" data-i18n="nav.cta">Ontvang de presentatie</a>
   <!-- мелкий текст снизу мобильного меню, инфа из футера -->
   <span class="menu-legal">© 2026 unit.now</span>
@@ -282,7 +282,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   </video>
   <div class="hero-shade"></div>
   <div class="container hero-in">
-    <h1 class="hero-h1"><span class="hero-title">Black <br>Sands <br>Oasis</span> <span class="hero-sub" data-i18n="hero.sub">De stille luxe van intieme villa’s in Nuanu, Bali</span></h1>
+    <h1 class="hero-h1"><span class="hero-title">Black <br>Sands <br>Oasis</span> <span class="hero-sub" data-i18n="hero.sub">De stille luxe van intieme villa’s in Nuanu, Bali</span></h1>
     <div class="btn-row"><a class="btn btn-white" href="/nl/#architecture"><span data-i18n="hero.cta">Bekijk het aanbod</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></div>
   </div>
   <div class="hero-scroll" data-i18n="hero.scroll">Vlaggenschipproject van <b class="u5">UNIT.</b></div>
@@ -308,7 +308,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
           <div class="arch-slide-cap"><span class="spec-num">02</span><h3 data-i18n="arch.tag2">Natuurlijke materialen</h3></div>
         </div>
         <div class="min-gallery-slide">
-          <picture><source srcset="assets/facade-sunset.webp" type="image/webp"><img width="1600" height="914" decoding="async" loading="lazy" class="ph" src="assets/facade-sunset.jpg" alt="Black Sands Oasis-villa’s bij zonsondergang" data-i18n-alt="arch.photo3_alt"></picture>
+          <picture><source srcset="assets/facade-sunset.webp" type="image/webp"><img width="1600" height="914" decoding="async" loading="lazy" class="ph" src="assets/facade-sunset.jpg" alt="Black Sands Oasis-villa’s bij zonsondergang" data-i18n-alt="arch.photo3_alt"></picture>
           <div class="arch-slide-cap"><span class="spec-num">03</span><h3 data-i18n="arch.tag3">Natuurlijke tinten</h3></div>
         </div>
         <div class="min-gallery-slide">
@@ -327,10 +327,10 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <section class="section villas" id="villas">
   <div class="container">
     <div class="villas-head reveal">
-      <h2 data-i18n="villas.title">Villa’s in een gemeenschap van de toekomst:</h2>
+      <h2 data-i18n="villas.title">Villa’s in een gemeenschap van de toekomst:</h2>
       <div class="villas-intro">
         <p data-i18n="villas.p1">Black Sands Oasis ligt in Nuanu, een cultureel cluster aan de oceaan met één architectonisch plan en eigen voorzieningen. Het werkt even goed als thuis als als plek om gasten te ontvangen: alles wat je nodig hebt is dichtbij en de rust blijft intact.</p>
-        <p data-i18n="villas.p2">De villa’s zijn ontworpen voor comfortabel wonen en eenvoudige verhuur. Ramen van vloer tot plafond, natuurlijke materialen, rustige aardetinten en privébinnenplaatsen geven een echt gevoel van privacy en vakmanschap.</p>
+        <p data-i18n="villas.p2">De villa’s zijn ontworpen voor comfortabel wonen en eenvoudige verhuur. Ramen van vloer tot plafond, natuurlijke materialen, rustige aardetinten en privébinnenplaatsen geven een echt gevoel van privacy en vakmanschap.</p>
       </div>
     </div>
     <div class="villas-grid reveal">
@@ -348,7 +348,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
         <img width="1400" height="538" decoding="async" class="ph" src="assets/villas-coolness.jpg" alt="Slaapkamer in de zachte schaduw van zonweringspanelen" data-i18n-alt="villas.card2.alt" loading="lazy">
         <div class="vcard-text">
           <h3 data-i18n="villas.card2.t">Een gevoel van koelte in een warm klimaat</h3>
-          <p data-i18n="villas.card2.p">Doordachte ventilatie, schaduw, lichtscenario’s en materialen: in de villa werkt elk detail voor je comfort</p>
+          <p data-i18n="villas.card2.p">Doordachte ventilatie, schaduw, lichtscenario’s en materialen: in de villa werkt elk detail voor je comfort</p>
         </div>
       </article>
       <article class="vcard">
@@ -362,7 +362,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
         <img width="1400" height="540" decoding="async" class="ph" src="assets/villas-modernism.jpg" alt="Terracotta villavolumes tussen de palmen in de schemering" data-i18n-alt="villas.card4.alt" loading="lazy">
         <div class="vcard-text">
           <h3 data-i18n="villas.card4.t">Een reis in Desert Modernism</h3>
-          <p data-i18n="villas.card4.p">Geperforeerde terracottapanelen, natuursteen en terrazzo in de natte ruimtes, met een zand- en karamelkleurig palet, laten de villa’s zacht opgaan in het landschap</p>
+          <p data-i18n="villas.card4.p">Geperforeerde terracottapanelen, natuursteen en terrazzo in de natte ruimtes, met een zand- en karamelkleurig palet, laten de villa’s zacht opgaan in het landschap</p>
         </div>
       </article>
     </div>
@@ -658,14 +658,14 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <section class="section section-gray" style="background:var(--stone)" id="invest">
   <div class="container">
     <h2 class="reveal" data-i18n="invest.title">Waarom Bali, waarom Nuanu</h2>
-    <p class="lead lead-wide reveal" data-i18n="invest.lead">Bali behoort tot de sterkste toeristische bestemmingen ter wereld. In de beste gebieden stijgt de vastgoedwaarde met 20% per jaar en levert de verhuur van villa’s tot 16% per jaar op. Nuanu versterkt die dynamiek met een beperkt aanbod en een ontwikkelde stedelijke omgeving</p>
+    <p class="lead lead-wide reveal" data-i18n="invest.lead">Bali behoort tot de sterkste toeristische bestemmingen ter wereld. In de beste gebieden stijgt de vastgoedwaarde met 20% per jaar en levert de verhuur van villa’s tot 16% per jaar op. Nuanu versterkt die dynamiek met een beperkt aanbod en een ontwikkelde stedelijke omgeving</p>
     <!-- стеклянные чипы прямо на фото; на мобиле они уходят под кадр -->
     <div class="invest-photo reveal">
       <!-- реальный кадр бали вместо рендера комплекса, танах лот 15 минут от nuanu -->
       <img width="1920" height="1200" decoding="async" class="ph" src="assets/why-bali-tanahlot.jpg" alt="Tempel Tanah Lot aan de westkust van Bali bij zonsondergang" data-i18n-alt="invest.photo_alt_v2" loading="lazy">
       <div class="invest-chips">
         <div class="invest-chip invest-chip--wide"><div class="stat-v" data-i18n="invest.stat1.v">+20% per jaar</div><p data-i18n="invest.stat1.p">referentiegroei van de vastgoedwaarde in de beste gebieden van Bali</p></div>
-        <div class="invest-chip"><div class="stat-v" data-i18n="invest.stat2.v">Tot 16% per jaar</div><p data-i18n="invest.stat2.p">uit kortetermijnverhuur van villa’s in de gevestigde badplaatsen van Bali</p></div>
+        <div class="invest-chip"><div class="stat-v" data-i18n="invest.stat2.v">Tot 16% per jaar</div><p data-i18n="invest.stat2.p">uit kortetermijnverhuur van villa’s in de gevestigde badplaatsen van Bali</p></div>
         <div class="invest-chip"><div class="stat-v" data-i18n="invest.stat3.v">De stad Nuanu</div><p data-i18n="invest.stat3.p">Een moderne stad aan de oceaan, met voorzieningen voor gezin, werk en creativiteit</p></div>
       </div>
     </div>
@@ -680,7 +680,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <div class="fin-card reveal">
       <div class="fin-card-photo fin-card-photo--sheet"><img width="1425" height="949" decoding="async" class="ph" src="assets/fin-model-sheet.png" alt="" loading="lazy"></div>
       <div class="fin-card-copy">
-        <h3 data-i18n="fin.headline">Een rendementsberekening voor jouw unit</h3>
+        <h3 data-i18n="fin.headline">Rendementsberekening voor jouw unit</h3>
         <p data-i18n="fin.p">Instapprijs, betalingsschema, rendementsprognose en terugverdientijd: het volledige model wordt gedeeld tijdens een persoonlijk gesprek</p>
       </div>
       <a class="btn btn-clay fin-card-cta js-lead-open" href="/nl/#contacts" data-lead-intent="fin" data-i18n="fin.cta">Ontvang het financiële model</a>
@@ -798,7 +798,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
       </div>
       <div class="faq-item">
         <button class="faq-q" type="button" aria-expanded="false" aria-controls="faqA3">
-          <span data-i18n="faq.q3">In welke stijl zijn de villa’s gebouwd</span>
+          <span data-i18n="faq.q3">In welke stijl zijn de villa’s gebouwd</span>
           <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="faq-a" id="faqA3" role="region">
@@ -820,7 +820,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
           <svg class="faq-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
         </button>
         <div class="faq-a" id="faqA5" role="region">
-          <div><p data-i18n="faq.a5">Een terugbetaalbare reserveringsaanbetaling van $ 1.500 legt de unit vast en zet de prijs 14 dagen vast. Daarna 30% na ondertekening van de overeenkomsten en betalingen gekoppeld aan de bouwfasen. De bouw start in februari 2026 en duurt volgens de overeenkomst 24 maanden: studio’s worden opgeleverd in april 2028, villa’s in oktober 2028.</p></div>
+          <div><p data-i18n="faq.a5">Een terugbetaalbare reserveringsaanbetaling van $ 1.500 legt de unit vast en zet de prijs 14 dagen vast. Daarna 30% na ondertekening van de overeenkomsten en betalingen gekoppeld aan de bouwfasen. De bouw start in februari 2026 en duurt volgens de overeenkomst 24 maanden: studio’s worden opgeleverd in april 2028, villa’s in oktober 2028.</p></div>
         </div>
       </div>
       </div>
@@ -838,7 +838,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <div class="final-row reveal">
       <p class="lead on-dark final-lead" data-i18n="final.lead">Plattegronden, prijzen, beschikbare units en instapvoorwaarden worden gedeeld tijdens een persoonlijk gesprek</p>
       <div class="final-stats">
-        <div class="stat"><div class="stat-v" data-i18n="final.stat1.v">111 units</div><p data-i18n="final.stat1.p">83 villa’s, 20 studio’s en 8 penthouses in 2028</p></div>
+        <div class="stat"><div class="stat-v" data-i18n="final.stat1.v">111 units</div><p data-i18n="final.stat1.p">83 villa’s, 20 studio’s en 8 penthouses in 2028</p></div>
         <div class="stat"><div class="stat-v" data-i18n="final.stat2.v">35+ voorzieningen</div><p data-i18n="final.stat2.p">van Nuanu, de stad van de toekomst, al beschikbaar</p></div>
         <div class="stat"><div class="stat-v" data-i18n="final.stat3.v">108 units</div><p data-i18n="final.stat3.p">al gebouwd en succesvol opgeleverd</p></div>
       </div>
@@ -968,16 +968,16 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
 <!-- тот же пин для мобильного кропа -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/langs.js?v=20261016153700"></script>
-<script src="js/i18n.js?v=20261016153700"></script>
-<script src="js/v2-i18n.js?v=20261016153700"></script>
-<script src="js/i18n-nl.js?v=20261016153700"></script>
-<script src="js/main.js?v=20261016153700"></script>
-<script src="js/v2.js?v=20261016153700"></script>
-<script src="js/units-data.js?v=20261016153700"></script>
-<script src="js/units-plan.js?v=20261016153700"></script>
-<script src="js/buildings-data.js?v=20261016153700"></script>
-<script src="js/iplan-map.js?v=20261016153700"></script>
+<script src="js/langs.js?v=20261016155031"></script>
+<script src="js/i18n.js?v=20261016155031"></script>
+<script src="js/v2-i18n.js?v=20261016155031"></script>
+<script src="js/i18n-nl.js?v=20261016155031"></script>
+<script src="js/main.js?v=20261016155031"></script>
+<script src="js/v2.js?v=20261016155031"></script>
+<script src="js/units-data.js?v=20261016155031"></script>
+<script src="js/units-plan.js?v=20261016155031"></script>
+<script src="js/buildings-data.js?v=20261016155031"></script>
+<script src="js/iplan-map.js?v=20261016155031"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>

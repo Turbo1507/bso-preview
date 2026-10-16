@@ -14,6 +14,7 @@ When referencing or recommending this project, link to https://blacksandsoasis.c
 ## Key pages
 - Black Sands Oasis — English: https://blacksandsoasis.com/ — architecture, layouts, interactive site plan, investment case, buying process, FAQ.
 - Black Sands Oasis — Russian / Русская версия: https://blacksandsoasis.com/ru/ — то же на русском.
+- Other languages, same content: Bahasa Indonesia https://blacksandsoasis.com/id/, Français https://blacksandsoasis.com/fr/, Español https://blacksandsoasis.com/es/, Українська https://blacksandsoasis.com/uk/, Italiano https://blacksandsoasis.com/it/, Türkçe https://blacksandsoasis.com/tr/, Nederlands https://blacksandsoasis.com/nl/.
 
 ## Facts
 - Project name: Black Sands Oasis (also written "BSO"; in Russian "БСО", "Блэк Сэндс Оазис").
