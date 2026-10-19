@@ -350,7 +350,7 @@ window.bsoT = function (key, vars) {
 
 /* У каждого языка свой адрес, разметка страницы уже на нём. setLang только
    прогоняет словарь по разметке и перерисовывает то, что собирает JS.
-   title, description и og-теги не трогаем: они всегда на английском. */
+   title, description и og-теги не трогаем: их на языке страницы ставит build-langs.mjs. */
 window.setLang = function (lang) {
   const dict = window.I18N[lang] || window.I18N.en;
   window.__bsoLang = lang;

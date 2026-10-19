@@ -1,5 +1,7 @@
 /* uk: словарь главной, юрстраниц и 404. Собран из перевода, правки вносить здесь. */
 window.I18N = window.I18N || {}; window.I18N.uk = {
+ "meta.title": "Вілли в Нуану, Балі — Black Sands Oasis | UNIT.",
+ "meta.desc": "Камерні вілли Desert Modernism від UNIT. у Нуану, Балі: 7 планувань від 31 до 160 м², власні басейни, стелі 6 м, керована оренда.",
  "carousel.prev": "Назад",
  "carousel.next": "Далі",
  "nav.architecture": "Архітектура",

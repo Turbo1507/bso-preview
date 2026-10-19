@@ -1,5 +1,7 @@
 /* fr: словарь главной, юрстраниц и 404. Собран из перевода, правки вносить здесь. */
 window.I18N = window.I18N || {}; window.I18N.fr = {
+ "meta.title": "Villas à Nuanu, Bali — Black Sands Oasis | UNIT.",
+ "meta.desc": "Villas intimistes Desert Modernism signées UNIT. à Nuanu, Bali : 7 plans de 31 à 160 m², piscines privées, plafonds de 6 m et location gérée.",
  "carousel.prev": "Précédent",
  "carousel.next": "Suivant",
  "nav.architecture": "Architecture",

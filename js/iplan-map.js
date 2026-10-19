@@ -321,10 +321,20 @@
     if (tabBtn) {
       closePopup();
       tabBtn.click();
-      // block:'start' прятал CTA под фолд (заголовок, табы и коллаж съедают экран),
-      // поэтому скроллим к строке с CTA по центру экрана.
-      const ctaRow = document.querySelector('.plans-cta-row');
-      (ctaRow || document.getElementById('plans')).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      // на телефоне фото виллы встают сразу под шапку, иначе экран режет их сверху.
+      // на десктопе block:'start' прятал CTA под фолд, там скроллим к строке с CTA по центру
+      const viewer = document.getElementById('plansViewer');
+      if (viewer && window.matchMedia('(max-width:860px)').matches) {
+        const head = document.getElementById('header');
+        // offsetTop, а не getBoundingClientRect: у ещё не проявленного .reveal сдвиг 24px
+        let top = 0;
+        for (let el = viewer; el; el = el.offsetParent) top += el.offsetTop;
+        top -= (head ? head.offsetHeight : 0) + 8;
+        window.scrollTo({ top, behavior: 'smooth' });
+      } else {
+        const ctaRow = document.querySelector('.plans-cta-row');
+        (ctaRow || document.getElementById('plans')).scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     } else if (typeof window.openLeadForUnit === 'function') {
       window.openLeadForUnit(btn.dataset.unit);
     }

@@ -1,5 +1,7 @@
 /* tr: словарь главной, юрстраниц и 404. Собран из перевода, правки вносить здесь. */
 window.I18N = window.I18N || {}; window.I18N.tr = {
+ "meta.title": "Nuanu, Bali’de villalar — Black Sands Oasis | UNIT.",
+ "meta.desc": "UNIT. imzalı Desert Modernism villalar, Nuanu, Bali: 31–160 m² arası 7 plan, özel havuzlar, 6 m tavanlar ve yönetimli kiralama.",
  "carousel.prev": "Önceki",
  "carousel.next": "Sonraki",
  "nav.architecture": "Mimari",

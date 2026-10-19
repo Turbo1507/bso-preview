@@ -1,5 +1,7 @@
 /* id: словарь главной, юрстраниц и 404. Собран из перевода, правки вносить здесь. */
 window.I18N = window.I18N || {}; window.I18N.id = {
+ "meta.title": "Vila di Nuanu, Bali — Black Sands Oasis | UNIT.",
+ "meta.desc": "Vila privat bergaya Desert Modernism dari UNIT. di Nuanu, Bali: 7 tipe 31–160 m², kolam renang pribadi, plafon 6 m, dan sewa terkelola.",
  "carousel.prev": "Sebelumnya",
  "carousel.next": "Berikutnya",
  "nav.architecture": "Arsitektur",
