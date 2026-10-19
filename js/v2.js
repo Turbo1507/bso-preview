@@ -45,13 +45,15 @@
   ['galTrack', 'plansPhotoTrack'].forEach(function (id) {
     var container = document.getElementById(id);
     if (!container) return;
-    // на мобиле увеличение по тапу только мешает, лайтбокс только на десктопе
-    var mobileMQ = window.matchMedia('(max-width: 860px)');
-    if (!mobileMQ.matches) container.style.cursor = 'zoom-in';
+    container.style.cursor = 'zoom-in';
     container.addEventListener('click', function (e) {
-      if (mobileMQ.matches) return;
       var im = e.target.closest('img');
-      if (!im) return;
+      // протяг галереи захватывает указатель, и клик приходит на саму ленту, фото ищем по точке
+      if (!im) {
+        var at = document.elementFromPoint(e.clientX, e.clientY);
+        im = at && at.closest('img');
+      }
+      if (!im || !container.contains(im)) return;
       open(container, im);
     });
   });
@@ -62,6 +64,18 @@
   lb.addEventListener('click', function (e) {
     if (e.target === lb || e.target === stage) close();
   });
+  // на телефоне листаем свайпом, стрелки там мелкие
+  var sx = null, sy = 0;
+  lb.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { sx = null; return; }
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY;
+  }, { passive: true });
+  lb.addEventListener('touchend', function (e) {
+    if (sx == null) return;
+    var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+    sx = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(idx + (dx < 0 ? 1 : -1));
+  }, { passive: true });
   document.addEventListener('keydown', function (e) {
     if (!lb.classList.contains('is-open')) return;
     if (e.key === 'Escape') close();
