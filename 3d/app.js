@@ -6,10 +6,10 @@ import { computeBoundsTree, acceleratedRaycast } from 'three-mesh-bvh';
 THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261021a';
+import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261021b';
 
 const q = new URLSearchParams(location.search);
-const MODEL = new URL('model.glb?v=20261021a', import.meta.url).href;
+const MODEL = new URL('model.glb?v=20261021b', import.meta.url).href;
 // у языковых страниц <base href="/">, так что assets/ всегда от корня сайта
 const SITE = '';
 
@@ -25,7 +25,7 @@ const T = {
     bookV: n => `Reserve villa ${n}`, bookS: n => `Reserve studio ${n}`, bookP: n => `Reserve penthouse ${n}`,
     similar: 'Find a similar villa', plan: 'View floor plan', studioTitle: 'Studios and penthouses',
     studioLead: 'Building at the entrance, 4 floors', floor: f => f === 4 ? 'Penthouses, 4th floor' : ['', '1st floor', '2nd floor', '3rd floor'][f],
-    back: 'All studios', close: 'Close',
+    back: 'All studios', close: 'Close', prev: 'Previous photo', next: 'Next photo',
     noGL: 'This browser does not support 3D. Open the page in an up-to-date Chrome, Safari or Firefox.', loadErr: 'The model failed to load.', retry: 'Try again',
     types: { studio: 'Studio', '1bd': 'One-bedroom villa', '1bdsky': '1BD SKY villa with a roof terrace', '2bd': 'Two-bedroom villa', '3bd': 'Three-bedroom villa', '3bdsky': '3BD SKY villa with a roof terrace', '4bd': 'Four-bedroom villa', '4bdsky': 'Four-bedroom villa with a roof terrace', penthouse: 'Penthouse' },
     views: VIEWS('garden view', 'ocean view', 'palm and ocean view', 'volcano view', 'by the river'),
@@ -39,7 +39,7 @@ const T = {
     bookV: n => `Забронировать виллу ${n}`, bookS: n => `Забронировать студию ${n}`, bookP: n => `Забронировать пентхаус ${n}`,
     similar: 'Подобрать похожую виллу', plan: 'Смотреть планировку', studioTitle: 'Студии и пентхаусы',
     studioLead: 'Корпус у входа в комплекс, 4 этажа', floor: f => f === 4 ? 'Пентхаусы, 4 этаж' : `${f} этаж`,
-    back: 'Ко всем студиям', close: 'Закрыть',
+    back: 'Ко всем студиям', close: 'Закрыть', prev: 'Предыдущее фото', next: 'Следующее фото',
     noGL: 'Браузер не поддерживает 3D. Откройте страницу в Chrome, Safari или Firefox последней версии.', loadErr: 'Не удалось загрузить модель.', retry: 'Повторить',
     types: { studio: 'Студия', '1bd': 'Вилла с одной спальней', '1bdsky': 'Вилла 1BD SKY с террасой на крыше', '2bd': 'Вилла с двумя спальнями', '3bd': 'Вилла с тремя спальнями', '3bdsky': 'Вилла 3BD SKY с террасой на крыше', '4bd': 'Вилла с четырьмя спальнями', '4bdsky': 'Вилла с четырьмя спальнями и террасой на крыше', penthouse: 'Пентхаус' },
     views: VIEWS('вид на сад', 'вид на океан', 'вид на пальмы и океан', 'вид на вулкан', 'у реки'),
@@ -53,7 +53,7 @@ const T = {
     bookV: n => `Pesan vila ${n}`, bookS: n => `Pesan studio ${n}`, bookP: n => `Pesan penthouse ${n}`,
     similar: 'Cari vila serupa', plan: 'Lihat denah', studioTitle: 'Studio dan penthouse',
     studioLead: 'Gedung di pintu masuk, 4 lantai', floor: f => f === 4 ? 'Penthouse, lantai 4' : `Lantai ${f}`,
-    back: 'Semua studio', close: 'Tutup',
+    back: 'Semua studio', close: 'Tutup', prev: 'Foto sebelumnya', next: 'Foto berikutnya',
     noGL: 'Browser ini tidak mendukung 3D. Buka halaman di Chrome, Safari, atau Firefox versi terbaru.', loadErr: 'Model gagal dimuat.', retry: 'Coba lagi',
     types: { studio: 'Studio', '1bd': 'Vila satu kamar tidur', '1bdsky': 'Vila 1BD SKY dengan teras atap', '2bd': 'Vila dua kamar tidur', '3bd': 'Vila tiga kamar tidur', '3bdsky': 'Vila 3BD SKY dengan teras atap', '4bd': 'Vila empat kamar tidur', '4bdsky': 'Vila empat kamar tidur dengan teras atap', penthouse: 'Penthouse' },
     views: VIEWS('pemandangan taman', 'pemandangan laut', 'pemandangan pohon palem dan laut', 'pemandangan gunung berapi', 'di tepi sungai'),
@@ -67,7 +67,7 @@ const T = {
     bookV: n => `Réserver la villa ${n}`, bookS: n => `Réserver le studio ${n}`, bookP: n => `Réserver le penthouse ${n}`,
     similar: 'Trouver une villa similaire', plan: 'Voir le plan', studioTitle: 'Studios et penthouses',
     studioLead: 'Bâtiment à l’entrée, 4 étages', floor: f => f === 4 ? 'Penthouses, 4e étage' : f === 1 ? '1er étage' : `${f}e étage`,
-    back: 'Tous les studios', close: 'Fermer',
+    back: 'Tous les studios', close: 'Fermer', prev: 'Photo précédente', next: 'Photo suivante',
     noGL: 'Ce navigateur ne prend pas en charge la 3D. Ouvrez la page dans une version récente de Chrome, Safari ou Firefox.', loadErr: 'Le modèle n’a pas pu être chargé.', retry: 'Réessayer',
     types: { studio: 'Studio', '1bd': 'Villa une chambre', '1bdsky': 'Villa 1BD SKY avec toit-terrasse', '2bd': 'Villa deux chambres', '3bd': 'Villa trois chambres', '3bdsky': 'Villa 3BD SKY avec toit-terrasse', '4bd': 'Villa quatre chambres', '4bdsky': 'Villa quatre chambres avec toit-terrasse', penthouse: 'Penthouse' },
     views: VIEWS('vue jardin', 'vue mer', 'vue palmiers et mer', 'vue volcan', 'au bord de la rivière'),
@@ -81,7 +81,7 @@ const T = {
     bookV: n => `Reservar la villa ${n}`, bookS: n => `Reservar el estudio ${n}`, bookP: n => `Reservar el penthouse ${n}`,
     similar: 'Buscar una villa similar', plan: 'Ver plano', studioTitle: 'Estudios y penthouses',
     studioLead: 'Edificio en la entrada, 4 plantas', floor: f => f === 4 ? 'Penthouses, 4.ª planta' : `${f}.ª planta`,
-    back: 'Todos los estudios', close: 'Cerrar',
+    back: 'Todos los estudios', close: 'Cerrar', prev: 'Foto anterior', next: 'Foto siguiente',
     noGL: 'Este navegador no admite 3D. Abre la página en una versión actual de Chrome, Safari o Firefox.', loadErr: 'No se pudo cargar el modelo.', retry: 'Reintentar',
     types: { studio: 'Estudio', '1bd': 'Villa de un dormitorio', '1bdsky': 'Villa 1BD SKY con terraza en la azotea', '2bd': 'Villa de dos dormitorios', '3bd': 'Villa de tres dormitorios', '3bdsky': 'Villa 3BD SKY con terraza en la azotea', '4bd': 'Villa de cuatro dormitorios', '4bdsky': 'Villa de cuatro dormitorios con terraza en la azotea', penthouse: 'Penthouse' },
     views: VIEWS('vista al jardín', 'vista al mar', 'vista a las palmeras y al mar', 'vista al volcán', 'junto al río'),
@@ -95,7 +95,7 @@ const T = {
     bookV: n => `Забронювати віллу ${n}`, bookS: n => `Забронювати студію ${n}`, bookP: n => `Забронювати пентхаус ${n}`,
     similar: 'Підібрати схожу віллу', plan: 'Дивитися планування', studioTitle: 'Студії та пентхауси',
     studioLead: 'Корпус біля входу в комплекс, 4 поверхи', floor: f => f === 4 ? 'Пентхауси, 4 поверх' : `${f} поверх`,
-    back: 'До всіх студій', close: 'Закрити',
+    back: 'До всіх студій', close: 'Закрити', prev: 'Попереднє фото', next: 'Наступне фото',
     noGL: 'Браузер не підтримує 3D. Відкрийте сторінку в Chrome, Safari або Firefox останньої версії.', loadErr: 'Не вдалося завантажити модель.', retry: 'Повторити',
     types: { studio: 'Студія', '1bd': 'Вілла з однією спальнею', '1bdsky': 'Вілла 1BD SKY з терасою на даху', '2bd': 'Вілла з двома спальнями', '3bd': 'Вілла з трьома спальнями', '3bdsky': 'Вілла 3BD SKY з терасою на даху', '4bd': 'Вілла з чотирма спальнями', '4bdsky': 'Вілла з чотирма спальнями і терасою на даху', penthouse: 'Пентхаус' },
     views: VIEWS('вид на сад', 'вид на океан', 'вид на пальми та океан', 'вид на вулкан', 'біля річки'),
@@ -109,7 +109,7 @@ const T = {
     bookV: n => `Prenota la villa ${n}`, bookS: n => `Prenota lo studio ${n}`, bookP: n => `Prenota il penthouse ${n}`,
     similar: 'Trova una villa simile', plan: 'Vedi la planimetria', studioTitle: 'Studio e penthouse',
     studioLead: 'Edificio all’ingresso, 4 piani', floor: f => f === 4 ? 'Penthouse, 4° piano' : `${f}° piano`,
-    back: 'Tutti gli studio', close: 'Chiudi',
+    back: 'Tutti gli studio', close: 'Chiudi', prev: 'Foto precedente', next: 'Foto successiva',
     noGL: 'Questo browser non supporta il 3D. Apri la pagina in una versione aggiornata di Chrome, Safari o Firefox.', loadErr: 'Impossibile caricare il modello.', retry: 'Riprova',
     types: { studio: 'Studio', '1bd': 'Villa con una camera da letto', '1bdsky': 'Villa 1BD SKY con terrazza sul tetto', '2bd': 'Villa con due camere da letto', '3bd': 'Villa con tre camere da letto', '3bdsky': 'Villa 3BD SKY con terrazza sul tetto', '4bd': 'Villa con quattro camere da letto', '4bdsky': 'Villa con quattro camere da letto e terrazza sul tetto', penthouse: 'Penthouse' },
     views: VIEWS('vista giardino', 'vista oceano', 'vista palme e oceano', 'vista vulcano', 'sul fiume'),
@@ -123,7 +123,7 @@ const T = {
     bookV: n => `Villa ${n} için rezervasyon yap`, bookS: n => `Stüdyo ${n} için rezervasyon yap`, bookP: n => `Penthouse ${n} için rezervasyon yap`,
     similar: 'Benzer bir villa bul', plan: 'Kat planını gör', studioTitle: 'Stüdyolar ve penthouse’lar',
     studioLead: 'Girişteki bina, 4 kat', floor: f => f === 4 ? 'Penthouse’lar, 4. kat' : `${f}. kat`,
-    back: 'Tüm stüdyolar', close: 'Kapat',
+    back: 'Tüm stüdyolar', close: 'Kapat', prev: 'Önceki fotoğraf', next: 'Sonraki fotoğraf',
     noGL: 'Bu tarayıcı 3D’yi desteklemiyor. Sayfayı Chrome, Safari veya Firefox’un güncel sürümünde açın.', loadErr: 'Model yüklenemedi.', retry: 'Tekrar dene',
     types: { studio: 'Stüdyo', '1bd': 'Tek yatak odalı villa', '1bdsky': 'Çatı teraslı 1BD SKY villa', '2bd': 'İki yatak odalı villa', '3bd': 'Üç yatak odalı villa', '3bdsky': 'Çatı teraslı 3BD SKY villa', '4bd': 'Dört yatak odalı villa', '4bdsky': 'Çatı teraslı dört yatak odalı villa', penthouse: 'Penthouse' },
     views: VIEWS('bahçe manzaralı', 'okyanus manzaralı', 'palmiye ve okyanus manzaralı', 'yanardağ manzaralı', 'nehir kenarında'),
@@ -137,7 +137,7 @@ const T = {
     bookV: n => `Villa ${n} reserveren`, bookS: n => `Studio ${n} reserveren`, bookP: n => `Penthouse ${n} reserveren`,
     similar: 'Vind een vergelijkbare villa', plan: 'Plattegrond bekijken', studioTitle: 'Studio’s en penthouses',
     studioLead: 'Gebouw bij de ingang, 4 verdiepingen', floor: f => f === 4 ? 'Penthouses, 4e verdieping' : `${f}e verdieping`,
-    back: 'Alle studio’s', close: 'Sluiten',
+    back: 'Alle studio’s', close: 'Sluiten', prev: 'Vorige foto', next: 'Volgende foto',
     noGL: 'Deze browser ondersteunt geen 3D. Open de pagina in een recente versie van Chrome, Safari of Firefox.', loadErr: 'Het model kon niet worden geladen.', retry: 'Opnieuw proberen',
     types: { studio: 'Studio', '1bd': 'Villa met één slaapkamer', '1bdsky': '1BD SKY-villa met dakterras', '2bd': 'Villa met twee slaapkamers', '3bd': 'Villa met drie slaapkamers', '3bdsky': '3BD SKY-villa met dakterras', '4bd': 'Villa met vier slaapkamers', '4bdsky': 'Villa met vier slaapkamers en dakterras', penthouse: 'Penthouse' },
     views: VIEWS('uitzicht op de tuin', 'uitzicht op de oceaan', 'uitzicht op palmen en oceaan', 'uitzicht op de vulkaan', 'aan de rivier'),
@@ -280,7 +280,7 @@ const perf = { t0: 0 };
 function start() {
 perf.t0 = performance.now();
 Promise.all([
-  fetch(new URL('units-3d.json?v=20261021a', import.meta.url)).then(r => r.json()),
+  fetch(new URL('units-3d.json?v=20261021b', import.meta.url)).then(r => r.json()),
   new Promise((res, rej) => new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(MODEL, res,
     e => e.total && loader.style.setProperty('--p', (e.loaded / e.total).toFixed(3)), rej)),
 ]).then(([u3d, gltf]) => {
@@ -633,10 +633,15 @@ const body = document.getElementById('m3dCardBody');
 document.getElementById('m3dClose').addEventListener('click', () => select(null));
 addEventListener('keydown', e => { if (e.key === 'Escape' && card.classList.contains('is-open')) select(null); });
 
+const chev = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
 function photosHTML(k) {
-  const list = PHOTOS[k] || [];
-  return `<div class="c-photos">${list.map(f => `<img src="${SITE}assets/${f}" alt="" loading="lazy"${f.startsWith('plan-') ? ' class="is-plan"' : ''}>`).join('')}</div>
-    <div class="c-dots">${list.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</div>`;
+  const list = PHOTOS[k] || [], t = T[lang];
+  return `<div class="c-gal">
+    <div class="c-photos">${list.map(f => `<img src="${SITE}assets/${f}" alt="" loading="lazy"${f.startsWith('plan-') ? ' class="is-plan"' : ''}>`).join('')}</div>
+    <button class="c-arrow prev" type="button" data-dir="-1" aria-label="${t.prev}" disabled>${chev('M15 5l-7 7 7 7')}</button>
+    <button class="c-arrow next" type="button" data-dir="1" aria-label="${t.next}">${chev('M9 5l7 7-7 7')}</button>
+    <div class="c-dots">${list.map((_, i) => `<i${i ? '' : ' class="on"'}></i>`).join('')}</div>
+  </div>`;
 }
 function unitHTML(u, k, back) {
   const t = T[lang];
@@ -689,7 +694,19 @@ function openCard(it, unitN) {
   else { const u = it.group ? UNITS[unitN] : it.u; body.innerHTML = unitHTML(u, it.group ? 'studio' : it.k, it.group); }
   body.scrollTop = 0;
   const ph = body.querySelector('.c-photos'), dots = body.querySelectorAll('.c-dots i');
-  ph && ph.addEventListener('scroll', () => { const i = Math.round(ph.scrollLeft / ph.clientWidth); dots.forEach((d, j) => d.classList.toggle('on', i === j)); }, { passive: true });
+  if (ph) {
+    const gal = ph.parentNode, arrows = gal.querySelectorAll('.c-arrow'), imgs = ph.querySelectorAll('img');
+    // на светлом слайде с планом стрелки и точки тёмные, иначе белое на белом
+    const sync = () => {
+      const i = Math.round(ph.scrollLeft / ph.clientWidth);
+      dots.forEach((d, j) => d.classList.toggle('on', i === j));
+      arrows[0].disabled = i <= 0; arrows[1].disabled = i >= imgs.length - 1;
+      gal.classList.toggle('on-plan', !!(imgs[i] && imgs[i].classList.contains('is-plan')));
+    };
+    ph.addEventListener('scroll', sync, { passive: true });
+    arrows.forEach(a => a.addEventListener('click', () => ph.scrollBy({ left: ph.clientWidth * a.dataset.dir, behavior: 'smooth' })));
+    dots.forEach((d, j) => d.addEventListener('click', () => ph.scrollTo({ left: ph.clientWidth * j, behavior: 'smooth' })));
+  }
   body.querySelectorAll('[data-unit]').forEach(b => b.addEventListener('click', () => openCard(it, b.dataset.unit)));
   const bk = body.querySelector('[data-back]'); bk && bk.addEventListener('click', () => openCard(it));
   const bb = body.querySelector('[data-book]'); bb && bb.addEventListener('click', () => window.openLeadForUnit && window.openLeadForUnit(bb.dataset.book));

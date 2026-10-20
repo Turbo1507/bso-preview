@@ -120,11 +120,49 @@
   .m3d-btn{height:52px}
 }
 
-/* кнопка таблицы юнитов под макетом */
-.m3d-table-btn{margin-top:16px;height:44px;padding:0 16px;border:1px solid rgba(255,255,255,.26);border-radius:var(--r-xs);background:transparent;color:inherit;
-  font:inherit;font-size:14px;display:inline-flex;align-items:center;gap:8px;cursor:pointer;transition:border-color .2s,color .2s}
-.m3d-table-btn:hover,.m3d-table-btn[aria-expanded="true"]{border-color:#d9ae45;color:#d9ae45}
-.m3d-table-btn svg{width:16px;height:16px}
+/* «Только свободные»: чип не заливаем, состояние видно по галочке и золотой рамке */
+.m3d-avail[aria-pressed="true"]{background-color:var(--panel);background-image:none;border-color:var(--clay);color:#fff}
+.m3d-avail[aria-pressed="true"]::before{border-color:transparent;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3.5 7.2 6 9.6l4.5-5' fill='none' stroke='%231a1c1b' stroke-width='1.8'/%3E%3C/svg%3E") center/100% no-repeat,var(--grad-gold)}
+
+/* нижняя панель: таблица юнитов и общий вид рядом */
+.m3d-bottom .m3d-reset{flex:none}
+.m3d-bottom .m3d-reset+.m3d-reset{margin-left:0}
+.m3d-reset[aria-expanded="true"]{border-color:var(--clay);color:var(--clay)}
+
+/* карточка в тон сайту: фон страницы, название как в планировках, цифры Prata */
+.m3d-card{background:var(--bg);border-color:var(--line);box-shadow:var(--shadow-card)}
+.m3d .c-gal{position:relative}
+.m3d .c-arrow{position:absolute;top:0;bottom:0;width:42%;z-index:2;display:flex;align-items:center;padding:0 16px;border:0;background:none;
+  color:rgba(255,255,255,.85);filter:drop-shadow(0 1px 4px rgba(0,0,0,.55));transition:color .2s,opacity .2s}
+.m3d .c-arrow.prev{left:0;justify-content:flex-start}
+.m3d .c-arrow.next{right:0;justify-content:flex-end}
+.m3d .c-arrow svg{width:28px;height:28px}
+.m3d .c-arrow:hover:not(:disabled){color:#fff}
+.m3d .c-arrow:disabled{opacity:0;pointer-events:none}
+.m3d .c-dots{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:2;margin:0;height:auto;gap:5px;pointer-events:auto}
+.m3d .c-dots i{width:5px;height:5px;border-radius:3px;background:rgba(255,255,255,.5);box-shadow:0 1px 2px rgba(0,0,0,.3);cursor:pointer;transition:background .25s,width .25s}
+.m3d .c-dots i.on{width:16px;background:#fff}
+.m3d .c-gal.on-plan .c-arrow{color:rgba(26,28,27,.7);filter:none}
+.m3d .c-gal.on-plan .c-arrow:hover:not(:disabled){color:#1a1c1b}
+.m3d .c-gal.on-plan .c-dots i{background:rgba(26,28,27,.3);box-shadow:none}
+.m3d .c-gal.on-plan .c-dots i.on{background:#1a1c1b}
+.m3d .c-photos img.is-plan{background:#fff}
+.m3d .c-title{color:var(--clay);text-decoration:underline;text-underline-offset:8px;text-decoration-thickness:1px}
+.m3d .c-status{color:rgba(255,255,255,.7)}
+.m3d .c-status::before{background:var(--mark,var(--sold))}
+.m3d .c-status.is-early{--mark:var(--ok);color:rgba(255,255,255,.7)}
+.m3d .c-status.is-prebooked{--mark:var(--clay);color:rgba(255,255,255,.7)}
+.m3d .c-status.is-booked{color:var(--muted)}
+.m3d .c-type{margin-top:16px}
+.m3d .c-facts{border-top:0;padding-top:0;margin-top:24px}
+.m3d .c-facts dd{font-size:28px;color:#fff;margin-top:8px}
+.m3d-btn-ghost{background:rgba(255,255,255,.06)}
+
 @media (max-width:760px){
   .m3d{height:min(82svh,680px);min-height:520px}
+  /* подписи кнопок на телефоне прячем визуально, для экранных читалок оставляем */
+  .m3d-reset span{display:block;position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  .m3d .c-title{font-size:24px}
+  .m3d .c-facts dd{font-size:22px}
 }

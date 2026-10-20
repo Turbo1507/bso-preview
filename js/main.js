@@ -257,15 +257,19 @@ if (leadModal && leadForm) {
 const heroSection = document.querySelector('.hero');
 const mobCta = document.querySelector('.mob-cta');
 if (heroSection && mobCta) {
-  let ctaFirstCheck = true;
+  let ctaFirstCheck = true, onHero = true, on3d = false;
   const ctaIO = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (ctaFirstCheck) return;
-      mobCta.classList.toggle('show', !e.isIntersecting);
+      if (e.target === heroSection) { if (!ctaFirstCheck) onHero = e.isIntersecting; }
+      else on3d = e.isIntersecting;
     });
     ctaFirstCheck = false;
+    mobCta.classList.toggle('show', !onHero && !on3d);
   }, { threshold: 0 });
   ctaIO.observe(heroSection);
+  // иначе кнопка закрывает легенду и кнопки 3D-макета
+  const m3dBar = document.querySelector('.m3d-bottom');
+  if (m3dBar) ctaIO.observe(m3dBar);
 }
 
 /* ---------- reveal on scroll ---------- */
