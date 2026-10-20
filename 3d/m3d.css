@@ -165,6 +165,17 @@
   .m3d{height:min(82svh,680px);min-height:520px}
   /* подписи кнопок на телефоне прячем визуально, для экранных читалок оставляем */
   .m3d-reset span{display:block;position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  /* легенда и две кнопки в одну строку не влезают: кнопки наверх, рядом с «Только свободные» */
+  .m3d-bottom{position:static}
+  .m3d-legend{position:absolute;z-index:3;left:8px;bottom:8px}
+  .m3d-bottom .m3d-reset{position:absolute;z-index:3;top:8px;right:8px}
+  .m3d-bottom .m3d-reset:not(:last-child){right:56px}
+  /* длинные подписи статусов (ру, ук, нл) переносим во вторую строку, а не за край */
+  .m3d-legend{height:auto;min-height:40px;max-width:calc(100% - 16px);flex-wrap:wrap;row-gap:4px;padding:8px 12px}
   .m3d .c-title{font-size:24px}
   .m3d .c-facts dd{font-size:22px}
+}
+/* на самых узких телефонах «Disponibles uniquement» иначе упирается в кнопки справа */
+@media (max-width:374px){
+  .m3d .m3d-avail{padding:0 12px;font-size:13px}
 }
