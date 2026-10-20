@@ -552,7 +552,7 @@ let shift = { x: 0, y: 0 }, shiftTo = { x: 0, y: 0 };
 function updateShift() {
   invalidate();
   const w = wrap.clientWidth, h = wrap.clientHeight, open = card.classList.contains('is-open');
-  shiftTo = !open ? { x: 0, y: 0 } : w < 761 ? { x: 0, y: (card.offsetHeight - topBar.getBoundingClientRect().bottom) / 2 } : { x: (card.offsetWidth + 16) / 2, y: 0 };
+  shiftTo = !open ? { x: 0, y: 0 } : w < 761 ? { x: 0, y: (card.offsetHeight - topBarBottom()) / 2 } : { x: (card.offsetWidth + 16) / 2, y: 0 };
 }
 function applyShift() {
   shift.x += (shiftTo.x - shift.x) * 0.12; shift.y += (shiftTo.y - shift.y) * 0.12;
@@ -599,10 +599,12 @@ function pick(e) {
 /* ---------- метки: проекция + разводка, чтобы не налезали ---------- */
 const v = new THREE.Vector3();
 const topBar = wrap.querySelector('.m3d-top');
+// низ верхней панели от верха канваса, а не окна: иначе при прокрутке страницы метки мигают
+const topBarBottom = () => topBar.getBoundingClientRect().bottom - canvas.getBoundingClientRect().top;
 function layoutPins() {
   const w = canvas.clientWidth, h = canvas.clientHeight;
   const placed = [];
-  const topH = topBar.getBoundingClientRect().bottom;
+  const topH = topBarBottom();
   const order = unitList.slice().sort((a, b) => prio(b) - prio(a));
   for (const it of order) {
     it.vis = passes(it);
