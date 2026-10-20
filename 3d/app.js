@@ -647,7 +647,6 @@ function photosHTML(k) {
 }
 function unitHTML(u, k, back) {
   const t = T[lang];
-  const price = u.st === 'booked' ? t.sold : fmtPrice(u.c);
   const ph = /^P\d/.test(u.n);
   const name = ph ? t.penthouse(u.n) : k === 'studio' ? t.studio(u.n) : t.villa(u.n);
   const book = ph ? t.bookP(u.n) : k === 'studio' ? t.bookS(u.n) : t.bookV(u.n);
@@ -664,7 +663,7 @@ function unitHTML(u, k, back) {
     <p class="c-type">${prettyType(u.t, k)}</p>
     <dl class="c-facts">
       <div><dt>${t.area}</dt><dd>${fmtArea(u.s)}</dd></div>
-      <div><dt>${u.st === 'booked' ? ' ' : t.price}</dt><dd>${price}</dd></div>
+      ${u.st === 'booked' ? '' : `<div><dt>${t.price}</dt><dd>${fmtPrice(u.c)}</dd></div>`}
     </dl>
     <div class="c-actions">${cta}${plan}</div>
   </div>`;
@@ -760,7 +759,7 @@ function buildUI() {
 }
 
 const origSetLang = window.setLang;
-if (typeof origSetLang === 'function') window.setLang = function (l) { origSetLang.apply(this, arguments); lang = pageLang(); if (unitList.length) buildUI(); };
+if (typeof origSetLang === 'function') window.setLang = function (l) { origSetLang.apply(this, arguments); lang = pageLang(); if (unitList.length) buildUI(); paintCtrl(); };
 
 /* ---------- цикл ---------- */
 function resize() {
@@ -786,7 +785,8 @@ renderer.setAnimationLoop((now) => {
   let moving = false;
   if (fly) {
     const k = Math.min(1, (now - fly.s) / 900), e = ease(k);
-    camera.position.lerpVectors(fly.p0, fly.p, e); controls.target.lerpVectors(fly.t0, fly.t, e);
+    controls.target.lerpVectors(fly.t0, fly.t, e); camera.position.lerpVectors(fly.p0, fly.p, e);
+    if (fly.arc) camera.position.sub(controls.target).setLength(fly.arc[0] + (fly.arc[1] - fly.arc[0]) * e).add(controls.target);
     if (k === 1) fly = null;
     moving = true;
   }
@@ -798,3 +798,76 @@ renderer.setAnimationLoop((now) => {
   renderer.render(scene, camera);
   if (unitList.length) layoutPins();
 });
+
+/* ---------- кнопки масштаба и поворота, режим на весь экран ---------- */
+const VL = {
+  en: { zin: 'Zoom in', zout: 'Zoom out', rl: 'Rotate left', rr: 'Rotate right', full: 'Full screen', exit: 'Exit full screen' },
+  ru: { zin: 'Приблизить', zout: 'Отдалить', rl: 'Повернуть влево', rr: 'Повернуть вправо', full: 'На весь экран', exit: 'Свернуть' },
+  id: { zin: 'Perbesar', zout: 'Perkecil', rl: 'Putar ke kiri', rr: 'Putar ke kanan', full: 'Layar penuh', exit: 'Keluar dari layar penuh' },
+  fr: { zin: 'Zoomer', zout: 'Dézoomer', rl: 'Tourner à gauche', rr: 'Tourner à droite', full: 'Plein écran', exit: 'Quitter le plein écran' },
+  es: { zin: 'Acercar', zout: 'Alejar', rl: 'Girar a la izquierda', rr: 'Girar a la derecha', full: 'Pantalla completa', exit: 'Salir de pantalla completa' },
+  uk: { zin: 'Наблизити', zout: 'Віддалити', rl: 'Повернути ліворуч', rr: 'Повернути праворуч', full: 'На весь екран', exit: 'Згорнути' },
+  it: { zin: 'Ingrandisci', zout: 'Riduci', rl: 'Ruota a sinistra', rr: 'Ruota a destra', full: 'Schermo intero', exit: 'Esci dallo schermo intero' },
+  tr: { zin: 'Yakınlaştır', zout: 'Uzaklaştır', rl: 'Sola döndür', rr: 'Sağa döndür', full: 'Tam ekran', exit: 'Tam ekrandan çık' },
+  nl: { zin: 'Inzoomen', zout: 'Uitzoomen', rl: 'Naar links draaien', rr: 'Naar rechts draaien', full: 'Volledig scherm', exit: 'Volledig scherm sluiten' },
+};
+const ICO = {
+  zin: 'M8 3v10M3 8h10', zout: 'M3 8h10',
+  rl: 'M13 10c0-3-2.2-5-5-5s-5 2-5 5M3 10 1.5 8M3 10l2-1.5', rr: 'M3 10c0-3 2.2-5 5-5s5 2 5 5M13 10l1.5-2M13 10l-2-1.5',
+  full: 'M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10', exit: 'M6 2.5V6H2.5M10 2.5V6h3.5M13.5 10H10v3.5M2.5 10H6v3.5',
+};
+const svg16 = d => `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
+function zoomBy(k) {
+  invalidate();
+  const off = camera.position.clone().sub(controls.target), r0 = off.length();
+  const r1 = THREE.MathUtils.clamp(r0 * k, controls.minDistance, controls.maxDistance);
+  animateTo(controls.target.clone().add(off.setLength(r1)), controls.target.clone());
+  fly.arc = [r0, r1];
+}
+// поворот по дуге, а не по хорде: иначе посреди поворота камера ныряет к центру
+function rotateBy(deg) {
+  invalidate();
+  const off = camera.position.clone().sub(controls.target), r = off.length();
+  off.applyAxisAngle(new THREE.Vector3(0, 1, 0), THREE.MathUtils.degToRad(deg));
+  animateTo(controls.target.clone().add(off), controls.target.clone());
+  fly.arc = [r, r];
+}
+const ctrl = document.getElementById('m3dCtrl');
+const fb = document.createElement('button');
+fb.type = 'button'; fb.className = 'm3d-ctrl-full';
+let full = false, fullHome = null, fullNext = null;
+function paintCtrl() {
+  const t = VL[lang] || VL.en, k = full ? 'exit' : 'full';
+  ctrl.innerHTML = ['zin', 'zout', 'rl', 'rr'].map(a => `<button type="button" data-act="${a}" aria-label="${t[a]}" title="${t[a]}">${svg16(ICO[a])}</button>`).join('');
+  fb.innerHTML = svg16(ICO[k]) + `<span>${t[k]}</span>`; fb.setAttribute('aria-label', t[k]);
+  placeFull();
+}
+// на ПК кнопка в правом верхнем углу, чипы сверху уступают ей место; на телефоне иконкой над столбиком справа
+function placeFull() {
+  const mob = innerWidth < 761;
+  if (mob) ctrl.prepend(fb); else if (fb.parentNode !== wrap) wrap.appendChild(fb);
+  wrap.style.setProperty('--fbw', mob ? '0px' : fb.offsetWidth + 8 + 'px');
+}
+addEventListener('resize', placeFull);
+paintCtrl();
+ctrl.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  ({ zin: () => zoomBy(0.7), zout: () => zoomBy(1.4), rl: () => rotateBy(90), rr: () => rotateBy(-90) })[b.dataset.act]();
+});
+function setFull(on) {
+  full = on;
+  // у предков есть transform от появления блока, fixed внутри них не на весь экран: выносим в body
+  if (on) { fullHome = wrap.parentNode; fullNext = wrap.nextSibling; document.body.appendChild(wrap); }
+  else if (fullHome) fullHome.insertBefore(wrap, fullNext);
+  wrap.classList.toggle('is-full', on);
+  document.documentElement.classList.toggle('m3d-lock', on);
+  canvas.style.touchAction = on ? 'none' : 'pan-y';
+  controls.enableZoom = on || coarse;
+  paintCtrl();
+  if (!on) wrap.scrollIntoView({ block: 'center' });
+  setTimeout(() => { resize(); if (!selected) homeView(); }, 60);
+}
+fb.addEventListener('click', () => setFull(!full));
+canvas.addEventListener('pointerleave', () => { if (full) controls.enableZoom = true; });
+// в захвате, чтобы увидеть карточку открытой до того, как её закроет общий Escape
+addEventListener('keydown', e => { if (e.key === 'Escape' && full && !card.classList.contains('is-open')) setFull(false); }, { capture: true });
