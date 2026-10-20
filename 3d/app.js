@@ -770,7 +770,8 @@ function resize() {
   updateShift();
   if (!window.__homed) { window.__homed = true; homeView(true); }
 }
-addEventListener('resize', resize);
+// до загрузки модели общий вид считать не по чему: ждём её
+addEventListener('resize', () => { if (unitList.length) resize(); });
 if ('ResizeObserver' in window) new ResizeObserver(() => { if (unitList.length) resize(); }).observe(wrap);
 const ease = x => 1 - Math.pow(1 - x, 3);
 /* рисуем только когда что-то меняется: камера, полёт, сдвиг под карточку, ввод, фильтры.
