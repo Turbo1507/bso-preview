@@ -257,19 +257,19 @@ if (leadModal && leadForm) {
 const heroSection = document.querySelector('.hero');
 const mobCta = document.querySelector('.mob-cta');
 if (heroSection && mobCta) {
-  let ctaFirstCheck = true, onHero = true, on3d = false;
+  let ctaFirstCheck = true, onHero = true;
+  // пока на экране легенда 3D-макета, кнопка прячется: иначе закрывает её
+  const bars = new Set();
   const ctaIO = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.target === heroSection) { if (!ctaFirstCheck) onHero = e.isIntersecting; }
-      else on3d = e.isIntersecting;
+      else e.isIntersecting ? bars.add(e.target) : bars.delete(e.target);
     });
     ctaFirstCheck = false;
-    mobCta.classList.toggle('show', !onHero && !on3d);
+    mobCta.classList.toggle('show', !onHero && !bars.size);
   }, { threshold: 0 });
   ctaIO.observe(heroSection);
-  // иначе кнопка закрывает легенду и кнопки 3D-макета
-  const m3dBar = document.querySelector('.m3d-bottom');
-  if (m3dBar) ctaIO.observe(m3dBar);
+  document.querySelectorAll('.m3d-legend').forEach(el => ctaIO.observe(el));
 }
 
 /* ---------- reveal on scroll ---------- */
