@@ -218,8 +218,9 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20261019110510">
-<link rel="stylesheet" href="css/v2.css?v=20261019110510">
+<link rel="stylesheet" href="css/styles.css?v=20261020194652">
+<link rel="stylesheet" href="css/v2.css?v=20261020194652">
+<link rel="stylesheet" href="3d/m3d.css?v=20261020194652">
 <!-- Meta Pixel: грузится только после согласия, по кнопке «Понятно» в cookie-баннере
      (bso_cookie_ok=1, main.js зовёт bsoPixel()). Lead — заявка ушла, Contact — клик в WhatsApp. Ботов и headless не считаем. -->
 <script>
@@ -450,41 +451,28 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <h2 class="reveal" data-i18n="iplan.title">Interactief situatieplan</h2>
     <p class="lead reveal" data-i18n="iplan.lead">Alle 111 units van het complex: type, oppervlakte, prijs en actuele beschikbaarheid</p>
     <div class="iplan-wrap reveal">
-      <div class="iplan-map iplan-map--full" id="iplanMap">
-        <!-- картинка крупнее контейнера по высоте, вылезает за край по
-             ширине, нужно слайдить. попап/легенда/кнопка таблицы снаружи
-             iplan-pan, остаются на месте при
-             прокрутке; масштабируются только картинка+зоны внутри. -->
-        <div class="iplan-pan" id="iplanPan">
-          <div class="iplan-pan-inner">
-            <img width="1360" height="768" class="ph" src="assets/bso-aerial-plan.jpg" alt="Situatieplan van Black Sands Oasis vanuit de lucht" data-i18n-alt="img.aerial" loading="lazy" decoding="async">
-            <div class="iplan-hotspots" id="iplanHotspots"></div>
-          </div>
+      <!-- 3D-макет комплекса (3d/app.js), грузится, когда блок подходит к экрану -->
+      <div class="m3d" id="m3d">
+        <canvas class="m3d-canvas" id="m3dCanvas"></canvas>
+        <div class="m3d-pins" id="m3dPins"></div>
+        <div class="m3d-top">
+          <div class="m3d-chips" id="m3dTypes" role="group"></div>
+          <button class="m3d-chip m3d-avail" id="m3dAvail" type="button" aria-pressed="false"></button>
         </div>
-        <div class="iplan-popup" id="iplanPopup"></div>
-        <!-- однократная подсказка, гаснет после первого касания, факт в localStorage -->
-        <div class="iplan-hint" id="iplanHint" aria-hidden="true">
-          <svg class="iplan-hint-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V6a2 2 0 0 1 4 0v5"/><path d="M13 8a2 2 0 0 1 4 0v3"/><path d="M17 9a2 2 0 0 1 4 0v6a6 6 0 0 1-6 6h-2a7 7 0 0 1-5.7-2.9L4 15a2 2 0 0 1 3.3-2.2L9 14"/></svg>
-          <span data-i18n="iplan.hint">Tik op een gebouw</span>
+        <div class="m3d-bottom">
+          <div class="m3d-legend" id="m3dLegend"></div>
+          <button class="m3d-reset" id="m3dReset" type="button"></button>
         </div>
-        <div class="iplan-legend">
-          <span class="iplan-legend-item"><i class="iplan-dot is-early"></i><span data-i18n="iplan.st.early">Beschikbaar</span></span>
-          <span class="iplan-legend-item"><i class="iplan-dot is-prebooked"></i><span data-i18n="iplan.st.prebooked">Gereserveerd</span></span>
-          <span class="iplan-legend-item"><i class="iplan-dot is-booked"></i><span data-i18n="iplan.st.booked">Verkocht</span></span>
-        </div>
-        <button type="button" class="iplan-table-toggle" id="iplanTableToggle" aria-expanded="false" aria-controls="iplanDrawer">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/></svg>
-          <span data-i18n="iplan.tabletoggle">Bekijk de unittabel</span>
-        </button>
-        <div class="iplan-pan-arrows">
-          <button type="button" class="iplan-pan-arrow" id="iplanPanPrev" aria-label="Plan naar links schuiven" data-i18n-aria="iplan.pan.prev">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
-          </button>
-          <button type="button" class="iplan-pan-arrow" id="iplanPanNext" aria-label="Plan naar rechts schuiven" data-i18n-aria="iplan.pan.next">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
-          </button>
-        </div>
+        <aside class="m3d-card" id="m3dCard" aria-hidden="true">
+          <button class="m3d-close" id="m3dClose" type="button"></button>
+          <div class="m3d-card-body" id="m3dCardBody"></div>
+        </aside>
+        <div class="m3d-loader" id="m3dLoader"><span></span></div>
       </div>
+      <button type="button" class="m3d-table-btn" id="iplanTableToggle" aria-expanded="false" aria-controls="iplanDrawer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/></svg>
+        <span data-i18n="iplan.tabletoggle">Bekijk de unittabel</span>
+      </button>
       <div class="iplan-drawer" id="iplanDrawer" hidden>
         <div class="iplan-drawer-inner">
           <!-- фильтры сливались, добавил подписи над группами и цветную точку статуса -->
@@ -968,16 +956,17 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
 <!-- тот же пин для мобильного кропа -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/langs.js?v=20261019110510"></script>
-<script src="js/i18n.js?v=20261019110510"></script>
-<script src="js/v2-i18n.js?v=20261019110510"></script>
-<script src="js/i18n-nl.js?v=20261019110510"></script>
-<script src="js/main.js?v=20261019110510"></script>
-<script src="js/v2.js?v=20261019110510"></script>
-<script src="js/units-data.js?v=20261019110510"></script>
-<script src="js/units-plan.js?v=20261019110510"></script>
-<script src="js/buildings-data.js?v=20261019110510"></script>
-<script src="js/iplan-map.js?v=20261019110510"></script>
+<script src="js/langs.js?v=20261020194652"></script>
+<script src="js/i18n.js?v=20261020194652"></script>
+<script src="js/v2-i18n.js?v=20261020194652"></script>
+<script src="js/i18n-nl.js?v=20261020194652"></script>
+<script src="js/main.js?v=20261020194652"></script>
+<script src="js/v2.js?v=20261020194652"></script>
+<script src="js/units-data.js?v=20261020194652"></script>
+<script src="js/units-plan.js?v=20261020194652"></script>
+<script src="js/buildings-data.js?v=20261020194652"></script>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/","three-mesh-bvh":"https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.8.3/build/index.module.js"}}</script>
+<script type="module" src="3d/app.js?v=20261020194652"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>

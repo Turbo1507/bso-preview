@@ -142,10 +142,10 @@ if (leadModal && leadForm) {
     openLead();
   }));
 
-  /* CTA «Забронировать» из интерактивного плана (попап/таблица, iplan-map.js
-     и units-plan.js) — открывает ту же форму лида, но подставляет номер
+  /* CTA «Забронировать» из 3D-макета и таблицы юнитов (3d/app.js, units-plan.js)
+     — открывает ту же форму лида, но подставляет номер
      юнита в комментарий, чтобы заявка сразу была адресной. */
-  window.openLeadForUnit = function (unitNumber) {
+  window.openLeadForUnit = function (unitNumber, intent) {
     const commentEl = leadForm.querySelector('textarea[name="comment"]');
     const purposeEl = leadForm.querySelector('select[name="purpose"]');
     if (commentEl) commentEl.value = window.bsoT('js.unit') + unitNumber;
@@ -153,7 +153,7 @@ if (leadModal && leadForm) {
     // иначе остаётся со старой подписью
     if (purposeEl && !purposeEl.value) { purposeEl.value = 'own'; purposeEl.dispatchEvent(new Event('change', { bubbles: true })); }
     setMenuOpen(false);
-    setLeadIntent('unit');
+    setLeadIntent(intent || 'unit');
     openLead();
   };
   leadModal.querySelectorAll('[data-lead-close]').forEach(el => el.addEventListener('click', closeLead));
