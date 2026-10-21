@@ -1514,3 +1514,10 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
 .menu-head{padding-top:clamp(6px, 1.4svh, 12px); padding-bottom:clamp(6px, 1.4svh, 12px)}
 .menu-overlay .menu-cta{margin-top:clamp(16px, 3svh, 22px)}
 .menu-legal{margin-top:clamp(8px, 2svh, 14px)}
+
+/* широкие экраны: контент растёт до 1600, по бокам не пусто */
+@media (min-width:1760px){
+  :root{ --container:1680px }
+  /* вводный абзац под заголовком не длиннее, чем был: иначе строка под 150 знаков */
+  section .lead.lead-wide{ max-width:1360px }
+}
