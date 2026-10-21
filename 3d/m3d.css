@@ -157,6 +157,8 @@
 .m3d .c-facts{border-top:0;padding-top:0;margin-top:24px}
 .m3d .c-facts dd{font-size:28px;color:#fff;margin-top:8px}
 .m3d-btn-ghost{background:rgba(255,255,255,.06)}
+/* общее .m3d button{color:inherit} перебивало тёмный текст на золоте */
+.m3d .m3d-btn-gold{color:var(--on-gold)}
 /* крестик над стрелками слайдера: раньше зона «вперёд» перехватывала нажатие */
 .m3d-card .m3d-close{z-index:5}
 .m3d-card .m3d-close::after{content:'';position:absolute;inset:-6px}

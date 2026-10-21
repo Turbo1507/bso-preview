@@ -6,10 +6,10 @@ import { computeBoundsTree, acceleratedRaycast } from 'three-mesh-bvh';
 THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261021d';
+import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261021f';
 
 const q = new URLSearchParams(location.search);
-const MODEL = new URL('model.glb?v=20261021d', import.meta.url).href;
+const MODEL = new URL('model.glb?v=20261021f', import.meta.url).href;
 // у языковых страниц <base href="/">, так что assets/ всегда от корня сайта
 const SITE = '';
 
@@ -280,7 +280,7 @@ const perf = { t0: 0 };
 function start() {
 perf.t0 = performance.now();
 Promise.all([
-  fetch(new URL('units-3d.json?v=20261021d', import.meta.url)).then(r => r.json()),
+  fetch(new URL('units-3d.json?v=20261021f', import.meta.url)).then(r => r.json()),
   new Promise((res, rej) => new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(MODEL, res,
     e => e.total && loader.style.setProperty('--p', (e.loaded / e.total).toFixed(3)), rej)),
 ]).then(([u3d, gltf]) => {
@@ -372,6 +372,28 @@ function topAt(x, z) {
   return hit ? hit.point.y : 10.5;
 }
 
+/* газон бывает и во дворах под навесом: пальма там прорастала сквозь крышу и стены.
+   Ствол: луч вверх из точки и лучи вбок. Крона: лучи вверх с высоты листьев по кругу,
+   пальма у стены с кроной над крышей остаётся */
+const upRay = new THREE.Raycaster();
+function underRoof(p) {
+  const up = new THREE.Vector3(0, 1, 0);
+  upRay.set(new THREE.Vector3(p.x, p.y + 0.3, p.z), up); upRay.far = 14;
+  if (upRay.intersectObjects(buildMeshes, false).length) return true;
+  for (const [dx, dz] of [[2.5, 0], [-2.5, 0], [0, 2.5], [0, -2.5], [1.8, 1.8], [-1.8, 1.8], [1.8, -1.8], [-1.8, -1.8]]) {
+    upRay.set(new THREE.Vector3(p.x + dx, p.y + 5, p.z + dz), up); upRay.far = 8;
+    if (upRay.intersectObjects(buildMeshes, false).length) return true;
+  }
+  for (let a = 0; a < 8; a++) {
+    const d = new THREE.Vector3(Math.cos(a * Math.PI / 4), 0, Math.sin(a * Math.PI / 4));
+    for (const y of [1.5, 5]) {
+      upRay.set(new THREE.Vector3(p.x, p.y + y, p.z), d); upRay.far = 1.2;
+      if (upRay.intersectObjects(buildMeshes, false).length) return true;
+    }
+  }
+  return false;
+}
+
 /* пальмы: инстансы на зелёных полосах, ствол с наклоном + веер листьев */
 function addPalms() {
   const greens = groundMeshes.filter(m => m.material === MAT.green);
@@ -400,7 +422,7 @@ function addPalms() {
     const t = tris.find(x => x[3] >= r);
     let u = rnd(), v = rnd(); if (u + v > 1) { u = 1 - u; v = 1 - v; }
     const p = t[0].clone().add(t[1].clone().sub(t[0]).multiplyScalar(u)).add(t[2].clone().sub(t[0]).multiplyScalar(v));
-    if (pts.every(o => o.distanceToSquared(p) > 30)) pts.push(p);
+    if (pts.every(o => o.distanceToSquared(p) > 30) && !underRoof(p)) pts.push(p);
   }
   // геометрия одной пальмы
   const trunkG = new THREE.CylinderGeometry(0.16, 0.24, 1, 6, 4, true).translate(0, 0.5, 0);
@@ -801,15 +823,15 @@ renderer.setAnimationLoop((now) => {
 
 /* ---------- кнопки масштаба и поворота, режим на весь экран ---------- */
 const VL = {
-  en: { zin: 'Zoom in', zout: 'Zoom out', rl: 'Rotate left', rr: 'Rotate right', full: 'View full screen', exit: 'Exit full screen' },
-  ru: { zin: 'Приблизить', zout: 'Отдалить', rl: 'Повернуть влево', rr: 'Повернуть вправо', full: 'Смотреть на весь экран', exit: 'Свернуть' },
-  id: { zin: 'Perbesar', zout: 'Perkecil', rl: 'Putar ke kiri', rr: 'Putar ke kanan', full: 'Lihat layar penuh', exit: 'Keluar dari layar penuh' },
-  fr: { zin: 'Zoomer', zout: 'Dézoomer', rl: 'Tourner à gauche', rr: 'Tourner à droite', full: 'Voir en plein écran', exit: 'Quitter le plein écran' },
-  es: { zin: 'Acercar', zout: 'Alejar', rl: 'Girar a la izquierda', rr: 'Girar a la derecha', full: 'Ver en pantalla completa', exit: 'Salir de pantalla completa' },
-  uk: { zin: 'Наблизити', zout: 'Віддалити', rl: 'Повернути ліворуч', rr: 'Повернути праворуч', full: 'Дивитися на весь екран', exit: 'Згорнути' },
-  it: { zin: 'Ingrandisci', zout: 'Riduci', rl: 'Ruota a sinistra', rr: 'Ruota a destra', full: 'Guarda a schermo intero', exit: 'Esci dallo schermo intero' },
-  tr: { zin: 'Yakınlaştır', zout: 'Uzaklaştır', rl: 'Sola döndür', rr: 'Sağa döndür', full: 'Tam ekran izle', exit: 'Tam ekrandan çık' },
-  nl: { zin: 'Inzoomen', zout: 'Uitzoomen', rl: 'Naar links draaien', rr: 'Naar rechts draaien', full: 'Bekijk op volledig scherm', exit: 'Volledig scherm sluiten' },
+  en: { zin: 'Zoom in', zout: 'Zoom out', rl: 'Rotate left', rr: 'Rotate right', full: 'Expand to full screen', exit: 'Exit full screen' },
+  ru: { zin: 'Приблизить', zout: 'Отдалить', rl: 'Повернуть влево', rr: 'Повернуть вправо', full: 'Развернуть на весь экран', exit: 'Свернуть' },
+  id: { zin: 'Perbesar', zout: 'Perkecil', rl: 'Putar ke kiri', rr: 'Putar ke kanan', full: 'Perluas ke layar penuh', exit: 'Keluar dari layar penuh' },
+  fr: { zin: 'Zoomer', zout: 'Dézoomer', rl: 'Tourner à gauche', rr: 'Tourner à droite', full: 'Agrandir en plein écran', exit: 'Quitter le plein écran' },
+  es: { zin: 'Acercar', zout: 'Alejar', rl: 'Girar a la izquierda', rr: 'Girar a la derecha', full: 'Ampliar a pantalla completa', exit: 'Salir de pantalla completa' },
+  uk: { zin: 'Наблизити', zout: 'Віддалити', rl: 'Повернути ліворуч', rr: 'Повернути праворуч', full: 'Розгорнути на весь екран', exit: 'Згорнути' },
+  it: { zin: 'Ingrandisci', zout: 'Riduci', rl: 'Ruota a sinistra', rr: 'Ruota a destra', full: 'Espandi a schermo intero', exit: 'Esci dallo schermo intero' },
+  tr: { zin: 'Yakınlaştır', zout: 'Uzaklaştır', rl: 'Sola döndür', rr: 'Sağa döndür', full: 'Tam ekrana genişlet', exit: 'Tam ekrandan çık' },
+  nl: { zin: 'Inzoomen', zout: 'Uitzoomen', rl: 'Naar links draaien', rr: 'Naar rechts draaien', full: 'Volledig scherm openen', exit: 'Volledig scherm sluiten' },
 };
 const ICO = {
   zin: 'M8 3v10M3 8h10', zout: 'M3 8h10',
@@ -869,6 +891,8 @@ function setFull(on) {
   setTimeout(() => { if (!unitList.length) return; resize(); if (!selected) homeView(); }, 60);
 }
 fb.addEventListener('click', () => setFull(!full));
+// кнопки карточки ведут из макета на страницу (форма, планировки): из полноэкранного режима сперва выходим, иначе всё откроется под ним
+card.addEventListener('click', e => { if (full && e.target.closest('[data-book],[data-similar],[data-plan]')) setFull(false); }, { capture: true });
 // когда план впервые на экране и модель загружена, кнопка дважды мягко светится: зовёт в полноэкранный режим
 if ('IntersectionObserver' in window) {
   const hintIO = new IntersectionObserver(([e]) => {
