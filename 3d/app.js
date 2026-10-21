@@ -6,10 +6,10 @@ import { computeBoundsTree, acceleratedRaycast } from 'three-mesh-bvh';
 THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261021b';
+import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261021c';
 
 const q = new URLSearchParams(location.search);
-const MODEL = new URL('model.glb?v=20261021b', import.meta.url).href;
+const MODEL = new URL('model.glb?v=20261021c', import.meta.url).href;
 // у языковых страниц <base href="/">, так что assets/ всегда от корня сайта
 const SITE = '';
 
@@ -280,7 +280,7 @@ const perf = { t0: 0 };
 function start() {
 perf.t0 = performance.now();
 Promise.all([
-  fetch(new URL('units-3d.json?v=20261021b', import.meta.url)).then(r => r.json()),
+  fetch(new URL('units-3d.json?v=20261021c', import.meta.url)).then(r => r.json()),
   new Promise((res, rej) => new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(MODEL, res,
     e => e.total && loader.style.setProperty('--p', (e.loaded / e.total).toFixed(3)), rej)),
 ]).then(([u3d, gltf]) => {
@@ -865,7 +865,8 @@ function setFull(on) {
   controls.enableZoom = on || coarse;
   paintCtrl();
   if (!on) wrap.scrollIntoView({ block: 'center' });
-  setTimeout(() => { resize(); if (!selected) homeView(); }, 60);
+  // до загрузки модели общий вид считать не по чему: его посчитает сама загрузка
+  setTimeout(() => { if (!unitList.length) return; resize(); if (!selected) homeView(); }, 60);
 }
 fb.addEventListener('click', () => setFull(!full));
 canvas.addEventListener('pointerleave', () => { if (full) controls.enableZoom = true; });
