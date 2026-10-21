@@ -6,10 +6,10 @@ import { computeBoundsTree, acceleratedRaycast } from 'three-mesh-bvh';
 THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261021c';
+import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261021d';
 
 const q = new URLSearchParams(location.search);
-const MODEL = new URL('model.glb?v=20261021c', import.meta.url).href;
+const MODEL = new URL('model.glb?v=20261021d', import.meta.url).href;
 // у языковых страниц <base href="/">, так что assets/ всегда от корня сайта
 const SITE = '';
 
@@ -280,7 +280,7 @@ const perf = { t0: 0 };
 function start() {
 perf.t0 = performance.now();
 Promise.all([
-  fetch(new URL('units-3d.json?v=20261021c', import.meta.url)).then(r => r.json()),
+  fetch(new URL('units-3d.json?v=20261021d', import.meta.url)).then(r => r.json()),
   new Promise((res, rej) => new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(MODEL, res,
     e => e.total && loader.style.setProperty('--p', (e.loaded / e.total).toFixed(3)), rej)),
 ]).then(([u3d, gltf]) => {
@@ -801,15 +801,15 @@ renderer.setAnimationLoop((now) => {
 
 /* ---------- кнопки масштаба и поворота, режим на весь экран ---------- */
 const VL = {
-  en: { zin: 'Zoom in', zout: 'Zoom out', rl: 'Rotate left', rr: 'Rotate right', full: 'Full screen', exit: 'Exit full screen' },
-  ru: { zin: 'Приблизить', zout: 'Отдалить', rl: 'Повернуть влево', rr: 'Повернуть вправо', full: 'На весь экран', exit: 'Свернуть' },
-  id: { zin: 'Perbesar', zout: 'Perkecil', rl: 'Putar ke kiri', rr: 'Putar ke kanan', full: 'Layar penuh', exit: 'Keluar dari layar penuh' },
-  fr: { zin: 'Zoomer', zout: 'Dézoomer', rl: 'Tourner à gauche', rr: 'Tourner à droite', full: 'Plein écran', exit: 'Quitter le plein écran' },
-  es: { zin: 'Acercar', zout: 'Alejar', rl: 'Girar a la izquierda', rr: 'Girar a la derecha', full: 'Pantalla completa', exit: 'Salir de pantalla completa' },
-  uk: { zin: 'Наблизити', zout: 'Віддалити', rl: 'Повернути ліворуч', rr: 'Повернути праворуч', full: 'На весь екран', exit: 'Згорнути' },
-  it: { zin: 'Ingrandisci', zout: 'Riduci', rl: 'Ruota a sinistra', rr: 'Ruota a destra', full: 'Schermo intero', exit: 'Esci dallo schermo intero' },
-  tr: { zin: 'Yakınlaştır', zout: 'Uzaklaştır', rl: 'Sola döndür', rr: 'Sağa döndür', full: 'Tam ekran', exit: 'Tam ekrandan çık' },
-  nl: { zin: 'Inzoomen', zout: 'Uitzoomen', rl: 'Naar links draaien', rr: 'Naar rechts draaien', full: 'Volledig scherm', exit: 'Volledig scherm sluiten' },
+  en: { zin: 'Zoom in', zout: 'Zoom out', rl: 'Rotate left', rr: 'Rotate right', full: 'View full screen', exit: 'Exit full screen' },
+  ru: { zin: 'Приблизить', zout: 'Отдалить', rl: 'Повернуть влево', rr: 'Повернуть вправо', full: 'Смотреть на весь экран', exit: 'Свернуть' },
+  id: { zin: 'Perbesar', zout: 'Perkecil', rl: 'Putar ke kiri', rr: 'Putar ke kanan', full: 'Lihat layar penuh', exit: 'Keluar dari layar penuh' },
+  fr: { zin: 'Zoomer', zout: 'Dézoomer', rl: 'Tourner à gauche', rr: 'Tourner à droite', full: 'Voir en plein écran', exit: 'Quitter le plein écran' },
+  es: { zin: 'Acercar', zout: 'Alejar', rl: 'Girar a la izquierda', rr: 'Girar a la derecha', full: 'Ver en pantalla completa', exit: 'Salir de pantalla completa' },
+  uk: { zin: 'Наблизити', zout: 'Віддалити', rl: 'Повернути ліворуч', rr: 'Повернути праворуч', full: 'Дивитися на весь екран', exit: 'Згорнути' },
+  it: { zin: 'Ingrandisci', zout: 'Riduci', rl: 'Ruota a sinistra', rr: 'Ruota a destra', full: 'Guarda a schermo intero', exit: 'Esci dallo schermo intero' },
+  tr: { zin: 'Yakınlaştır', zout: 'Uzaklaştır', rl: 'Sola döndür', rr: 'Sağa döndür', full: 'Tam ekran izle', exit: 'Tam ekrandan çık' },
+  nl: { zin: 'Inzoomen', zout: 'Uitzoomen', rl: 'Naar links draaien', rr: 'Naar rechts draaien', full: 'Bekijk op volledig scherm', exit: 'Volledig scherm sluiten' },
 };
 const ICO = {
   zin: 'M8 3v10M3 8h10', zout: 'M3 8h10',
@@ -869,6 +869,17 @@ function setFull(on) {
   setTimeout(() => { if (!unitList.length) return; resize(); if (!selected) homeView(); }, 60);
 }
 fb.addEventListener('click', () => setFull(!full));
+// когда план впервые на экране и модель загружена, кнопка дважды мягко светится: зовёт в полноэкранный режим
+if ('IntersectionObserver' in window) {
+  const hintIO = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    hintIO.disconnect();
+    const go = () => unitList.length ? fb.classList.add('is-hint') : setTimeout(go, 300);
+    go();
+  }, { threshold: 0.6 });
+  hintIO.observe(wrap);
+  fb.addEventListener('animationend', () => fb.classList.remove('is-hint'));
+}
 canvas.addEventListener('pointerleave', () => { if (full) controls.enableZoom = true; });
 // в захвате, чтобы увидеть карточку открытой до того, как её закроет общий Escape
 addEventListener('keydown', e => { if (e.key === 'Escape' && full && !card.classList.contains('is-open')) setFull(false); }, { capture: true });
