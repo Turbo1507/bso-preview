@@ -6,10 +6,10 @@ import { computeBoundsTree, acceleratedRaycast } from 'three-mesh-bvh';
 THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261021f';
+import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261022a';
 
 const q = new URLSearchParams(location.search);
-const MODEL = new URL('model.glb?v=20261021f', import.meta.url).href;
+const MODEL = new URL('model.glb?v=20261022a', import.meta.url).href;
 // у языковых страниц <base href="/">, так что assets/ всегда от корня сайта
 const SITE = '';
 
@@ -196,7 +196,7 @@ catch (e) { fail(T[lang].noGL); throw e; }
 renderer.setPixelRatio(Math.min(devicePixelRatio, coarse ? 1.5 : 2));
 // потеря контекста (свернули вкладку на телефоне, драйвер сбросил GPU): three восстановит сам, просим только перерисовать
 canvas.addEventListener('webglcontextlost', e => e.preventDefault());
-canvas.addEventListener('webglcontextrestored', () => invalidate());
+canvas.addEventListener('webglcontextrestored', () => { renderer.shadowMap.needsUpdate = true; invalidate(); });
 renderer.shadowMap.enabled = true;
 renderer.localClippingEnabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -280,7 +280,7 @@ const perf = { t0: 0 };
 function start() {
 perf.t0 = performance.now();
 Promise.all([
-  fetch(new URL('units-3d.json?v=20261021f', import.meta.url)).then(r => r.json()),
+  fetch(new URL('units-3d.json?v=20261022a', import.meta.url)).then(r => r.json()),
   new Promise((res, rej) => new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(MODEL, res,
     e => e.total && loader.style.setProperty('--p', (e.loaded / e.total).toFixed(3)), rej)),
 ]).then(([u3d, gltf]) => {
@@ -292,6 +292,7 @@ Promise.all([
   let tq = performance.now();
   setupUnits(); perf.units = performance.now() - tq; tq = performance.now();
   buildUI(); perf.ui = performance.now() - tq; tq = performance.now();
+  renderer.shadowMap.autoUpdate = false; renderer.shadowMap.needsUpdate = true;
   resize(); perf.resize = performance.now() - tq;
   loader.classList.add('is-done');
   window.__ready = { units: unitList.length };
@@ -786,6 +787,7 @@ if (typeof origSetLang === 'function') window.setLang = function (l) { origSetLa
 /* ---------- цикл ---------- */
 function resize() {
   const w = wrap.clientWidth, h = wrap.clientHeight;
+  renderer.setPixelRatio(Math.min(devicePixelRatio, coarse ? 1.5 : 2, Math.max(1, Math.sqrt(4e6 / (w * h)))));
   renderer.setSize(w, h, false);
   camera.aspect = w / h; camera.updateProjectionMatrix();
   updateShift();
@@ -905,5 +907,12 @@ if ('IntersectionObserver' in window) {
   fb.addEventListener('animationend', () => fb.classList.remove('is-hint'));
 }
 canvas.addEventListener('pointerleave', () => { if (full) controls.enableZoom = true; });
+// колесо над меткой виллы или кнопкой уходило в неё, а не в макет: на весь экран приблизить к виллам было нельзя.
+// Передаём его канвасу; карточку и таблицу с прокруткой не трогаем
+wrap.addEventListener('wheel', e => {
+  if (!controls.enableZoom || e.target === canvas || e.target.closest('.m3d-card, .iplan-table-wrap, .m3d-legend')) return;
+  e.preventDefault();
+  canvas.dispatchEvent(new WheelEvent('wheel', e));
+}, { passive: false });
 // в захвате, чтобы увидеть карточку открытой до того, как её закроет общий Escape
 addEventListener('keydown', e => { if (e.key === 'Escape' && full && !card.classList.contains('is-open')) setFull(false); }, { capture: true });
