@@ -6,10 +6,10 @@ import { computeBoundsTree, acceleratedRaycast } from 'three-mesh-bvh';
 THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261023a';
+import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261023b';
 
 const q = new URLSearchParams(location.search);
-const MODEL = new URL('model.glb?v=20261023a', import.meta.url).href;
+const MODEL = new URL('model.glb?v=20261023b', import.meta.url).href;
 // у языковых страниц <base href="/">, так что assets/ всегда от корня сайта
 const SITE = '';
 
@@ -280,7 +280,7 @@ const perf = { t0: 0 };
 function start() {
 perf.t0 = performance.now();
 Promise.all([
-  fetch(new URL('units-3d.json?v=20261023a', import.meta.url)).then(r => r.json()),
+  fetch(new URL('units-3d.json?v=20261023b', import.meta.url)).then(r => r.json()),
   new Promise((res, rej) => new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(MODEL, res,
     e => e.total && loader.style.setProperty('--p', (e.loaded / e.total).toFixed(3)), rej)),
 ]).then(([u3d, gltf]) => {
@@ -514,12 +514,12 @@ function select(it, opts = {}) {
 
 /* ---------- камера ---------- */
 let POL = 0.9;
-const MOB_POL = 0.45, MOB_MY = 0.72;
+const MOB_POL = 0.9, MOB_MY = 0.72;
 let fly = null, homePose = null;
 /* общий вид: перебираем азимут и берём тот, при котором комплекс крупнее всего
    влезает в кадр с полями под панели (на телефоне длинная ось сама встаёт вертикально) */
 function fitHome() {
-  POL = innerWidth < 761 ? MOB_POL : 0.9;
+  POL = innerWidth < 761 ? (+q.get('pol') || MOB_POL) : 0.9;
   const pts = unitList.map(it => it.pos.clone());
   const box = modelBox();
   for (const x of [box.min.x, box.max.x]) for (const z of [box.min.z, box.max.z]) pts.push(new THREE.Vector3(x, groundY(), z));
@@ -529,7 +529,8 @@ function fitHome() {
   const cam = camera.clone();
   // на телефоне участок шире экрана при любом повороте: даём краям чуть уйти, иначе комплекс мелкий
   const mob = innerWidth < 761, H = wrap.clientHeight, lg = wrap.querySelector('.m3d-legend');
-  const fy0 = mob ? topBarBottom() + 56 : 0, fy1 = mob && lg ? lg.offsetTop - 16 : H;
+  const prev = wrap.classList.contains('is-preview'), pb = wrap.querySelector('.m3d-pv-btns');
+  const fy0 = prev && lg ? lg.offsetTop + lg.offsetHeight + 8 : mob ? topBarBottom() + 56 : 0, fy1 = prev && pb ? pb.offsetTop - 8 : mob && lg ? lg.offsetTop - 16 : H;
   const mx = mob ? 0.86 : 0.84, my = mob ? (fy1 - fy0) / H : 0.74, cy = mob ? 1 - (fy0 + fy1) / H : 0;
   let best = null;
   const azFix = q.get('az');
@@ -644,7 +645,7 @@ function layoutPins() {
     // широкую метку у края не режем, точку не двигаем
     if (it.group) it.sx = Math.min(Math.max(it.sx, pw / 2 + 8), w - pw / 2 - 8);
     // под верхней панелью метки не показываем: просвечивают и мешают нажать чипы
-    if (!on || (it !== selected && (it.sy - 30 < topH || (far && !it.group && (!it.vis || it.u.st === 'booked'))))) { el.classList.add('is-hidden'); continue; }
+    if (!on || ((it !== selected || innerWidth < 761) && it.sy - 30 < topH) || (it !== selected && far && !it.group && (!it.vis || it.u.st === 'booked'))) { el.classList.add('is-hidden'); continue; }
     el.classList.remove('is-hidden');
     el.classList.toggle('is-off', !it.vis);
     const box = [it.sx - pw / 2 - g, it.sy - ph - g, it.sx + pw / 2 + g, it.sy + g];
@@ -788,7 +789,7 @@ function buildUI() {
 }
 
 const origSetLang = window.setLang;
-if (typeof origSetLang === 'function') window.setLang = function (l) { origSetLang.apply(this, arguments); lang = pageLang(); if (unitList.length) buildUI(); paintCtrl(); };
+if (typeof origSetLang === 'function') window.setLang = function (l) { origSetLang.apply(this, arguments); lang = pageLang(); if (unitList.length) buildUI(); paintCtrl(); paintPreview(); };
 
 /* ---------- цикл ---------- */
 function resize() {
@@ -894,6 +895,7 @@ function setFull(on) {
   canvas.style.touchAction = on ? 'none' : 'pan-y';
   controls.enableZoom = on || coarse;
   paintCtrl();
+  syncPreview();
   if (!on) wrap.scrollIntoView({ block: 'center' });
   // до загрузки модели общий вид считать не по чему: его посчитает сама загрузка
   setTimeout(() => { if (!unitList.length) return; resize(); if (!selected) homeView(); }, 60);
@@ -922,3 +924,46 @@ wrap.addEventListener('wheel', e => {
 }, { passive: false });
 // в захвате, чтобы увидеть карточку открытой до того, как её закроет общий Escape
 addEventListener('keydown', e => { if (e.key === 'Escape' && full && !card.classList.contains('is-open')) setFull(false); }, { capture: true });
+
+/* телефон: в блоке на странице макет только картинка, палец листает страницу; изучать его зовём на весь экран */
+const PV = {
+  en: 'Explore the masterplan in 3D', ru: 'Изучить мастерплан в 3D', id: 'Jelajahi masterplan 3D', fr: 'Explorer le plan masse en 3D',
+  es: 'Explorar el plan maestro en 3D', uk: 'Дослідити майстерплан у 3D', it: 'Esplora il masterplan in 3D', tr: 'Master planı 3D keşfedin', nl: 'Verken het masterplan in 3D',
+};
+const tableBtn = document.getElementById('iplanTableToggle');
+const pv = document.createElement('div');
+pv.className = 'm3d-preview';
+pv.innerHTML = '<div class="m3d-pv-btns"><button type="button" class="m3d-pv-open"></button><button type="button" class="m3d-pv-table"></button></div>';
+wrap.appendChild(pv);
+const pvBtns = pv.firstChild, pvOpen = pvBtns.firstChild, pvTable = pvBtns.lastChild;
+function paintPreview() {
+  const d = (window.I18N && (window.I18N[lang] || window.I18N.en)) || {}, tl = d['iplan.tabletoggle'] || '';
+  pvOpen.innerHTML = svg16(ICO.full) + `<span>${PV[lang] || PV.en}</span>`;
+  pvTable.innerHTML = svg16('M3 4h10M3 8h10M3 12h10');
+  pvTable.setAttribute('aria-label', tl); pvTable.title = tl;
+  pvTable.hidden = !tableBtn;
+}
+let mobPrev = null;
+function syncPreview() {
+  const on = innerWidth < 761 && !full;
+  if (on === mobPrev) return;
+  mobPrev = on;
+  if (on && selected) select(null);
+  wrap.classList.toggle('is-preview', on);
+  controls.enabled = !on;
+  canvas.style.touchAction = on ? 'auto' : full ? 'none' : 'pan-y';
+  invalidate();
+}
+pv.addEventListener('click', e => {
+  if (e.target.closest('.m3d-pv-table')) { if (tableBtn) tableBtn.click(); return; }
+  setFull(true);
+});
+// таблица юнитов на странице, под полноэкранным макетом её не видно: сначала сворачиваем
+if (tableBtn) tableBtn.addEventListener('click', () => { if (full) setFull(false); }, { capture: true });
+addEventListener('resize', () => {
+  const was = mobPrev;
+  syncPreview();
+  if (was !== mobPrev && unitList.length) homeView(true);
+});
+paintPreview();
+syncPreview();
