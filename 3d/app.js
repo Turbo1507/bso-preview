@@ -6,10 +6,10 @@ import { computeBoundsTree, acceleratedRaycast } from 'three-mesh-bvh';
 THREE.BufferGeometry.prototype.computeBoundsTree = computeBoundsTree;
 THREE.Mesh.prototype.raycast = acceleratedRaycast;
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261022a';
+import { HL, maquette, buildEarthChunk, plinthTop, trimToOutline, footprint } from './maquette.js?v=20261023a';
 
 const q = new URLSearchParams(location.search);
-const MODEL = new URL('model.glb?v=20261022a', import.meta.url).href;
+const MODEL = new URL('model.glb?v=20261023a', import.meta.url).href;
 // у языковых страниц <base href="/">, так что assets/ всегда от корня сайта
 const SITE = '';
 
@@ -280,7 +280,7 @@ const perf = { t0: 0 };
 function start() {
 perf.t0 = performance.now();
 Promise.all([
-  fetch(new URL('units-3d.json?v=20261022a', import.meta.url)).then(r => r.json()),
+  fetch(new URL('units-3d.json?v=20261023a', import.meta.url)).then(r => r.json()),
   new Promise((res, rej) => new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load(MODEL, res,
     e => e.total && loader.style.setProperty('--p', (e.loaded / e.total).toFixed(3)), rej)),
 ]).then(([u3d, gltf]) => {
@@ -525,10 +525,12 @@ function fitHome() {
   for (const x of [box.min.x, box.max.x]) for (const z of [box.min.z, box.max.z]) pts.push(new THREE.Vector3(x, groundY(), z));
   const ctr = box.getCenter(new THREE.Vector3()); ctr.y = groundY();
   // реальный контур участка точнее углов габарита: точки юнитов + края, ужатые к центру
-  const fitPts = pts.map(p => p.clone().lerp(ctr, 0.12));
+  const fitPts = innerWidth < 761 ? pts.slice(0, unitList.length) : pts.map(p => p.clone().lerp(ctr, 0.12));
   const cam = camera.clone();
   // на телефоне участок шире экрана при любом повороте: даём краям чуть уйти, иначе комплекс мелкий
-  const mx = innerWidth < 761 ? 1 : 0.84, my = innerWidth < 761 ? MOB_MY : 0.74;
+  const mob = innerWidth < 761, H = wrap.clientHeight, lg = wrap.querySelector('.m3d-legend');
+  const fy0 = mob ? topBarBottom() + 56 : 0, fy1 = mob && lg ? lg.offsetTop - 16 : H;
+  const mx = mob ? 0.86 : 0.84, my = mob ? (fy1 - fy0) / H : 0.74, cy = mob ? 1 - (fy0 + fy1) / H : 0;
   let best = null;
   const azFix = q.get('az');
   for (let a = 0; a < 360; a += 5) {
@@ -539,7 +541,9 @@ function fitHome() {
     for (let i = 0; i < 5; i++) {
       cam.position.copy(ctr).addScaledVector(dir, d); cam.lookAt(ctr); cam.updateMatrixWorld(); cam.updateProjectionMatrix();
       let m = 0;
-      for (const p of fitPts) { const v2 = p.clone().project(cam); m = Math.max(m, Math.abs(v2.x) / mx, Math.abs(v2.y) / my); }
+      let y0 = 1e9, y1 = -1e9;
+      for (const p of fitPts) { const v2 = p.clone().project(cam); m = Math.max(m, Math.abs(v2.x) / mx); y0 = Math.min(y0, v2.y); y1 = Math.max(y1, v2.y); }
+      m = Math.max(m, (mob ? (y1 - y0) / 2 : Math.max(-y0, y1)) / my);
       d *= m;
     }
     if (!best || d < best.d) best = { d, az };
@@ -552,7 +556,7 @@ function fitHome() {
     let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
     for (const p of fitPts) { const v2 = p.clone().project(cam); x0 = Math.min(x0, v2.x); x1 = Math.max(x1, v2.x); y0 = Math.min(y0, v2.y); y1 = Math.max(y1, v2.y); }
     const hw = best.d * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
-    ctr.addScaledVector(right, (x0 + x1) / 2 * hw * cam.aspect).addScaledVector(fwd, (y0 + y1) / 2 * hw / Math.cos(POL));
+    ctr.addScaledVector(right, (x0 + x1) / 2 * hw * cam.aspect).addScaledVector(fwd, ((y0 + y1) / 2 - cy) * hw / Math.cos(POL));
   }
   homePose = { t: ctr, p: ctr.clone().add(off) };
   controls.maxDistance = best.d * 1.6;
@@ -628,6 +632,7 @@ function layoutPins() {
   const w = canvas.clientWidth, h = canvas.clientHeight;
   const placed = [];
   const topH = topBarBottom();
+  const far = innerWidth < 761 && homePose && camera.position.distanceTo(controls.target) > homePose.p.distanceTo(homePose.t) * 0.7, g = far ? 6 : 0;
   const order = unitList.slice().sort((a, b) => prio(b) - prio(a));
   for (const it of order) {
     it.vis = passes(it);
@@ -639,11 +644,12 @@ function layoutPins() {
     // широкую метку у края не режем, точку не двигаем
     if (it.group) it.sx = Math.min(Math.max(it.sx, pw / 2 + 8), w - pw / 2 - 8);
     // под верхней панелью метки не показываем: просвечивают и мешают нажать чипы
-    if (!on || (it !== selected && it.sy - 30 < topH)) { el.classList.add('is-hidden'); continue; }
+    if (!on || (it !== selected && (it.sy - 30 < topH || (far && !it.group && (!it.vis || it.u.st === 'booked'))))) { el.classList.add('is-hidden'); continue; }
     el.classList.remove('is-hidden');
     el.classList.toggle('is-off', !it.vis);
-    const box = [it.sx - pw / 2, it.sy - ph, it.sx + pw / 2, it.sy];
+    const box = [it.sx - pw / 2 - g, it.sy - ph - g, it.sx + pw / 2 + g, it.sy + g];
     const free = it.vis && (it === selected || placed.every(b => box[2] < b[0] || box[0] > b[2] || box[3] < b[1] || box[1] > b[3]));
+    if (far && !free && it !== selected) { el.classList.add('is-hidden'); continue; }
     el.classList.toggle('is-dot', !free);
     if (free) placed.push(box);
     el.style.transform = `translate(${it.sx}px, ${it.sy}px) translate(-50%, -100%)`;
