@@ -529,8 +529,8 @@ function fitHome() {
   const cam = camera.clone();
   // на телефоне участок шире экрана при любом повороте: даём краям чуть уйти, иначе комплекс мелкий
   const mob = innerWidth < 761, H = wrap.clientHeight, lg = wrap.querySelector('.m3d-legend');
-  const prev = wrap.classList.contains('is-preview'), pb = wrap.querySelector('.m3d-pv-btns');
-  const fy0 = prev && lg ? lg.offsetTop + lg.offsetHeight + 8 : mob ? topBarBottom() + 56 : 0, fy1 = prev && pb ? pb.offsetTop - 8 : mob && lg ? lg.offsetTop - 16 : H;
+  const prev = wrap.classList.contains('is-preview');
+  const fy0 = prev ? 16 : mob ? topBarBottom() + 56 : 0, fy1 = prev ? H - 16 : mob && lg ? lg.offsetTop - 16 : H;
   const mx = mob ? 0.86 : 0.84, my = mob ? (fy1 - fy0) / H : 0.74, cy = mob ? 1 - (fy0 + fy1) / H : 0;
   let best = null;
   const azFix = q.get('az');
@@ -933,16 +933,10 @@ const PV = {
 const tableBtn = document.getElementById('iplanTableToggle');
 const pv = document.createElement('div');
 pv.className = 'm3d-preview';
-pv.innerHTML = '<div class="m3d-pv-btns"><button type="button" class="m3d-pv-open"></button><button type="button" class="m3d-pv-table"></button></div>';
+pv.innerHTML = '<button type="button" class="m3d-pv-open"></button>';
 wrap.appendChild(pv);
-const pvBtns = pv.firstChild, pvOpen = pvBtns.firstChild, pvTable = pvBtns.lastChild;
-function paintPreview() {
-  const d = (window.I18N && (window.I18N[lang] || window.I18N.en)) || {}, tl = d['iplan.tabletoggle'] || '';
-  pvOpen.innerHTML = svg16(ICO.full) + `<span>${PV[lang] || PV.en}</span>`;
-  pvTable.innerHTML = svg16('M3 4h10M3 8h10M3 12h10');
-  pvTable.setAttribute('aria-label', tl); pvTable.title = tl;
-  pvTable.hidden = !tableBtn;
-}
+const pvOpen = pv.firstChild;
+function paintPreview() { pvOpen.innerHTML = svg16(ICO.full) + `<span>${PV[lang] || PV.en}</span>`; }
 let mobPrev = null;
 function syncPreview() {
   const on = innerWidth < 761 && !full;
@@ -954,10 +948,7 @@ function syncPreview() {
   canvas.style.touchAction = on ? 'auto' : full ? 'none' : 'pan-y';
   invalidate();
 }
-pv.addEventListener('click', e => {
-  if (e.target.closest('.m3d-pv-table')) { if (tableBtn) tableBtn.click(); return; }
-  setFull(true);
-});
+pv.addEventListener('click', () => setFull(true));
 // таблица юнитов на странице, под полноэкранным макетом её не видно: сначала сворачиваем
 if (tableBtn) tableBtn.addEventListener('click', () => { if (full) setFull(false); }, { capture: true });
 addEventListener('resize', () => {

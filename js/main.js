@@ -258,7 +258,7 @@ const heroSection = document.querySelector('.hero');
 const mobCta = document.querySelector('.mob-cta');
 if (heroSection && mobCta) {
   let ctaFirstCheck = true, onHero = true;
-  // пока на экране легенда 3D-макета, кнопка прячется: иначе закрывает её
+  // пока на экране 3D-макет, кнопка прячется: иначе спорит с его кнопкой «на весь экран» и закрывает легенду
   const bars = new Set();
   const ctaIO = new IntersectionObserver(entries => {
     entries.forEach(e => {
@@ -269,7 +269,7 @@ if (heroSection && mobCta) {
     mobCta.classList.toggle('show', !onHero && !bars.size);
   }, { threshold: 0 });
   ctaIO.observe(heroSection);
-  document.querySelectorAll('.m3d-legend').forEach(el => ctaIO.observe(el));
+  document.querySelectorAll('.m3d').forEach(el => ctaIO.observe(el));
 }
 
 /* ---------- reveal on scroll ---------- */

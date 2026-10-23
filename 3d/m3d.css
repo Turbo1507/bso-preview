@@ -180,7 +180,7 @@
 /* на самых узких телефонах «Disponibles uniquement» иначе упирается в кнопки справа */
 @media (max-width:374px){
   .m3d .m3d-avail{padding:0 12px;font-size:13px}
-  .m3d .m3d-pv-open{padding:0 12px;font-size:14px}
+  .m3d.is-preview .m3d-pv-open{padding:0 16px;font-size:14px}
 }
 
 /* кнопки масштаба и поворота справа, сверху «На весь экран» */
@@ -205,15 +205,13 @@ html.m3d-lock,html.m3d-lock body{overflow:hidden}
   .m3d-ctrl{right:8px}
   .m3d-ctrl .m3d-ctrl-full{position:static;width:40px;padding:0;justify-content:center;margin-bottom:8px}
   .m3d-ctrl .m3d-ctrl-full span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-  /* превью в блоке страницы: только макет, легенда и кнопка «на весь экран»; палец листает страницу */
+  /* превью в блоке страницы: только макет и кнопка «на весь экран» по центру, остальное — на весь экран; палец листает страницу */
   .m3d.is-preview{height:min(72svh,560px);min-height:440px}
-  .m3d.is-preview .m3d-top,.m3d.is-preview .m3d-ctrl,.m3d.is-preview .m3d-pins,.m3d.is-preview .m3d-card,.m3d.is-preview .m3d-bottom .m3d-reset{display:none}
-  .m3d.is-preview .m3d-legend{z-index:6;pointer-events:none;top:8px;bottom:auto}
+  .m3d.is-preview .m3d-top,.m3d.is-preview .m3d-ctrl,.m3d.is-preview .m3d-pins,.m3d.is-preview .m3d-card,.m3d.is-preview .m3d-bottom,.m3d.is-preview .m3d-legend{display:none}
   .m3d.is-preview .m3d-preview{display:block;position:absolute;inset:0;z-index:5;cursor:pointer}
-  .m3d-pv-btns{position:absolute;left:8px;right:8px;bottom:8px;display:flex;gap:8px}
-  .m3d-pv-open{flex:1;min-width:0;height:52px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 16px;border:0;border-radius:var(--r-xs);background:var(--grad-gold);color:var(--on-gold);font-size:16px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,.35)}
-  .m3d-pv-open svg,.m3d-pv-table svg{width:16px;height:16px;flex:none}
-  .m3d-pv-table{flex:none;width:52px;height:52px;display:grid;place-items:center;padding:0;border:1px solid var(--line-strong);border-radius:var(--r-xs);background:var(--panel);color:var(--text)}
+  /* .m3d перед классом: общее .m3d button{color:inherit} перебивало тёмный текст на золоте */
+  .m3d .m3d-pv-open{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:calc(100% - 32px);height:52px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 24px;border:0;border-radius:var(--r-xs);background:var(--grad-gold);color:var(--on-gold);font-size:16px;font-weight:500;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.35)}
+  .m3d-pv-open svg{width:16px;height:16px;flex:none}
   /* карточка: фото ниже, кнопки брони всегда видны внизу */
   .m3d .c-photos{aspect-ratio:2/1}
   .m3d.is-full .m3d-card{max-height:80%}
