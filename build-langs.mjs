@@ -5,7 +5,7 @@
    Что делает на каждой странице:
    - словарь в [data-i18n] (innerHTML), [data-i18n-alt], [data-i18n-aria]
    - <html lang>, canonical на свой адрес, hreflang на все языки
-   - title, description, og/twitter на языке страницы (главная / остаётся EN)
+   - title, description, og/twitter везде английские, как на главной /
    - og:url и og:locale свои, JSON-LD со своим FAQ
    - <base href="/">: страница глубже корня, а JS строит пути к картинкам относительно
    - якоря #секция ведут на свой язык, редирект корня по куки выкидывается */
@@ -28,7 +28,9 @@ for (const l of TARGETS) if (l !== 'ru') {
 
 const SRC = readFileSync('index.html', 'utf8').replace(/\r\n/g, '\n');
 const esc = s => s.replace(/"/g, '&quot;');
-const SKIP = k => false;
+// title и description на всех языках английские, словарь их не трогает
+const SKIP = k => /^meta\./.test(k);
+const META = [/<title[^>]*>[^<]*<\/title>/,/<meta name="description"[^>]*>/, /<meta property="og:title"[^>]*>/, /<meta property="og:description"[^>]*>/, /<meta name="twitter:title"[^>]*>/, /<meta name="twitter:description"[^>]*>/];
 
 function build(lang) {
   const D = window.I18N[lang];
@@ -59,12 +61,6 @@ function build(lang) {
   h = h.replace(/<script>\/\* язык выбирает человек[^\n]*<\/script>\n/, '');
   if (!/<base\b/.test(h)) h = h.replace(/(<meta charset="[^"]*">)/i, '$1\n<base href="/">');
   h = h.replace(/href="#([a-z0-9-]*)"/gi, `href="/${lang}/#$1"`);
-
-  const T = esc(D['meta.title']), DS = esc(D['meta.desc']);
-  h = h
-    .replace(/(<meta name="description"[^>]*content=")[^"]*(")/, `$1${DS}$2`)
-    .replace(/(<meta (?:property|name)="(?:og|twitter):title" content=")[^"]*(")/g, `$1${T}$2`)
-    .replace(/(<meta (?:property|name)="(?:og|twitter):description" content=")[^"]*(")/g, `$1${DS}$2`);
 
   h = h.replace(/<link rel="canonical"[^>]*>/, `<link rel="canonical" href="${O}/${lang}/">`);
   h = h
@@ -108,7 +104,7 @@ function build(lang) {
     [`lang=${lang}`]: h.includes(`<html lang="${lang}">`),
     'canonical': h.includes(`<link rel="canonical" href="${O}/${lang}/">`),
     'hreflang x9 + x-default': ALL.every(l => h.includes(`hreflang="${l}"`)) && h.includes('hreflang="x-default"'),
-    'title на языке': h.includes(`>${D['meta.title']}</title>`) && h.includes(`name="description" data-i18n-content="meta.desc" content="${DS}"`),
+    'title и description как на /': META.every(re => (h.match(re) || [])[0] === (SRC.match(re) || [1])[0]),
     'нет редиректа корня': !h.includes('язык выбирает человек'),
     'base href': /<base href="\/">/.test(h),
     'словарь подключён': lang === 'ru' || h.includes(`js/i18n-${lang}.js`),
