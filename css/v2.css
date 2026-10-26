@@ -257,8 +257,9 @@ body.menu-open .burger span{background:var(--white)}
 .csel-btn:hover{border-color:var(--clay)}
 .csel.is-open .csel-btn{border-color:var(--clay); background:rgba(255,255,255,.08)}
 .csel-btn[data-placeholder="true"] .csel-val{color:var(--muted)}
-.csel-chev{flex:0 0 auto; width:16px; height:16px; color:var(--clay); transition:transform .22s var(--ease)}
-.csel.is-open .csel-chev{transform:rotate(180deg)}
+/* у шеврона центр ниже заглавных кода страны: поднимаем к ним */
+.csel-chev{flex:0 0 auto; width:16px; height:16px; color:var(--clay); transform:translateY(-2px); transition:transform .22s var(--ease)}
+.csel.is-open .csel-chev{transform:translateY(-2px) rotate(180deg)}
 /* min-width по кнопке, но панель может быть шире: колонка кода страны узкая,
    и «UA +380» в ней ломалось на две строки */
 .csel-pop{

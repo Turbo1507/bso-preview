@@ -209,6 +209,9 @@
 @keyframes m3dHint{0%{box-shadow:0 4px 16px rgba(0,0,0,.35),0 0 0 0 rgba(217,174,69,.6)}100%{box-shadow:0 4px 16px rgba(0,0,0,.35),0 0 0 14px rgba(217,174,69,0)}}
 @media (prefers-reduced-motion:reduce){.m3d-ctrl-full.is-hint{animation:none}}
 @media (min-width:761px){.m3d-top{right:calc(16px + var(--fbw,0px))}}
+/* у шрифта заглавные сидят выше центра строки: иконки и квадратики рядом с подписью поднимаем к ним */
+.m3d-legend i{transform:translateY(-1px)}
+@media (min-width:761px){.m3d-reset svg,.m3d-ctrl-full svg{transform:translateY(-1px)}}
 .m3d.is-full{position:fixed;inset:0;z-index:10000;height:auto;min-height:0;max-height:none;border-radius:0}
 html.m3d-lock,html.m3d-lock body{overflow:hidden}
 @media (max-width:760px){
