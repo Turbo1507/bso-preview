@@ -133,19 +133,24 @@
 /* карточка в тон сайту: фон страницы, название как в планировках, цифры Prata */
 .m3d-card{background:var(--bg);border-color:var(--line);box-shadow:var(--shadow-card)}
 .m3d .c-gal{position:relative}
-/* стрелки компактные, в одной манере с крестиком: тёмная плашка, иконка 16 */
-.m3d .c-arrow{position:absolute;top:50%;z-index:2;width:32px;height:32px;margin-top:-16px;display:grid;place-items:center;padding:0;border:0;border-radius:var(--r-xs);
-  background:rgba(19,19,19,.72);color:#fff;transition:background .2s,opacity .2s}
-.m3d .c-arrow.prev{left:12px}
-.m3d .c-arrow.next{right:12px}
-.m3d .c-arrow svg{width:16px;height:16px}
-.m3d .c-arrow:hover:not(:disabled){background:rgba(19,19,19,.9)}
+/* стрелки, точки и крестик те же, что в лайтбоксе и слайдере планировок сайта */
+.m3d .c-arrow{position:absolute;top:0;bottom:0;z-index:2;width:30%;display:flex;align-items:center;padding:0;margin:0;border:0;background:none;
+  color:rgba(255,255,255,.6);transition:color .2s,opacity .2s}
+.m3d .c-arrow.prev{left:0;justify-content:flex-start;padding-left:12px}
+.m3d .c-arrow.next{right:0;justify-content:flex-end;padding-right:12px}
+.m3d .c-arrow svg{width:32px;height:32px;filter:drop-shadow(0 1px 4px rgba(0,0,0,.6))}
+.m3d .c-arrow:hover:not(:disabled){color:#fff}
 .m3d .c-arrow:disabled{opacity:0;pointer-events:none}
-.m3d .c-dots{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);z-index:2;margin:0;height:auto;gap:5px;pointer-events:auto}
-.m3d .c-dots i{width:5px;height:5px;border-radius:3px;background:rgba(255,255,255,.5);box-shadow:0 1px 2px rgba(0,0,0,.3);cursor:pointer;transition:background .25s,width .25s}
-.m3d .c-dots i.on{width:16px;background:#fff}
-.m3d .c-gal.on-plan .c-dots i{background:rgba(26,28,27,.3);box-shadow:none}
-.m3d .c-gal.on-plan .c-dots i.on{background:#1a1c1b}
+.m3d .c-dots{position:absolute;left:50%;bottom:4px;transform:translateX(-50%);z-index:3;margin:0;height:auto;gap:0;pointer-events:auto}
+.m3d .c-dots i{width:24px;height:24px;border-radius:0;background:none;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.m3d .c-dots i::before{content:'';width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.3);box-shadow:0 1px 2px rgba(0,0,0,.3);transition:background .2s}
+.m3d .c-dots i.on{background:none}
+.m3d .c-dots i.on::before{background:#fff}
+.m3d .c-gal.on-plan .c-dots i::before{background:rgba(26,28,27,.3);box-shadow:none}
+.m3d .c-gal.on-plan .c-dots i.on::before{background:#1a1c1b}
+.m3d-card .m3d-close{width:44px;height:44px;border-radius:50%;background:rgba(19,19,19,.35);border:1px solid rgba(255,255,255,.2);color:#fff;transition:background .2s}
+.m3d-card .m3d-close:hover{color:#fff;background:rgba(19,19,19,.55)}
+.m3d-card .m3d-close svg{width:18px;height:18px}
 .m3d .c-photos img.is-plan{background:#fff}
 .m3d .c-title{color:var(--clay);text-decoration:underline;text-underline-offset:8px;text-decoration-thickness:1px}
 .m3d .c-status{color:rgba(255,255,255,.7)}
@@ -210,11 +215,13 @@ html.m3d-lock,html.m3d-lock body{overflow:hidden}
   .m3d.is-preview .m3d-top,.m3d.is-preview .m3d-ctrl,.m3d.is-preview .m3d-pins,.m3d.is-preview .m3d-card,.m3d.is-preview .m3d-bottom,.m3d.is-preview .m3d-legend{display:none}
   .m3d.is-preview .m3d-preview{display:block;position:absolute;inset:0;z-index:5;cursor:pointer}
   /* .m3d перед классом: общее .m3d button{color:inherit} перебивало тёмный текст на золоте */
-  .m3d .m3d-pv-open{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:calc(100% - 32px);height:52px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 24px;border:0;border-radius:var(--r-xs);background:var(--grad-gold);color:var(--on-gold);font-size:16px;font-weight:500;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.35)}
+  .m3d .m3d-pv-open{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:calc(100% - 32px);height:52px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 24px;border:0;border-radius:var(--r-xs);background:var(--grad-gold);color:var(--on-gold);font-size:16px;font-weight:400;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.35)}
   .m3d-pv-open svg{width:16px;height:16px;flex:none}
   /* карточка: фото ниже, кнопки брони всегда видны внизу */
-  .m3d .c-photos{aspect-ratio:2/1}
-  .m3d.is-full .m3d-card{max-height:80%}
+  .m3d.is-full .m3d-card{max-height:60%}
+  .m3d .c-photos{aspect-ratio:5/2}
+  /* открыта карточка: фильтры, кнопки и легенда уходят, макет с выбранной виллой виден над ней */
+  .m3d.is-full:has(.m3d-card.is-open) :is(.m3d-top,.m3d-ctrl,.m3d-legend,.m3d-bottom){display:none}
   .m3d .c-actions{position:sticky;bottom:0;z-index:2;margin:16px -16px -24px;padding:12px 16px 16px;background:var(--bg);border-top:1px solid var(--line)}
 }
 .m3d-preview{display:none}

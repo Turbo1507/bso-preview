@@ -665,7 +665,7 @@ const body = document.getElementById('m3dCardBody');
 document.getElementById('m3dClose').addEventListener('click', () => select(null));
 addEventListener('keydown', e => { if (e.key === 'Escape' && card.classList.contains('is-open')) select(null); });
 
-const chev = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
+const chev = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
 function photosHTML(k) {
   const list = PHOTOS[k] || [], t = T[lang];
   return `<div class="c-gal">
