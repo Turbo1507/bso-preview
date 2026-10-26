@@ -223,9 +223,9 @@ html.m3d-lock,html.m3d-lock body{overflow:hidden}
   .m3d .m3d-pv-open{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);max-width:calc(100% - 32px);height:52px;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 24px;border:0;border-radius:var(--r-xs);background:var(--grad-gold);color:var(--on-gold);font-size:16px;font-weight:400;white-space:nowrap;box-shadow:0 4px 16px rgba(0,0,0,.35)}
   .m3d-pv-open svg{width:16px;height:16px;flex:none}
   /* карточка: фото ниже, кнопки брони всегда видны внизу */
-  .m3d.is-full .m3d-card{max-height:60%}
+  .m3d.is-full .m3d-card{max-height:66%}
   .m3d .m3d-btn-plan{width:52px}
-  .m3d .c-photos{aspect-ratio:5/2}
+  .m3d .c-photos{aspect-ratio:16/9}
   /* открыта карточка: фильтры, кнопки и легенда уходят, макет с выбранной виллой виден над ней */
   .m3d.is-full:has(.m3d-card.is-open) :is(.m3d-top,.m3d-ctrl,.m3d-legend,.m3d-bottom){display:none}
   .m3d .c-actions{position:sticky;bottom:0;z-index:2;margin:16px -16px -24px;padding:12px 16px 16px;background:var(--bg);border-top:1px solid var(--line)}
