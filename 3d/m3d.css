@@ -161,7 +161,12 @@
 .m3d .c-type{margin-top:16px}
 .m3d .c-facts{border-top:0;padding-top:0;margin-top:24px}
 .m3d .c-facts dd{font-size:28px;color:#fff;margin-top:8px}
-.m3d-btn-ghost{background:rgba(255,255,255,.06)}
+/* бронь и квадратная кнопка плана в одну строку, как в блоке планировок */
+.m3d .c-actions{flex-direction:row}
+.m3d .c-actions .m3d-btn-gold{flex:1;min-width:0}
+.m3d .m3d-btn-plan{flex:none;width:56px;padding:0;background:transparent;border-color:var(--line);color:var(--muted)}
+.m3d .m3d-btn-plan:hover{border-color:var(--clay);color:var(--clay)}
+.m3d .m3d-btn-plan svg{width:28px;height:28px}
 /* общее .m3d button{color:inherit} перебивало тёмный текст на золоте */
 .m3d .m3d-btn-gold{color:var(--on-gold)}
 /* крестик над стрелками слайдера: раньше зона «вперёд» перехватывала нажатие */
@@ -219,6 +224,7 @@ html.m3d-lock,html.m3d-lock body{overflow:hidden}
   .m3d-pv-open svg{width:16px;height:16px;flex:none}
   /* карточка: фото ниже, кнопки брони всегда видны внизу */
   .m3d.is-full .m3d-card{max-height:60%}
+  .m3d .m3d-btn-plan{width:52px}
   .m3d .c-photos{aspect-ratio:5/2}
   /* открыта карточка: фильтры, кнопки и легенда уходят, макет с выбранной виллой виден над ней */
   .m3d.is-full:has(.m3d-card.is-open) :is(.m3d-top,.m3d-ctrl,.m3d-legend,.m3d-bottom){display:none}

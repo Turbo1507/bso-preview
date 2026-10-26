@@ -685,7 +685,7 @@ function unitHTML(u, k, back) {
     ? `<button class="m3d-btn m3d-btn-gold" type="button" data-similar="${u.n}">${t.similar}</button>`
     : `<button class="m3d-btn m3d-btn-gold" type="button" data-book="${u.n}">${book}</button>`;
   // у пентхаусов своего таба в планировках нет
-  const plan = ph ? '' : `<button class="m3d-btn m3d-btn-ghost" type="button" data-plan="${k}">${t.plan}</button>`;
+  const plan = ph ? '' : `<button class="m3d-btn m3d-btn-ghost m3d-btn-plan" type="button" data-plan="${k}" aria-label="${t.plan}" title="${t.plan}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter" aria-hidden="true"><path d="M3 3H21V21H3Z"/><path stroke-linecap="butt" d="M11 3.75V8M11 11.25V20.25M11.75 12H14M17 12H20.25M3.75 15H7"/></svg></button>`;
   return `${photosHTML(k)}
   <div class="c-main">
     ${back ? `<button class="c-back" type="button" data-back>${arrow()}${t.back}</button>` : ''}
