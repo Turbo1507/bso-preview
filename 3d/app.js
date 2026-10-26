@@ -845,6 +845,7 @@ const VL = {
 const ICO = {
   zin: 'M8 3v10M3 8h10', zout: 'M3 8h10',
   rl: 'M13 10c0-3-2.2-5-5-5s-5 2-5 5M3 10 1.5 8M3 10l2-1.5', rr: 'M3 10c0-3 2.2-5 5-5s5 2 5 5M13 10l1.5-2M13 10l-2-1.5',
+  cube: 'M8 1.8l5.5 3.1v6.2L8 14.2l-5.5-3.1V4.9ZM2.5 4.9 8 8l5.5-3.1M8 8v6.2',
   full: 'M2.5 6V2.5H6M10 2.5h3.5V6M13.5 10v3.5H10M6 13.5H2.5V10', exit: 'M6 2.5V6H2.5M10 2.5V6h3.5M13.5 10H10v3.5M2.5 10H6v3.5',
 };
 const svg16 = d => `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="${d}"/></svg>`;
@@ -936,7 +937,7 @@ pv.className = 'm3d-preview';
 pv.innerHTML = '<button type="button" class="m3d-pv-open"></button>';
 wrap.appendChild(pv);
 const pvOpen = pv.firstChild;
-function paintPreview() { pvOpen.innerHTML = svg16(ICO.full) + `<span>${PV[lang] || PV.en}</span>`; }
+function paintPreview() { pvOpen.innerHTML = svg16(ICO.cube) + `<span>${PV[lang] || PV.en}</span>`; }
 let mobPrev = null;
 function syncPreview() {
   const on = innerWidth < 761 && !full;
