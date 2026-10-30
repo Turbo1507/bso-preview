@@ -505,7 +505,7 @@ body.menu-open{overflow:hidden}
 /* команда */
 .team-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:20px; margin-top:var(--sp-lg)}
 .team-card{border:1px solid var(--line-strong); border-radius:var(--r-sm); padding:35px; background:transparent}
-.team-photo{aspect-ratio:295/220; border-radius:var(--r-xs); overflow:hidden; margin-bottom:32px; filter:grayscale(1)}
+.team-photo{aspect-ratio:1/1; border-radius:var(--r-xs); overflow:hidden; margin-bottom:32px; filter:grayscale(1)}
 .team-photo img{width:100%; height:100%; object-fit:cover}
 /* роль была слишком заметна рядом с именем, уменьшил до лейбла */
 .team-role{font-size:13px; font-weight:300; color:var(--clay)}
@@ -629,9 +629,11 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .lead-panel{position:relative; z-index:1; max-width:480px; width:100%; max-height:calc(100vh - 48px); overflow-y:auto; margin:auto; background:var(--white); border-radius:var(--r-lg); padding:32px; box-shadow:var(--shadow-card)}
 .lead-x{position:absolute; top:16px; right:16px; width:32px; height:32px; border:0; background:var(--stone); border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; color:var(--ink)}
 .lead-panel h3{font-size:24px; line-height:1.15; margin-right:32px; color:var(--ink)}
-.lead-form-sub{margin-top:6px; color:var(--muted); font-size:13px}
+.lead-form-sub{margin-top:8px; color:var(--muted); font-size:13px}
 .lead-field{display:block; margin-top:16px; font-size:12px; color:var(--muted)}
-.lead-field span{display:block; margin-bottom:6px}
+.lead-field span{display:block; margin-bottom:8px}
+/* шапка формы отделена от полей сильнее, чем поля друг от друга: 24 против 16 */
+.lead-form-sub + .lead-field{margin-top:24px}
 .lead-field input, .lead-field select, .lead-field textarea{width:100%; box-sizing:border-box; border:1px solid var(--line); border-radius:var(--r-xs); padding:11px 14px; font:inherit; font-size:14px; color:var(--ink); background:var(--white)}
 .lead-field select{appearance:none; -webkit-appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%233a352f' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; background-size:11px 8px; padding-right:34px}
 .lead-phone-row{display:flex; gap:8px}
@@ -644,7 +646,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 .lead-consent input:checked{background:var(--clay); border-color:var(--clay)}
 .lead-consent input:checked::after{content:""; position:absolute; left:5px; top:2px; width:5px; height:9px; border:solid var(--white); border-width:0 2px 2px 0; transform:rotate(45deg)}
 .lead-panel .btn[disabled]{opacity:.45; cursor:not-allowed; box-shadow:none}
-.lead-panel .btn{margin-top:20px}
+.lead-panel .btn{margin-top:24px}
 .lead-status{margin-top:12px; font-size:13px; min-height:1em; color:var(--muted)}
 .lead-status.is-ok{color:#1a8a4a}
 .lead-status.is-err{color:#b3341f}
@@ -767,7 +769,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
 
   /* команда, 2 колонки остаются но компактнее */
   .team-grid{gap:10px}
-  .team-photo{margin-bottom:14px}
+  .team-photo{margin-bottom:16px}
   .team-card h3{font-size:18px; margin:4px 0 8px}
   .team-role{font-size:11px}
 
@@ -794,7 +796,7 @@ body.lead-lock{position:fixed; overflow:hidden; width:100%; left:0; right:0}
   .bali-clock-full, .bali-clock-sep{display:none}
 
   .lead-modal.is-open{padding:16px}
-  .lead-panel{padding:24px 20px; max-height:calc(100vh - 32px)}
+  .lead-panel{padding:24px; max-height:calc(100vh - 32px)}
 }
 
 /* мягкий зум фото на ховере, только там где уже есть overflow:hidden,

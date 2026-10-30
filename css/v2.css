@@ -479,12 +479,12 @@ body.menu-open .burger span{background:var(--white)}
 
 /* ---------- расстояния до точек: микрокарточки ----------
    Та же пара «значение + подпись», что у .stat-card, только компактнее, 4 в ряд. */
-.stat-grid-4{grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px}
+.stat-grid-4{grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px}
 /* иконок нет, текст прижат к низу одинаково во всех четырёх */
 .stat-grid-4 .stat-card{
   display:flex; flex-direction:column; justify-content:flex-end;
   background:var(--surface); border:1px solid var(--line);
-  border-radius:var(--r-sm); box-shadow:var(--shadow-card); padding:22px 20px;
+  border-radius:var(--r-sm); box-shadow:var(--shadow-card); padding:24px;
 }
 .stat-grid-4 .stat-card .stat-v{font-family:'Prata',Georgia,serif; font-weight:400;
   font-size:26px; line-height:1.1; color:var(--clay)}
@@ -818,7 +818,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   display:grid; grid-template-columns:1fr 1fr; gap:16px}
 .invest-chip--wide{grid-column:1 / -1}
 .invest-chip{background:rgba(19,19,19,.45); border:1px solid rgba(255,255,255,.22);
-  border-radius:var(--r-sm); padding:26px 28px;
+  border-radius:var(--r-sm); padding:24px 32px;
   backdrop-filter:blur(24px) saturate(1.1); -webkit-backdrop-filter:blur(24px) saturate(1.1)}
 /* значение — Prata золотом, как остальные цифры-статы на сайте */
 .invest-chip .stat-v{margin:0; font-family:'Prata',Georgia,serif; font-weight:400;
@@ -1016,10 +1016,10 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   /* --- шкала кеглей: 12 / 14 / 16 / 20 / 24 / 32 --- */
   .lead{font-size:14px}
   /* микрокарточки в 2 колонки — компактнее, чем в 1 ряд на 390px */
-  .stat-grid-4{grid-template-columns:1fr 1fr; gap:10px}
+  .stat-grid-4{grid-template-columns:1fr 1fr; gap:8px}
   /* в сетке 2×2 карточки тянутся по самой длинной, поэтому контент прижимаем
      к верху, иначе у коротких пустота сверху */
-  .stat-grid-4 .stat-card{padding:16px 14px; justify-content:flex-start}
+  .stat-grid-4 .stat-card{padding:16px; justify-content:flex-start}
   .stat-grid-4 .stat-card .stat-v{font-size:20px}
   .stat-grid-4 .stat-card p{margin-top:4px; font-size:10px}
   .team-role{font-size:12px}
@@ -1174,8 +1174,8 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 }
 @media (max-width:640px){
   .unitgrp-grid{grid-template-columns:1fr; gap:16px}
-  .unitgrp-card{padding:20px}
-  .unitgrp-card h3{font-size:18px; margin-bottom:14px}
+  .unitgrp-card{padding:24px}
+  .unitgrp-card h3{font-size:18px; margin-bottom:16px}
   .unitgrp-card p{font-size:14px}
 }
 
