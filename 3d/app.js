@@ -633,6 +633,8 @@ function layoutPins() {
   const w = canvas.clientWidth, h = canvas.clientHeight;
   const placed = [];
   const topH = topBarBottom();
+  const mob = innerWidth < 761, cr = canvas.getBoundingClientRect(), lr = document.getElementById('m3dLegend').getBoundingClientRect();
+  const legTop = lr.height ? lr.top - cr.top - 8 : h, legRight = lr.right - cr.left + 8;
   const far = innerWidth < 761 && homePose && camera.position.distanceTo(controls.target) > homePose.p.distanceTo(homePose.t) * 0.7, g = far ? 6 : 0;
   const order = unitList.slice().sort((a, b) => prio(b) - prio(a));
   for (const it of order) {
@@ -641,19 +643,22 @@ function layoutPins() {
     const on = v.z < 1 && Math.abs(v.x) < 1.1 && Math.abs(v.y) < 1.1;
     it.sx = (v.x * 0.5 + 0.5) * w; it.sy = (-v.y * 0.5 + 0.5) * h;
     const el = it.el;
-    const pw = it.group ? 150 : 52, ph = 30;
+    if (it.group) { const lab = mob ? T[lang].studios : T[lang].studioTitle; if (el.textContent !== lab) el.textContent = lab; }
+    const pw = it.group ? el.offsetWidth || 150 : 52, ph = 30, mid = it.group && mob ? ph / 2 : 0;
     // широкую метку у края не режем, точку не двигаем
     if (it.group) it.sx = Math.min(Math.max(it.sx, pw / 2 + 8), w - pw / 2 - 8);
     // под верхней панелью метки не показываем: просвечивают и мешают нажать чипы
     if (!on || ((it !== selected || innerWidth < 761) && it.sy - 30 < topH) || (it !== selected && far && !it.group && (!it.vis || it.u.st === 'booked'))) { el.classList.add('is-hidden'); continue; }
     el.classList.remove('is-hidden');
     el.classList.toggle('is-off', !it.vis);
-    const box = [it.sx - pw / 2 - g, it.sy - ph - g, it.sx + pw / 2 + g, it.sy + g];
+    // корпус у самой легенды: метку чуть поднимаем, она всё ещё на нём; корпус ушёл под легенду совсем, прячем
+    if (mid && it !== selected && it.sy + mid > legTop && it.sx - pw / 2 < legRight) { if (it.sy + mid - legTop > 40) { el.classList.add('is-hidden'); continue; } it.sy = legTop - mid; }
+    const box = [it.sx - pw / 2 - g, it.sy - ph + mid - g, it.sx + pw / 2 + g, it.sy + mid + g];
     const free = it.vis && (it === selected || placed.every(b => box[2] < b[0] || box[0] > b[2] || box[3] < b[1] || box[1] > b[3]));
-    if (far && !free && it !== selected) { el.classList.add('is-hidden'); continue; }
+    if ((far || mob && it.u && it.u.st === 'booked') && !free && it !== selected) { el.classList.add('is-hidden'); continue; }
     el.classList.toggle('is-dot', !free);
     if (free) placed.push(box);
-    el.style.transform = `translate(${it.sx}px, ${it.sy}px) translate(-50%, -100%)`;
+    el.style.transform = `translate(${it.sx}px, ${it.sy}px) translate(-50%, ${mid ? -50 : -100}%)`;
     el.style.zIndex = it === selected ? 1000 : free ? 500 + Math.round(v.z * -100) : 10;
   }
 }
