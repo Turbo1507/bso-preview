@@ -33,6 +33,45 @@ function readUtm() {
   });
 })();
 
+/* ---------- откуда пришёл человек ----------
+   Первый заход помним 90 дней. Заход по размеченной ссылке заменяет запись без
+   меток, остальные заходы её не трогают. Только localStorage: куки на каждого
+   посетителя ни к чему. */
+const SRC_KEYS = ['utm_source', 'utm_medium', 'gclid', 'fbclid'];
+const SRC_TAGS = SRC_KEYS.concat(UTM_KEYS);
+let srcVisit = null;
+function readSource() {
+  try {
+    const s = JSON.parse(localStorage.getItem('bso_src') || 'null');
+    if (s && Date.now() - s.t < UTM_DAYS * 864e5) return s;
+  } catch (e) {}
+  return srcVisit;
+}
+(function () {
+  const q = new URLSearchParams(location.search);
+  const tagged = SRC_TAGS.some(k => (q.get(k) || '').trim());
+  const bare = h => h.toLowerCase().replace(/^www\./, '');
+  let referrer = '';
+  let internal = false;
+  try {
+    if (document.referrer) {
+      internal = bare(new URL(document.referrer).hostname) === bare(location.hostname);
+      if (!internal) referrer = document.referrer.slice(0, 255);
+    }
+  } catch (e) {}
+  // переход со своей страницы без записи: откуда пришёл на самом деле, уже неизвестно
+  if (internal && !tagged) return;
+  const entry = { t: Date.now(), referrer: referrer, landing: (location.pathname + location.search).slice(0, 500) };
+  SRC_KEYS.forEach(k => { const v = (q.get(k) || '').trim().slice(0, 255); if (v) entry[k] = v; });
+  let saved = null;
+  try { saved = JSON.parse(localStorage.getItem('bso_src') || 'null'); } catch (e) {}
+  const alive = saved && Date.now() - saved.t < UTM_DAYS * 864e5;
+  const savedTagged = alive && (SRC_KEYS.some(k => saved[k]) || /[?&]utm_/.test(saved.landing || ''));
+  srcVisit = entry;
+  if (alive && (savedTagged || !tagged)) return;
+  try { localStorage.setItem('bso_src', JSON.stringify(entry)); } catch (e) {}
+})();
+
 /* ---------- прогрузка картинок: блик-скелет ----------
    На <img class="ph">, которой ещё нет в кэше, включаем .is-loading (блик,
    стиль в styles.css) и снимаем по load/error. Закешированные пропускаем,
@@ -229,6 +268,10 @@ if (leadModal && leadForm) {
     fd.append('comment', data.get('comment') || '');
     fd.append('lang', window.__bsoLang || document.documentElement.lang || 'en');
     UTM_KEYS.forEach(k => fd.append(k, data.get(k) || ''));
+    const src = readSource() || {};
+    SRC_KEYS.forEach(k => fd.append(k, src[k] || ''));
+    fd.append('src_referrer', src.referrer || '');
+    fd.append('src_landing', src.landing || '');
 
     if (status) { status.textContent = dict['lead.sending'] || 'Отправляем…'; status.className = 'lead-status'; }
     if (submitBtn) submitBtn.disabled = true;
