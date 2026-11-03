@@ -523,6 +523,7 @@
   if (!list) return;
 
   var items = Array.prototype.slice.call(list.querySelectorAll('.faq-item'));
+  if (window.matchMedia('(max-width:760px)').matches) items.forEach(function (i) { i.classList.remove('is-open'); });
 
   function setOpen(item, open) {
     item.classList.toggle('is-open', open);
@@ -659,4 +660,47 @@
       });
     });
   }
+})();
+
+/* телефон: нижняя плашка не закрывает блок планировок, в нём своя кнопка брони */
+(function () {
+  var plans = document.getElementById('plans');
+  if (!plans || !('IntersectionObserver' in window)) return;
+  new IntersectionObserver(function (es) {
+    document.documentElement.classList.toggle('mob-cta-off', es[es.length - 1].isIntersecting);
+  }, { threshold: 0 }).observe(plans);
+})();
+
+/* телефон: выбранная вкладка формата не остаётся за краем ленты */
+(function () {
+  var tabs = document.getElementById('plansTabs');
+  if (!tabs) return;
+  tabs.addEventListener('click', function (e) {
+    var t = e.target.closest('.plans-tab');
+    if (t && tabs.scrollWidth > tabs.clientWidth) tabs.scrollTo({ left: t.offsetLeft - tabs.offsetLeft - (tabs.clientWidth - t.offsetWidth) / 2, behavior: 'smooth' });
+  });
+})();
+
+/* телефон: точки у ленты карточек вилл, как у фото планировок */
+(function () {
+  var track = document.querySelector('.villas-grid');
+  if (!track || !window.matchMedia('(max-width:760px)').matches) return;
+  var cards = Array.prototype.slice.call(track.children);
+  var dots = document.createElement('div');
+  dots.className = 'plans-dots villas-dots';
+  dots.innerHTML = cards.map(function (c, i) { return '<button type="button" aria-label="' + (i + 1) + '/' + cards.length + '"></button>'; }).join('');
+  track.insertAdjacentElement('afterend', dots);
+  function centre(c) { return c.offsetLeft - track.offsetLeft + c.offsetWidth / 2; }
+  function sync() {
+    var mid = track.scrollLeft + track.clientWidth / 2, best = 0, d = Infinity;
+    cards.forEach(function (c, i) { var x = Math.abs(centre(c) - mid); if (x < d) { d = x; best = i; } });
+    Array.prototype.forEach.call(dots.children, function (b, i) { b.classList.toggle('on', i === best); });
+  }
+  dots.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    var c = cards[Array.prototype.indexOf.call(dots.children, b)];
+    track.scrollTo({ left: centre(c) - track.clientWidth / 2, behavior: 'smooth' });
+  });
+  track.addEventListener('scroll', sync, { passive: true });
+  sync();
 })();
