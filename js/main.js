@@ -223,6 +223,13 @@ if (leadModal && leadForm) {
     ccSelect.addEventListener('change', reformat);
   }
 
+  /* ловушка для ботов: людям поле не видно */
+  const trap = document.createElement('input');
+  trap.type = 'text'; trap.name = 'website'; trap.tabIndex = -1; trap.autocomplete = 'off';
+  trap.setAttribute('aria-hidden', 'true');
+  trap.style.cssText = 'position:absolute;left:-9999px;width:1px;height:1px;opacity:0';
+  leadForm.appendChild(trap);
+
   /* кнопка отправки неактивна, пока не отмечено согласие на ПД */
   const consentBox = leadForm.querySelector('input[name="consent"]');
   const submitBtn = leadForm.querySelector('button[type="submit"]');
@@ -259,6 +266,7 @@ if (leadModal && leadForm) {
     const nonce = (document.querySelector('meta[name="bso-lead-nonce"]') || {}).content || '';
     const fd = new FormData();
     fd.append('action', 'unit_lead_submit');
+    fd.append('website', trap.value);
     fd.append('nonce', nonce);
     fd.append('name', data.get('name') || '');
     fd.append('phone', phone);
