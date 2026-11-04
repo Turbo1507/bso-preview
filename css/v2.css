@@ -1677,3 +1677,6 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
   /* финальный блок на всю ширину, своего отступа сверху у него нет */
   #contacts{margin-top:30px}
 }
+
+/* карточки приватности без надписей над заголовком: отступы сверху и снизу равны */
+.pv-card h3{margin-top:0}
