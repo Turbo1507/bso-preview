@@ -26,13 +26,13 @@
     return f;
   }
 
-  // пока внутри карты открыта панель, галерея, фильм или прогулка, у них свой выход, наш крест лёг бы на их заголовок
+  // пока внутри карты открыта панель, галерея или фильм, у них свой выход, наш крест лёг бы на их заголовок
   function watch(f) {
     try {
       var d = f.contentDocument, sync = function () {
         d.documentElement.classList.add('bso-nofull');
         var c = d.body.classList;
-        if (x) x.classList.toggle('is-covered', c.contains('has-upage') || c.contains('walking') || c.contains('has-rgal') || c.contains('is-touring') || c.contains('has-rq-open'));
+        if (x) x.classList.toggle('is-covered', c.contains('has-upage') || c.contains('has-rgal') || c.contains('is-touring') || c.contains('has-rq-open'));
       };
       sync();
       new MutationObserver(sync).observe(d.body, { attributes: true, attributeFilter: ['class'] });
@@ -124,6 +124,43 @@
   btn.querySelector('span').textContent = word(OPEN);
   btn.addEventListener('click', enterFull);
   box.appendChild(btn);
+
+  // пока человек подъезжает к блоку, файлы карты тихо ложатся в кеш: нажал, и ждать меньше
+  var warmed = false;
+  function warm() {
+    if (warmed) return;
+    warmed = true;
+    var c = navigator.connection;
+    if (c && (c.saveData || /2g/.test(c.effectiveType || ''))) return;
+    var get = function (u) { return fetch(u, { priority: 'low', credentials: 'same-origin' }).catch(function () {}); };
+    var queue = [], busy = 0;
+    function pump() {
+      while (busy < 4 && queue.length) {
+        busy++;
+        get(queue.shift()).then(function () { busy--; pump(); });
+      }
+    }
+    var page = url(), base = page.slice(0, page.lastIndexOf('/') + 1), phone = innerWidth <= 900;
+    get(page).then(function (r) { return r && r.text(); }).then(function (h) {
+      var m = h && h.match(/index-(\w+)\.js/);
+      if (!m) return;
+      var tag = m[1], re = /(?:href|src)="(\/3d\/[^"]+?\.(?:js|css)(?:\?[^"]*)?)"/g, f;
+      while ((f = re.exec(h))) queue.push(f[1]);
+      queue.push('/3d/poster1-' + (phone ? 'p' : 'd') + '.webp');
+      ['N8AO', 'reception', 'roads', 'LineMaterial', 'LineSegments2', 'LineSegmentsGeometry'].forEach(function (c) { queue.push(base + 'assets/' + c + '-' + tag + '.js'); });
+      pump();
+      return get('/3d/warm.json?v=' + tag).then(function (r) { return r && r.json(); }).then(function (w) {
+        if (w) { queue = queue.concat(w[phone ? 'low' : 'high'] || []); pump(); }
+      });
+    }).catch(function () {});
+  }
+  if ('IntersectionObserver' in window) {
+    var near = new IntersectionObserver(function (es) {
+      if (es.some(function (x) { return x.isIntersecting; })) { near.disconnect(); warm(); }
+    }, { rootMargin: '900px 0px' });
+    near.observe(box);
+  }
+  btn.addEventListener('pointerenter', warm);
 
   // язык сайта поменялся без перезагрузки страницы
   document.addEventListener('bso:lang', function () {
