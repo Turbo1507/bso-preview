@@ -219,9 +219,9 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20261103210259">
-<link rel="stylesheet" href="css/v2.css?v=20261103210259">
-<link rel="stylesheet" href="3d/m3d.css?v=20261103210259">
+<link rel="stylesheet" href="css/styles.css?v=20261104014913">
+<link rel="stylesheet" href="css/v2.css?v=20261104014913">
+<link rel="stylesheet" href="css/bso3d-embed.css?v=20261104014913">
 <!-- Meta Pixel: грузится только после согласия, по кнопке «Понятно» в cookie-баннере
      (bso_cookie_ok=1, main.js зовёт bsoPixel()). Lead — заявка ушла, Contact — клик в WhatsApp. Ботов и headless не считаем. -->
 <script>
@@ -350,21 +350,21 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
         <img width="1400" height="538" decoding="async" class="ph" src="assets/villas-coolness.jpg" alt="Chambre dans l’ombre douce des panneaux pare-soleil" data-i18n-alt="villas.card2.alt">
         <div class="vcard-text">
           <h3 data-i18n="villas.card2.t">Une sensation de fraîcheur sous un climat chaud</h3>
-          <p data-i18n="villas.card2.p">Ventilation pensée, ombre, scénarios d’éclairage et matériaux : dans la villa, chaque détail travaille pour votre confort</p>
+          <p data-i18n="villas.card2.p">Ventilation, ombre, éclairage et matériaux : chaque détail travaille pour votre confort</p>
         </div>
       </article>
       <article class="vcard">
         <img width="1400" height="548" decoding="async" class="ph" src="assets/villas-privacy.jpg" alt="Cour privée avec un arbre derrière un écran de terre cuite perforé" data-i18n-alt="villas.card1.alt">
         <div class="vcard-text">
           <h3 data-i18n="villas.card1.t">Une mini-oasis privée</h3>
-          <p data-i18n="villas.card1.p">Un jardin et une piscine privés vous offrent un monde à vous, un lieu pour se retirer, ralentir et se sentir vraiment chez soi, dans le confort et la sécurité</p>
+          <p data-i18n="villas.card1.p">Jardin et piscine privés : se retirer et se sentir chez soi, dans le confort et la sécurité</p>
         </div>
       </article>
       <article class="vcard">
         <img width="1400" height="540" decoding="async" class="ph" src="assets/villas-modernism.jpg" alt="Volumes de terre cuite des villas parmi les palmiers au crépuscule" data-i18n-alt="villas.card4.alt">
         <div class="vcard-text">
           <h3 data-i18n="villas.card4.t">Un voyage dans le Desert Modernism</h3>
-          <p data-i18n="villas.card4.p">Panneaux de terre cuite perforés, pierre naturelle et terrazzo dans les pièces d’eau, associés à une palette sable et caramel, fondent les villas en douceur dans le paysage</p>
+          <p data-i18n="villas.card4.p">Terre cuite, pierre naturelle, terrazzo et tons sable et caramel fondent les villas dans le paysage</p>
         </div>
       </article>
     </div>
@@ -452,66 +452,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <h2 class="reveal" data-i18n="iplan.title">Plan interactif du site</h2>
     <p class="lead reveal" data-i18n="iplan.lead">Les 111 lots du complexe : type, surface, prix et disponibilité actuelle</p>
     <div class="iplan-wrap reveal">
-      <!-- 3D-макет комплекса (3d/app.js), грузится, когда блок подходит к экрану -->
-      <div class="m3d" id="m3d">
-        <canvas class="m3d-canvas" id="m3dCanvas"></canvas>
-        <div class="m3d-pins" id="m3dPins"></div>
-        <div class="m3d-top">
-          <div class="m3d-chips" id="m3dTypes" role="group"></div>
-          <button class="m3d-chip m3d-avail" id="m3dAvail" type="button" aria-pressed="false"></button>
-        </div>
-        <div class="m3d-ctrl" id="m3dCtrl"></div>
-        <div class="m3d-bottom">
-          <div class="m3d-legend" id="m3dLegend"></div>
-          <button type="button" class="m3d-reset" id="iplanTableToggle" aria-expanded="false" aria-controls="iplanDrawer">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18M3 12h18M3 19h18"/></svg>
-            <span data-i18n="iplan.tabletoggle">Voir le tableau des lots</span>
-          </button>
-          <button class="m3d-reset" id="m3dReset" type="button"></button>
-        </div>
-        <aside class="m3d-card" id="m3dCard" aria-hidden="true">
-          <button class="m3d-close" id="m3dClose" type="button"></button>
-          <div class="m3d-card-body" id="m3dCardBody"></div>
-        </aside>
-        <div class="m3d-loader" id="m3dLoader"><span></span></div>
-      </div>
-      <div class="iplan-drawer" id="iplanDrawer" hidden>
-        <div class="iplan-drawer-inner">
-          <!-- фильтры сливались, добавил подписи над группами и цветную точку статуса -->
-          <div class="iplan-filters-label" data-i18n="iplan.filter.type_label">Type</div>
-          <div class="iplan-filters" id="iplanTypeFilters">
-            <button class="iplan-chip is-active" data-type="all" data-i18n="iplan.filter.all">Tous les types</button>
-          </div>
-          <div class="iplan-filters-label" data-i18n="iplan.filter.status_label">Statut</div>
-          <div class="iplan-filters iplan-filters-status" id="iplanStatusFilters">
-            <button class="iplan-chip is-active" data-status="all" data-i18n="iplan.filter.allstatus">Tous les statuts</button>
-            <button class="iplan-chip" data-status="early"><i class="iplan-dot is-early"></i><span data-i18n="iplan.st.early">Disponible</span></button>
-            <button class="iplan-chip" data-status="prebooked"><i class="iplan-dot is-prebooked"></i><span data-i18n="iplan.st.prebooked">Réservé</span></button>
-            <button class="iplan-chip" data-status="booked"><i class="iplan-dot is-booked"></i><span data-i18n="iplan.st.booked">Vendu</span></button>
-          </div>
-          <!-- прогресс бары скролла таблицы, нативный скроллбар на тачах прячется, css не отменить -->
-          <div class="iplan-table-outer">
-            <div class="iplan-table-wrap">
-              <table class="iplan-table">
-                <thead>
-                  <tr>
-                    <th data-sort="n" data-i18n="iplan.col.unit">Lot</th>
-                    <th data-sort="t" data-i18n="iplan.col.type">Type</th>
-                    <th data-sort="s" data-i18n="iplan.col.size">m²</th>
-                    <th data-sort="c" data-i18n="iplan.col.price">Prix</th>
-                    <th data-sort="st" data-i18n="iplan.col.status">Statut</th>
-                    <th class="iplan-col-reserve" aria-hidden="true"></th>
-                  </tr>
-                </thead>
-                <tbody id="iplanTbody"></tbody>
-              </table>
-            </div>
-            <div class="iplan-table-track iplan-table-track--x"><div class="iplan-table-thumb"></div></div>
-            <div class="iplan-table-track iplan-table-track--y"><div class="iplan-table-thumb"></div></div>
-          </div>
-          <p class="iplan-count" id="iplanCount"></p>
-        </div>
-      </div>
+      <div class="bso3d" id="bso3d"></div>
     </div>
   </div>
 </section>
@@ -521,7 +462,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <section class="section section-gray plans-tight-top" style="background:var(--stone)" id="plans">
   <div class="container">
     <h2 class="reveal" data-i18n="plans.title">Des plans pour chaque scénario de vie</h2>
-    <p class="lead lead-wide reveal" data-i18n="plans.lead">Chaque format garde l’ADN commun du projet : architecture expressive, intérieurs baignés de lumière, intimité et art de vivre haut de gamme, pour habiter, se détendre, télétravailler et investir</p>
+    <p class="lead lead-wide reveal" data-i18n="plans.lead">Chaque format garde l’ADN du projet : architecture, lumière, intimité. Pour habiter, se détendre, télétravailler, investir</p>
     <div class="plans-tabs reveal" id="plansTabs">
       <button class="plans-tab is-active" data-plan="studio">Studio</button>
       <button class="plans-tab" data-plan="1bd">1BD</button>
@@ -648,7 +589,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <section class="section section-gray" style="background:var(--stone)" id="invest">
   <div class="container">
     <h2 class="reveal" data-i18n="invest.title">Pourquoi Bali, pourquoi Nuanu</h2>
-    <p class="lead lead-wide reveal" data-i18n="invest.lead">Bali compte parmi les destinations touristiques les plus solides au monde. Dans ses meilleurs quartiers, la valeur des biens progresse de 20 % par an, et le rendement locatif des villas atteint 16 % par an. Nuanu amplifie cette dynamique grâce à une offre limitée et un environnement urbain développé</p>
+    <p class="lead lead-wide reveal" data-i18n="invest.lead">Bali compte parmi les destinations touristiques les plus solides au monde, et l’offre limitée de Nuanu amplifie sa croissance</p>
     <!-- стеклянные чипы прямо на фото; на мобиле они уходят под кадр -->
     <div class="invest-photo reveal">
       <!-- реальный кадр бали вместо рендера комплекса, танах лот 15 минут от nuanu -->
@@ -671,7 +612,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
       <div class="fin-card-photo fin-card-photo--sheet"><img width="1425" height="949" decoding="async" class="ph" src="assets/fin-model-sheet.png" alt="" loading="lazy"></div>
       <div class="fin-card-copy">
         <h3 data-i18n="fin.headline">Un calcul de rendement pour votre lot</h3>
-        <p data-i18n="fin.p">Prix d’entrée, calendrier de paiement, prévision de rendement et délai de retour sur investissement : le modèle complet est présenté lors d’une consultation personnelle</p>
+        <p data-i18n="fin.p">Prix d’entrée, paiements, rendement prévu et retour sur investissement : tout en consultation personnelle</p>
       </div>
       <a class="btn btn-clay fin-card-cta js-lead-open" href="/fr/#contacts" data-lead-intent="fin" data-i18n="fin.cta">Recevoir le modèle financier</a>
     </div>
@@ -687,7 +628,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
         <div class="team-photo"><img width="800" height="800" decoding="async" class="ph" src="assets/team-stepan-4.jpg" alt="Steven Fedos" data-i18n-alt="team.name1" loading="lazy"></div>
         <span class="team-role" data-i18n="team.role1">Fondateur</span>
         <h3 data-i18n="team.name1">Steven Fedos</h3>
-        <p data-i18n="team.p1">Fondateur de <b class="u5">UNIT.</b> et de <b class="ul"><b class="u5">UNIT.</b>BUILD</b>. Expert de l’intégration des systèmes et des technologies dans la gestion de la construction</p>
+        <p data-i18n="team.p1">Fondateur de <b class="u5">UNIT.</b> et de <b class="ul"><b class="u5">UNIT.</b>BUILD</b>. Expert des systèmes et des technologies dans la gestion de la construction</p>
       </div>
       <!-- скрывается на en версии, см. css/v2.css -->
       <div class="team-card team-card--anna">
@@ -958,17 +899,16 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
 <!-- тот же пин для мобильного кропа -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/langs.js?v=20261103210259"></script>
-<script src="js/i18n.js?v=20261103210259"></script>
-<script src="js/v2-i18n.js?v=20261103210259"></script>
-<script src="js/i18n-fr.js?v=20261103210259"></script>
-<script src="js/main.js?v=20261103210259"></script>
-<script src="js/v2.js?v=20261103210259"></script>
-<script src="js/units-data.js?v=20261103210259"></script>
-<script src="js/units-plan.js?v=20261103210259"></script>
-<script src="js/buildings-data.js?v=20261103210259"></script>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/","three-mesh-bvh":"https://cdn.jsdelivr.net/npm/three-mesh-bvh@0.8.3/build/index.module.js"}}</script>
-<script type="module" src="3d/app.js?v=20261103210259"></script>
+<script src="js/langs.js?v=20261104014913"></script>
+<script src="js/i18n.js?v=20261104014913"></script>
+<script src="js/v2-i18n.js?v=20261104014913"></script>
+<script src="js/i18n-fr.js?v=20261104014913"></script>
+<script src="js/main.js?v=20261104014913"></script>
+<script src="js/v2.js?v=20261104014913"></script>
+<script src="js/units-data.js?v=20261104014913"></script>
+<script src="js/units-plan.js?v=20261104014913"></script>
+<script src="js/buildings-data.js?v=20261104014913"></script>
+<script src="js/bso3d-embed.js?v=20261104014913"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>

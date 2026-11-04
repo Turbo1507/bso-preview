@@ -17,7 +17,7 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 
 MAIN = ['css/styles.css', 'css/v2.css', 'js/langs.js', 'js/i18n.js',
         'js/v2-i18n.js', 'js/main.js', 'js/v2.js',
-        'js/units-data.js', 'js/units-plan.js', 'js/buildings-data.js', '3d/app.js', '3d/m3d.css']
+        'js/units-data.js', 'js/units-plan.js', 'js/buildings-data.js', 'js/bso3d-embed.js', 'css/bso3d-embed.css']
 TARGETS = {
     'index.html': MAIN,
     'ru/index.html': MAIN,

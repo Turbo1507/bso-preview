@@ -986,7 +986,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
   /* .hero-scroll в styles.css стоит на left:40px намертво; на мобиле контейнер
      с паддингом 16, подпись выравниваем по нему */
   .hero-scroll{left:16px}
-  .section{padding:60px 0}            /* единственная ступень ритма секций: 120 деск / 60 моб (дизайн-система) */
+  .section{padding:60px 0}            /* планшет; телефон ниже, в блоке «между блоками везде 60» */
   /* `#architecture + .section` с ID перебивал .section.villas, и блок липнул
      к предыдущему. Бьём тем же селектором. */
   #villas.section{padding-top:60px}
@@ -1523,11 +1523,10 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
   section .lead.lead-wide{ max-width:1360px }
 }
 
-/* ---------- телефон: блок планировок в один экран, вторичный текст убран ---------- */
+/* ---------- телефон: блок планировок в один экран ---------- */
 @media (max-width:760px){
-  /* по якорю заголовок встаёт сразу под шапкой: 100 от scroll-padding, 60 паддинг секции, 16 зазор под шапкой 68 */
-  #plans{scroll-margin-top:-76px}
-  #plans .lead{display:none}
+  /* по якорю заголовок встаёт сразу под шапкой: 100 от scroll-padding, 30 паддинг секции, 16 зазор под шапкой 68 */
+  #plans{scroll-margin-top:-46px}
   /* 68 шапка + 16 сверху + 16 снизу; фото забирает всё, что осталось */
   #plans .container{display:flex; flex-direction:column; height:calc(100svh - 100px); min-height:440px}
   #plans h2{flex:0 0 auto}
@@ -1552,25 +1551,24 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
   /* в блоке своя кнопка брони, нижняя плашка её только закрывает */
   html.mob-cta-off .mob-cta{transform:translateY(100%); visibility:hidden}
 
-  /* виллы: один абзац и лента карточек вместо четырёх экранов подряд */
-  .villas-intro p:first-child{display:none}
+  /* виллы: лента карточек вместо четырёх экранов подряд */
   .villas-head{margin-bottom:24px}
+  .villas-grid{margin-top:0}
   .villas-grid{display:flex; gap:12px; grid-template-columns:none; overflow-x:auto; overflow-y:hidden;
     scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch}
   .villas-grid::-webkit-scrollbar{display:none}
   .vcard, .vcard--tall{flex:0 0 84%; height:min(440px,64svh); min-height:0; aspect-ratio:auto; scroll-snap-align:center}
-  .vcard-text p{display:none}
-  .vcard::after{background:linear-gradient(180deg,rgba(0,0,0,0) 45%,rgba(0,0,0,.72) 100%)}
+  .vcard::after{background:linear-gradient(180deg,rgba(0,0,0,0) 25%,rgba(0,0,0,.84) 72%)}
   .villas-dots{margin-top:16px}
 
-  /* Nuanu: подпись 10px на карте не читается, линия со стрелкой ничего не листает */
-  .nuanu-caption, .nuanu-divider{display:none}
+  /* Nuanu: линия со стрелкой ничего не листает */
+  .nuanu-divider{display:none}
+  .nuanu-caption{width:56%}
   #nuanu .stat-grid{margin-top:16px}
 
-  /* частная территория: подзаголовков хватает */
-  .pv-card p{display:none}
+  /* частная территория: карточки плотнее, подзаголовок объясняет заголовок */
   .pv-card{padding:16px 24px}
-  .pv-card h3{margin:4px 0 0}
+  .pv-card h3{margin:4px 0 8px}
   .pv-grid{gap:8px}
   .pv-photo{min-height:280px; margin-bottom:8px}
 
@@ -1581,8 +1579,7 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
   .ss-card .num{font-size:24px; min-width:32px}
   html body #steps-sticky .ss-card-body h3{font-size:18px; margin:0 0 4px}
 
-  /* почему Бали: лид повторял чипы под фото */
-  #invest .lead{display:none}
+  /* почему Бали */
   #invest .invest-photo{margin-top:24px}
   #invest .invest-photo img{aspect-ratio:16/9}
   #invest .invest-chips{margin-top:8px; gap:8px}
@@ -1594,12 +1591,12 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
   html[lang="ru"] .team-card p{grid-column:1 / -1; grid-row:5; margin-top:16px}
   html[lang="ru"] .team-card h3{margin-bottom:0}
 
-  /* группа: лид уже называет все четыре направления */
-  .unitgrp-grid{grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px}
+  /* группа: одна колонка, значок над названием, под ними что делает компания */
+  .unitgrp-grid{grid-template-columns:minmax(0,1fr); gap:8px}
   .unitgrp-card{padding:16px}
-  .unitgrp-card p{display:none}
   .unitgrp-card .card-ic{margin-bottom:12px}
-  html body .unitgrp-card h3{margin:0; font-size:16px}
+  html body .unitgrp-card h3{margin:0}
+  .unitgrp-card p{margin:8px 0 0}
 
   /* финал: кнопка в одну строку, без линий между цифрами */
   .final-stats .stat + .stat{border-top:0; padding-top:0}
@@ -1609,6 +1606,19 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
   /* баннер куки: ссылка и кнопка в один ряд */
   .cookie-note-row{margin-top:8px; flex-wrap:nowrap}
   .cookie-note-row a{font-size:12px}
+}
+
+/* телефоны пониже: блок планировок вместе с лидом держим в одном экране */
+@media (max-width:760px) and (max-height:700px){
+  html body #plans h2{font-size:30px}
+  #plans .lead{margin-top:8px}
+  #plans .plans-tabs{margin:12px 0 8px}
+  #plans .plans-viewer{min-height:96px}
+  #plans .plans-dots{margin:4px 0 0}
+  #plans .plans-info{margin-top:4px; gap:4px 16px}
+  html body #plans .plans-stat .v{font-size:16px}
+  #plans .plans-cta-row .btn-glass{height:48px}
+  #plans .plans-toggle-btn--icon{width:48px; height:48px}
 }
 
 /* совсем низкие телефоны: место важнее точек и крупного заголовка */
@@ -1623,7 +1633,6 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
 
 /* узкие телефоны: длинное название и финальная кнопка в одну строку */
 @media (max-width:380px){
-  html body .unitgrp-card h3{font-size:14px}
   .final-cta{font-size:14px; padding-left:8px; padding-right:8px}
 }
 @media (max-width:860px){ #plans .plans-tab{min-height:44px} }
@@ -1636,4 +1645,35 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
 }
 @media (max-width:380px){
   html body section h2{font-size:30px}
+}
+
+/* телефон: подпись галереи не заходит под точки */
+@media (max-width:760px){
+  #architecture .arch-slide-cap h3{padding-right:72px}
+}
+
+/* телефон: индикаторы всех слайдеров одного вида, тонкий круг вместо разных точек и полосок */
+@media (max-width:760px){
+  .plans-dots button{width:16px}
+  .plans-dots button::before{width:6px; height:6px}
+  .min-gallery-dots, .carousel-dots{gap:10px}
+  .min-gallery-dots span, .min-gallery-dots span.on, .carousel-dots span, .carousel-dots span.on{width:6px; height:6px; border-radius:50%}
+  .carousel-dots span{background:rgba(255,255,255,.3)}
+  .min-gallery-dots span.on, .carousel-dots span.on{background:var(--white)}
+}
+
+/* слово с дефисом не разрывается на строки */
+.nowrap{white-space:nowrap}
+
+/* телефон: между блоками везде 60 на экране. Правила пар с другим шагом приводим к общему */
+@media (max-width:760px){
+  .section{padding:30px 0}
+  #villas.section{padding-top:30px}
+  .section-gray + .section-gray{padding-top:30px}
+  .section-gray:has(+ .section-gray){padding-bottom:30px}
+  #plans{padding-top:30px}
+  /* первый блок после героя: у героя своего отступа снизу нет */
+  #architecture.section{padding-top:60px}
+  /* финальный блок на всю ширину, своего отступа сверху у него нет */
+  #contacts{margin-top:30px}
 }
