@@ -146,7 +146,7 @@
       if (!m) return;
       var tag = m[1], re = /(?:href|src)="(\/3d\/[^"]+?\.(?:js|css)(?:\?[^"]*)?)"/g, f;
       while ((f = re.exec(h))) queue.push(f[1]);
-      queue.push('/3d/poster1-' + (phone ? 'p' : 'd') + '.webp');
+      queue.push('/3d/poster2-' + (phone ? 'p' : 'd') + '.webp');
       ['N8AO', 'reception', 'roads', 'LineMaterial', 'LineSegments2', 'LineSegmentsGeometry'].forEach(function (c) { queue.push(base + 'assets/' + c + '-' + tag + '.js'); });
       pump();
       return get('/3d/warm.json?v=' + tag).then(function (r) { return r && r.json(); }).then(function (w) {
