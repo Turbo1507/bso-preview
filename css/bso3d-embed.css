@@ -24,3 +24,5 @@
 /* страница под картой не рисуется */
 html.bso3d-lock,html.bso3d-lock body{overflow:hidden}
 html.bso3d-lock body{visibility:hidden}
+/* заявка из карты открывается поверх неё: закрыл форму и вернулся к той же вилле */
+html.bso3d-form .lead-modal{visibility:visible;z-index:2147483001}

@@ -97,7 +97,24 @@
   window.__bsoMapEsc = function () { exitFull(false); };
 
   window.__bsoMapLead = function (unit, agent) {
-    exitFull(false);
+    var modal = document.getElementById('leadModal');
+    if (isFull && modal) {
+      // карта остаётся открытой под формой, после закрытия формы человек там же, где был
+      var root = document.documentElement;
+      root.classList.add('bso3d-form');
+      var mo = new MutationObserver(function () {
+        if (modal.classList.contains('is-open')) return;
+        mo.disconnect();
+        // снимаем позже: Esc, который закрыл форму, не должен закрыть и карту
+        setTimeout(function () {
+          root.classList.remove('bso3d-form');
+          if (frame) frame.focus();
+        }, 0);
+      });
+      mo.observe(modal, { attributes: true, attributeFilter: ['class'] });
+    } else {
+      exitFull(false);
+    }
     var comment = document.querySelector('#leadForm textarea[name="comment"], textarea[name="comment"]');
     if (unit && typeof window.openLeadForUnit === 'function') {
       window.openLeadForUnit(unit);
@@ -115,7 +132,9 @@
   };
 
   window.addEventListener('popstate', function () { exitFull(true); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') exitFull(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !document.documentElement.classList.contains('bso3d-form')) exitFull(false);
+  });
 
   var btn = document.createElement('button');
   btn.type = 'button';
