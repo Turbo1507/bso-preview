@@ -465,7 +465,7 @@ body.menu-open .burger span{background:var(--white)}
   /* десктопный #plans{padding-top:72px} нужен, чтобы блок влез в экран по якорю;
      на мобиле возвращаем общий шаг секций */
   #plans{padding-top:60px}  /* = .section на мобиле */
-  .plans-viewer{height:clamp(360px,55vh,520px); height:clamp(360px,55svh,520px)}
+  .plans-viewer{height:clamp(360px,calc(var(--vh)*55),520px)}
   .plans-info{gap:24px; padding-top:24px}
   .plans-info h3{font-size:24px; margin:0; flex:0 0 100%}
   .plans-stat .v{font-size:24px; margin-top:4px}
@@ -662,8 +662,7 @@ body{overflow-x:clip}
 .gal-slide img{
   /* фото и стрелки над заголовком должны влезать в один экран, поэтому
      высоту ограничиваем ещё и 56vh */
-  height:clamp(300px, min(40vw, 56vh), 520px);
-  height:clamp(300px, min(40vw, 56svh), 520px); border-radius:var(--r-lg);
+  height:clamp(300px, min(40vw, calc(var(--vh)*56)), 520px); border-radius:var(--r-lg);
   background:var(--surface); box-shadow:var(--shadow-card);
 }
 /* НЕ loading="lazy" внутри горизонтального трека офскрин — тот же баг, что
@@ -788,7 +787,7 @@ h2{font-family:'Prata',Georgia,'Times New Roman',serif; font-weight:400; line-he
 /* .spec-list ушёл из разметки — вместе с ним ушла цепочка отступов
    `.spec-list + .min-gallery`, спускавшая «заголовок/лид → контент» 40.
    .min-gallery — теперь прямой сосед .block-head-split, отступ держим сам. */
-#architecture .min-gallery{aspect-ratio:auto; height:clamp(560px,66vh,900px); margin-top:40px}
+#architecture .min-gallery{aspect-ratio:auto; height:clamp(560px,calc(var(--vh)*66),900px); margin-top:40px}
 #architecture .min-gallery-slide{position:relative}
 /* тот же приём читаемости, что у .vcard::after (:773) — только rgba-градиент,
    без filter:brightness/saturate (дизайн-система, фото иначе «грязнеет») */
@@ -1510,11 +1509,11 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
 .menu-overlay .menu-lang{margin:0 16px 0 auto; padding:0}
 .menu-overlay .lang-dd-btn{font-size:16px; color:var(--white)}
 /* пункты и зазоры от высоты экрана, чтобы меню целиком влезало на коротких телефонах */
-.menu-overlay{padding-bottom:clamp(16px, 4svh, 32px)}
-.menu-overlay > a{font-size:clamp(17px, 3svh, 20px); line-height:1.2; padding:clamp(8px, 1.6svh, 13px) 0}
-.menu-head{padding-top:clamp(6px, 1.4svh, 12px); padding-bottom:clamp(6px, 1.4svh, 12px)}
-.menu-overlay .menu-cta{margin-top:clamp(16px, 3svh, 22px)}
-.menu-legal{margin-top:clamp(8px, 2svh, 14px)}
+.menu-overlay{padding-bottom:clamp(16px, calc(var(--vh)*4), 32px)}
+.menu-overlay > a{font-size:clamp(17px, calc(var(--vh)*3), 20px); line-height:1.2; padding:clamp(8px, calc(var(--vh)*1.6), 13px) 0}
+.menu-head{padding-top:clamp(6px, calc(var(--vh)*1.4), 12px); padding-bottom:clamp(6px, calc(var(--vh)*1.4), 12px)}
+.menu-overlay .menu-cta{margin-top:clamp(16px, calc(var(--vh)*3), 22px)}
+.menu-legal{margin-top:clamp(8px, calc(var(--vh)*2), 14px)}
 
 /* широкие экраны: контент растёт до 1600, по бокам не пусто */
 @media (min-width:1760px){
@@ -1528,7 +1527,7 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
   /* по якорю заголовок встаёт сразу под шапкой: 100 от scroll-padding, 30 паддинг секции, 16 зазор под шапкой 68 */
   #plans{scroll-margin-top:-46px}
   /* 68 шапка + 16 сверху + 16 снизу; фото забирает всё, что осталось */
-  #plans .container{display:flex; flex-direction:column; height:calc(100svh - 100px); min-height:440px}
+  #plans .container{display:flex; flex-direction:column; height:calc(var(--vh)*100 - 100px); min-height:440px}
   #plans h2{flex:0 0 auto}
   #plans .plans-tabs{flex:0 0 auto; margin:16px 0 12px}
   #plans .plans-tab{min-height:44px; padding:0 16px}
@@ -1557,7 +1556,7 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
   .villas-grid{display:flex; gap:12px; grid-template-columns:none; overflow-x:auto; overflow-y:hidden;
     scroll-snap-type:x mandatory; scrollbar-width:none; overscroll-behavior-x:contain; -webkit-overflow-scrolling:touch}
   .villas-grid::-webkit-scrollbar{display:none}
-  .vcard, .vcard--tall{flex:0 0 84%; height:min(440px,64svh); min-height:0; aspect-ratio:auto; scroll-snap-align:center}
+  .vcard, .vcard--tall{flex:0 0 84%; height:min(440px,calc(var(--vh)*64)); min-height:0; aspect-ratio:auto; scroll-snap-align:center}
   .vcard::after{background:linear-gradient(180deg,rgba(0,0,0,0) 25%,rgba(0,0,0,.84) 72%)}
   .villas-dots{margin-top:16px}
 
@@ -1608,24 +1607,25 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
   .cookie-note-row a{font-size:12px}
 }
 
-/* телефоны пониже: блок планировок вместе с лидом держим в одном экране */
-@media (max-width:760px) and (max-height:700px){
-  html body #plans h2{font-size:30px}
-  #plans .lead{margin-top:8px}
-  #plans .plans-tabs{margin:12px 0 8px}
-  #plans .plans-viewer{min-height:96px}
-  #plans .plans-dots{margin:4px 0 0}
-  #plans .plans-info{margin-top:4px; gap:4px 16px}
-  html body #plans .plans-stat .v{font-size:16px}
-  #plans .plans-cta-row .btn-glass{height:48px}
-  #plans .plans-toggle-btn--icon{width:48px; height:48px}
+/* телефоны пониже: блок планировок вместе с лидом держим в одном экране.
+   Не @media по высоте: в Telegram она меняется вместе с панелью. Классы ставит main.js при загрузке */
+@media (max-width:760px){
+  html.vh-700 body #plans h2{font-size:30px}
+  html.vh-700 #plans .lead{margin-top:8px}
+  html.vh-700 #plans .plans-tabs{margin:12px 0 8px}
+  html.vh-700 #plans .plans-viewer{min-height:96px}
+  html.vh-700 #plans .plans-dots{margin:4px 0 0}
+  html.vh-700 #plans .plans-info{margin-top:4px; gap:4px 16px}
+  html.vh-700 body #plans .plans-stat .v{font-size:16px}
+  html.vh-700 #plans .plans-cta-row .btn-glass{height:48px}
+  html.vh-700 #plans .plans-toggle-btn--icon{width:48px; height:48px}
 }
 
 /* совсем низкие телефоны: место важнее точек и крупного заголовка */
-@media (max-width:760px) and (max-height:600px){
-  #plans .plans-dots{display:none}
-  html body #plans h2{font-size:24px}
-  #plans .plans-tabs{margin:8px 0}
+@media (max-width:760px){
+  html.vh-600 #plans .plans-dots{display:none}
+  html.vh-600 body #plans h2{font-size:24px}
+  html.vh-600 #plans .plans-tabs{margin:8px 0}
 }
 
 /* лента вилл только на телефоне: после поворота экрана точки не нужны */

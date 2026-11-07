@@ -1,5 +1,5 @@
 /* в блоке обложка с видом на посёлок и кнопка, сама карта только на весь экран */
-.bso3d{position:relative;height:clamp(420px,64vh,640px);height:clamp(420px,64svh,640px);overflow:hidden;
+.bso3d{position:relative;height:clamp(420px,calc(var(--vh)*64),640px);overflow:hidden;
   border-radius:var(--r-lg,10px);background:#131313 url("../assets/map3d-cover-wide.jpg") center/cover no-repeat}
 .bso3d::after{content:"";position:absolute;inset:0;background:rgba(19,19,19,.22);pointer-events:none}
 @media (max-width:767px){

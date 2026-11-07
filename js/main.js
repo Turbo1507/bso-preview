@@ -2,6 +2,22 @@
 
 /* Пути к фото планировок ниже — 'assets/...', относительно страницы. Страница
    глубже корня может задать window.BSO_ASSET_PREFIX до подключения файла. */
+/* ---------- высота экрана для Telegram и Safari ----------
+   Панель браузера при прокрутке сворачивается, innerHeight меняется и летит resize:
+   высоты от svh/vh прыгают. --vh фиксируем в px при загрузке и меняем только при смене ширины. */
+(() => {
+  let w = innerWidth;
+  const fine = matchMedia('(pointer:fine)').matches; // на ПК окно тянут и по высоте
+  const set = () => {
+    const r = document.documentElement, h = innerHeight;
+    r.style.setProperty('--vh', (h / 100) + 'px');
+    r.classList.toggle('vh-700', h <= 700); // вместо @media (max-height) в v2.css
+    r.classList.toggle('vh-600', h <= 600);
+  };
+  set();
+  addEventListener('resize', () => { if (fine || innerWidth !== w) { w = innerWidth; set(); } });
+})();
+
 const ASSET = s => (window.BSO_ASSET_PREFIX || '') + s;
 
 /* ---------- UTM-метки для заявок ----------
