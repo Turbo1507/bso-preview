@@ -228,7 +228,7 @@
   btn.addEventListener('pointerenter', warm);
   // на ПК кнопка карты есть уже на первом экране: файлы карты тихо качаются, как только страница освободилась
   if (innerWidth > 900) window.addEventListener('load', function () {
-    setTimeout(function () { (window.requestIdleCallback || setTimeout)(warm, 2000); }, 3000);
+    setTimeout(function () { if (window.requestIdleCallback) requestIdleCallback(warm, { timeout: 2000 }); else setTimeout(warm, 2000); }, 3000);
   });
 
   // язык сайта поменялся без перезагрузки страницы
