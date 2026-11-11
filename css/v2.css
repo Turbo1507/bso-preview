@@ -1680,3 +1680,30 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
 
 /* карточки приватности без надписей над заголовком: отступы сверху и снизу равны */
 .pv-card h3{margin-top:0}
+
+/* кнопки на 3D-карту: на первом экране главная, в планировках рядом с бронью */
+.hero-btns{display:flex; flex-wrap:wrap; align-items:stretch; gap:16px}
+.hero-btns .btn .ic-3d{width:24px; height:24px}
+.plans-map-btn{order:-1; flex:0 0 auto; height:64px; padding:0 24px; display:inline-flex; align-items:center; gap:12px;
+  border:1px solid var(--clay); border-radius:var(--r-xs); background:rgba(217,174,69,.12); color:var(--white); font-size:16px; white-space:nowrap;
+  transition:background-color .2s var(--ease)}
+.plans-map-btn:hover{background:rgba(217,174,69,.22)}
+.plans-map-ic{width:24px; height:24px; color:var(--gold-1)}
+.plans-map-s{display:none}
+@media (max-width:860px){
+  /* на телефоне подпись короткая: бронь остаётся главной и не сжимается */
+  .plans-map-btn{order:0; width:64px; padding:0; justify-content:center}
+  .plans-map-l, .plans-map-ic{display:none}
+  .plans-map-s{display:inline}
+  .plans-cta-row .btn-glass{padding:0 16px}
+}
+@media (max-width:760px){
+  /* две кнопки первого экрана стопкой и одной ширины */
+  .hero-btns{display:inline-grid; gap:12px}
+  /* в начале видео девушка стоит ровно под кнопками, сдвигаем кадр */
+  #heroVideo{object-position:0 40%}
+  .hero-btns .btn{min-height:52px}
+  .hero-btns .btn .ic-3d{width:20px; height:20px}
+  #plans .plans-map-btn{width:56px; height:56px}
+  html.vh-700 #plans .plans-map-btn{width:48px; height:48px}
+}

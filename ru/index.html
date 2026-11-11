@@ -223,9 +223,9 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="css/styles.css?v=20261108121957">
-<link rel="stylesheet" href="css/v2.css?v=20261108121957">
-<link rel="stylesheet" href="css/bso3d-embed.css?v=20261108121957">
+<link rel="stylesheet" href="css/styles.css?v=20261111111807">
+<link rel="stylesheet" href="css/v2.css?v=20261111111807">
+<link rel="stylesheet" href="css/bso3d-embed.css?v=20261111111807">
 <!-- Meta Pixel: грузится только после согласия, по кнопке «Понятно» в cookie-баннере
      (bso_cookie_ok=1, main.js зовёт bsoPixel()). Lead — заявка ушла, Contact — клик в WhatsApp. Ботов и headless не считаем. -->
 <script>
@@ -246,7 +246,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
     <nav class="nav">
       <a href="/ru/#architecture" data-i18n="nav.architecture">Архитектура</a>
       <a href="/ru/#plans" data-i18n="nav.plans">Планировки</a>
-      <a href="/ru/#interactive-plan" data-i18n="nav.iplan">План комплекса</a>
+      <a class="js-map-open" href="/ru/#interactive-plan" data-i18n="nav.iplan">3D-карта</a>
       <a href="/ru/#steps-sticky" data-i18n="nav.steps">Как купить</a>
       <a href="/ru/#invest" data-i18n="nav.invest">Инвестиции</a>
       <a href="/ru/#team" data-i18n="nav.team">Команда</a>
@@ -269,7 +269,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   </div>
   <a href="/ru/#architecture" data-i18n="nav.architecture">Архитектура</a>
   <a href="/ru/#plans" data-i18n="nav.plans">Планировки</a>
-  <a href="/ru/#interactive-plan" data-i18n="nav.iplan">План комплекса</a>
+  <a class="js-map-open" href="/ru/#interactive-plan" data-i18n="nav.iplan">3D-карта</a>
   <a href="/ru/#steps-sticky" data-i18n="nav.steps">Как купить</a>
   <a href="/ru/#invest" data-i18n="nav.invest">Инвестиции</a>
   <a href="/ru/#team" data-i18n="nav.team">Команда</a>
@@ -289,7 +289,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
   <div class="hero-shade"></div>
   <div class="container hero-in">
     <h1 class="hero-h1"><span class="hero-title">Black <br>Sands <br>Oasis</span> <span class="hero-sub" data-i18n="hero.sub">Тихая роскошь камерных вилл в Nuanu, Бали</span></h1>
-    <div class="btn-row"><a class="btn btn-white" href="/ru/#architecture"><span data-i18n="hero.cta">Изучить предложение</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a></div>
+    <div class="btn-row hero-btns"><a class="btn btn-white" href="/ru/#architecture"><span data-i18n="hero.cta">Изучить предложение</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></a><a class="btn btn-ghost js-map-open" href="/ru/#interactive-plan"><svg class="ic-3d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3 7.5 12 12l9-4.5L12 3Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg><span data-i18n="hero.cta3d">Выбрать виллу в 3D</span></a></div>
   </div>
   <div class="hero-scroll" data-i18n="hero.scroll"><b class="u5">UNIT.</b> Флагманский проект</div>
 </section>
@@ -450,7 +450,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
      партнерской шахматки, источник и правила обновления в units-data.js -->
 <section class="section section-gray" style="background:var(--stone)" id="interactive-plan">
   <div class="container">
-    <h2 class="reveal" data-i18n="iplan.title">Интерактивный план комплекса</h2>
+    <h2 class="reveal" data-i18n="iplan.title">Интерактивный 3D-план комплекса</h2>
     <p class="lead reveal" data-i18n="iplan.lead">Все 111 юнитов комплекса: тип, площадь, цена и актуальное наличие</p>
     <div class="iplan-wrap reveal">
       <div class="bso3d" id="bso3d"></div>
@@ -513,6 +513,8 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
         </div>
         <div class="plans-cta-row">
           <a class="btn btn-glass js-lead-open" href="/ru/#contacts" data-lead-intent="book" data-i18n="plans.cta.v2">Забронировать виллу</a>
+          <!-- открывает 3D-карту сразу на выбранном формате -->
+          <a class="plans-map-btn js-map-open" href="/ru/#interactive-plan" data-map-plans aria-label="Смотреть в 3D" data-i18n-aria="plans.map3d"><svg class="ic-3d plans-map-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 3 7.5 12 12l9-4.5L12 3Z"/><path d="m3 12 9 4.5 9-4.5"/><path d="m3 16.5 9 4.5 9-4.5"/></svg><span class="plans-map-l" data-i18n="plans.map3d">Смотреть в 3D</span><span class="plans-map-s" aria-hidden="true">3D</span></a>
           <!-- иконка плана рядом с cta -->
           <button class="plans-toggle-btn plans-toggle-btn--icon" id="plansToggleBtn" aria-expanded="false" aria-label="Смотреть планировку" data-i18n-aria="plans.view_layout">
             <svg class="plans-toggle-ic plans-toggle-ic--closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="miter"><path d="M3 3H21V21H3Z"/><path stroke-linecap="butt" d="M11 3.75V8M11 11.25V20.25M11.75 12H14M17 12H20.25M3.75 15H7"/></svg>
@@ -790,7 +792,7 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
       <h4 role="heading" aria-level="2" data-i18n="menu.title">Меню</h4>
       <a href="/ru/#architecture" data-i18n="nav.architecture">Архитектура</a>
       <a href="/ru/#plans" data-i18n="nav.plans">Планировки</a>
-      <a href="/ru/#interactive-plan" data-i18n="nav.iplan">План комплекса</a>
+      <a class="js-map-open" href="/ru/#interactive-plan" data-i18n="nav.iplan">3D-карта</a>
       <a href="/ru/#steps-sticky" data-i18n="nav.steps">Как купить</a>
       <a href="/ru/#invest" data-i18n="nav.invest">Инвестиции</a>
       <a href="/ru/#team" data-i18n="nav.team">Команда</a>
@@ -900,15 +902,15 @@ try{if(localStorage.getItem('bso_cookie_ok')==='1')bsoPixel()}catch(e){}
 <script>window.BSO_NUANU_BADGE_PIN = { dot: [21.23, 20.8], from: [21.23, 17.9] };</script>
 <!-- тот же пин для мобильного кропа -->
 <script>window.BSO_NUANU_BADGE_PIN_MOBILE = { dot: [23.04, 22.49], from: [23.04, 19.59] };</script>
-<script src="js/langs.js?v=20261108121957"></script>
-<script src="js/i18n.js?v=20261108121957"></script>
-<script src="js/v2-i18n.js?v=20261108121957"></script>
-<script src="js/main.js?v=20261108121957"></script>
-<script src="js/v2.js?v=20261108121957"></script>
-<script src="js/units-data.js?v=20261108121957"></script>
-<script src="js/units-plan.js?v=20261108121957"></script>
-<script src="js/buildings-data.js?v=20261108121957"></script>
-<script src="js/bso3d-embed.js?v=20261108121957"></script>
+<script src="js/langs.js?v=20261111111807"></script>
+<script src="js/i18n.js?v=20261111111807"></script>
+<script src="js/v2-i18n.js?v=20261111111807"></script>
+<script src="js/main.js?v=20261111111807"></script>
+<script src="js/v2.js?v=20261111111807"></script>
+<script src="js/units-data.js?v=20261111111807"></script>
+<script src="js/units-plan.js?v=20261111111807"></script>
+<script src="js/buildings-data.js?v=20261111111807"></script>
+<script src="js/bso3d-embed.js?v=20261111111807"></script>
 <script src="js/units-live.js?v=20260901182026"></script>
 </body>
 </html>

@@ -4,8 +4,8 @@
   var box = document.getElementById('bso3d');
   if (!box) return;
 
-  var OPEN = { en: 'Open 3D map', ru: 'Открыть 3D-карту', id: 'Buka peta 3D', fr: 'Ouvrir la carte 3D', es: 'Abrir el mapa 3D',
-    uk: 'Відкрити 3D-карту', it: 'Apri la mappa 3D', tr: '3D haritayı aç', nl: '3D-kaart openen' };
+  var OPEN = { en: 'See available villas', ru: 'Смотреть свободные виллы', id: 'Lihat vila yang tersedia', fr: 'Voir les villas disponibles',
+    es: 'Ver villas disponibles', uk: 'Дивитися вільні вілли', it: 'Vedi le ville disponibili', tr: 'Müsait villaları gör', nl: 'Bekijk beschikbare villa’s' };
   var CLOSE = { en: 'Close', ru: 'Закрыть', id: 'Tutup', fr: 'Fermer', es: 'Cerrar', uk: 'Закрити', it: 'Chiudi', tr: 'Kapat', nl: 'Sluiten' };
   var OWN_COPY = { fr: 1, es: 1, uk: 1, it: 1, tr: 1, nl: 1 };
 
@@ -16,7 +16,7 @@
     return OWN_COPY[l] ? '/3d/l/' + l + '/index.html?embed=1&host=main' : '/3d/index.html?embed=1&host=main&lang=' + (l === 'ru' || l === 'id' ? l : 'en');
   }
 
-  var frame = null, x = null, isFull = false, top0 = 0, paused = [];
+  var frame = null, x = null, isFull = false, top0 = 0, y0 = 0, anchor = null, paused = [];
 
   function makeFrame() {
     var f = document.createElement('iframe');
@@ -59,14 +59,21 @@
     paused = [];
   }
 
-  function enterFull() {
+  // from: кнопка, которой открыли карту. После закрытия человек остаётся у неё, а не у блока карты
+  function enterFull(from) {
     if (isFull) return;
     isFull = true;
-    top0 = box.getBoundingClientRect().top;
+    var el = from && from.nodeType === 1 ? from : null;
+    // пункт меню в шапке или в оверлее на месте не стоит, тогда держим саму прокрутку
+    anchor = el ? (el.closest('.site-header, .menu-overlay') ? null : el) : box;
+    y0 = window.scrollY;
+    top0 = anchor ? anchor.getBoundingClientRect().top : 0;
     document.documentElement.classList.add('bso3d-lock');
     // анимация появления блока даёт предку transform, и fixed считается от него, а не от экрана
     for (var p = box.parentElement; p && p !== document.body; p = p.parentElement) {
       if (getComputedStyle(p).transform !== 'none') { p.style.transition = 'none'; p.style.transform = 'none'; }
+      // карту открыли из шапки или первого экрана: блок ещё не проявился и прозрачен
+      if (p.classList.contains('reveal')) p.classList.add('in');
     }
     box.classList.add('bso3d--full');
     pausePage();
@@ -86,13 +93,52 @@
     // закрытие убирает карту из памяти и с видеокарты
     if (frame) { frame.remove(); frame = null; }
     resumePage();
-    // пока карта была открыта, страница могла сдвинуться: возвращаем блок на место
-    var d = box.getBoundingClientRect().top - top0;
+    // пока карта была открыта, страница могла сдвинуться: возвращаем кнопку на то же место экрана
+    var d = anchor ? anchor.getBoundingClientRect().top - top0 : y0 - window.scrollY;
     if (Math.abs(d) > 1) window.scrollTo({ top: window.scrollY + d, behavior: 'instant' });
     if (!fromHistory && history.state && history.state.bso3d) history.back();
   }
 
   window.__bsoMapFull = enterFull;
+
+  // карта открыта из планировок: когда загрузится, сама выбирает этот формат и показывает его свободные виллы
+  var TYPE = { studio: 'STUDIO', '1bd': '1BD', '1bdsky': '1BD', '2bd': '2BD', '3bd': '3BD', '3bdsky': '3BD', '4bd': '4BD' };
+  function pick(key) {
+    var f = frame, tries = 0, calm = 0, clicks = 0, wait = 0;
+    (function tick() {
+      if (!f || f !== frame || tries++ > 300) return;
+      try {
+        var w = f.contentWindow, d = f.contentDocument, c = d && d.body && d.body.classList;
+        var t = c && d.querySelector('.rdock__tab[data-key="' + key + '"]');
+        // студии живут в корпусе: вместо списка карта открывает разрез по этажам
+        if (t && (t.classList.contains('is-on') || (key === 'STUDIO' && c.contains('is-stack')))) return;
+        // карта загрузилась, загрузчик снят, заставка доиграла, и так хотя бы секунду
+        var idle = t && w.__bso && w.__bso.booted && w.__bso.booted() && !d.getElementById('loader') && !c.contains('is-intro') && !c.contains('intro-fade');
+        calm = idle ? calm + 1 : 0;
+        // пока карта готовит графику, нажатие срабатывает через пару секунд; второе нажатие сняло бы выбор
+        if (wait > 0) wait--;
+        else if (calm >= 4 && clicks < 2) { t.click(); clicks++; wait = 20; }
+      } catch (e) {}
+      setTimeout(tick, 300);
+    })();
+  }
+
+  // кнопки «в 3D» в шапке, на первом экране и в планировках открывают карту сразу, без прокрутки к блоку
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest && e.target.closest('.js-map-open');
+    if (!a || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    e.preventDefault();
+    enterFull(a);
+    if (a.hasAttribute('data-map-plans')) {
+      var tab = document.querySelector('#plansTabs .is-active'), key = tab && TYPE[tab.getAttribute('data-plan')];
+      if (key) pick(key);
+    }
+  });
+  ['pointerover', 'touchstart', 'focusin'].forEach(function (ev) {
+    document.addEventListener(ev, function (e) {
+      if (e.target && e.target.closest && e.target.closest('.js-map-open')) warm();
+    }, { passive: true });
+  });
 
   window.__bsoMapEsc = function () { exitFull(false); };
 
@@ -180,6 +226,10 @@
     near.observe(box);
   }
   btn.addEventListener('pointerenter', warm);
+  // на ПК кнопка карты есть уже на первом экране: файлы карты тихо качаются, как только страница освободилась
+  if (innerWidth > 900) window.addEventListener('load', function () {
+    setTimeout(function () { (window.requestIdleCallback || setTimeout)(warm, 2000); }, 3000);
+  });
 
   // язык сайта поменялся без перезагрузки страницы
   document.addEventListener('bso:lang', function () {
