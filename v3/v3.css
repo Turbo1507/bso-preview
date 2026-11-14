@@ -1,148 +1,284 @@
-/* v3: светлые и тёмные секции вперемешку, стекло поверх фото, золото и океан.
-   Грузится после v2.css. Тон секции задаёт класс: .t-light песок, .t-ocean глубокий океан. */
+/* v3. Один день у океана: песок (вилла), океан (место), графит (покупка), песок (люди).
+   Фото без рамок, скруглений и плашек. Текст лежит в дымке прямо на кадре (.haze),
+   золото только в цифрах и кнопках. Грузится после v2.css. */
 
 :root{
-  --sand:#efe7dc;
-  --sand-2:#e7ddcf;
-  --sand-card:#f8f3ec;
-  --ink-text:#1f1d1a;
-  --ink-muted:rgba(31,29,26,.64);
-  --gold-ink:#9c7a2e;          /* золото для текста и иконок на светлом */
-  --ocean:#123238;
-  --ocean-deep:#0b1f23;
-  --r-lg:24px; --r-md:20px; --r-sm:16px;
-  --glass-bg:rgba(255,255,255,.12);
-  --glass-line:rgba(255,255,255,.26);
+  --sand:#efe6da;
+  --sand-2:#e4d8c7;
+  --ink-text:#1d1b18;
+  --ink-muted:rgba(29,27,24,.64);
+  --gold:#c9a961;
+  --gold-ink:#876a2c;            /* золото для мелкого текста на песке */
+  --ocean:#0d3940;
+  --ocean-deep:#08272d;
+  --graph:#151514;
+  --gut:40px;                     /* поле страницы */
+  --sec:128px;                    /* ритм между секциями */
+  --r-xs:2px; --r-sm:2px; --r-md:2px; --r-lg:0px;
+}
+@media (max-width:1279px){ :root{--sec:96px} }
+@media (max-width:860px){ :root{--sec:72px; --gut:16px} }
+
+html.v3 body{background:var(--sand)}
+
+/* ---------- дымка: низ кадра размыт и чуть затемнён, текст лежит на ней ---------- */
+.haze{position:relative; isolation:isolate; overflow:hidden}
+.haze::after{content:''; position:absolute; left:0; right:0; bottom:0; height:56%; z-index:1; pointer-events:none;
+  -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px);
+  -webkit-mask-image:linear-gradient(to top,#000 0,#000 28%,transparent 100%); mask-image:linear-gradient(to top,#000 0,#000 28%,transparent 100%);
+  background:linear-gradient(to top,rgba(18,16,13,.62) 0%,rgba(18,16,13,.22) 55%,rgba(18,16,13,0) 100%)}
+
+/* ---------- общие мелочи ---------- */
+.x-eyebrow{margin:0 0 24px; font-size:13px; line-height:1.3; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-ink)}
+.x-lead{margin:24px 0 0; font-size:clamp(17px,1.4vw,20px); line-height:1.45; max-width:36ch; color:var(--ink-muted)}
+html.v3 body .btn{border-radius:2px}
+html.v3 body .btn-white,
+html.v3 body .btn-clay{background:var(--gold); background-image:none; color:var(--ink-text); border-color:transparent}
+html.v3 body .btn-white:hover,
+html.v3 body .btn-clay:hover{background:#d8bb78}
+html.v3 body .x-btn-ink{background:var(--ink-text); color:#fff; border-color:transparent}
+html.v3 body .x-btn-ink:hover{background:#000}
+
+/* ---------- тона ---------- */
+.t-sand{
+  --bg:var(--sand); --bg-deep:var(--sand-2); --stone:var(--sand-2);
+  --surface:var(--sand-2); --surface-2:#dccfbb; --ink:var(--sand-2);
+  --graphite:var(--ink-text);
+  --line:transparent; --line-strong:rgba(29,27,24,.28); --muted:var(--ink-muted);
+  --clay:var(--gold-ink);
+  --shadow-card:none;
+  background:var(--sand); color:var(--ink-text)}
+.t-sand h2,.t-sand h3{color:var(--ink-text)}
+.t-sand .lead{color:var(--ink-muted)}
+.t-ink{background:var(--graph); color:#fff}
+.t-ocean{background:var(--ocean); color:#fff}
+.t-ocean .x-eyebrow,.x-place .x-eyebrow,.t-ink .x-eyebrow{color:var(--gold)}
+.t-ocean .x-lead,.t-ink .x-lead{color:rgba(255,255,255,.72)}
+html.v3 body .section{padding:var(--sec) 0}
+html.v3 body .section.t-sand + .section.t-sand,
+html.v3 body .t-ink + .t-ink{padding-top:0}
+
+/* ---------- шапка ---------- */
+.v3 .site-header.is-solid{background:rgba(21,21,20,.82); -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px)}
+
+/* ---------- хиро: всё внизу кадра, название одной строкой ---------- */
+html.v3 body .hero{align-items:flex-end; max-height:none; min-height:640px}
+html.v3 body .hero .hero-shade{background:linear-gradient(to bottom,rgba(18,16,13,.42) 0%,rgba(18,16,13,0) 26%)}
+.v3 .hero::after{content:''; position:absolute; left:0; right:0; bottom:0; height:62%; z-index:1; pointer-events:none;
+  -webkit-backdrop-filter:blur(20px); backdrop-filter:blur(20px);
+  -webkit-mask-image:linear-gradient(to top,#000 0,#000 30%,transparent 100%); mask-image:linear-gradient(to top,#000 0,#000 30%,transparent 100%);
+  background:linear-gradient(to top,rgba(18,16,13,.66) 0%,rgba(18,16,13,.24) 55%,rgba(18,16,13,0) 100%)}
+html.v3 body .hero-in{padding-bottom:64px; display:grid; grid-template-columns:minmax(0,1fr) auto; column-gap:64px; align-items:end}
+.hero-eyebrow{grid-column:1 / -1; margin:0 0 16px; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.78)}
+html.v3 body .hero-h1{grid-column:1 / -1; margin:0}
+html.v3 body .hero-h1 .hero-title{font-family:'Prata',Georgia,serif; font-size:clamp(52px,8.6vw,128px); line-height:1; letter-spacing:-.01em; max-width:none; white-space:nowrap}
+html.v3 body .hero-h1 .hero-sub{margin-top:24px; max-width:none; color:rgba(255,255,255,.86)}
+html.v3 body .hero-btns{grid-column:1; margin-top:40px}
+.hero-facts{grid-column:2; list-style:none; margin:0; padding:0 0 4px; display:flex; flex-direction:column; gap:8px; align-items:flex-end;
+  font-size:16px; line-height:1.3; color:rgba(255,255,255,.86); text-align:right}
+
+/* ---------- архитектура: слайдер без рамки, подпись в дымке ---------- */
+.v3 #architecture .min-gallery{border-radius:0; box-shadow:none; margin-top:48px}
+.v3 #architecture .min-gallery-slide img{border-radius:0}
+.v3 #architecture .arch-slide-cap{padding:32px 40px; background:none}
+.v3 #architecture .min-gallery-slide::after{content:''; position:absolute; left:0; right:0; bottom:0; height:44%; z-index:1; pointer-events:none;
+  -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px);
+  -webkit-mask-image:linear-gradient(to top,#000 0,#000 24%,transparent 100%); mask-image:linear-gradient(to top,#000 0,#000 24%,transparent 100%);
+  background:linear-gradient(to top,rgba(18,16,13,.58),rgba(18,16,13,0))}
+.v3 #architecture .arch-slide-cap .spec-num{color:var(--gold)}
+.v3 #architecture .arch-slide-cap h3{color:#fff; font-family:'Prata',Georgia,serif; font-weight:400}
+
+/* ---------- вилла: четыре вертикальных кадра от края до края ---------- */
+.x-villa{padding:0}
+.x-villa-head{display:flex; align-items:flex-end; justify-content:space-between; gap:48px}
+.x-villa-head .x-lead{margin:0; text-align:right; max-width:30ch}
+.strips{display:flex; height:clamp(520px,78vh,780px); margin-top:48px}
+.strip{flex:1 1 0; min-width:0; transition:flex-grow .7s var(--ease)}
+.strip img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover}
+.strip-t{position:absolute; left:40px; right:32px; bottom:40px; z-index:2; color:#fff}
+.strip-t h3{margin:0; font-family:'Prata',Georgia,serif; font-size:clamp(22px,2vw,30px); line-height:1.15; color:#fff}
+.strip-t p{margin:8px 0 0; font-size:16px; line-height:1.4; color:rgba(255,255,255,.84)}
+@media (hover:hover) and (min-width:861px){
+  .strips:hover .strip{flex-grow:.86}
+  .strips .strip:hover{flex-grow:1.5}
 }
 
-/* стекло */
-.glass{background:var(--glass-bg); border:1px solid var(--glass-line); border-radius:var(--r-md);
-  -webkit-backdrop-filter:blur(18px) saturate(1.15); backdrop-filter:blur(18px) saturate(1.15);
-  box-shadow:0 20px 50px -30px rgba(0,0,0,.6)}
+/* ---------- половина текста, половина кадра, кадр уходит в край экрана ---------- */
+.x-split{--inner:calc(var(--container) - 2*var(--gut)); display:grid; align-items:end; padding:var(--sec) 0}
+.x-split--right{grid-template-columns:minmax(var(--gut),1fr) minmax(0,calc(var(--inner)*5/12)) minmax(0,calc(var(--inner)*7/12)) minmax(var(--gut),1fr)}
+.x-split--left{grid-template-columns:minmax(var(--gut),1fr) minmax(0,calc(var(--inner)*7/12)) minmax(0,calc(var(--inner)*5/12)) minmax(var(--gut),1fr); padding-top:0}
+.x-split--right .x-split-copy{grid-column:2; padding-right:64px}
+.x-split--right .x-split-photo{grid-column:3 / 5}
+.x-split--left .x-split-photo{grid-column:1 / 3; grid-row:1}
+.x-split--left .x-split-copy{grid-column:3; grid-row:1; padding-left:64px}
+.x-split-copy{padding-bottom:8px}
+.x-split-photo{margin:0}
+.x-split-photo img{display:block; width:100%; aspect-ratio:3/2; object-fit:cover}
+.x-points{list-style:none; margin:40px 0 0; padding:0; display:flex; flex-direction:column; gap:16px; font-size:clamp(17px,1.4vw,20px); line-height:1.4; color:var(--ink-text)}
+.x-points li{position:relative; padding-left:24px}
+.x-points li::before{content:''; position:absolute; left:0; top:.6em; width:8px; height:8px; background:var(--gold)}
 
-/* шапка тоже стекло */
-.v3 .site-header.is-solid{background:rgba(16,18,18,.6); -webkit-backdrop-filter:blur(20px) saturate(1.2); backdrop-filter:blur(20px) saturate(1.2)}
+/* ---------- планировки на песке ---------- */
+.t-sand .plans-tabs{gap:8px}
+.t-sand .plans-tab{color:var(--ink-text); border-color:transparent; border-radius:2px; background:var(--sand-2)}
+.t-sand .plans-tab.is-active{background:var(--ink-text); background-image:none; color:#fff}
+.t-sand .plans-tab:not(.is-active):hover{border-color:transparent; color:var(--gold-ink)}
+.t-sand .plans-viewer{background:var(--sand-2); border-radius:0}
+.v3 .plans-collage img,.v3 .plans-collage-tile,.v3 .plans-collage-topview{border-radius:0}
+.t-sand .plans-info{background:none}
+.t-sand .plans-from{color:var(--ink-muted)}
+.t-sand .plans-from b,.t-sand #planName{color:var(--ink-text)}
+.t-sand .plans-stat .k{color:var(--ink-muted)}
+.t-sand .plans-stat .v{color:var(--ink-text)}
+.t-sand .plans-toggle-btn--icon,
+.t-sand .plans-map-btn{color:var(--ink-text); border-color:var(--line-strong); border-radius:2px}
+.t-sand .plans-map-ic{color:var(--gold-ink)}
+html.v3 body .t-sand .btn-glass{background:var(--ink-text); color:#fff; border-color:transparent}
 
-/* ---------- светлый тон ---------- */
-.t-light{
-  --bg:var(--sand); --bg-deep:var(--sand-2); --stone:var(--sand-2);
-  --surface:var(--sand-card); --surface-2:#fffaf2; --ink:var(--sand-card);
-  --graphite:var(--ink-text);
-  --line:rgba(31,29,26,.12); --line-strong:rgba(31,29,26,.24); --muted:var(--ink-muted);
-  --clay:var(--gold-ink);
-  --shadow-card:0 24px 60px -32px rgba(90,64,30,.35);
-  background:var(--sand); color:var(--ink-text)}
-.t-light + .t-light{padding-top:0}
-.t-light h2,.t-light h3{color:var(--ink-text)}
-.t-light .lead,
-.t-light .villas-intro p,
-.t-light .team-card p,
-.t-light .unitgrp-card p,
-.t-light .faq-a p,
-.t-light .stat-grid .stat-card p{color:var(--ink-muted)}
-.t-light .gal-cap{color:var(--ink-muted)}
-.t-light .team-role{color:var(--gold-ink)}
-.t-light .team-card,
-.t-light .unitgrp-card,
-.t-light .faq-item{background:var(--sand-card); border-color:transparent; box-shadow:var(--shadow-card)}
-.t-light .faq-q{color:var(--ink-text)}
-.t-light .faq-item.is-open .faq-q{background:var(--ink-text); color:#fff}
-.t-light .card-ic{color:var(--gold-ink)}
-.t-light .carousel-arrow,
-.t-light.gallery .carousel-arrow{background:var(--sand-card); border-color:var(--line); color:var(--ink-text)}
-.t-light .min-gallery-dots span,
-.t-light .carousel-dots span{background:rgba(31,29,26,.2)}
-.t-light .min-gallery-dots span.on,
-.t-light .carousel-dots span.on{background:var(--gold-ink)}
+/* ---------- океан: кадр Nuanu растворяется в цвете воды ---------- */
+.x-place{background:var(--ocean); color:#fff; padding:0 0 var(--sec)}
+.x-place-photo img{display:block; width:100%; aspect-ratio:2/1; max-height:880px; object-fit:cover; object-position:50% 60%;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 52%,transparent 100%); mask-image:linear-gradient(to bottom,#000 0,#000 52%,transparent 100%)}
+.x-place-in{position:relative; margin-top:-96px}
+.x-place h2{color:#fff; max-width:16ch}
+.x-dist{margin:64px 0 0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:32px}
+.x-dist div{min-width:0}
+.x-dist dt{font-family:'Prata',Georgia,serif; font-size:clamp(40px,5.4vw,88px); line-height:1; color:var(--gold); white-space:nowrap}
+.x-dist dd{margin:16px 0 0; font-size:16px; line-height:1.4; color:rgba(255,255,255,.76)}
+.t-ocean h2{color:#fff}
 
-/* текст на фото внутри светлых секций остаётся белым */
-.t-light .vcard-text h3,.t-light .arch-slide-cap h3,.t-light .pv-photo-text h3{color:#fff}
+/* ---------- почему Бали: закат во весь экран, цифры в дымке ---------- */
+.x-why,.x-final{min-height:min(92vh,900px); display:flex; color:#fff; background:var(--ocean-deep)}
+.x-why-bg,.x-final-bg{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0}
+.x-why::before,.x-final::before{content:''; position:absolute; inset:0 0 auto 0; height:46%; z-index:1; pointer-events:none;
+  background:linear-gradient(to bottom,rgba(8,39,45,.62),rgba(8,39,45,0))}
+.x-why-in,.x-final-in{position:relative; z-index:2; width:100%; display:flex; flex-direction:column; justify-content:space-between; gap:96px; padding-top:var(--sec); padding-bottom:64px}
+.x-why h2,.x-final h2{color:#fff; max-width:18ch}
+.x-figs{margin:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:32px}
+.x-figs dt{font-family:'Prata',Georgia,serif; font-size:clamp(26px,3vw,44px); line-height:1.1; color:var(--gold)}
+.x-figs dd{margin:12px 0 0; font-size:16px; line-height:1.4; color:rgba(255,255,255,.84); max-width:28ch}
 
-/* планировки на светлом */
-.t-light .plans-tab{color:var(--ink-text); border-color:var(--line-strong); border-radius:999px}
-.t-light .plans-tab.is-active{color:var(--on-gold)}
-.t-light .plans-viewer{background:var(--sand-2)}
-.t-light .plans-from{color:var(--ink-muted)}
-.t-light .plans-from b,.t-light #planName{color:var(--ink-text)}
-.t-light .plans-stat .k{color:var(--ink-muted)}
-.t-light .plans-stat .v{color:var(--ink-text)}
-.t-light .plans-stat-ic{color:var(--gold-ink)}
-.t-light .plans-toggle-btn--icon,
-.t-light .plans-map-btn{color:var(--ink-text); border-color:var(--line-strong)}
-.t-light .btn-glass{background:var(--ink-text); color:#fff; border-color:transparent}
+/* ---------- 3D-карта ---------- */
+.t-ink h2{color:#fff}
+.v3 .iplan-wrap,.v3 .bso3d{border-radius:0; overflow:hidden}
+.v3 #interactive-plan .iplan-wrap{margin-top:48px}
 
-/* ---------- океан ---------- */
-.t-ocean{--bg:var(--ocean); --bg-deep:var(--ocean-deep); --stone:var(--ocean-deep); --surface:rgba(255,255,255,.06);
-  background:linear-gradient(180deg,var(--ocean-deep) 0%,var(--ocean) 100%)}
-.t-ocean + .t-ocean{background:var(--ocean); padding-top:0}
+/* ---------- как купить: пять цифр в ряд, без карточек ---------- */
+.x-steps-head{display:flex; align-items:flex-end; justify-content:space-between; gap:48px}
+.x-steps-head .x-lead{margin:0; text-align:right; max-width:28ch}
+.x-steps-list{list-style:none; margin:64px 0 0; padding:0; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:32px}
+.x-steps-list .num{display:block; font-family:'Prata',Georgia,serif; font-size:clamp(48px,5vw,72px); line-height:1; color:var(--gold)}
+.x-steps-list h3{margin:24px 0 0; font-size:20px; line-height:1.25; font-weight:500; color:#fff}
+.x-steps-list p{margin:8px 0 0; font-size:16px; line-height:1.45; color:rgba(255,255,255,.66)}
+.x-steps-foot{margin-top:64px; display:flex; align-items:center; justify-content:space-between; gap:48px}
+.x-facts{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:8px 40px; font-size:16px; line-height:1.4; color:rgba(255,255,255,.78)}
+.x-facts li{position:relative; padding-left:20px}
+.x-facts li::before{content:''; position:absolute; left:0; top:.55em; width:6px; height:6px; background:var(--gold)}
 
-/* ---------- хиро ---------- */
-.hero-facts{list-style:none; margin:40px 0 0; padding:16px 24px; display:inline-flex; gap:32px; flex-wrap:wrap;
-  font-size:15px; line-height:1.3; color:#fff}
-.hero-facts li{display:flex; align-items:center; gap:10px}
-.hero-facts li::before{content:''; width:6px; height:6px; border-radius:50%; background:var(--gold-2); flex:none}
-.hero-facts b{font-weight:500}
+/* ---------- финмодель: единственная золотая полоса ---------- */
+.x-fin{background:var(--gold); color:var(--ink-text); padding:96px 0}
+.x-fin-in{display:flex; align-items:flex-end; justify-content:space-between; gap:64px}
+.x-fin h2{color:var(--ink-text); max-width:14ch}
+.x-fin-side{flex:0 0 auto; max-width:420px}
+.x-fin-side p{margin:0 0 24px; font-size:clamp(17px,1.4vw,20px); line-height:1.45; color:rgba(29,27,24,.8)}
 
-/* ---------- архитектура: скругления и подпись стеклом ---------- */
-.v3 .min-gallery-slide,.v3 .min-gallery-slide img{border-radius:var(--r-lg)}
-.v3 .arch-slide-cap{background:rgba(255,255,255,.14); border:1px solid var(--glass-line); border-radius:var(--r-sm);
-  -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); padding:16px 20px; left:24px; bottom:24px; right:auto}
+/* ---------- люди ---------- */
+.x-people-in{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); column-gap:64px; align-items:start}
+.x-group{margin-top:64px}
+.x-group dl{margin:0; display:flex; flex-direction:column; gap:16px}
+.x-group dl div{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); column-gap:24px; align-items:baseline}
+.x-group dt{font-size:16px; line-height:1.4; color:var(--ink-text)}
+.x-group dd{margin:0; font-size:16px; line-height:1.4; color:var(--ink-muted)}
+.x-faces{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:32px}
+.x-faces figure{margin:0}
+.x-faces img{display:block; width:100%; aspect-ratio:4/5; object-fit:cover; filter:grayscale(1)}
+.x-faces figcaption{margin-top:24px}
+.x-faces span{display:block; font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-ink)}
+.x-faces h3{margin:8px 0 0; font-family:'Prata',Georgia,serif; font-size:clamp(20px,1.8vw,26px); line-height:1.2; color:var(--ink-text)}
+.x-faces p{margin:8px 0 0; font-size:16px; line-height:1.45; color:var(--ink-muted); max-width:30ch}
 
-/* ---------- виллы: подписи на стекле ---------- */
-.v3 .vcard{border-radius:var(--r-lg)}
-.v3 .vcard::after{background:linear-gradient(to top, rgba(11,12,11,.35) 0%, rgba(11,12,11,0) 45%)}
-.v3 .vcard--tall::after{background:linear-gradient(to bottom, rgba(11,12,11,.35) 0%, rgba(11,12,11,0) 45%)}
-.v3 .vcard-text{left:16px; right:auto; bottom:16px; padding:16px 20px; border-radius:var(--r-sm);
-  background:rgba(255,255,255,.14); border:1px solid var(--glass-line);
-  -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px)}
-.v3 .vcard--tall .vcard-text{top:16px; bottom:auto; padding:16px 20px}
-.v3 .vcard-text h3{margin-bottom:4px}
-.v3 .vcard-text p{color:rgba(255,255,255,.88)}
-.v3 .villas-intro p{font-size:clamp(17px,1.4vw,21px); line-height:1.4}
+/* ---------- галерея и вопросы на песке ---------- */
+.v3 .gal-slide img{border-radius:0}
+.t-sand .gal-cap{color:var(--ink-muted)}
+.t-sand .carousel-arrow,
+.t-sand.gallery .carousel-arrow{background:var(--sand-2); border-color:transparent; color:var(--ink-text); border-radius:2px}
+.t-sand .min-gallery-dots span,
+.t-sand .carousel-dots span{background:rgba(29,27,24,.22)}
+.t-sand .carousel-dots span.on{background:var(--gold-ink)}
+.t-sand .faq-item{background:var(--sand-2); border-color:transparent; box-shadow:none; border-radius:2px}
+.t-sand .faq-q{color:var(--ink-text)}
+.t-sand .faq-item.is-open .faq-q{background:none; color:var(--ink-text)}
+.t-sand .faq-a p{color:var(--ink-muted)}
 
-/* ---------- nuanu: расстояния стеклом на кадре ---------- */
-#nuanu .nuanu-photo{border-radius:var(--r-lg)}
-#nuanu .nuanu-glass{position:relative; z-index:3; margin:-104px 32px 0; padding:8px; gap:0}
-#nuanu .nuanu-glass .stat-card{background:none; border:0; box-shadow:none; padding:16px 20px}
-#nuanu .nuanu-glass .stat-v{color:var(--gold-2)}
-#nuanu .nuanu-glass p{color:rgba(255,255,255,.8)}
+/* ---------- финал ---------- */
+.x-final::before{background:linear-gradient(to bottom,rgba(18,16,13,.6),rgba(18,16,13,0)); height:60%}
+.x-final .x-lead{color:rgba(255,255,255,.84)}
+.x-final-top .btn{margin-top:40px}
 
-/* ---------- stella ---------- */
-.v3 .signature-photo{border-radius:var(--r-lg); overflow:hidden}
-.v3 .sig-cap{background:rgba(255,255,255,.14); border:1px solid var(--glass-line); border-radius:var(--r-sm);
-  -webkit-backdrop-filter:blur(16px); backdrop-filter:blur(16px); padding:20px 24px}
-
-/* ---------- частная территория: кадр во всю ширину, пункты стеклом ---------- */
-.pv3 .pv-grid{display:block; position:relative}
-.pv3 .pv-photo{min-height:clamp(420px,46vw,760px)}
-.pv3 .pv-photo-text{top:0; bottom:auto; padding:32px}
-.pv3 .pv-photo::after{background:linear-gradient(to bottom, rgba(11,12,11,.45) 0%, rgba(11,12,11,0) 40%)}
-.pv-glass{position:absolute; right:32px; bottom:32px; z-index:3; list-style:none; margin:0; padding:0;
-  display:flex; flex-direction:column; align-items:flex-end; gap:8px; color:#fff; font-size:18px; line-height:1.3;
-  background:none; border:0; box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none}
-.pv-glass li{padding:14px 20px; border-radius:var(--r-sm); background:var(--glass-bg); border:1px solid var(--glass-line);
-  -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px)}
-
-/* ---------- 3D, покупка, инвест, финмодель, финал ---------- */
-.v3 .iplan-wrap,.v3 .bso3d{border-radius:var(--r-lg); overflow:hidden}
-.v3 .invest-photo{border-radius:var(--r-lg); overflow:hidden}
-.v3 .invest-chip{border-radius:var(--r-sm)}
-.v3 .fin-card{border-radius:var(--r-lg)}
-.v3 .ss-card{border-radius:var(--r-md)}
-.v3 .final-stats{background:none; border:0; box-shadow:none; -webkit-backdrop-filter:none; backdrop-filter:none; padding:0; display:flex; flex-direction:column; gap:8px}
-.v3 .final-stats .stat{padding:16px 20px; border-radius:var(--r-sm); background:var(--glass-bg); border:1px solid var(--glass-line);
-  -webkit-backdrop-filter:blur(18px); backdrop-filter:blur(18px)}
-
-/* ---------- галерея ---------- */
-.v3 .gal-slide img{border-radius:var(--r-md)}
+/* ---------- планшет ---------- */
+@media (max-width:1100px){
+  .x-steps-list{grid-template-columns:repeat(3,minmax(0,1fr)); row-gap:48px}
+  .x-people-in{grid-template-columns:1fr; row-gap:64px}
+  .x-steps-foot{flex-direction:column; align-items:flex-start; gap:32px}
+}
 
 /* ---------- телефон ---------- */
 @media (max-width:860px){
-  .hero-facts{display:flex; flex-direction:column; gap:12px; margin-top:24px; padding:16px 20px; font-size:14px}
-  #nuanu .nuanu-glass{margin:16px 0 0; background:rgba(255,255,255,.06)}
-  .pv-glass{position:static; margin-top:16px; align-items:stretch; color:var(--ink-text); font-size:16px}
-  .pv-glass li{background:var(--sand-card); border-color:transparent; box-shadow:var(--shadow-card); -webkit-backdrop-filter:none; backdrop-filter:none}
-  .pv3 .pv-photo{min-height:clamp(300px,80vw,440px)}
-  .v3 .vcard-text{left:12px; right:12px; bottom:12px}
-  .v3 .vcard--tall .vcard-text{top:12px}
+  html.v3 body .hero-in{display:block; padding-bottom:40px}
+  html.v3 body .hero-h1 .hero-title{white-space:normal; font-size:clamp(52px,15vw,72px); max-width:8ch}
+  html.v3 body .hero-h1 .hero-sub{margin-top:16px}
+  html.v3 body .hero-btns{margin-top:24px}
+  .hero-facts{margin-top:24px; gap:4px; align-items:flex-start; text-align:left; font-size:14px}
+
+  .v3 #architecture .min-gallery{margin-top:32px; margin-left:calc(-1*var(--gut)); margin-right:calc(-1*var(--gut)); aspect-ratio:4/5}
+  .v3 #architecture .arch-slide-cap{padding:24px 16px}
+
+  .x-villa-head,.x-steps-head{display:block}
+  .x-villa-head .x-lead,.x-steps-head .x-lead{margin-top:16px; text-align:left; max-width:none}
+  .strips{display:grid; grid-template-columns:1fr 1fr; height:auto; margin-top:32px}
+  .strip{aspect-ratio:3/4}
+  .strip-t{left:16px; right:12px; bottom:16px}
+  .strip-t h3{font-size:18px}
+  .strip-t p{display:none}
+
+  .x-split{display:flex; flex-direction:column; align-items:stretch; row-gap:32px}
+  html.v3 body .x-split .x-split-copy{padding:0 var(--gut)}
+  .x-split-photo img{aspect-ratio:4/3}
+  .x-points{margin-top:24px; gap:12px}
+
+  .x-place-photo img{aspect-ratio:1/1; object-position:50% 50%}
+  .x-place-in{margin-top:-48px}
+  .x-dist{grid-template-columns:1fr 1fr; gap:32px 16px; margin-top:40px}
+  .x-dist dt{font-size:40px}
+  .x-dist dd{margin-top:8px; font-size:14px}
+
+  .x-why,.x-final{min-height:0}
+  .x-why-in,.x-final-in{gap:200px; padding-bottom:40px}
+  .x-figs{grid-template-columns:1fr; gap:24px}
+  .x-figs dt{font-size:28px}
+  .x-figs dd{margin-top:4px; font-size:14px; max-width:none}
+  .x-final-in{gap:96px}
+  .x-final-top .btn{margin-top:24px}
+
+  .x-steps-list{grid-template-columns:1fr; row-gap:24px; margin-top:40px}
+  .x-steps-list li{display:grid; grid-template-columns:64px minmax(0,1fr); column-gap:16px; align-items:start}
+  .x-steps-list .num{font-size:40px}
+  .x-steps-list h3{margin-top:4px; font-size:18px}
+  .x-steps-list p{margin-top:4px; font-size:14px}
+  .x-steps-foot{margin-top:40px}
+  .x-facts{flex-direction:column; gap:8px; font-size:14px}
+
+  .x-fin{padding:64px 0}
+  .x-fin-in{display:block}
+  .x-fin-side{margin-top:24px; max-width:none}
+
+  .x-group{margin-top:40px}
+  .x-group dl{gap:12px}
+  .x-group dl div{column-gap:16px}
+  .x-group dt,.x-group dd{font-size:14px}
+  .x-faces{gap:16px}
+  .x-faces figcaption{margin-top:16px}
+  .x-faces span{font-size:11px}
+  .x-faces p{font-size:14px}
+  .x-eyebrow,.hero-eyebrow{font-size:12px; margin-bottom:16px}
 }
