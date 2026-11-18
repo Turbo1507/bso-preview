@@ -90,11 +90,12 @@
 (function () {
   var v = document.getElementById('heroVideo');
   if (!v) return;
-  /* видео играет и на мобиле: там свой лёгкий ролик hero-tour-mobile.mp4
-     (3.7 МБ против 13.5), центральный кроп 3:4 под вертикальный хиро, без звука, faststart. */
+  /* видео играет и на мобиле: там свой лёгкий ролик hero-tour-mobile-2.mp4
+     (4 МБ против 13.5), вырезка 900×1072 с левой части кадра под вертикальный хиро, без звука, faststart. */
   if (window.matchMedia('(max-width: 820px)').matches) {
     var s = v.querySelector('source');
-    if (s) s.src = 'assets/hero-tour-mobile.mp4';
+    if (s) s.src = 'assets/hero-tour-mobile-2.mp4';
+    v.poster = 'assets/hero-tour-poster-mobile.jpg';
     v.load();
   }
   v.preload = 'auto';

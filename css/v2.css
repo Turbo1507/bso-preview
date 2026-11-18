@@ -1700,8 +1700,9 @@ html body .iplan-chip, html body .iplan-count{font-size:var(--fs-label)}
 @media (max-width:760px){
   /* две кнопки первого экрана стопкой и одной ширины */
   .hero-btns{display:inline-grid; gap:12px}
-  /* в начале видео девушка стоит ровно под кнопками, сдвигаем кадр */
-  #heroVideo{object-position:0 40%}
+  /* девушка в ролике стоит по центру, а кнопки слева: прижимаем её к правому краю.
+     755 = от левого края телефонного ролика до её правого плеча, 1072 = высота ролика */
+  #heroVideo{--hh:clamp(560px, calc(var(--vh)*100), 1040px); object-position:min(0px, calc(100vw - 8px - var(--hh)*755/1072)) 50%}
   .hero-btns .btn{min-height:52px}
   .hero-btns .btn .ic-3d{width:20px; height:20px}
   #plans .plans-map-btn{width:56px; height:56px}
