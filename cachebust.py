@@ -23,6 +23,7 @@ TARGETS = {
     'ru/index.html': MAIN,
     'consent.html': ['css/styles.css', 'css/v2.css', 'js/langs.js', 'js/legal.js'],
     'legal-info.html': ['css/styles.css', 'css/v2.css', 'js/langs.js', 'js/legal.js'],
+    '404.html': ['css/styles.css', 'css/v2.css', 'js/langs.js'],
 }
 # страницы остальных языков собирает build-langs.mjs, у каждой ещё свой словарь
 for l in ['id', 'fr', 'es', 'uk', 'it', 'tr', 'nl']:
@@ -35,8 +36,9 @@ for fname, assets in TARGETS.items():
     n = 0
     for a in assets:
         # снимаем прежнюю версию, если была, и ставим текущую
-        s, k = re.subn(r'(["\'])' + re.escape(a) + r'(\?v=[^"\']*)?\1',
-                       lambda m: m.group(1) + a + '?v=' + V + m.group(1), s)
+        # в 404.html пути от корня сайта (/css/...), иначе на /ru/xxx стили не найдутся
+        s, k = re.subn(r'(["\'])(/?)' + re.escape(a) + r'(\?v=[^"\']*)?\1',
+                       lambda m: m.group(1) + m.group(2) + a + '?v=' + V + m.group(1), s)
         assert k >= 1, (fname, a)
         n += k
     io.open(p, 'w', encoding='utf-8').write(s)
