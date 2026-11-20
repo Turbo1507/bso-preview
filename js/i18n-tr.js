@@ -136,6 +136,7 @@ window.I18N = window.I18N || {}; window.I18N.tr = {
  "footer.link2": "Gizlilik politikası",
  "footer.link3": "Kişisel veri onayı",
  "footer.link4": "Şirketin yasal bilgileri",
+ "footer.projects": "UNIT. projeleri",
  "lead.close": "Kapat",
  "lead.title": "Talep bırakın",
  "lead.sub": "Bir iş günü içinde size dönüyoruz",

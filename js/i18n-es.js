@@ -136,6 +136,7 @@ window.I18N = window.I18N || {}; window.I18N.es = {
  "footer.link2": "Política de privacidad",
  "footer.link3": "Consentimiento de datos personales",
  "footer.link4": "Información legal de la empresa",
+ "footer.projects": "Proyectos de UNIT.",
  "lead.close": "Cerrar",
  "lead.title": "Deja una solicitud",
  "lead.sub": "Te respondemos en un día hábil",

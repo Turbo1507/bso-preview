@@ -136,6 +136,7 @@ window.I18N = window.I18N || {}; window.I18N.nl = {
  "footer.link2": "Privacybeleid",
  "footer.link3": "Toestemming persoonsgegevens",
  "footer.link4": "Juridische bedrijfsinformatie",
+ "footer.projects": "Projecten van UNIT.",
  "lead.close": "Sluiten",
  "lead.title": "Laat een aanvraag achter",
  "lead.sub": "We reageren binnen één werkdag",

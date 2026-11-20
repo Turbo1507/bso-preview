@@ -136,6 +136,7 @@ window.I18N = window.I18N || {}; window.I18N.fr = {
  "footer.link2": "Politique de confidentialité",
  "footer.link3": "Consentement au traitement des données",
  "footer.link4": "Informations juridiques",
+ "footer.projects": "Projets UNIT.",
  "lead.close": "Fermer",
  "lead.title": "Laisser une demande",
  "lead.sub": "Nous vous répondons sous un jour ouvré",

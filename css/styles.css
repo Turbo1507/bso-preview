@@ -538,7 +538,7 @@ body.menu-open{overflow:hidden}
 
 /* футер, сетка колонок как на unitdeveloper, не рыхлый flex */
 .site-footer{background:var(--stone); border-radius:var(--r-lg) var(--r-lg) 0 0; padding:var(--sp-xl) 0 var(--sp-md)}
-.footer-in{display:grid; grid-template-columns:1.4fr 1fr 1.2fr auto; gap:var(--sp-lg)}
+.footer-in{display:grid; grid-template-columns:1.4fr 1fr 1.2fr 1fr auto; gap:var(--sp-lg)}
 .footer-brand .logo{color:var(--ink); font-size:22px}
 /* название в футере темным, не терракотой */
 .footer-brand .logo b{color:var(--ink)}

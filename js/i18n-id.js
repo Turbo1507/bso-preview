@@ -136,6 +136,7 @@ window.I18N = window.I18N || {}; window.I18N.id = {
  "footer.link2": "Kebijakan privasi",
  "footer.link3": "Persetujuan data pribadi",
  "footer.link4": "Informasi hukum perusahaan",
+ "footer.projects": "Proyek UNIT.",
  "lead.close": "Tutup",
  "lead.title": "Tinggalkan permintaan",
  "lead.sub": "Kami akan membalas dalam satu hari kerja",
